@@ -2,14 +2,18 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\ApplyTenantScopes;
+use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -53,6 +57,24 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->maxContentWidth(MaxWidth::Full)
+            ->databaseTransactions()
+            ->tenant(Team::class, slugAttribute: 'slug')
+            // ->tenantDomain('{tenant:slug}.tenancy.test')
+            ->tenantRoutePrefix('tenant')
+            // ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
+            ->tenantMenuItems([
+                'profile' => MenuItem::make()->label('Edit 团队 profile')->url(fn(): string => 'https://www.taobao.com'),
+                MenuItem::make()
+                    ->label('Settings')
+                    ->url(fn(): string => 'https://www.baidu.com')
+                    ->icon('heroicon-m-cog-8-tooth'),
+                // ...
+            ])
+            ->tenantMiddleware([
+                ApplyTenantScopes::class,
+            ], isPersistent: true);
+            ;
     }
 }
