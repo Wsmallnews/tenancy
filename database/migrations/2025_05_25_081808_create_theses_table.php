@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->index('team_id');
-            $table->index('type_id');
+            $table->index('thesis_type_id');
         });
     }
 
