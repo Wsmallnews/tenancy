@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
             'user' => \App\Models\User::class,
             'team' => \App\Models\Team::class,
             'thesis' => \App\Models\Thesis::class,
+            'thesis_type' => \App\Models\ThesisType::class,
         ]);
 
         \Filament\Tables\Table::$defaultCurrency = 'CNY';
