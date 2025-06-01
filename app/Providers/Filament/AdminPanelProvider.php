@@ -80,7 +80,8 @@ class AdminPanelProvider extends PanelProvider
             ->tenantMiddleware([
                 SyncShieldTenant::class,
                 ApplyTenantScopes::class,
-            ], isPersistent: true);
+            ], isPersistent: true)
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ;
     }
 }
