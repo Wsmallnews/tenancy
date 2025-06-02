@@ -3,6 +3,61 @@
 @config 'tailwind.config.js';
 
 
+/** --------------------------------左侧菜单栏来时------------------------------ **/
+/** 左边头部 和 左边菜单栏 背景色 **/
+.fi-sidebar-header, .fi-sidebar-nav {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+/** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
+.fi-tenant-menu-trigger span, .fi-sidebar-group-label, .fi-sidebar-item-icon, .fi-sidebar-item-label {
+    @apply text-white dark:text-white;
+}
+
+/** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
+.fi-tenant-menu-trigger, .fi-sidebar-item-button {
+    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
+}
+
+/** 左边菜单栏，选中，背景色 **/
+.fi-sidebar-item.fi-sidebar-item-active .fi-sidebar-item-button {
+    @apply bg-primary-700 dark:bg-primary-800;
+}
+/** --------------------------------左侧菜单栏结束------------------------------ **/
+
+
+/** -------------------------------- 内容圆角开始------------------------------ **/
+/** 左侧菜单 按钮 圆角改小 **/
+.fi-sidebar-item-button {
+    @apply rounded-md;
+}
+/** 表格圆角改小 **/
+.fi-ta-ctn {
+    @apply rounded-md;
+}
+/** section 圆角改小 **/
+.fi-section {
+    @apply rounded-md;
+}
+/** tabs 圆角改小 **/
+.fi-fo-tabs {
+    @apply rounded-md;
+}
+/** button 圆角改小 **/
+.fi-btn {
+    @apply rounded-md;
+}
+/** form 字段包装器 圆角改小 **/
+.fi-input-wrp {
+    @apply rounded-md;
+}
+/** dropdown 下拉菜单圆角改小 **/
+.fi-dropdown-panel {
+    @apply rounded-md;
+}
+
+
+
 
 /* .fi-layout {
     @apply bg-[#f5f8fa] dark:bg-[#252a35];

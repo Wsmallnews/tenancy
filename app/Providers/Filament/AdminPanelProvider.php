@@ -64,6 +64,9 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->maxContentWidth(MaxWidth::Full)
+            ->sidebarWidth('16rem')             // 侧边栏的宽度
+            ->sidebarCollapsibleOnDesktop()
+            ->collapsedSidebarWidth('8rem')     // 折叠侧边栏时的宽度（这个没效果啊）
             ->databaseTransactions()
             ->tenant(Team::class, slugAttribute: 'slug')
             // ->tenantDomain('{tenant:slug}.tenancy.test')
