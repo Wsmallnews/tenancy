@@ -10,8 +10,10 @@
 }
 
 /** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
-.fi-tenant-menu-trigger span, .fi-sidebar-group-label, .fi-sidebar-item-icon, .fi-sidebar-item-label {
-    @apply text-white dark:text-white;
+.fi-sidebar-header .fi-logo, .fi-sidebar-header .fi-icon-btn svg,   /** 左侧菜单栏头部 logo,和折叠箭头 **/
+.fi-tenant-menu-trigger span, .fi-tenant-menu-trigger svg,          /** 左侧菜单栏多租户的内容，和 svg **/
+.fi-sidebar-group-collapse-button, .fi-sidebar-group-label, .fi-sidebar-item-icon, .fi-sidebar-item-label {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
 }
 
 /** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
