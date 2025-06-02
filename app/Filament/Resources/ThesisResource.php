@@ -7,7 +7,6 @@ use App\Filament\Resources\ThesisResource\Pages;
 use App\Models\Thesis;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Components;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,30 +38,32 @@ class ThesisResource extends Resource
     {
         return $form
             ->schema([
-                Components\Group::make()->schema([
-                    Components\Section::make('基础信息')->schema([
-                        Components\Select::make('thesis_type_id')->label('选择论文分类')
-                            ->relationship('thesisType', 'name')
-                            ->placeholder('请选择论文分类')
+                Forms\Components\Group::make()->schema([
+                    Forms\Components\Section::make('基础信息')->schema([
+                        Forms\Components\Select::make('thesis_type_id')->label('选择论文类型')
+                            ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                return $query->normal()->orderBy('order_column', 'asc');
+                            })
+                            ->placeholder('请选择论文类型')
                             ->searchable()
                             ->preload()
                             ->required(),
 
-                        Components\TextInput::make('title')->label('标题')
+                        Forms\Components\TextInput::make('title')->label('标题')
                             ->placeholder('请输入论文标题')
                             ->required(),
-                        Components\TextInput::make('author_name')->label('作者')
+                        Forms\Components\TextInput::make('author_name')->label('作者')
                             ->placeholder('请输入论文作者')
                             ->required(),
-                        Components\TextInput::make('company_name')->label('所属单位')
+                        Forms\Components\TextInput::make('company_name')->label('所属单位')
                             ->placeholder('请输入论文所属单位')
                             ->required(),
-                        Components\Textarea::make('description')->label('摘要')
+                        Forms\Components\Textarea::make('description')->label('摘要')
                             ->placeholder('请输入论文摘要'),
-                        Components\Textarea::make('remark')->label('备注'),
+                        Forms\Components\Textarea::make('remark')->label('备注'),
                     ]),
-                    Components\Section::make('附件管理')->schema([
-                        Components\SpatieMediaLibraryFileUpload::make('attachment')->label('附件')
+                    Forms\Components\Section::make('附件管理')->schema([
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('attachment')->label('附件')
                             ->collection('attachment')
                             ->required()
                             ->multiple()
@@ -76,19 +77,22 @@ class ThesisResource extends Resource
                             ->columns(1),
                     ])->columns(1),
                 ])->columns(2)->columnSpan(2),
-                Components\Section::make('状态')->schema([
-                    Components\TextInput::make('journal')->label('发布期刊')
+                Forms\Components\Section::make('状态')->schema([
+                    Forms\Components\TextInput::make('journal')->label('发布期刊')
                         ->placeholder('请输入论文发布期刊')
                         ->required(),
-                    Components\TextInput::make('issue_number')->label('卷期号')
+                    Forms\Components\TextInput::make('issue_number')->label('卷期号')
                         ->placeholder('请输入论文卷期号')
                         ->required(),
-                    Components\DatePicker::make('published_at')->label('出版日期')
+                    Forms\Components\DatePicker::make('published_at')->label('出版日期')
                         ->placeholder('请选择出版日期')
                         ->native(false)
                         ->required(),
-                    Components\SpatieTagsInput::make('tags')->label('关键字')->type('keywords'),
-                    Components\Radio::make('status')
+                    Forms\Components\SpatieTagsInput::make('tags')->label('关键字')->type('keywords'),
+                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                        ->placeholder('正序排列')
+                        ->rules(['integer', 'min:0']),
+                    Forms\Components\Radio::make('status')
                         ->label('状态')
                         ->default(Status::Normal)
                         ->inline()
@@ -143,6 +147,10 @@ class ThesisResource extends Resource
                     ->label('关键字')
                     ->type('keywords')
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('排序'),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('状态'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()
@@ -153,15 +161,15 @@ class ThesisResource extends Resource
                     ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
-            ->defaultSort('id', 'desc')
+            ->defaultSort('order_column', 'desc')
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([
                 Tables\Filters\Filter::make('published_at')
                     ->form([
-                        Components\Group::make()->schema([
-                            Components\DatePicker::make('published_from')->label('发布开始时间')->columnSpan(1),
-                            Components\DatePicker::make('published_until')->label('发布结束时间')->columnSpan(1),
+                        Forms\Components\Group::make()->schema([
+                            Forms\Components\DatePicker::make('published_from')->label('发布开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('published_until')->label('发布结束时间')->columnSpan(1),
                         ])->columns(2),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
@@ -177,9 +185,9 @@ class ThesisResource extends Resource
                     }),
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Components\Group::make()->schema([
-                            Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
+                        Forms\Components\Group::make()->schema([
+                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
@@ -195,9 +203,9 @@ class ThesisResource extends Resource
                     }),
                 Tables\Filters\Filter::make('updated_at')
                     ->form([
-                        Components\Group::make()->schema([
-                            Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
+                        Forms\Components\Group::make()->schema([
+                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
                     ])
                     ->query(function (Builder $query, array $data): Builder {

@@ -22,7 +22,16 @@ class Thesis extends Model implements HasMedia
     protected $casts = [
         'status' => Status::class,
     ];
-    
+
+    public function scopeNormal($query)
+    {
+        return $query->where('status', Status::Normal);
+    }
+
+    public function scopeHidden($query)
+    {
+        return $query->where('status', Status::Hidden);
+    }
 
     public function thesisType(): BelongsTo
     {

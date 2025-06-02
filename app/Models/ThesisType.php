@@ -16,10 +16,22 @@ class ThesisType extends Model
         'status' => Status::class,
     ];
 
+
+    public function scopeNormal($query)
+    {
+        return $query->where('status', Status::Normal);
+    }
+
+    public function scopeHidden($query)
+    {
+        return $query->where('status', Status::Hidden);
+    }
+
+
     public function theses(): HasMany
     {
         return $this->hasMany(Thesis::class);
-    } 
+    }
 
     public function team(): BelongsTo
     {

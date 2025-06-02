@@ -23,11 +23,22 @@ return new class extends Migration
             $table->string('issue_number')->nullable()->comment('卷期号');
             $table->date('published_at')->nullable()->comment('出版日期');
             $table->string('remark')->nullable()->comment('备注');
+            $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->string('status')->nullable()->comment('状态');
             $table->timestamps();
             $table->softDeletes();
             $table->index('team_id');
             $table->index('thesis_type_id');
+        });
+
+        Schema::create('thesis_types', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->string('name')->nullable()->comment('类型名称');
+            $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
+            $table->string('status')->nullable()->comment('状态');
+            $table->timestamps();
+            $table->index('team_id');
         });
     }
 
@@ -37,5 +48,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('theses');
+
+        Schema::dropIfExists('thesis_types');
     }
 };

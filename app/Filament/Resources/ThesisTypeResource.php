@@ -7,7 +7,6 @@ use App\Filament\Resources\ThesisTypeResource\Pages;
 use App\Filament\Resources\ThesisTypeResource\RelationManagers;
 use App\Models\ThesisType;
 use Filament\Forms;
-use Filament\Forms\Components;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -41,12 +40,15 @@ class ThesisTypeResource extends Resource
     {
         return $form
             ->schema([
-                Components\TextInput::make('name')->label('类型名称')
+                Forms\Components\TextInput::make('name')->label('类型名称')
                     ->placeholder('请输入类型名称')
                     ->required()
-                    ->columnSpanFull(),
-
-                Components\Radio::make('status')
+                    ->columnSpan(1),
+                Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                    ->placeholder('正序排列')
+                    ->rules(['integer', 'min:0'])
+                    ->columnSpan(1),
+                Forms\Components\Radio::make('status')
                     ->label('状态')
                     ->default(Status::Normal)
                     ->options(Status::class),
@@ -60,9 +62,15 @@ class ThesisTypeResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('类型名称'),
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('排序'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态'),
             ])
+            ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
+            ->reorderable('order_column')
+            ->defaultSort('order_column', 'asc')
+            ->searchPlaceholder('搜索论文类型')
             ->filters([
                 //
             ])
