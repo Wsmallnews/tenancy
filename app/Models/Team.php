@@ -35,10 +35,19 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(Thesis::class);
     }
 
-
     public function thesisTypes(): HasMany
     {
-        return $this->hasMany(thesisType::class);
+        return $this->hasMany(ThesisType::class);
+    }
+
+    public function awards(): HasMany
+    {
+        return $this->hasMany(Award::class);
+    }
+
+    public function awardTypes(): HasMany
+    {
+        return $this->hasMany(AwardType::class);
     }
 
     public function roles(): HasMany
