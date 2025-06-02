@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Theses\Status;
-use App\Filament\Resources\ThesisResource\Pages;
-use App\Models\Thesis;
+use App\Enums\Patents\Status;
+use App\Filament\Resources\PatentResource\Pages;
+use App\Models\Patent;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,23 +14,23 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ThesisResource extends Resource
+class PatentResource extends Resource
 {
-    protected static ?string $model = Thesis::class;
+    protected static ?string $model = Patent::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = '论文';
+    protected static ?string $navigationLabel = '专利';
 
     protected static ?string $navigationGroup = '研究成果';
 
-    protected static ?string $slug = 'theses';
+    protected static ?string $slug = 'patents';
 
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = '论文';
+    protected static ?string $modelLabel = '专利';
 
-    protected static ?string $pluralModelLabel = '论文';
+    protected static ?string $pluralModelLabel = '专利';
 
     protected static ?int $navigationSort = 1;
 
@@ -40,31 +40,34 @@ class ThesisResource extends Resource
             ->schema([
                 Forms\Components\Group::make()->schema([
                     Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('thesis_type_id')->label('选择论文类型')
-                            ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                        Forms\Components\TextInput::make('name')->label('专利名称')
+                            ->placeholder('请输入专利名称')
+                            ->required(),
+                        Forms\Components\Select::make('patent_type_id')->label('选择专利类型')
+                            ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                 return $query->normal()->orderBy('order_column', 'asc');
                             })
-                            ->placeholder('请选择论文类型')
+                            ->placeholder('请选择专利类型')
                             ->searchable()
                             ->preload()
                             ->required(),
-
-                        Forms\Components\TextInput::make('title')->label('标题')
-                            ->placeholder('请输入论文标题')
+                        Forms\Components\TextInput::make('patent_apply_no')->label('专利申请号')
+                            ->placeholder('请输入专利申请号')
                             ->required(),
-                        Forms\Components\TextInput::make('author_name')->label('作者')
-                            ->placeholder('请输入论文作者')
+                        Forms\Components\TextInput::make('patent_no')->label('专利号')
+                            ->placeholder('请输入专利号')
                             ->required(),
-                        Forms\Components\TextInput::make('company_name')->label('所属单位')
-                            ->placeholder('请输入论文所属单位')
+                        Forms\Components\TextInput::make('author_name')->label('发明人/作者')
+                            ->placeholder('请输入发明人/作者')
                             ->required(),
                         Forms\Components\Textarea::make('description')->label('摘要')
-                            ->placeholder('请输入论文摘要'),
+                            ->placeholder('请输入专利摘要'),
                         Forms\Components\Textarea::make('remark')->label('备注'),
                     ]),
                     Forms\Components\Section::make('附件管理')->schema([
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
-                            ->collection('theses')
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
+                            ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
+                            ->collection('patents')
                             ->required()
                             ->multiple()
                             ->downloadable()
@@ -72,29 +75,26 @@ class ThesisResource extends Resource
                             ->appendFiles()
                             ->minFiles(1)
                             ->maxFiles(20)
-                            ->acceptedFileTypes(['application/pdf'])
-                            ->uploadingMessage('附件上传中...')
+                            ->acceptedFileTypes(['application/pdf', 'image/*'])
+                            ->uploadingMessage('专利文件上传中...')
                             ->columns(1),
                     ])->columns(1),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('journal')->label('发布期刊')
-                        ->placeholder('请输入论文发布期刊')
-                        ->required(),
-                    Forms\Components\TextInput::make('issue_number')->label('卷期号')
-                        ->placeholder('请输入论文卷期号')
-                        ->required(),
-                    Forms\Components\DatePicker::make('published_at')->label('出版日期')
-                        ->placeholder('请选择出版日期')
+                    Forms\Components\DatePicker::make('applied_at')->label('申请日期')
+                        ->placeholder('请选择申请日期')
                         ->native(false)
                         ->required(),
-                    Forms\Components\SpatieTagsInput::make('tags')->label('关键字')->type('keywords'),
+                    Forms\Components\DatePicker::make('authd_at')->label('授权日期')
+                        ->placeholder('请选择授权日期')
+                        ->native(false)
+                        ->required(),
                     Forms\Components\TextInput::make('order_column')->label('排序')->integer()
                         ->placeholder('正序排列')
                         ->rules(['integer', 'min:0']),
                     Forms\Components\Radio::make('status')
                         ->label('状态')
-                        ->default(Status::Normal)
+                        ->default(Status::Ing)
                         ->inline()
                         ->options(Status::class),
                 ])->columns(1)->columnSpan(1),
@@ -105,10 +105,9 @@ class ThesisResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label('论文标题')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('专利名称')
                     ->searchable()
-                    ->description(fn($record) => $record->description)
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
@@ -119,38 +118,33 @@ class ThesisResource extends Resource
 
                         return $state;
                     }),
-                Tables\Columns\TextColumn::make('thesisType.name')
-                    ->label('论文类型')
+                Tables\Columns\TextColumn::make('patentType.name')
+                    ->label('专利类型')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('author_name')
+                Tables\Columns\TextColumn::make('patent_apply_no')
+                    ->label('专利申请号')
                     ->searchable()
-                    ->label('作者')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('company_name')
+                Tables\Columns\TextColumn::make('patent_no')
+                    ->label('专利号')
                     ->searchable()
-                    ->label('所属单位')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('journal')
-                    ->searchable()
-                    ->label('发布期刊')
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('issue_number')
-                    ->searchable()
-                    ->label('卷期号')
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label('出版日期')
+                Tables\Columns\TextColumn::make('applied_at')
+                    ->label('申请日期')
                     ->toggleable()
                     ->sortable(),
-                Tables\Columns\SpatieTagsColumn::make('keywords')
-                    ->label('关键字')
-                    ->type('keywords')
+                Tables\Columns\TextColumn::make('authd_at')
+                    ->label('授权日期')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('专利状态'),
+                Tables\Columns\TextColumn::make('author_name')
+                    ->label('发明人/作者')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序'),
-                Tables\Columns\TextColumn::make('status')
-                    ->label('状态'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()
@@ -162,25 +156,43 @@ class ThesisResource extends Resource
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->defaultSort('order_column', 'desc')
-            ->searchPlaceholder('搜索论文标题、作者等...')
+            ->searchPlaceholder('搜索专利名称、专利号等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([
-                Tables\Filters\Filter::make('published_at')
+                Tables\Filters\Filter::make('applied_at')
                     ->form([
                         Forms\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('published_from')->label('发布开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('published_until')->label('发布结束时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('applied_from')->label('申请开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('applied_until')->label('申请结束时间')->columnSpan(1),
                         ])->columns(2),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['published_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date),
+                                $data['applied_from'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('applied_at', '>=', $date),
                             )
                             ->when(
-                                $data['published_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
+                                $data['applied_until'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('applied_at', '<=', $date),
+                            );
+                    }),
+                Tables\Filters\Filter::make('authd_at')
+                    ->form([
+                        Forms\Components\Group::make()->schema([
+                            Forms\Components\DatePicker::make('authd_from')->label('授权开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('authd_until')->label('授权结束时间')->columnSpan(1),
+                        ])->columns(2),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['authd_from'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('authd_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['authd_until'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('authd_at', '<=', $date),
                             );
                     }),
                 Tables\Filters\Filter::make('created_at')
@@ -244,9 +256,9 @@ class ThesisResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTheses::route('/'),
-            'create' => Pages\CreateThesis::route('/create'),
-            'edit' => Pages\EditThesis::route('/{record}/edit'),
+            'index' => Pages\ListPatents::route('/'),
+            'create' => Pages\CreatePatent::route('/create'),
+            'edit' => Pages\EditPatent::route('/{record}/edit'),
         ];
     }
 

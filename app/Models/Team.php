@@ -50,6 +50,16 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(AwardType::class);
     }
 
+    public function patents(): HasMany
+    {
+        return $this->hasMany(Patent::class);
+    }
+
+    public function patentTypes(): HasMany
+    {
+        return $this->hasMany(PatentType::class);
+    }
+
     public function roles(): HasMany
     {
         return $this->hasMany(Role::class);

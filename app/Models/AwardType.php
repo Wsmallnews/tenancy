@@ -28,9 +28,9 @@ class AwardType extends Model
     }
 
 
-    public function theses(): HasMany
+    public function awards(): HasMany
     {
-        return $this->hasMany(Thesis::class);
+        return $this->hasMany(Award::class);
     }
 
     public function team(): BelongsTo

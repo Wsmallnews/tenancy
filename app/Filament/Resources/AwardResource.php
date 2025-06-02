@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Award\Status;
+use App\Enums\Awards\Status;
 use App\Filament\Resources\AwardResource\Pages;
 use App\Models\Award;
 use Filament\Forms;
@@ -102,7 +102,6 @@ class AwardResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('奖项名称')
                     ->searchable()
-                    ->description(fn($record) => $record->description)
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();

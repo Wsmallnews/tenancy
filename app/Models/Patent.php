@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Awards\Status;
+use App\Enums\Patents\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,31 +11,35 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
 
-class Award extends Model implements HasMedia
+class Patent extends Model implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
     use SoftDeletes;
 
-    protected $table = 'awards';
+    protected $table = 'patents';
 
     protected $casts = [
         'status' => Status::class,
     ];
 
-    public function scopeNormal($query)
+    public function scopeIng($query)
     {
-        return $query->where('status', Status::Normal);
+        return $query->where('status', Status::Ing);
     }
 
-    public function scopeHidden($query)
+    public function scopeAuthd($query)
     {
-        return $query->where('status', Status::Hidden);
+        return $query->where('status', Status::Authd);
+    }
+    public function scopeExpired($query)
+    {
+        return $query->where('status', Status::Expired);
     }
 
-    public function AwardType(): BelongsTo
+    public function PatentType(): BelongsTo
     {
-        return $this->belongsTo(AwardType::class);
+        return $this->belongsTo(PatentType::class);
     }
 
     public function team(): BelongsTo

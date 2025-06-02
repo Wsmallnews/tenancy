@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Award;
+namespace App\Enums\Patents;
 
 use Filament\Support\Contracts\HasLabel;
 use Filament\Support\Contracts\HasIcon;
@@ -12,15 +12,18 @@ enum Status: string implements HasLabel, HasIcon, HasColor
 
     use EnumHelper;
 
-    case Normal = 'normal';
+    case Ing = 'ing';
 
-    case Hidden = 'hidden';
+    case Authd = 'authd';
+
+    case Expired = 'expired';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Normal => '正常',
-            self::Hidden => '隐藏',
+            self::Ing => '申请中',
+            self::Authd => '已授权',
+            self::Expired => '已过期',
         };
     }
 
@@ -28,8 +31,9 @@ enum Status: string implements HasLabel, HasIcon, HasColor
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Normal => 'success',
-            self::Hidden => 'gary',
+            self::Ing => 'gary',
+            self::Authd => 'success',
+            self::Expired => 'danger',
         };
     }
 
@@ -37,8 +41,9 @@ enum Status: string implements HasLabel, HasIcon, HasColor
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Normal => 'heroicon-m-eye',
-            self::Hidden => 'heroicon-m-eye-slash',
+            self::Ing => 'heroicon-m-eye',
+            self::Authd => 'heroicon-m-eye-slash',
+            self::Expired => 'heroicon-m-eye-slash',
         };
     }
 }
