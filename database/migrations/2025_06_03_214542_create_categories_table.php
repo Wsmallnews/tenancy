@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('remark')->nullable()->comment('备注');
             $table->json('options')->nullable()->comment('选项');
             $table->enum('status', ['normal', 'hidden'])->default('normal')->comment('状态:normal=正常,hidden=隐藏');
-            $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->timestamps();
         });
     }
