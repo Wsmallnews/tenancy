@@ -12,27 +12,38 @@
     update-code
     install-dependencies
     run-migrate
+    run-npm
     cache-reload
 @endstory
 
 
 {{-- 更新代码 --}}
-@task('update-code', ['on' => ['test'], 'parallel' => true, 'confirm' => true])
+@task('update-code', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
     git config --global --add safe.directory /www/wwwroot/resource-db.eep.ink
     git pull origin {{ $branch }}
 @endtask
 
 {{-- 安装依赖 --}}
-@task('install-dependencies', ['on' => ['test'], 'parallel' => true, 'confirm' => true])
+@task('install-dependencies', ['on' => ['test'], 'parallel' => true])
     cd /www/wwwroot/resource-db.eep.ink
     composer install
+    chown -R www:www /www/wwwroot/resource-db.eep.ink
 @endtask
 
 {{-- 执行迁移 --}}
-@task('run-migrate', ['on' => ['test'], 'parallel' => true, 'confirm' => true])
+@task('run-migrate', ['on' => ['test'], 'parallel' => true])
     cd /www/wwwroot/resource-db.eep.ink
     php artisan migrate --force
+@endtask
+
+
+{{-- 执行 npm --}}
+@task('run-npm', ['on' => ['test'], 'parallel' => true])
+    cd /www/wwwroot/resource-db.eep.ink
+    npm install
+    npm run build
+    chown -R www:www /www/wwwroot/resource-db.eep.ink
 @endtask
 
 
@@ -45,6 +56,7 @@
         php artisan optimize
         php artisan filament:optimize
     @endif
+    php artisan icons:cache
 @endtask
 
 
