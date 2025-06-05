@@ -59,8 +59,22 @@
 .fi-dropdown-panel {
     @apply rounded-md;
 }
-
-
+/** form表单 repeater 圆角改小 **/
+.fi-fo-repeater-item {
+    @apply rounded-md;
+}
+/** form表单 plugins table repeater 圆角改小 **/
+.table-repeater-container {
+    @apply rounded-md;
+}
+/** plugins tree 圆角改小 **/
+#studio15-tree {
+    @apply rounded-md;
+}
+.studio15-tree li div.flex {
+    @apply rounded-md;
+}
+/** -------------------------------- 内容圆角结束------------------------------ **/
 
 
 /* .fi-layout {

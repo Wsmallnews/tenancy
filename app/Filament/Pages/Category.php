@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\Categories\Status;
 use App\Models\Category as CategoryModel;
 use Awcodes\TableRepeater\Components\TableRepeater;
 use Awcodes\TableRepeater\Header;
@@ -15,6 +16,21 @@ use Studio15\FilamentTree\Components\TreePage;
 
 class Category extends TreePage
 {
+    
+    protected static ?string $navigationLabel = '分类';
+
+    protected static ?string $navigationGroup = null;
+
+    protected static ?string $slug = 'categories';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $modelLabel = '分类';
+
+    protected static ?string $pluralModelLabel = '分类';
+
+    protected static ?int $navigationSort = 1;
+
     public static function getModel(): string|QueryBuilder
     {
         if (Filament::getTenant()) {
@@ -40,6 +56,8 @@ class Category extends TreePage
             Infolists\Components\TextEntry::make('remark')
                 ->label('备注')
                 ->visible(fn($state): bool => $state ? true : false),
+            Infolists\Components\IconEntry::make('status')
+                ->label('状态'),
         ];
     }
 
@@ -52,6 +70,16 @@ class Category extends TreePage
                 ->placeholder('请输入分类名称')
                 ->required(),
             Forms\Components\Textarea::make('remark')->label('备注'),
+
+            Forms\Components\Group::make()
+                ->schema([
+                    Forms\Components\Radio::make('status')
+                        ->label('状态')
+                        ->default(Status::Normal)
+                        ->inline()
+                        ->options(Status::class)
+                        ->columnSpan(1),
+                ])->columns(2),
             Forms\Components\Repeater::make('options.fields')
                 ->label('自定义字段')
                 ->schema([
@@ -103,6 +131,7 @@ class Category extends TreePage
                 ->collapsible()
                 ->cloneable()
                 ->addActionAlignment(Alignment::End)
+                ->columns(2)
         ];
     }
 }
