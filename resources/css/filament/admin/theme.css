@@ -63,6 +63,14 @@
 .fi-fo-repeater-item {
     @apply rounded-md;
 }
+/** tabs 圆角改小 **/
+.fi-tabs {
+    @apply rounded-md;
+}
+/** tabs 里面的 item 圆角改小 **/
+.fi-tabs-item {
+    @apply rounded-md;
+}
 /** form表单 plugins table repeater 圆角改小 **/
 .table-repeater-container {
     @apply rounded-md;
