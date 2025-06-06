@@ -17,7 +17,8 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $casts = [
-        // 'status' => Status::class,
+        'options' => 'array',
+        'status' => Status::class,
     ];
 
 

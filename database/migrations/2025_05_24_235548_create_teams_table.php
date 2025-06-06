@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name')->nullable()->comment('租户名称');
             $table->string('avatar_url')->nullable()->comment('租户头像');
             $table->string('slug')->unique()->nullable()->comment('slug');
+            $table->string('status')->nullable()->comment('状态');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('team_user', function (Blueprint $table) {
