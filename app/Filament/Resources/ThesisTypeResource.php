@@ -63,9 +63,19 @@ class ThesisTypeResource extends Resource
                     ->searchable()
                     ->label('类型名称'),
                 Tables\Columns\TextColumn::make('order_column')
-                    ->label('排序'),
+                    ->label('排序')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('状态'),
+                    ->label('状态')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
+                    ->toggleable()
+                    ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')

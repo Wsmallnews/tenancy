@@ -139,12 +139,14 @@ class PatentResource extends Resource
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('专利状态'),
+                    ->label('专利状态')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('author_name')
                     ->label('发明人/作者')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
-                    ->label('排序'),
+                    ->label('排序')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()

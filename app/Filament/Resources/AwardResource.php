@@ -131,9 +131,11 @@ class AwardResource extends Resource
                     ->label('获奖人/团队')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
-                    ->label('排序'),
+                    ->label('排序')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('状态'),
+                    ->label('状态')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()
