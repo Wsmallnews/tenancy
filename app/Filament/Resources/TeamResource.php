@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Enums\Teams\Status;
 use App\Filament\Resources\TeamResource\Pages;
 use App\Models\Team;
+use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +15,7 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Artisan;
 
 class TeamResource extends Resource
 {
@@ -138,6 +141,53 @@ class TeamResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\Action::make('init')
+                    ->label('初始化')
+                    ->form([
+                        Forms\Components\Select::make('user_id')
+                            ->label('选择超管')
+                            ->required()
+                            ->options(User::query()->pluck('name', 'id'))
+                            ->createOptionForm(UserResource::getBaseFormsComponent())
+                            ->createOptionUsing(function (array $data): int {
+                                $user = User::create($data);
+                                return $user->id;
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                    ])
+                    ->action(function (Tables\Actions\Action $action, Team $team, array $data): void {
+                        // 检测是否已经绑定了该用户
+                        if ($team->users()->where('user_id', $data['user_id'])->exists()) {
+                            $action->failure();
+                            return;
+                        }
+                        
+                        // 租户与用户绑定
+                        $team->users()->attach($data['user_id']);
+
+                        // 获取当前面板的 ID
+                        $panelId = Filament::getCurrentPanel()->getId();
+
+                        // 创建 超级管理角色，并且绑定管理员到该角色
+                        $exitCode = Artisan::call('shield:super-admin', [
+                            '--panel' => $panelId,
+                            '--tenant' => $team->id,
+                            '--user' => $data['user_id']
+                        ]);
+
+                        if ($exitCode !== 0) {
+                            $action->failure();
+                            return;
+                        }
+                        $action->success();
+                    })
+                    ->successNotificationTitle('初始化成功')
+                    ->failureNotificationTitle('初始化失败')
+                    ->icon('heroicon-m-adjustments-horizontal')
+                    ->color('warning')
+                    ->visible(fn(Team $team): bool => $team->users()->count() === 0),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

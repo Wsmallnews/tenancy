@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
             'activity' => \App\Models\Activity::class,
             'user' => \App\Models\User::class,
             'team' => \App\Models\Team::class,
+            'role' => \App\Models\Role::class,
             'thesis' => \App\Models\Thesis::class,
             'thesis_type' => \App\Models\ThesisType::class,
             'award' => \App\Models\Award::class,

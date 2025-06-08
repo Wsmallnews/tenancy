@@ -57,41 +57,7 @@ class UserResource extends Resource implements HasShieldPermissions
         return $form
             ->schema([
                 Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\TextInput::make('name')->label('管理员名称')
-                            ->placeholder('请输入管理员名称')
-                            ->required(),
-                        Forms\Components\FileUpload::make('avatar_url')->label('头像')
-                            ->avatar()
-                            ->required()
-                            ->directory('users/avatars')
-                            ->openable()
-                            ->uploadingMessage('头像上传中...'),
-                        Forms\Components\TextInput::make('email')->label('邮箱')
-                            ->placeholder('请输入登录邮箱')
-                            ->required(),
-                        Forms\Components\TextInput::make('password')
-                            ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
-                            ->placeholder('不修改则留空')
-                            ->password()
-                            ->revealable(filament()->arePasswordsRevealable())
-                            ->rule(Password::default())
-                            ->autocomplete('new-password')
-                            ->dehydrated(fn ($state): bool => filled($state))
-                            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
-                            // ->same('passwordConfirmation')       // 是否需要确认密码
-                            ->live(debounce: 500),
-                    ]),
-                    // Forms\Components\Section::make('分配角色')->schema([
-                    //     Forms\Components\Select::make('roles')
-                    //         ->relationship(name: 'roles', titleAttribute: 'name')
-                    //         ->saveRelationshipsUsing(function (Model $record, $state) {
-                    //             $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
-                    //         })
-                    //         ->multiple()
-                    //         ->preload()
-                    //         ->searchable(),
-                    // ])
+                    Forms\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('分配角色')->schema([
                     Forms\Components\Select::make('roles')
@@ -194,5 +160,35 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function canGloballySearch(): bool
     {
         return Utils::isResourceGloballySearchable() && count(static::getGloballySearchableAttributes()) && static::canViewAny();
+    }
+
+
+    public static function getBaseFormsComponent(): array
+    {
+        return [
+            Forms\Components\TextInput::make('name')->label('管理员名称')
+                ->placeholder('请输入管理员名称')
+                ->required(),
+            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+                ->avatar()
+                ->required()
+                ->directory('users/avatars')
+                ->openable()
+                ->uploadingMessage('头像上传中...'),
+            Forms\Components\TextInput::make('email')->label('邮箱')
+                ->placeholder('请输入登录邮箱')
+                ->required(),
+            Forms\Components\TextInput::make('password')
+                ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
+                ->placeholder('不修改则留空')
+                ->password()
+                ->revealable(filament()->arePasswordsRevealable())
+                ->rule(Password::default())
+                ->autocomplete('new-password')
+                ->dehydrated(fn($state): bool => filled($state))
+                ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                // ->same('passwordConfirmation')       // 是否需要确认密码
+                ->live(debounce: 500),
+        ];
     }
 }
