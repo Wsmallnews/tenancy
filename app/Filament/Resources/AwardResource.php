@@ -74,6 +74,7 @@ class AwardResource extends Resource
                             ->minFiles(1)
                             ->maxFiles(20)
                             ->acceptedFileTypes(['application/pdf', 'image/*'])
+                            ->imagePreviewHeight('100')
                             ->uploadingMessage('证书上传中...')
                             ->columns(1),
                     ])->columns(1),
@@ -146,7 +147,8 @@ class AwardResource extends Resource
                     ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
-            ->defaultSort('order_column', 'desc')
+            ->reorderable('order_column')
+            ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([

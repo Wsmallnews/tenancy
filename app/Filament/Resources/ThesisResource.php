@@ -163,7 +163,8 @@ class ThesisResource extends Resource
                     ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
-            ->defaultSort('order_column', 'desc')
+            ->reorderable('order_column')
+            ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([

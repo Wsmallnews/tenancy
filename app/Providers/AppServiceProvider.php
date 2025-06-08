@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 注册模型别名
         Relation::enforceMorphMap([
+            'activity' => \App\Models\Activity::class,
             'user' => \App\Models\User::class,
             'team' => \App\Models\Team::class,
             'thesis' => \App\Models\Thesis::class,

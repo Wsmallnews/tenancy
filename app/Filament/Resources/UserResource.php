@@ -121,6 +121,7 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->label('管理员名称'),
                 Tables\Columns\ImageColumn::make('avatar_url')
                     ->label('头像')
+                    ->circular()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()

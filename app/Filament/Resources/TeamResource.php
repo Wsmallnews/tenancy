@@ -76,6 +76,7 @@ class TeamResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('avatar_url')
                     ->label('头像')
+                    ->circular()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('标识')

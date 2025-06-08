@@ -11,16 +11,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $casts = [
         'status' => Status::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontLogIfAttributesChangedOnly(['updated_at'])        // 如果只更新排序，则忽略不记录日志
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+    }
 
     public function getFilamentAvatarUrl(): ?string
     {
@@ -71,5 +83,10 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
     public function roles(): HasMany
     {
         return $this->hasMany(Role::class);
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
     }
 }
