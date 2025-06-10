@@ -48,6 +48,9 @@ class AppServiceProvider extends ServiceProvider
             'award_type' => \App\Models\AwardType::class,
             'patent' => \App\Models\Patent::class,
             'patent_type' => \App\Models\PatentType::class,
+            'appraise' => \App\Models\Appraise::class,
+            'preserve' => \App\Models\Preserve::class,
+            'category' => \App\Models\Category::class,
         ]);
 
         \Filament\Tables\Table::$defaultCurrency = 'CNY';

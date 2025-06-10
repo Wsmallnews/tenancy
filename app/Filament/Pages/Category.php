@@ -19,7 +19,7 @@ class Category extends TreePage
     
     protected static ?string $navigationLabel = '分类';
 
-    protected static ?string $navigationGroup = null;
+    protected static ?string $navigationGroup = '种质目录';
 
     protected static ?string $slug = 'categories';
 

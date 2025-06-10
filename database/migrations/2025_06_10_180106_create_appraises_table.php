@@ -48,6 +48,7 @@ return new class extends Migration
             $table->date('cultivationd_at')->nullable()->comment('育成年份');
             $table->string('breeding_method')->nullable()->comment('选育方法');
 
+            $table->json('options')->nullable()->comment('选项');
             $table->string('status')->nullable()->comment('评价状态');
             $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->timestamps();

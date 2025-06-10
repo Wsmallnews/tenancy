@@ -89,6 +89,16 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
     {
         return $this->hasMany(Role::class);
     }
+    
+    public function appraises(): HasMany
+    {
+        return $this->hasMany(Appraise::class);
+    }
+
+    public function preserves(): HasMany
+    {
+        return $this->hasMany(Preserve::class);
+    }
 
     public function activities(): HasMany
     {

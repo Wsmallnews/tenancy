@@ -85,6 +85,16 @@
 /** -------------------------------- 内容圆角结束------------------------------ **/
 
 
+/** -------------------------------- 修改 tabs 样式------------------------------ **/
+.fi-tabs-item-active {
+    @apply bg-primary-600 dark:bg-primary-700 ;
+}
+.fi-tabs-item-active .fi-tabs-item-label {
+    @apply text-white dark:text-white;
+}
+/** -------------------------------- 修改 tabs 样式------------------------------ **/
+
+
 /* .fi-layout {
     @apply bg-[#f5f8fa] dark:bg-[#252a35];
 }
