@@ -7,7 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
-class CreatePreserve                                                                         extends CreateRecord
+class CreatePreserve extends CreateRecord
 {
     protected static string $resource = PreserveResource::class;
 

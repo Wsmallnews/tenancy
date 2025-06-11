@@ -4,9 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Enums\Preserves\Status;
 use App\Filament\Resources\PreserveResource\Pages;
+use App\Models\Appraise;
 use App\Models\Preserve;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,44 +42,48 @@ class PreserveResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Group::make()->schema([
-                    // Forms\Components\Section::make('基础信息')->schema([
-                    //     Forms\Components\TextInput::make('name')->label('奖项名称')
-                    //         ->placeholder('请输入奖项名称')
-                    //         ->required(),
-
-                    //     Forms\Components\TextInput::make('award_agency')->label('授奖机构')
-                    //         ->placeholder('请输入授奖机构')
-                    //         ->required(),
-                    //     Forms\Components\TextInput::make('level')->label('级别')
-                    //         ->placeholder('请输入奖项级别')
-                    //         ->required(),
-                    //     Forms\Components\TextInput::make('award_name')->label('获奖人/团队')
-                    //         ->placeholder('请输入获奖人/团队')
-                    //         ->required(),
-                    //     Forms\Components\Textarea::make('remark')->label('备注'),
-                    // ]),
-                    // Forms\Components\Section::make('证书管理')->schema([
-                    //     Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
-                    //         ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
-                    //         ->collection('certs')
-                    //         ->required()
-                    //         ->multiple()
-                    //         ->downloadable()
-                    //         ->reorderable()
-                    //         ->appendFiles()
-                    //         ->minFiles(1)
-                    //         ->maxFiles(20)
-                    //         ->acceptedFileTypes(['application/pdf', 'image/*'])
-                    //         ->imagePreviewHeight('100')
-                    //         ->uploadingMessage('证书上传中...')
-                    //         ->columns(1),
-                    // ])->columns(1),
+                    Forms\Components\Section::make('基础信息')->schema([
+                        Forms\Components\Select::make('appraise_id')->label('选择评价')
+                            ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                return $query->normal()->orderBy('order_column', 'asc');
+                            })
+                            ->placeholder('请选择评价')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
+                                $appraise = Appraise::findOrFail($state);
+                                $coverMedia = $appraise->getFirstMedia('cover');
+                                $set('resource_no', $appraise->resource_no);
+                                $set('germplasm_name', $appraise->name);
+                                $set('germplasm_az_name', $appraise->az_name);
+                                $set('cover', $coverMedia->getFullUrl());
+                            })
+                            ->required(),
+                        Forms\Components\TextInput::make('preserve_no')->label('保存编号')
+                            ->placeholder('请输入保存编号')
+                            ->required(),
+                        Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
+                            ->placeholder('请输入种质资源编号')
+                            ->disabled()
+                            ->required(),
+                        Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
+                            ->placeholder('请输入种质中文名')
+                            ->disabled()
+                            ->required(),
+                        Forms\Components\TextInput::make('germplasm_az_name')->label('种质拉丁学名')
+                            ->placeholder('请输入种质拉丁学名')
+                            ->disabled()
+                            ->required(),
+                        Forms\Components\TextInput::make('preserve_position')->label('保存位置')
+                            ->placeholder('请输入保存位置')
+                            ->required(),
+                        Forms\Components\ViewField::make('cover')
+                            ->label('封面图')
+                            ->view('forms.fields.show-image')
+                    ]),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\DatePicker::make('award_at')->label('获奖日期')
-                        ->placeholder('请选择获奖日期')
-                        ->native(false)
-                        ->required(),
                     Forms\Components\TextInput::make('order_column')->label('排序')->integer()
                         ->placeholder('正序排列')
                         ->rules(['integer', 'min:0']),

@@ -6,6 +6,7 @@ use App\Enums\Appraises\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,6 +51,12 @@ class Appraise extends Model implements HasMedia
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+
+    public function preserves(): HasMany
+    {
+        return $this->hasMany(Preserve::class);
     }
 
     public function team(): BelongsTo
