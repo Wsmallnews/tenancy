@@ -25,6 +25,9 @@ class EditAppraise extends EditRecord
         // 修改数据
         $data['options'] = AppraiseResource::getFieldsInfo($data);
 
+        // 修改省市信息
+        $data = AppraiseResource::operDistrictInfo($data);
+
         return $data;
     }
 }

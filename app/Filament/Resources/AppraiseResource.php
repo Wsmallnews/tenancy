@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Appraises\Status;
+use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\AppraiseResource\Pages;
 use App\Models\Appraise;
 use App\Models\Category;
@@ -16,7 +17,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Arr;
+use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class AppraiseResource extends Resource
 {
@@ -52,7 +56,11 @@ class AppraiseResource extends Resource
                                     ]),
                                 ...self::getCategoryTabs($get),
                             ];
-                        })->columns(1)->columnSpan(2),
+                        })
+                        ->afterStateHydrated(function (Forms\Components\Tabs $component, ?array $state) {
+                            self::hydratedFields($component, $state);
+                        })
+                        ->columns(1)->columnSpan(2),
                 ])->columns(1)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
                     Forms\Components\TextInput::make('order_column')->label('排序')->integer()
@@ -72,51 +80,129 @@ class AppraiseResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('name')
-                //     ->label('奖项名称')
-                //     ->searchable()
-                //     ->limit(50)
-                //     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                //         $state = $column->getState();
-
-                //         if (strlen($state) <= $column->getCharacterLimit()) {
-                //             return null;
-                //         }
-
-                //         return $state;
-                //     }),
-                // Tables\Columns\TextColumn::make('awardType.name')
-                //     ->label('奖项类型')
-                //     ->searchable()
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_agency')
-                //     ->searchable()
-                //     ->label('授奖机构')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_at')
-                //     ->label('获奖日期')
-                //     ->toggleable()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('level')
-                //     ->label('级别')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_name')
-                //     ->label('获奖人/团队')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('order_column')
-                //     ->label('排序')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('status')
-                //     ->label('状态')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->label('创建时间')
-                //     ->toggleable()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->label('更新时间')
-                //     ->toggleable()
-                //     ->sortable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('分类')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('resource_no')
+                    ->label('种质资源编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('germplasm_no')
+                    ->label('种质库编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('original_no')
+                    ->label('原始编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('gather_no')
+                    ->label('采集号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('中文名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('en_name')
+                    ->label('英文名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('az_name')
+                    ->label('拉丁学名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('subject_name')
+                    ->label('科名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('genus_name')
+                    ->label('属名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('species_name')
+                    ->label('种名')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('country_name')
+                    ->label('国家')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('province_name')
+                    ->label('省')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('city_name')
+                    ->label('市')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('地址')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('altitude')
+                    ->label('海拔')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('longitude')
+                    ->label('经纬度')
+                    ->formatStateUsing(function (Model $record, string $state): string {
+                        return $record->longitude . ',' . $record->latitude;
+                    })
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('source_country_name')
+                    ->label('来源国家')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('source_province_name')
+                    ->label('来源省')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('source_city_name')
+                    ->label('来源市')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('source_address')
+                    ->label('来源地址')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('save_company')
+                    ->label('保存单位')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('save_company_no')
+                    ->label('保存单位编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('pedigree')
+                    ->label('系谱')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('breeding_company')
+                    ->label('选育单位')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('cultivationd_at')
+                    ->label('育成年份')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('breeding_method')
+                    ->label('选育方法')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('排序')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('状态')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
+                    ->toggleable()
+                    ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')
@@ -124,24 +210,24 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索评价名称、资源编号等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([
-                // Tables\Filters\Filter::make('award_at')
-                //     ->form([
-                //         Forms\Components\Group::make()->schema([
-                //             Forms\Components\DatePicker::make('award_from')->label('获奖开始时间')->columnSpan(1),
-                //             Forms\Components\DatePicker::make('award_until')->label('获奖结束时间')->columnSpan(1),
-                //         ])->columns(2),
-                //     ])
-                //     ->query(function (Builder $query, array $data): Builder {
-                //         return $query
-                //             ->when(
-                //                 $data['award_from'],
-                //                 fn(Builder $query, $date): Builder => $query->whereDate('award_at', '>=', $date),
-                //             )
-                //             ->when(
-                //                 $data['award_until'],
-                //                 fn(Builder $query, $date): Builder => $query->whereDate('award_at', '<=', $date),
-                //             );
-                //     }),
+                Tables\Filters\Filter::make('cultivationd_at')
+                    ->form([
+                        Forms\Components\Group::make()->schema([
+                            Forms\Components\DatePicker::make('cultivationd_from')->label('育成开始时间')->columnSpan(1),
+                            Forms\Components\DatePicker::make('cultivationd_until')->label('育成结束时间')->columnSpan(1),
+                        ])->columns(2),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['cultivationd_from'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('cultivationd_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['cultivationd_until'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('cultivationd_at', '<=', $date),
+                            );
+                    }),
                 Tables\Filters\Filter::make('created_at')
                     ->form([
                         Forms\Components\Group::make()->schema([
@@ -225,7 +311,7 @@ class AppraiseResource extends Resource
                 SelectTree::make('category_id')->label('选择分类')
                     ->relationship(relationship: 'category', titleAttribute: 'name', parentAttribute: 'parent_id')
                     ->searchable()
-                    ->enableBranchNode()
+                    // ->enableBranchNode()     // 可以选择非根节点
                     ->withCount()
                     ->live()
                     ->required()
@@ -265,7 +351,20 @@ class AppraiseResource extends Resource
             ])->columns(2),
             Forms\Components\Section::make('地理信息')->schema([
                 // 选择国家，省市区
-
+                Country::make('country_code')->label('选择国家')
+                    ->default('CN')
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                        $country_name = $component->getCountriesList()[$state] ?? null;
+                        $set('country_name', $country_name);
+                    }),
+                Forms\Components\Hidden::make('country_name'),
+                DistrictSelect::make('district')
+                    ->label('地区')
+                    ->placeholder('选择省市')
+                    ->district(false)
+                    ->required()
+                    ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
                 Forms\Components\TextInput::make('address')->label('地址')
                     ->placeholder('请输入地址')
                     ->required(),
@@ -281,7 +380,33 @@ class AppraiseResource extends Resource
                     ->placeholder('请输入纬度')
                     ->required(),
 
-                // 选择来源国家，省市区
+                Country::make('source_country_code')->label('选择来源国家')
+                    ->default('CN')
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                        $source_country_name = $component->getCountriesList()[$state] ?? null;
+                        $set('source_country_name', $source_country_name);
+                    }),
+                Forms\Components\Hidden::make('source_country_name'),
+                DistrictSelect::make('source_district')
+                    ->label('来源地区')
+                    ->placeholder('选择来源省市')
+                    ->district(false)
+                    ->afterStateHydrated(function (DistrictSelect $component, ?array $state) {
+                        $record = $component->getRecord();
+                        if (! $record) {
+                            $component->state($state);
+                            return;
+                        }
+                        $component->state([
+                            'province_name' => $record->source_province_name ?? null,
+                            'province_id' => $record->source_province_id ?? null,
+                            'city_name' => $record->source_city_name ?? null,
+                            'city_id' => $record->source_city_id ?? null,
+                        ]);
+                    })
+                    ->required()
+                    ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
                 Forms\Components\TextInput::make('source_address')->label('来源地址')
                     ->placeholder('请输入来源地址')
                     ->required(),
@@ -367,6 +492,66 @@ class AppraiseResource extends Resource
     }
 
 
+
+    /**
+     * tab 字段水化，保证分类中自定义字段，改变顺序时，数据库中保存的值也能正确显示
+     *
+     * @param Forms\Components\Tabs $component
+     * @param array|null $state
+     * @return void
+     */
+    public static function hydratedFields(Forms\Components\Tabs $component, ?array $state)
+    {
+        $record = $component->getRecord();
+        if (! $record) {
+            $component->state($state);
+            return;
+        }
+
+        $recordOptions = $record->options;
+        $recordFields = $recordOptions['fields'];       // 数据库中保存的值
+
+        $category_id = $state['category_id'];
+        if (!$category_id) {
+            $component->state($state);
+            return;
+        }
+            
+        $category = Category::findOrFail($category_id);
+        $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
+
+        foreach ($fields as $key => $field) {
+            $name = $field['name'];
+            $currentRecordFields = Arr::where($recordFields, function (array $value, int $key) use ($name) {
+                return $value['name'] == $name;
+            });
+
+            $recordField = Arr::first($currentRecordFields);
+            if (empty($recordField)) {      // 没有找到数据库中对应的值，说明分类中添加了新的分组，或者老的分组改名了（分组旧值全部无效）
+                continue;
+            }
+
+            foreach ($field['fields'] as $subKey => $subField) {
+                $currentRecordSubFields = Arr::where($recordField['fields'] ?? [], function (array $value, int $key) use ($subField) {
+                    return $value['name'] == $subField['name'];
+                });
+
+                $recordSubField = Arr::first($currentRecordSubFields);
+
+                if (empty($recordSubField)) {
+                    continue;
+                }
+
+                $fields[$key]['fields'][$subKey]['value'] = $recordSubField['value'] ?? null;
+            }
+        }
+
+        $state['options']['fields'] = $fields;
+
+        $component->state($state);
+    }
+
+
     public static function getFieldsInfo($data): array
     {
         $currentOptions = $data['options']?? [];
@@ -387,4 +572,24 @@ class AppraiseResource extends Resource
 
         return $currentOptions;
     } 
+
+
+    public static function operDistrictInfo($data): array
+    {
+        $district = $data['district'] ?? [];
+        $data['province_name'] = $district['province_name'] ?? null;
+        $data['province_id'] = $district['province_id'] ?? null;
+        $data['city_name'] = $district['city_name'] ?? null;
+        $data['city_id'] = $district['city_id'] ?? null;
+        unset($data['district']);
+
+        $sourceDistrict = $data['source_district'] ?? [];
+        $data['source_province_name'] = $sourceDistrict['province_name'] ?? null;
+        $data['source_province_id'] = $sourceDistrict['province_id'] ?? null;
+        $data['source_city_name'] = $sourceDistrict['city_name'] ?? null;
+        $data['source_city_id'] = $sourceDistrict['city_id'] ?? null;
+        unset($data['source_district']);
+
+        return $data;
+    }
 }

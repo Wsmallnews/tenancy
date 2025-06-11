@@ -27,19 +27,25 @@ return new class extends Migration
             $table->string('genus_name')->nullable()->comment('属名');
             $table->string('species_name')->nullable()->comment('种名');
 
+            $table->string('country_code')->nullable()->comment('国家编号');
             $table->string('country_name')->nullable()->comment('国家');
             $table->string('province_name')->nullable()->comment('省');
+            $table->unsignedBigInteger('province_id')->nullable()->comment('省ID');
             $table->string('city_name')->nullable()->comment('市');
+            $table->unsignedBigInteger('city_id')->nullable()->comment('市ID');
             $table->string('address')->nullable()->comment('地址');
             
             $table->integer('altitude')->nullable()->comment('海拔');
             $table->string('longitude')->nullable()->comment('经度');
             $table->string('latitude')->nullable()->comment('纬度');
 
-            $table->string('source_country_name')->nullable()->comment('来源国');
+            $table->string('source_country_code')->nullable()->comment('来源国家编号');
+            $table->string('source_country_name')->nullable()->comment('来源国家');
             $table->string('source_province_name')->nullable()->comment('来源省');
+            $table->unsignedBigInteger('source_province_id')->nullable()->comment('来源省ID');
             $table->string('source_city_name')->nullable()->comment('来源市');
-            $table->string('source_address')->nullable()->comment('来源地');
+            $table->unsignedBigInteger('source_city_id')->nullable()->comment('来源市ID');
+            $table->string('source_address')->nullable()->comment('来源地址');
             
             $table->string('save_company')->nullable()->comment('保存单位');
             $table->string('save_company_no')->nullable()->comment('保存单位编号');

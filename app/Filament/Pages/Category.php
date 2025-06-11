@@ -120,7 +120,7 @@ class Category extends TreePage
                                 ->columnSpan(1),
                         ])
                         ->cloneable()
-                        ->addActionAlignment(Alignment::End)
+                        ->addActionAlignment(Alignment::Start)
                         ->emptyLabel('请设置分组的字段信息')
                         ->columnSpanFull()
                 ])
@@ -130,7 +130,7 @@ class Category extends TreePage
                 ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
                 ->collapsible()
                 ->cloneable()
-                ->addActionAlignment(Alignment::End)
+                ->addActionAlignment(Alignment::Start)
                 ->columns(2)
         ];
     }
