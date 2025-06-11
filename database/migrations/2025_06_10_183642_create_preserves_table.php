@@ -17,9 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('appraise_id')->default(0)->comment('评价');
 
             $table->string('preserve_no')->nullable()->comment('保存编号');
-            $table->string('resource_no')->nullable()->comment('种质资源编号');
-            $table->string('germplasm_name')->nullable()->comment('种质中文名');
-            $table->string('germplasm_az_name')->nullable()->comment('种质拉丁学名');
             $table->string('preserve_position')->nullable()->comment('保存位置');
 
             $table->string('status')->nullable()->comment('保存状态');

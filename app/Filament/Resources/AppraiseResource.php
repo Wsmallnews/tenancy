@@ -84,6 +84,10 @@ class AppraiseResource extends Resource
                     ->label('分类')
                     ->searchable()
                     ->toggleable(),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover')
+                    ->label('封面图')
+                    ->collection('cover')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('resource_no')
                     ->label('种质资源编号')
                     ->searchable()

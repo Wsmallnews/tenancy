@@ -52,16 +52,8 @@ class PreserveResource extends Resource
                             ->preload()
                             ->live()
                             ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                                $appraise = Appraise::findOrFail($state);
-                                $coverMedia = $appraise->getFirstMedia('cover');
-                                $set('resource_no', $appraise->resource_no);
-                                $set('germplasm_name', $appraise->name);
-                                $set('germplasm_az_name', $appraise->az_name);
-                                $set('cover', $coverMedia->getFullUrl());
+                                self::afterUpdateAppraiseInfo($component, $state, $set);
                             })
-                            ->required(),
-                        Forms\Components\TextInput::make('preserve_no')->label('保存编号')
-                            ->placeholder('请输入保存编号')
                             ->required(),
                         Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
                             ->placeholder('请输入种质资源编号')
@@ -75,12 +67,16 @@ class PreserveResource extends Resource
                             ->placeholder('请输入种质拉丁学名')
                             ->disabled()
                             ->required(),
+                        Forms\Components\ViewField::make('cover')
+                            ->label('封面图')
+                            ->disabled()
+                            ->view('forms.fields.show-image'),
+                        Forms\Components\TextInput::make('preserve_no')->label('保存编号')
+                            ->placeholder('请输入保存编号')
+                            ->required(),
                         Forms\Components\TextInput::make('preserve_position')->label('保存位置')
                             ->placeholder('请输入保存位置')
                             ->required(),
-                        Forms\Components\ViewField::make('cover')
-                            ->label('封面图')
-                            ->view('forms.fields.show-image')
                     ]),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
@@ -100,76 +96,51 @@ class PreserveResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('name')
-                //     ->label('奖项名称')
-                //     ->searchable()
-                //     ->limit(50)
-                //     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                //         $state = $column->getState();
-
-                //         if (strlen($state) <= $column->getCharacterLimit()) {
-                //             return null;
-                //         }
-
-                //         return $state;
-                //     }),
-                // Tables\Columns\TextColumn::make('awardType.name')
-                //     ->label('奖项类型')
-                //     ->searchable()
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_agency')
-                //     ->searchable()
-                //     ->label('授奖机构')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_at')
-                //     ->label('获奖日期')
-                //     ->toggleable()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('level')
-                //     ->label('级别')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('award_name')
-                //     ->label('获奖人/团队')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('order_column')
-                //     ->label('排序')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('status')
-                //     ->label('状态')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->label('创建时间')
-                //     ->toggleable()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->label('更新时间')
-                //     ->toggleable()
-                //     ->sortable(),
+                Tables\Columns\TextColumn::make('preserve_no')
+                    ->label('保存编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('preserve_position')
+                    ->label('保存位置')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
+                    ->label('评价封面图')
+                    ->collection('cover')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('appraise.resource_no')
+                    ->label('种质资源编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('appraise.name')
+                    ->label('种质中文名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('appraise.az_name')
+                    ->label('种质拉丁学名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('排序')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('状态')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
+                    ->toggleable()
+                    ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
-            ->searchPlaceholder('搜索保存编号、资源编号等...')
+            ->searchPlaceholder('搜索保存编号、保存位置等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([
-                // Tables\Filters\Filter::make('award_at')
-                //     ->form([
-                //         Forms\Components\Group::make()->schema([
-                //             Forms\Components\DatePicker::make('award_from')->label('获奖开始时间')->columnSpan(1),
-                //             Forms\Components\DatePicker::make('award_until')->label('获奖结束时间')->columnSpan(1),
-                //         ])->columns(2),
-                //     ])
-                //     ->query(function (Builder $query, array $data): Builder {
-                //         return $query
-                //             ->when(
-                //                 $data['award_from'],
-                //                 fn(Builder $query, $date): Builder => $query->whereDate('award_at', '>=', $date),
-                //             )
-                //             ->when(
-                //                 $data['award_until'],
-                //                 fn(Builder $query, $date): Builder => $query->whereDate('award_at', '<=', $date),
-                //             );
-                //     }),
                 Tables\Filters\Filter::make('created_at')
                     ->form([
                         Forms\Components\Group::make()->schema([
@@ -243,5 +214,37 @@ class PreserveResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+
+    /**
+     * 选择时修改数据
+     */
+    public static function afterUpdateAppraiseInfo(Forms\Components\Select $component, $state, Set $set)
+    {
+        $appraise = Appraise::findOrFail($state);
+        $coverMedia = $appraise->getFirstMedia('cover');
+        $set('resource_no', $appraise->resource_no);
+        $set('germplasm_name', $appraise->name);
+        $set('germplasm_az_name', $appraise->az_name);
+        $set('cover', $coverMedia->getFullUrl());
+    }
+
+
+    /**
+     * 编辑时，自动填充数据
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function fillAppraiseInfo($data)
+    {
+        $appraise = Appraise::findOrFail($data['appraise_id']);
+        $coverMedia = $appraise->getFirstMedia('cover');
+        $data['resource_no'] = $appraise->resource_no;
+        $data['germplasm_name'] = $appraise->name;
+        $data['germplasm_az_name'] = $appraise->az_name;
+        $data['cover'] = $coverMedia->getFullUrl();
+        return $data;
     }
 }

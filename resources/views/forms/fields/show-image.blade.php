@@ -25,7 +25,7 @@
     >
         <div class="w-full relative">
             @if ($state)
-                <img src="{{ $state }}" class="w-24 h-24" alt="">
+                <img src="{{ $state }}" class="h-24" alt="">
             @endif
         </div>
     </x-filament::input.wrapper>

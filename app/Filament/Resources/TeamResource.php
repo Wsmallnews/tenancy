@@ -23,17 +23,17 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = '租户';
+    protected static ?string $navigationLabel = '资源库';
 
-    protected static ?string $navigationGroup = '租户管理';
+    protected static ?string $navigationGroup = '资源库管理';
 
     protected static ?string $slug = 'teams';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = '租户';
+    protected static ?string $modelLabel = '资源库';
 
-    protected static ?string $pluralModelLabel = '租户';
+    protected static ?string $pluralModelLabel = '资源库';
 
     protected static ?int $navigationSort = 1;
 

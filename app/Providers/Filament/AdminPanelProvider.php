@@ -72,6 +72,13 @@ class AdminPanelProvider extends PanelProvider
                     })
                     ->navigationSort(3),
             ])
+            ->navigationGroups([
+                '资源库管理',
+                '种质资源库',
+                '种质目录',
+                '研究成果',
+                __('filament-shield::filament-shield.nav.group'),       // 权限管理
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ])
