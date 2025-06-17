@@ -50,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             'patent_type' => \App\Models\PatentType::class,
             'appraise' => \App\Models\Appraise::class,
             'preserve' => \App\Models\Preserve::class,
+            'assemble' => \App\Models\Assemble::class,
             'category' => \App\Models\Category::class,
         ]);
 

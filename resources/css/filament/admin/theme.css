@@ -1,5 +1,8 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
+/** 富文本编辑器样式, 图片的 remove 会和官网的一致 **/
+@import '../../../../vendor/filament/forms/dist/components/rich-editor.css';
+
 @import '../../../../vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
 
 @config 'tailwind.config.js';
@@ -14,19 +17,32 @@
 /** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
 .fi-sidebar-header .fi-logo, .fi-sidebar-header .fi-icon-btn svg,   /** 左侧菜单栏头部 logo,和折叠箭头 **/
 .fi-tenant-menu-trigger span, .fi-tenant-menu-trigger svg,          /** 左侧菜单栏多租户的内容，和 svg **/
-.fi-sidebar-group-collapse-button, .fi-sidebar-group-label, .fi-sidebar-item-icon, .fi-sidebar-item-label {
+
+/** 左侧菜单栏未选中时候的样式 限定 fi-sidebar-nav 父级 **/
+.fi-sidebar-nav .fi-sidebar-group-collapse-button, 
+.fi-sidebar-nav .fi-sidebar-group-label, 
+.fi-sidebar-nav .fi-sidebar-item-icon,
+.fi-sidebar-nav .fi-sidebar-item-label {
     @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
 }
 
 /** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
-.fi-tenant-menu-trigger, .fi-sidebar-item-button {
+.fi-sidebar-nav .fi-tenant-menu-trigger, 
+.fi-sidebar-nav .fi-sidebar-item-button {
     @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
 }
 
-/** 左边菜单栏，选中，背景色 **/
+/** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
 .fi-sidebar-item.fi-sidebar-item-active .fi-sidebar-item-button {
     @apply bg-primary-700 dark:bg-primary-800;
 }
+
+/** 集群菜单文字 和 菜单图标，选中颜色 **/
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
 /** --------------------------------左侧菜单栏结束------------------------------ **/
 
 
