@@ -362,7 +362,8 @@ class AppraiseResource extends Resource
                         $country_name = $component->getCountriesList()[$state] ?? null;
                         $set('country_name', $country_name);
                     }),
-                Forms\Components\Hidden::make('country_name'),
+                Forms\Components\Hidden::make('country_name')
+                    ->default('中国'),
                 DistrictSelect::make('district')
                     ->label('地区')
                     ->placeholder('选择省市')
@@ -391,7 +392,8 @@ class AppraiseResource extends Resource
                         $source_country_name = $component->getCountriesList()[$state] ?? null;
                         $set('source_country_name', $source_country_name);
                     }),
-                Forms\Components\Hidden::make('source_country_name'),
+                Forms\Components\Hidden::make('source_country_name')
+                    ->default('中国'),
                 DistrictSelect::make('source_district')
                     ->label('来源地区')
                     ->placeholder('选择来源省市')

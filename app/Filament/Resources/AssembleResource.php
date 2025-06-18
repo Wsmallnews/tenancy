@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Preserves\Status;
+use App\Enums\Assembles\Status;
+use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\AssembleResource\Pages;
 use App\Models\Appraise;
 use App\Models\Assemble;
@@ -15,7 +16,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class AssembleResource extends Resource
 {
@@ -98,14 +101,33 @@ class AssembleResource extends Resource
                         Forms\Components\TextInput::make('sub_subject_no')->label('所属子课题编号')
                             ->placeholder('请输入所属子课题编号')
                             ->required(),
+                    ]),
+                    Forms\Components\Section::make('收集地信息')->schema([
+                        // 选择国家，省市区
+                        Country::make('country_code')->label('选择国家')
+                            ->default('CN')
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                                $country_name = $component->getCountriesList()[$state] ?? null;
+                                $set('country_name', $country_name);
+                            }),
+                        Forms\Components\Hidden::make('country_name')
+                            ->default('中国'),
+                        DistrictSelect::make('district')
+                            ->label('收集地区')
+                            ->placeholder('选择省市')
+                            ->district(false)
+                            ->required()
+                            ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                        Forms\Components\TextInput::make('address')->label('收集地址')
+                            ->placeholder('请输入收集地址')
+                            ->required(),
                         Forms\Components\TextInput::make('longitude')->label('经度')
-                            ->placeholder('请输入经度')
+                            ->placeholder('请输入收集地经度')
                             ->required(),
                         Forms\Components\TextInput::make('latitude')->label('纬度')
-                            ->placeholder('请输入纬度')
+                            ->placeholder('请输入收集地纬度')
                             ->required(),
-                        
-                            
                     ]),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
@@ -125,44 +147,90 @@ class AssembleResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('preserve_no')
-                //     ->label('保存编号')
-                //     ->searchable()
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('preserve_position')
-                //     ->label('保存位置')
-                //     ->searchable()
-                //     ->toggleable(),
-                // Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
-                //     ->label('评价封面图')
-                //     ->collection('cover')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('appraise.resource_no')
-                //     ->label('种质资源编号')
-                //     ->searchable()
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('appraise.name')
-                //     ->label('种质中文名')
-                //     ->searchable()
-                //     ->toggleable(), 
-                // Tables\Columns\TextColumn::make('appraise.az_name')
-                //     ->label('种质拉丁学名')
-                //     ->searchable()
-                //     ->toggleable(), 
-                // Tables\Columns\TextColumn::make('order_column')
-                //     ->label('排序')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('status')
-                //     ->label('状态')
-                //     ->toggleable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->label('创建时间')
-                //     ->toggleable()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->label('更新时间')
-                //     ->toggleable()
-                //     ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('收集人')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('company')
+                    ->label('收集单位')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('assemble_no')
+                    ->label('收集编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('subject_no')
+                    ->label('所属课题编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('sub_subject_no')
+                    ->label('所属子课题编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
+                    ->label('评价封面图')
+                    ->collection('cover')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('appraise.resource_no')
+                    ->label('种质资源编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('appraise.name')
+                    ->label('种质中文名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('appraise.az_name')
+                    ->label('种质拉丁学名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('appraise.subject_name')
+                    ->label('科名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('appraise.genus_name')
+                    ->label('属名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('appraise.species_name')
+                    ->label('种名')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('country_name')
+                    ->label('收集国家')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('province_name')
+                    ->label('省')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('city_name')
+                    ->label('市')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('收集地址')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('longitude')
+                    ->label('经纬度')
+                    ->formatStateUsing(function (Model $record, string $state): string {
+                        return $record->longitude . ',' . $record->latitude;
+                    })
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('排序')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('状态')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
+                    ->toggleable()
+                    ->sortable(),
             ])
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')
@@ -280,6 +348,20 @@ class AssembleResource extends Resource
         $data['genus_name'] = $appraise->genus_name;
         $data['species_name'] = $appraise->species_name;
         $data['cover'] = $coverMedia->getFullUrl();
+        return $data;
+    }
+
+
+
+    public static function operDistrictInfo($data): array
+    {
+        $district = $data['district'] ?? [];
+        $data['province_name'] = $district['province_name'] ?? null;
+        $data['province_id'] = $district['province_id'] ?? null;
+        $data['city_name'] = $district['city_name'] ?? null;
+        $data['city_id'] = $district['city_id'] ?? null;
+        unset($data['district']);
+
         return $data;
     }
 }

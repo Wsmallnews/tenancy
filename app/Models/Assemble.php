@@ -20,7 +20,7 @@ class Assemble extends Model implements HasMedia
     use LogsActivity;
     use SoftDeletes;
 
-    protected $table = 'preserves';
+    protected $table = 'assembles';
 
     protected $casts = [
         'status' => Status::class,
