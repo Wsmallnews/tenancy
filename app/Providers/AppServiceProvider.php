@@ -51,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
             'appraise' => \App\Models\Appraise::class,
             'preserve' => \App\Models\Preserve::class,
             'assemble' => \App\Models\Assemble::class,
+            'new_variety' => \App\Models\NewVariety::class,
             'category' => \App\Models\Category::class,
         ]);
 
