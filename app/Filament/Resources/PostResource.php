@@ -95,12 +95,12 @@ class PostResource extends Resource
                         Forms\Components\Group::make()
                             ->relationship('content')
                             ->schema([
-                                // Components\RichEditor::make('content')
-                                //     ->fileAttachmentsDirectory('contents/' . date('Ymd'))
-                                //     ->label('内容详情'),
-                                \Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor::make('content')
-                                    ->label('内容详情')
+                                Forms\Components\RichEditor::make('content')
                                     ->fileAttachmentsDirectory('contents/' . date('Ymd'))
+                                    ->label('内容详情'),
+                                // \Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor::make('content')
+                                //     ->label('内容详情')
+                                //     ->fileAttachmentsDirectory('contents/' . date('Ymd'))
                                     // ->toolbarSticky(true)
                             ])->columns(1),
                     ])->columns(1),
