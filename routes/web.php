@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Navigations\Type as NavigationTypeEnum;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
 
