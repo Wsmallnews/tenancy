@@ -82,7 +82,11 @@ class Navigation extends TreePage
                 ->label('导航标识')
                 ->unique(ignorable: fn(?NavigationModel $record): ?NavigationModel => $record)
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->visible(function (Get $get) {
+                    // 只有内容 和 页面 需要设置标识
+                    return in_array(static::getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
+                }),
 
             Forms\Components\SpatieMediaLibraryFileUpload::make('banner')->label('导航Banner')
                 ->collection('banner')
@@ -90,7 +94,11 @@ class Navigation extends TreePage
                 ->openable()
                 ->downloadable()
                 ->uploadingMessage('Banner 上传中...')
-                ->imagePreviewHeight('100'),
+                ->imagePreviewHeight('100')
+                ->visible(function (Get $get) {
+                    // 只有内容 和 页面 需要设置 Banner
+                    return in_array(static::getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
+                }),
 
             Forms\Components\Select::make('options.target')
                 ->label('跳转类型')

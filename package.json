@@ -18,6 +18,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "postcss-nesting": "^13.0.1"
+        "postcss-nesting": "^13.0.1",
+        "swiper": "^11.2.8"
     }
 }
