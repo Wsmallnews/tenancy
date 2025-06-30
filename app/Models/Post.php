@@ -2,28 +2,34 @@
 
 namespace App\Models;
 
-use App\Enums\Theses\Status;
+use App\Enums\Posts\Status;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
 
-class Thesis extends Model implements HasMedia
+class Post extends Model implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
     use SoftDeletes;
     use LogsActivity;
 
-    protected $table = 'theses';
+    protected $table = 'posts';
 
     protected $casts = [
+        // 'category_ids' => 'array',
         'status' => Status::class,
+        'options' => 'array',
     ];
+
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -34,20 +40,42 @@ class Thesis extends Model implements HasMedia
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
     }
 
+
+    /**
+     * post 需要分类时候解开（多对多分类）
+     */
+    // public function scopeWhereCategoryIn($query, array $ids)
+    // {
+    //     return $query->where(function ($q) use ($ids) {
+    //         foreach ($ids as $id) {
+    //             $q->orWhereJsonContains('category_ids', $id);
+    //         }
+    //     });
+    // }
+
+
     public function scopeNormal($query)
     {
         return $query->where('status', Status::Normal);
     }
+
 
     public function scopeHidden($query)
     {
         return $query->where('status', Status::Hidden);
     }
 
-    public function thesisType(): BelongsTo
+
+    public function content(): MorphOne
     {
-        return $this->belongsTo(ThesisType::class);
+        return $this->morphOne(Content::class, 'contentable');
     }
+
+
+    // public function categories(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Category::class);
+    // }
 
     public function team(): BelongsTo
     {

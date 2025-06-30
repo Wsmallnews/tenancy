@@ -16,8 +16,9 @@ use Studio15\FilamentTree\Components\TreePage;
 
 class Category extends TreePage
 {
-    
-    protected static ?string $navigationLabel = '分类';
+    protected static ?string $title = '种质分类';
+
+    protected static ?string $navigationLabel = '种质分类';
 
     protected static ?string $navigationGroup = '种质目录';
 
@@ -25,9 +26,9 @@ class Category extends TreePage
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = '分类';
+    protected static ?string $modelLabel = '种质分类';
 
-    protected static ?string $pluralModelLabel = '分类';
+    protected static ?string $pluralModelLabel = '种质分类';
 
     protected static ?int $navigationSort = 1;
 

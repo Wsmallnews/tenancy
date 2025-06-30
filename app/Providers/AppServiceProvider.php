@@ -33,8 +33,12 @@ class AppServiceProvider extends ServiceProvider
         // 开启 SPA 模式
         \Filament\Support\Facades\FilamentView::spa(true);
 
+        // pages
+        Livewire::component('sn-index', \App\Livewire\Index::class);
+
         // components
-        // Livewire::component('sn-components-navigation', Navigation::class);
+        Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
+        Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
 
         // 注册模型别名
         Relation::enforceMorphMap([
@@ -53,6 +57,9 @@ class AppServiceProvider extends ServiceProvider
             'assemble' => \App\Models\Assemble::class,
             'new_variety' => \App\Models\NewVariety::class,
             'category' => \App\Models\Category::class,
+            'post' => \App\Models\Post::class,
+            'navigation' => \App\Models\Navigation::class,
+            'content' => \App\Models\Content::class,
         ]);
 
         \Filament\Tables\Table::$defaultCurrency = 'CNY';
