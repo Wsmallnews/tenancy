@@ -73,6 +73,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationSort(3),
             ])
             ->navigationGroups([
+                '内容管理',
                 '资源库管理',
                 '种质资源库',
                 '种质目录',
