@@ -4,3 +4,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@config '../../tailwind.config.js';
+
+.sn-nav-btn {
+    @apply !ring-0 !shadow-none;
+}

@@ -5,7 +5,7 @@
 
 @import '../../../../vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
 
-@config 'tailwind.config.js';
+@config '../../../../tailwind.config.js';
 
 
 /** --------------------------------左侧菜单栏来时------------------------------ **/

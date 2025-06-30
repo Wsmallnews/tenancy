@@ -7,7 +7,7 @@
 @endpush
 
 <div x-data="index({})">
-    <div class="pc-home hidden min-[1200px]:block" id="fullpage">
+    <div class="pc-home" id="fullpage">
         <livewire:sn-components-navigation />
         <div class="pc-page" id="slide1">
             <div class="swiper first-screen-swiper first-screen-swiper-css">

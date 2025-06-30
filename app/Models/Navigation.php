@@ -90,7 +90,7 @@ class Navigation extends Model implements HasMedia
 
         $navigation->setAttribute('url_info', [
             'url' => $url,
-            'target' => isset($navigation->options['target']) && $navigation->options['target'] == '_blank' ? true : false,
+            'target' => isset($navigation->options['target']) && $navigation->options['target'] ? $navigation->options['target'] : '_self',
         ]);
 
         return $navigation;

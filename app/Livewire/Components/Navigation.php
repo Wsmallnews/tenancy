@@ -12,7 +12,7 @@ class Navigation extends Component
 
     public function getNavigations()
     {
-        return NavigationModel::defaultOrder()->get()->map(function ($navigation) {
+        return NavigationModel::defaultOrder()->get()->map(function (NavigationModel $navigation) {
             return $navigation->resolveNavigation($navigation);
         })->toTree();
     }
