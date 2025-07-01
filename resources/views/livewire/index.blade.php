@@ -6,13 +6,16 @@
     {!! seo() !!}
 @endpush
 
-<div x-data="index({})">
-    <div class="pc-home" id="fullpage">
-        <livewire:sn-components-navigation />
-        <div class="pc-page" id="slide1">
-            <div class="swiper first-screen-swiper first-screen-swiper-css">
+<div class="w-full" x-data="index({})">
+    <livewire:sn-components-navigation />
+
+    <div class="container mx-auto" id="fullpage">
+
+        内容啊
+
+            {{-- <div class="swiper first-screen-swiper first-screen-swiper-css">
                 <div class="swiper-wrapper">
-                    {{-- @foreach ($indexBlocks as $block) 
+                    @foreach ($indexBlocks as $block) 
                         @if ($block->getFirstMediaUrl('main'))
                             <div class="swiper-slide">
                                 <div class="slide-content">
@@ -20,13 +23,13 @@
                                 </div>
                             </div>
                         @endif
-                    @endforeach --}}
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        <livewire:sn-components-footer />
+            </div> --}}
     </div>
+
+    <livewire:sn-components-footer />
 </div>
 
 @assets

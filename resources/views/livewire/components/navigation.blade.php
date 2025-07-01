@@ -2,8 +2,8 @@
     $navigations = $this->getNavigations();
 @endphp
 
-<nav class="w-full bg-primary-600" x-data="{ open: false }">
-    <div class="container mx-auto  px-4 sm:px-0">
+<nav class="w-full bg-primary-500" x-data="{ mobileMenuIsOpen: false }" @click.away="mobileMenuIsOpen = false">
+    <div class="container mx-auto relative px-4 sm:px-0">
         <div class="flex justify-between h-16">
             <div class="flex gap-4">
                 <div class="shrink-0 flex items-center">
@@ -12,31 +12,61 @@
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <ul class="hidden gap-4 sm:-my-px sm:ms-10 sm:flex">
                     @foreach ($navigations as $navigation)
                         @if ($navigation->children->count() > 0)
-                            <x-filament::dropdown>
-                                <x-slot name="trigger" class="h-full">
-                                    <x-filament::button tag="a" class="sn-nav-btn">
-                                        {{ $navigation->name }}
-                                    </x-filament::button>
-                                </x-slot>
-                                
-                                <x-filament::dropdown.list>
+                            <li class="flex items-center relative w-fit"
+                                x-data="{ isOpen: false, openedWithKeyboard: false, leaveTimeout: null }"
+                                x-on:mouseleave.prevent="leaveTimeout = setTimeout(() => { isOpen = false }, 50)" 
+                                x-on:mouseenter="leaveTimeout ? clearTimeout(leaveTimeout) : true" 
+                                x-on:keydown.esc.prevent="isOpen = false, openedWithKeyboard = false" 
+                                x-on:click.outside="isOpen = false, openedWithKeyboard = false" 
+                            >
+                                <a class="flex w-full h-full justify-center items-center gap-1 font-bold text-white underline-offset-2 focus:outline-hidden focus:underline"
+                                    href="javascript:;"
+                                    x-on:mouseover="isOpen = true" 
+                                    x-on:keydown.space.prevent="openedWithKeyboard = true" 
+                                    x-on:keydown.enter.prevent="openedWithKeyboard = true" 
+                                    x-on:keydown.down.prevent="openedWithKeyboard = true" 
+                                    x-bind:aria-expanded="isOpen || openedWithKeyboard" 
+                                    aria-haspopup="true"
+                                >
+                                    {{ $navigation->name }}
+                                    <svg aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 rotate-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                                    </svg>
+                                </a>
+
+                                <div class="absolute top-20 -left-4 flex w-fit min-w-24 flex-col overflow-hidden rounded-md bg-primary-500"
+                                    x-cloak x-show="isOpen || openedWithKeyboard"
+                                    x-transition 
+                                    x-trap="openedWithKeyboard" 
+                                    x-on:click.outside="isOpen = false, openedWithKeyboard = false" 
+                                    x-on:keydown.down.prevent="$focus.wrap().next()" 
+                                    x-on:keydown.up.prevent="$focus.wrap().previous()" 
+                                    role="menu"
+                                >
                                     @foreach ($navigation->children as $child)
-                                        <x-filament::dropdown.list.item tag="a" href="{{$child->url_info['url']}}" target="{{$child->url_info['target'] ?? '_self'}}">
+                                        <a class="px-4 py-2 text-sm text-white hover:bg-primary-600 focus-visible:bg-primary-600 focus-visible:outline-hidden" 
+                                            {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
+                                            role="menuitem"
+                                        >
                                             {{ $child->name }}
-                                        </x-filament::dropdown.list.item>
+                                        </a>
                                     @endforeach
-                                </x-filament::dropdown.list>
-                            </x-filament::dropdown>
-                        @else 
-                            <x-filament::button tag="a" class="sn-nav-btn" href="{{$navigation->url_info['url']}}" target="{{$navigation->url_info['target'] ?? '_self'}}">
-                                {{ $navigation->name }}
-                            </x-filament::button>
+                                </div>
+                            </li>
+                        @else
+                            <li class="flex items-center">
+                                <a class="flex w-full h-full justify-center items-center font-bold text-white underline-offset-2 focus:outline-hidden focus:underline"
+                                    {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? '_self') }} 
+                                >
+                                    {{ $navigation->name }}
+                                </a>
+                            </li>
                         @endif
                     @endforeach
-                </div>
+                </ul>
             </div>
 
             <!-- Settings Dropdown -->
@@ -62,79 +92,85 @@
                     </x-filament::dropdown.list>
                 </x-filament::dropdown>
             </div> --}}
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <x-base.operator class="flex items-center justify-center" tag="button" @click="open = ! open">
-                    <svg class="h-6 w-6 text-white" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </x-base.operator>
-            </div>
         </div>
-    </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
+        <!-- Mobile Menu Button -->
+        <button class="flex text-white fixed md:hidden" 
+            @click="mobileMenuIsOpen = !mobileMenuIsOpen" 
+            :aria-expanded="mobileMenuIsOpen" 
+            x-bind:class="mobileMenuIsOpen ? 'fixed top-6 right-4 z-20' : 'absolute top-6 right-4 z-20'"
+            type="button" 
+            aria-label="mobile menu" 
+            aria-controls="mobileMenu"
+        >
+            <svg x-cloak x-show="!mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg x-cloak x-show="mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Mobile Menu -->
+        <ul class="fixed max-h-svh overflow-y-auto divide-y divide-primary-400 inset-x-0 top-0 z-10 flex flex-col rounded-b-md bg-primary-500 pb-6 pt-20 md:hidden"
+            x-cloak x-show="mobileMenuIsOpen" 
+            x-transition:enter="transition motion-reduce:transition-none ease-out duration-300" 
+            x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0" 
+            x-transition:leave="transition motion-reduce:transition-none ease-out duration-300" 
+            x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full" 
+            id="mobileMenu" 
+        >
             @foreach ($navigations as $navigation)
                 @if ($navigation->children->count() > 0)
-                    <x-filament::dropdown>
-                        <x-slot name="trigger" class="h-full">
-                            <x-filament::button tag="a" class="sn-nav-btn w-full !justify-start">
+                    <li>
+                        <div x-data="{ isExpanded: false }">
+                            <button id="controlsAccordionItem{{$navigation->id}}" type="button"
+                                class="flex w-full items-center justify-between gap-4 p-4 font-bold text-white underline-offset-2 focus-visible:underline focus-visible:outline-none"
+                                aria-controls="accordionItem{{$navigation->id}}" 
+                                @click="isExpanded = ! isExpanded"
+                                :aria-expanded="isExpanded ? 'true' : 'false'">
                                 {{ $navigation->name }}
-                            </x-filament::button>
-                        </x-slot>
-                        
-                        <x-filament::dropdown.list>
-                            @foreach ($navigation->children as $child)
-                                <x-filament::dropdown.list.item tag="a" href="{{$child->url_info['url']}}" target="{{$child->url_info['target'] ?? '_self'}}">
-                                    {{ $child->name }}
-                                </x-filament::dropdown.list.item>
-                            @endforeach
-                        </x-filament::dropdown.list>
-                    </x-filament::dropdown>
-                @else 
-                    <x-filament::button tag="a" class="sn-nav-btn w-full !justify-start" href="{{$navigation->url_info['url']}}" target="{{$navigation->url_info['target'] ?? '_self'}}">
-                        {{ $navigation->name }}
-                    </x-filament::button>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
+                                    stroke="currentColor" class="size-5 shrink-0 transition" aria-hidden="true"
+                                    :class="isExpanded  ?  'rotate-180'  :  ''">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <div class="flex flex-col px-2 border-t border-primary-400 divide-y divide-primary-400"
+                                id="accordionItem{{$navigation->id}}" 
+                                x-cloak x-show="isExpanded" 
+                                x-collapse
+                                role="menu" 
+                                aria-labelledby="controlsAccordionItemOne{{$navigation->id}}"
+                            >
+                                @foreach ($navigation->children as $child)
+                                    <a class="flex w-full h-full px-4 py-4 font-bold text-white" 
+                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
+                                        role="menuitem"
+                                    >
+                                        {{ $child->name }}
+                                    </a>
+                                    <a class="flex w-full h-full px-4 py-4 font-bold text-white" 
+                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
+                                        role="menuitem"
+                                    >
+                                        {{ $child->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </li>
+                @else
+                    <li class="flex">
+                        <a class="flex flex-grow px-4 py-4 font-bold text-white focus:underline"
+                            {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? '_self') }} 
+                            aria-current="page"
+                        >
+                            {{ $navigation->name }}
+                        </a>
+                    </li>
                 @endif
             @endforeach
-        </div>
-
-        <!-- Responsive Settings Options -->
-        {{-- <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-sn-support::base.operator class="block w-full ps-3 pe-4 py-2" border="border-l-4" :href="route('sn-shop.index')">
-                    {{ __('Profile') }}
-                </x-sn-support::base.operator>
-
-                <!-- Authentication -->
-                <x-sn-support::base.operator class="block w-full ps-3 pe-4 py-2" border="border-l-4" wire:click="logout">
-                    {{ __('Log Out') }}
-                </x-sn-support::base.operator>
-            </div>
-        </div> --}}
+        </ul>
     </div>
 </nav>
-
-@assets
-<style>
-    
-</style>
-
-<script>
-    function navigationPage({
-
-    }) {
-        return {
-            init() {},
-        }
-    }
-</script>
-@endassets
