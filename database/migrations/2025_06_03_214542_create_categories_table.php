@@ -12,7 +12,7 @@ return new class extends Migration
             $table->comment('分类');
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->nestedSet();        // Nested Set fields for hierarchical structure
             $table->string('name')->nullable()->comment('名称');
             $table->string('remark')->nullable()->comment('备注');

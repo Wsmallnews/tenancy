@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('assembles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->unsignedBigInteger('appraise_id')->default(0)->comment('评价');
 
             $table->string('name')->nullable()->comment('收集人');

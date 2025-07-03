@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('theses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->unsignedBigInteger('thesis_type_id')->default(0)->comment('论文类型');
             $table->string('title')->nullable()->comment('标题');
             $table->string('author_name')->nullable()->comment('作者');
@@ -33,7 +33,7 @@ return new class extends Migration
 
         Schema::create('thesis_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->string('name')->nullable()->comment('类型名称');
             $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->string('status')->nullable()->comment('状态');

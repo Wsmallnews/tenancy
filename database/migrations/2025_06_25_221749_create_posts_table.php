@@ -15,7 +15,7 @@ return new class extends Migration
             $table->comment('资讯');
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->string('type')->nullable()->comment('类型');
             $table->string('title')->nullable()->comment('标题');
             $table->string('description')->nullable()->comment('描述');

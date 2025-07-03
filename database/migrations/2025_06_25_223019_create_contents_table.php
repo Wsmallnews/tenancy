@@ -12,7 +12,7 @@ return new class extends Migration
             $table->comment('内容');
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->morphs('contentable');
             $table->longtext('content')->nullable()->comment('内容');
             $table->timestamps();

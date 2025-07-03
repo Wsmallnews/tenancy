@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appraises', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->unsignedBigInteger('category_id')->default(0)->comment('分类');
             $table->string('resource_no')->nullable()->comment('种质资源编号');
             $table->string('germplasm_no')->nullable()->comment('种质库编号');

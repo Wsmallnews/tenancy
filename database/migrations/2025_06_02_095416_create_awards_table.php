@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('awards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->unsignedBigInteger('award_type_id')->default(0)->comment('奖项类型');
             $table->string('name')->nullable()->comment('名称');
             $table->string('award_agency')->nullable()->comment('授奖机构');
@@ -31,7 +31,7 @@ return new class extends Migration
 
         Schema::create('award_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->string('name')->nullable()->comment('类型名称');
             $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->string('status')->nullable()->comment('状态');

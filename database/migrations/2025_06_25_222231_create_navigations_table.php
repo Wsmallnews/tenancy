@@ -15,7 +15,7 @@ return new class extends Migration
             $table->comment('导航');
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('team_id')->default(0)->comment('团队ID');
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->nestedSet();        // Nested Set fields for hierarchical structure
             $table->string('name')->nullable()->comment('名称');
             $table->string('description')->nullable()->comment('描述');
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('status', 20)->comment('状态');
             $table->timestamps();
             $table->index('team_id');
+            $table->index('slug');
         });
     }
 
