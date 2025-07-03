@@ -9,12 +9,13 @@ use Livewire\Component;
 class Navigation extends Component
 {
 
-
     public function getNavigations()
     {
-        return NavigationModel::defaultOrder()->get()->map(function (NavigationModel $navigation) {
-            return $navigation->resolveNavigation($navigation);
-        })->toTree();
+        return NavigationModel::scoped(has_tenancy() ? ['team_id' => current_tenant()->id] : [])
+            ->normal()->defaultOrder()->get()
+            ->map(function (NavigationModel $navigation) {
+                return $navigation->resolveNavigation($navigation);
+            })->toTree();
     }
 
 

@@ -7,9 +7,9 @@
         <div class="flex justify-between h-16">
             <div class="flex gap-4">
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('index') }}" wire:navigate>
+                    {{-- <a href="{{ route('index') }}" wire:navigate>
                         <x-filament-panels::logo class="" />
-                    </a>
+                    </a> --}}
                 </div>
 
                 <ul class="hidden gap-4 sm:-my-px sm:ms-10 sm:flex">
@@ -48,7 +48,7 @@
                                 >
                                     @foreach ($navigation->children as $child)
                                         <a class="px-4 py-2 text-sm text-white hover:bg-primary-600 focus-visible:bg-primary-600 focus-visible:outline-hidden" 
-                                            {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
+                                            {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? false) }} 
                                             role="menuitem"
                                         >
                                             {{ $child->name }}
@@ -59,7 +59,7 @@
                         @else
                             <li class="flex items-center">
                                 <a class="flex w-full h-full justify-center items-center font-bold text-white underline-offset-2 focus:outline-hidden focus:underline"
-                                    {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? '_self') }} 
+                                    {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? false) }} 
                                 >
                                     {{ $navigation->name }}
                                 </a>
@@ -145,13 +145,7 @@
                             >
                                 @foreach ($navigation->children as $child)
                                     <a class="flex w-full h-full px-4 py-4 font-bold text-white" 
-                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
-                                        role="menuitem"
-                                    >
-                                        {{ $child->name }}
-                                    </a>
-                                    <a class="flex w-full h-full px-4 py-4 font-bold text-white" 
-                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? '_self') }} 
+                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? false) }} 
                                         role="menuitem"
                                     >
                                         {{ $child->name }}
@@ -162,8 +156,8 @@
                     </li>
                 @else
                     <li class="flex">
-                        <a class="flex flex-grow px-4 py-4 font-bold text-white focus:underline"
-                            {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? '_self') }} 
+                        <a class="flex grow px-4 py-4 font-bold text-white focus:underline"
+                            {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? false) }} 
                             aria-current="page"
                         >
                             {{ $navigation->name }}

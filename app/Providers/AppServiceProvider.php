@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -61,6 +62,72 @@ class AppServiceProvider extends ServiceProvider
             'navigation' => \App\Models\Navigation::class,
             'content' => \App\Models\Content::class,
         ]);
+
+
+
+
+        NavigationType::make()->registers([
+            // [
+            //     'type' => 'post-list',
+            //     'label' => '资讯列表',
+            //     'forms' => function () {
+            //         return [
+            //             Components\TextInput::make('title')->label('标题')
+            //                 ->placeholder('请输入内容标题')
+            //                 ->required(),
+            //         ];
+            //     },
+            // ],
+            // [
+            //     'type' => 'post-detail',
+            //     'label' => '资讯详情',
+            //     'forms' => function () {
+            //         return [
+            //             Components\Select::make('post_ids')->label('选择资讯')
+            //                 ->options(\App\Models\Post::limit(30)->pluck('title', 'id'))
+            //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
+            //                 ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+            //                 ->placeholder('请选择资讯详情')
+            //                 ->searchable()
+            //                 ->required(),
+            //         ];
+            //     }
+            // ],
+            // [
+            //     'type' => 'lights',
+            //     'label' => '生命之光列表',
+            //     'forms' => function () {
+            //         return [];
+            //     },
+            //     'components' => [
+            //         Lights::class
+            //     ],
+            // ],
+            // [
+            //     'type' => 'trustees-light',
+            //     'label' => '受托人名单(生命之光)',
+            //     'forms' => function () {
+            //         return [];
+            //     },
+            //     'component' => [
+            //         Trustees::class => [
+            //             'type' => 'light',
+            //         ]
+            //     ],
+            // ],
+            [
+                'type' => 'mentor-info',
+                'label' => '导师简介',
+                'forms' => function () {
+                    return [];
+                },
+                'component' => [
+                    \App\Livewire\Components\MentorInfo::class
+                ],
+            ],
+        ]);
+
+
 
         \Filament\Tables\Table::$defaultCurrency = 'CNY';
         \Filament\Tables\Table::$defaultDateDisplayFormat = 'Y-m-d';

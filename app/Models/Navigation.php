@@ -77,7 +77,7 @@ class Navigation extends Model implements HasMedia
         $url = null;
 
         if ($navigation->type == NavigationTypeEnum::Route && isset($navigation->options['route'])) {
-            $url = route($navigation->options['route']);
+            $url = sn_route($navigation->options['route']);
         }
 
         if ($navigation->type == NavigationTypeEnum::Url && isset($navigation->options['url'])) {
@@ -85,12 +85,12 @@ class Navigation extends Model implements HasMedia
         }
 
         if ($navigation->type == NavigationTypeEnum::Content) {
-            $url = route('navigation', $navigation->slug);
+            $url = sn_route('navigation', $navigation->slug);
         }
 
         $navigation->setAttribute('url_info', [
             'url' => $url,
-            'target' => isset($navigation->options['target']) && $navigation->options['target'] ? $navigation->options['target'] : '_self',
+            'target' => isset($navigation->options['target']) && $navigation->options['target'] == '_blank' ? true : false,
         ]);
 
         return $navigation;

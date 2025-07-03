@@ -9,7 +9,7 @@
 <div class="w-full" x-data="index({})">
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto" id="fullpage">
+    <div class="container mx-auto">
 
         内容啊
 
