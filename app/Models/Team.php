@@ -130,6 +130,10 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(Post::class);
     }
 
+    public function postCategories(): HasMany
+    {
+        return $this->hasMany(PostCategory::class);
+    }
 
     public function contents(): HasMany
     {

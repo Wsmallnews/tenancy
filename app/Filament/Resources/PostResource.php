@@ -54,15 +54,15 @@ class PostResource extends Resource
                         //     ,
 
                         // 多选分类
-                        // SelectTree::make('categories')->label('选择分类')
-                        //     ->relationship(relationship: 'categories', titleAttribute: 'name', parentAttribute: 'parent_id')
-                        //     ->searchable()
-                        //     ->enableBranchNode()
-                        //     ->withCount()
-                        //     // ->placeholder(__('请选择资讯分类'))
-                        //     // ->emptyLabel(__('未搜索到分类'))
-                        //     ->treeKey('postCategories')
-                        //     ,
+                        SelectTree::make('categories')->label('选择分类')
+                            ->relationship(relationship: 'categories', titleAttribute: 'name', parentAttribute: 'parent_id')
+                            ->searchable()
+                            ->enableBranchNode()
+                            ->withCount()
+                            // ->placeholder(__('请选择资讯分类'))
+                            // ->emptyLabel(__('未搜索到分类'))
+                            ->treeKey('postCategories')
+                            ,
 
                         Forms\Components\TextInput::make('title')->label('标题')
                             ->placeholder('请输入内容标题')

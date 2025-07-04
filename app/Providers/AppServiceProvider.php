@@ -59,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
             'new_variety' => \App\Models\NewVariety::class,
             'category' => \App\Models\Category::class,
             'post' => \App\Models\Post::class,
+            'post_category' => \App\Models\PostCategory::class,
             'navigation' => \App\Models\Navigation::class,
             'content' => \App\Models\Content::class,
         ]);

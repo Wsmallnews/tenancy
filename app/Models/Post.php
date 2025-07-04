@@ -72,10 +72,10 @@ class Post extends Model implements HasMedia
     }
 
 
-    // public function categories(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Category::class);
-    // }
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(PostCategory::class);
+    }
 
     public function team(): BelongsTo
     {
