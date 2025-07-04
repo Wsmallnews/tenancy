@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -44,7 +45,7 @@ class Post extends Model implements HasMedia
     /**
      * post 需要分类时候解开（多对多分类）
      */
-    public function scopeWhereCategoryIn($query, array $categoryIds)
+    public function scopeWhereCategoryIn($query, array | Collection $categoryIds)
     {
         return $query->whereHas('categories', function ($query) use ($categoryIds) {
             $query->whereIn('categories.id', $categoryIds);

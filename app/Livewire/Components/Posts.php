@@ -40,11 +40,12 @@ class Posts extends Component
             $currentIds = PostCategoryModel::scoped(has_tenancy() ? ['team_id' => current_tenant()->id] : [])->descendantsAndSelf($id)->pluck('id');
             $allCategories = $allCategories->merge($currentIds);
         }
-        $allCategories = $allCategories->unique();
-        $allCategories = $allCategories->values();
+        $allCategories = $allCategories->filter()->unique()->values();
 
         // 查询资讯
-        $query = PostModel::query()->normal()->with(['media'])->whereCategoryIn($allCategories)->orderBy('order_column', 'desc');
+        $query = PostModel::query()->normal()->with(['media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
+            $query->whereCategoryIn($allCategories);
+        })->orderBy('order_column', 'desc');
 
         // 分页
         $this->posts = $this->withPagination($query);

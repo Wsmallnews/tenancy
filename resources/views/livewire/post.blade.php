@@ -2,10 +2,10 @@
     {{-- {!! seo()->for($navigation) !!} --}}
 @endpush
 
-<div class="w-full" x-data>
+<div class="w-full flex flex-col gap-4">
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto flex flex-col gap-4">
+    <div class="container mx-auto flex flex-col gap-4 p-4 rounded-md bg-white">
         <div class="flex flex-col md:flex-row items-start gap-4">
             {{-- @if ($brothers->isNotEmpty()) 
                 <ul class="flex flex-col w-full md:w-72 shrink-0 bg-primary-500">
@@ -23,7 +23,7 @@
             @endif --}}
 
             <div class="flex flex-col grow gap-4">
-                <livewire:sn-components-post :post="{{$post}}" />
+                <livewire:sn-components-post :post="$post" />
             </div>
         </div>
     </div>
