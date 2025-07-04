@@ -36,10 +36,15 @@ class AppServiceProvider extends ServiceProvider
 
         // pages
         Livewire::component('sn-index', \App\Livewire\Index::class);
+        Livewire::component('sn-navigation', \App\Livewire\Navigation::class);
+        Livewire::component('sn-posts', \App\Livewire\Posts::class);
+        Livewire::component('sn-post', \App\Livewire\Post::class);
 
         // components
         Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
         Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
+        Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
+        Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
 
         // 注册模型别名
         Relation::enforceMorphMap([
