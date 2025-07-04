@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Enums\Navigations\Type as NavigationTypeEnum;
 use App\Features\NavigationType;
-use App\Features\Tree;
 use App\Models\Navigation as NavigationModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
