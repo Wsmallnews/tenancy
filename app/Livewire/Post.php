@@ -7,8 +7,9 @@ use Livewire\Attributes\Url;
 
 class Post extends Base
 {
-    public PostModel $post;
 
+    public int $id;
+    
     public function render()
     {
         return view('livewire.post');

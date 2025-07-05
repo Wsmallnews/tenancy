@@ -43,7 +43,7 @@
                                 {{ \Filament\Support\generate_href_html($brother->url_info['url'], $brother->url_info['target'] ?? '_self') }} 
                                 aria-current="page"
                             >
-                                {{ $navigation->name }}
+                                {{ $brother->name }}
                             </a>
                         </li>
                     @endforeach

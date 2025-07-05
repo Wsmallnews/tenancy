@@ -42,6 +42,16 @@ class Post extends Model implements HasMedia
     }
 
 
+    public function scopeScopeTenant($query)
+    {
+        if (has_tenancy()) {
+            return $query->where('team_id', current_tenant()->id);
+        } else {
+            return $query->whereNull('team_id');
+        }
+    }
+
+
     /**
      * post 需要分类时候解开（多对多分类）
      */

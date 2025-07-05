@@ -43,7 +43,7 @@ class Posts extends Component
         $allCategories = $allCategories->filter()->unique()->values();
 
         // 查询资讯
-        $query = PostModel::query()->normal()->with(['media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
+        $query = PostModel::query()->scopeTenant()->normal()->with(['media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
             $query->whereCategoryIn($allCategories);
         })->orderBy('order_column', 'desc');
 

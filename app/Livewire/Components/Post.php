@@ -9,6 +9,10 @@ class Post extends Component
 {
     public PostModel $post;
 
+    public function mount($id)
+    {
+        $this->post = PostModel::query()->scopeTenant()->normal()->with(['media', 'content'])->findOrFail($id);
+    }
 
     public function render()
     {

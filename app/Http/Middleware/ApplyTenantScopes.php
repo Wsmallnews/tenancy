@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Models\Thesis;
 use App\Models\ThesisType;
+use App\Models\Post;
+use App\Models\PostCategory;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +26,14 @@ class ApplyTenantScopes
         );
 
         ThesisType::addGlobalScope(
+            fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
+        );
+
+        PostCategory::addGlobalScope(
+            fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
+        );
+
+        Post::addGlobalScope(
             fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
         );
 

@@ -18,7 +18,7 @@ Route::prefix("tenant/{tenant:slug}")
         Route::get('/navigation/{slug}', Navigation::class)->name('navigation');
 
         Route::get('/posts', Posts::class)->name('posts');
-        Route::get('/posts/{post}', Post::class)->name('posts.show');
+        Route::get('/posts/{id}', Post::class)->name('posts.show');
     });
 
 
