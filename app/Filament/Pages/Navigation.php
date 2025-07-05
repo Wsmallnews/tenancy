@@ -113,6 +113,14 @@ class Navigation extends TreePage
                     return static::getNavigationType($get('type')) != NavigationTypeEnum::Child;
                 }),
 
+            Forms\Components\Group::make()
+                ->relationship('content')
+                ->schema([
+                    Forms\Components\RichEditor::make('content')
+                        ->fileAttachmentsDirectory('contents/' . date('Ymd'))
+                        ->label('内容详情'),
+                ])->columns(1),
+
             Forms\Components\TextInput::make('options.url')
                 ->label('跳转链接')
                 ->required()
@@ -138,7 +146,8 @@ class Navigation extends TreePage
                     return static::getNavigationType($get('type')) == NavigationTypeEnum::Content;
                 }),
 
-            Forms\Components\Fieldset::make('extras')
+            Forms\Components\Hidden::make('options.extras._empty')->default('empty'),       // 占位符，确保 options.extras 存在
+            Forms\Components\Fieldset::make('Extras')
                 ->label('选项')
                 ->schema(function (Get $get) {
                     return NavigationType::make()->getTypeForms($get('options.type'), ['fields' => $get()]);

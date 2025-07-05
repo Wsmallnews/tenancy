@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\Navigations\Type as NavigationTypeEnum;
 use App\Features\NavigationType;
+use App\Livewire\Components\Content;
 use App\Models\Navigation as NavigationModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -64,10 +65,15 @@ class Navigation extends Base
             $components = Arr::wrap($components);
     
             $components = Arr::mapWithKeys($components, function ($component, $key) {
-                return is_scalar($component) ? [$component => []] : [$key => $component];
+                $extras = $navigation->options['extras'] ?? [];          // 额外表单参数，和固定参数合并
+                return is_scalar($component) ? [$component => $extras] : [$key => array_merge($component, $extras)];
             });
-        } elseif ($navigation->type == NavigationTypeEnum::Content) {
-            // 待补充
+        } elseif ($navigation->type == NavigationTypeEnum::Page) {
+            $components = [
+                Content::class => [         // 内容组件
+                    'content' => $navigation->content,
+                ]
+            ];
         }
 
         return view('livewire.navigation', [

@@ -6,6 +6,7 @@ use App\Enums\Navigations\Status as NavigationStatus;
 use App\Enums\Navigations\Type as NavigationTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 // use RalphJSmit\Laravel\SEO\Schema\ArticleSchema;
 // use RalphJSmit\Laravel\SEO\SchemaCollection;
 // use RalphJSmit\Laravel\SEO\Support\HasSEO;
@@ -80,6 +81,10 @@ class Navigation extends Model implements HasMedia
             $url = sn_route($navigation->options['route']);
         }
 
+        if ($navigation->type == NavigationTypeEnum::Page) {
+            $url = sn_route('navigation', $navigation->slug);
+        }
+
         if ($navigation->type == NavigationTypeEnum::Url && isset($navigation->options['url'])) {
             $url = $navigation->options['url'];
         }
@@ -108,6 +113,11 @@ class Navigation extends Model implements HasMedia
         return $query->where('status', NavigationStatus::Hidden);
     }
 
+
+    public function content(): MorphOne
+    {
+        return $this->morphOne(Content::class, 'contentable');
+    }
 
     public function team(): BelongsTo
     {

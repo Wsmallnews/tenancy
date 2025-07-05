@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
+use Filament\Forms;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -73,32 +74,42 @@ class AppServiceProvider extends ServiceProvider
 
 
         NavigationType::make()->registers([
-            // [
-            //     'type' => 'post-list',
-            //     'label' => '资讯列表',
-            //     'forms' => function () {
-            //         return [
-            //             Components\TextInput::make('title')->label('标题')
-            //                 ->placeholder('请输入内容标题')
-            //                 ->required(),
-            //         ];
-            //     },
-            // ],
-            // [
-            //     'type' => 'post-detail',
-            //     'label' => '资讯详情',
-            //     'forms' => function () {
-            //         return [
-            //             Components\Select::make('post_ids')->label('选择资讯')
-            //                 ->options(\App\Models\Post::limit(30)->pluck('title', 'id'))
-            //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
-            //                 ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-            //                 ->placeholder('请选择资讯详情')
-            //                 ->searchable()
-            //                 ->required(),
-            //         ];
-            //     }
-            // ],
+            [
+                'type' => 'posts',
+                'label' => '资讯列表',
+                'forms' => [
+                    // @sn todo 这里需要优化， 明明选了，还是提示字段没填
+                    Forms\Components\Select::make('options.extras.category_ids')->label('选择资讯分类')
+                        ->options(\App\Models\PostCategory::whereNull('parent_id')->pluck('name', 'id'))
+                        ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+                        // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+                        ->placeholder('请选择资讯分类')
+                        ->multiple()
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+                ],
+                'components' => [
+                    \App\Livewire\Components\Posts::class
+                ]
+            ],
+            [
+                'type' => 'post-detail',
+                'label' => '资讯详情',
+                'forms' => [
+                    Forms\Components\Select::make('options.extras.post_id')->label('选择资讯')
+                        ->options(\App\Models\Post::limit(30)->pluck('title', 'id'))
+                        ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
+                        // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+                        ->placeholder('请选择资讯详情')
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+                ],
+                'components' => [
+                    \App\Livewire\Components\Post::class
+                ]
+            ],
             // [
             //     'type' => 'lights',
             //     'label' => '生命之光列表',
@@ -127,7 +138,7 @@ class AppServiceProvider extends ServiceProvider
                 'forms' => function () {
                     return [];
                 },
-                'component' => [
+                'components' => [
                     \App\Livewire\Components\MentorInfo::class
                 ],
             ],
