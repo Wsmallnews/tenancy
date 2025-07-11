@@ -13,7 +13,7 @@
 <div class="w-full" x-data>
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto flex flex-col gap-4 p-4 rounded-md bg-white">
+    <div class="container mx-auto flex flex-col gap-4">
         @if ($navigation->getFirstMediaUrl('banner'))
             <div class="w-full relative">
                 <img src="{{ $navigation->getFirstMediaUrl('banner') }}" class="w-full">
@@ -52,7 +52,9 @@
 
             <div class="flex flex-col grow gap-4">
                 @foreach ($components as $component_name => $params)
-                    @livewire($component_name, $params, key($component_name . '-' . $loop->index))
+                    <x-base.block>
+                        @livewire($component_name, $params, key($component_name . '-' . $loop->index))
+                    </x-base.block>
                 @endforeach
             </div>
         </div>

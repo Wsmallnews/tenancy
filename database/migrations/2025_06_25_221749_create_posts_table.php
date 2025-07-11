@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('type')->nullable()->comment('类型');
             $table->string('title')->nullable()->comment('标题');
             $table->string('description')->nullable()->comment('描述');
+            $table->unsignedBigInteger('views')->default(0)->comment('浏览量');
             $table->json('options')->nullable()->comment('选项');
 
             $table->string('status')->nullable()->comment('状态');

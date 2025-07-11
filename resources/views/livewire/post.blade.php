@@ -22,9 +22,9 @@
                 </ul>
             @endif --}}
 
-            <div class="flex flex-col grow gap-4">
+            <x-base.block class="flex flex-col grow gap-4">
                 <livewire:sn-components-post :id="$id" />
-            </div>
+            </x-base.block>
         </div>
     </div>
 

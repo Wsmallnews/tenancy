@@ -9,24 +9,25 @@
 <div class="w-full" x-data="index({})">
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto">
-
-        内容啊
-
-            {{-- <div class="swiper first-screen-swiper first-screen-swiper-css">
-                <div class="swiper-wrapper">
-                    @foreach ($indexBlocks as $block) 
-                        @if ($block->getFirstMediaUrl('main'))
-                            <div class="swiper-slide">
-                                <div class="slide-content">
-                                    <img src="{{ $block->getFirstMediaUrl('main') }}" class="w-full h-full banner-img" />
-                                </div>
+    <div class="container mx-auto flex flex-col gap-4">
+        {{-- <div class="swiper first-screen-swiper first-screen-swiper-css">
+            <div class="swiper-wrapper">
+                @foreach ($indexBlocks as $block) 
+                    @if ($block->getFirstMediaUrl('main'))
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{{ $block->getFirstMediaUrl('main') }}" class="w-full h-full banner-img" />
                             </div>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="swiper-pagination"></div>
-            </div> --}}
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            <div class="swiper-pagination"></div>
+        </div> --}}
+
+        <x-base.block class="flex flex-col grow gap-4">
+            <livewire:sn-components-index-posts :limit="4" />
+        </x-base.block>
     </div>
 
     <livewire:sn-components-footer />

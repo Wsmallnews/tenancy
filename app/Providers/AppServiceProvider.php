@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         // components
         Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
         Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
+        Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
         Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
         Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
 
