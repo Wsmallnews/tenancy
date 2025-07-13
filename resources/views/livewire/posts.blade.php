@@ -7,12 +7,12 @@
 
     <div class="container mx-auto flex flex-col gap-4">
         <div class="flex flex-col md:flex-row items-start gap-4">
-            {{-- @if ($brothers->isNotEmpty()) 
+            {{-- @if ($brothers->isNotEmpty())
                 <ul class="flex flex-col w-full md:w-72 shrink-0 bg-primary-500">
                     @foreach ($brothers as $brother)
                         <li class="flex">
                             <a class="flex flex-grow px-4 py-4 font-bold text-white focus:underline"
-                                {{ \Filament\Support\generate_href_html($brother->url_info['url'], $brother->url_info['target'] ?? '_self') }} 
+                                {{ \Filament\Support\generate_href_html($brother->url_info['url'], $brother->url_info['target'] ?? '_self') }}
                                 aria-current="page"
                             >
                                 {{ $navigation->name }}

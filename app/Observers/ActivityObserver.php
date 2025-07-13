@@ -9,6 +9,10 @@ class ActivityObserver
 {
     public function creating(Activity $activity): void
     {
-        $activity->team_id = Filament::getTenant()->id;
+        if (has_tenancy()) {
+            $activity->team_id = current_tenant()->id;
+        } else {
+            $activity->team_id = Filament::getTenant()->id;
+        }
     }
 }

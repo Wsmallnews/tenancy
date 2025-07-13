@@ -118,8 +118,13 @@ class Navigation extends TreePage
                 ->schema([
                     Forms\Components\RichEditor::make('content')
                         ->fileAttachmentsDirectory('contents/' . date('Ymd'))
-                        ->label('内容详情'),
-                ])->columns(1),
+                        ->label('内容详情')
+                        ->required(),
+                ])
+                ->visible(function (Get $get) {
+                    // 没有子导航了，就显示跳转类型
+                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Page;
+                }),
 
             Forms\Components\TextInput::make('options.url')
                 ->label('跳转链接')
