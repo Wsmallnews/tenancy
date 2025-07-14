@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
                 'label' => '资讯列表',
                 'forms' => [
                     // @sn todo 这里需要优化， 明明选了，还是提示字段没填
-                    Forms\Components\Select::make('options.extras.category_ids')->label('选择资讯分类')
+                    Forms\Components\Select::make('category_ids')->label('选择资讯分类')
                         ->options(\App\Models\PostCategory::whereNull('parent_id')->pluck('name', 'id'))
                         ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
@@ -98,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
                 'type' => 'post-detail',
                 'label' => '资讯详情',
                 'forms' => [
-                    Forms\Components\Select::make('options.extras.post_id')->label('选择资讯')
+                    Forms\Components\Select::make('post_id')->label('选择资讯')
                         ->options(\App\Models\Post::limit(30)->pluck('title', 'id'))
                         ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)

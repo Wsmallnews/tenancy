@@ -149,9 +149,14 @@ class Navigation extends TreePage
                 ->required()
                 ->visible(function (Get $get) {
                     return static::getNavigationType($get('type')) == NavigationTypeEnum::Content;
-                }),
+                })
+                ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
+                    ->getContainer()
+                    ->getComponent('dynamicExtrasFields')
+                    ->getChildComponentContainer()
+                    ->fill()
+                ),
 
-            Forms\Components\Hidden::make('options.extras._empty')->default('empty'),       // 占位符，确保 options.extras 存在
             Forms\Components\Fieldset::make('Extras')
                 ->label('选项')
                 ->schema(function (Get $get) {
@@ -161,7 +166,9 @@ class Navigation extends TreePage
 
                     // 内容类型的导航，选了内容类型，并且内容类型有 form 表单
                     return (static::getNavigationType($get('type')) == NavigationTypeEnum::Content) && filled($get('options.type')) && $hasForms;
-                }),
+                })
+                ->statePath('options.extras')
+                ->key('dynamicExtrasFields'),
 
             Forms\Components\Radio::make('status')
                 ->label('导航状态')
