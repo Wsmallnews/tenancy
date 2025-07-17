@@ -98,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
                 'type' => 'post-detail',
                 'label' => '资讯详情',
                 'forms' => fn($fields) => [
-                    Forms\Components\Select::make('post_id')->label('选择资讯')
+                    Forms\Components\Select::make('id')->label('选择资讯')
                         ->options(\App\Models\Post::limit(30)->pluck('title', 'id'))
                         ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)

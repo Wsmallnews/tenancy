@@ -142,6 +142,50 @@ class Navigation extends TreePage
                     return static::getNavigationType($get('type')) == NavigationTypeEnum::Route;
                 }),
 
+            Forms\Components\Fieldset::make('url_params')
+                ->label('请求参数')
+                ->schema([
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Toggle::make('has_routes')
+                                ->label('路由参数')
+                                ->default(false)
+                                ->helperText('如果有路由参数，则开启当前选项')
+                                ->required()
+                                ->live(),
+                            Forms\Components\KeyValue::make('routes')
+                                ->label('路由参数')
+                                ->helperText('路由参数, 没有则不设置')
+                                ->reorderable()
+                                ->required()
+                                ->visible(fn(Get $get): bool => $get('has_routes')),
+                        ])
+                        ->columns(1)
+                        ->columnSpan(1),
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Toggle::make('has_queries')
+                                ->label('查询参数')
+                                ->default(false)
+                                ->helperText('如果有查询参数，则开启当前选项')
+                                ->required()
+                                ->live(),
+                            Forms\Components\KeyValue::make('queries')
+                                ->label('查询参数')
+                                ->helperText('查询参数, 拼接在地址栏后面, 没有则不设置')
+                                ->reorderable()
+                                ->required()
+                                ->visible(fn (Get $get): bool => $get('has_queries')),
+                        ])
+                        ->columns(1)
+                        ->columnSpan(1),
+                ])->visible(function (Get $get) {
+                    // 内容类型的导航，选了内容类型，并且内容类型有 form 表单
+                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Route;
+                })
+                ->columns(2)
+                ->statePath('options._url_params'),
+
             Forms\Components\Select::make('options.type')
                 ->label('内容类型')
                 ->options(NavigationType::make()->getOptions())
@@ -157,7 +201,7 @@ class Navigation extends TreePage
                     ->fill()
                 ),
 
-            Forms\Components\Fieldset::make('Extras')
+            Forms\Components\Fieldset::make('extras')
                 ->label('选项')
                 ->schema(function (Get $get) {
                     return NavigationType::make()->getTypeForms($get('options.type'), ['fields' => $get()]);
@@ -167,7 +211,7 @@ class Navigation extends TreePage
                     // 内容类型的导航，选了内容类型，并且内容类型有 form 表单
                     return (static::getNavigationType($get('type')) == NavigationTypeEnum::Content) && filled($get('options.type')) && $hasForms;
                 })
-                ->statePath('options.extras')
+                ->statePath('options._extras')
                 ->key('dynamicExtrasFields'),
 
             Forms\Components\Radio::make('status')

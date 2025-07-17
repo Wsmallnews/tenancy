@@ -78,7 +78,14 @@ class Navigation extends Model implements HasMedia
         $url = null;
 
         if ($navigation->type == NavigationTypeEnum::Route && isset($navigation->options['route'])) {
-            $url = sn_route($navigation->options['route']);
+            $params = [];       // 路由参数与 query 合并为一个数组，route 方法会自动区分路由参数，其他的参数 跟在地址栏后面
+            $hasRoutes = $navigation->options['_url_params']['has_routes'] ?? false;
+            $hasQueries = $navigation->options['_url_params']['has_queries'] ?? false;
+
+            $params = $hasRoutes ? array_merge($params, $navigation->options['_url_params']['routes'] ?? []) : [];
+            $params = $hasQueries ? array_merge($params, $navigation->options['_url_params']['queries'] ?? []) : [];
+
+            $url = sn_route($navigation->options['route'], $params);
         }
 
         if ($navigation->type == NavigationTypeEnum::Page) {

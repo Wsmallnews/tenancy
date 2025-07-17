@@ -64,8 +64,8 @@ class Navigation extends Base
             $components = $type['components'] ?? $type['component'];
             $components = Arr::wrap($components);
     
-            $components = Arr::mapWithKeys($components, function ($component, $key) {
-                $extras = $navigation->options['extras'] ?? [];          // 额外表单参数，和固定参数合并
+            $components = Arr::mapWithKeys($components, function ($component, $key) use ($navigation) {
+                $extras = $navigation->options['_extras'] ?? [];          // 额外表单参数，和固定参数合并
                 return is_scalar($component) ? [$component => $extras] : [$key => array_merge($component, $extras)];
             });
         } elseif ($navigation->type == NavigationTypeEnum::Page) {
