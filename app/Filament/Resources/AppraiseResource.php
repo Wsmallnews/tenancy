@@ -146,6 +146,7 @@ class AppraiseResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('altitude')
                     ->label('海拔')
+                    ->suffix('米')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('longitude')
@@ -376,6 +377,7 @@ class AppraiseResource extends Resource
                 Forms\Components\TextInput::make('altitude')->label('海拔')
                     ->integer()
                     ->placeholder('请输入海拔')
+                    ->suffix('米')
                     ->rules(['integer'])
                     ->required(),
                 Forms\Components\TextInput::make('longitude')->label('经度')
@@ -482,10 +484,15 @@ class AppraiseResource extends Resource
                     ->schema(function () use ($key, $field) {
                         $schemas = [];
                         foreach ($field['fields'] as $subKey => $subField) {
-                            $schemas[] = Forms\Components\TextInput::make('options.fields.' . $key . '.fields.' . $subKey .  '.value')
-                                ->label($subField['name'])
-                                ->placeholder($subField['placeholder'] ?? null)
-                                ->suffix($subField['unit']?? null);
+                            $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey .  '.data.value';
+                            if ($field = static::getFormFields($fieldKey, $subField)) {     // 根据参数获取对应的表单
+                                $schemas[] = $field;
+                            }
+
+                            // $schemas[] = Forms\Components\TextInput::make('options.fields.' . $key . '.fields.' . $subKey .  '.value')
+                            //     ->label($subField['name'])
+                            //     ->placeholder($subField['placeholder'] ?? null)
+                            //     ->suffix($subField['unit']?? null);
                         }
 
                         return $schemas;
@@ -497,7 +504,57 @@ class AppraiseResource extends Resource
         return $tabs;
     }
 
+    private static function getFormFields($fieldKey, $subField): ?Forms\Components\Field
+    {
+        $type = $subField['type'] ?? null;
+        $data = $subField['data'] ?? [];
 
+        if ($type == 'textInput' || $type == 'number') {
+            $regex_message = $data['regex_message'] ?? null;
+            $validationMessages = [];
+            if ($regex_message) {
+                $validationMessages['regex'] = $regex_message;
+            }
+
+            $field = Forms\Components\TextInput::make($fieldKey)
+                ->label($data['name'] ?? null)
+                ->placeholder($data['placeholder'] ?? null)
+                ->suffix($data['unit']?? null)
+                ->required($data['is_required'] ?? false)
+                ->regex($data['regex'] ?? null)
+                ->validationMessages($validationMessages);
+        } elseif ($type == 'select') {
+            $options = $data['options'] ?? [];
+            $options = Arr::mapWithKeys($options, function ($item) {
+                return [$item => $item];
+            });
+
+            $field = Forms\Components\Select::make($fieldKey)
+                ->label($data['name'] ?? null)
+                ->placeholder($data['placeholder'] ?? null)
+                ->suffix($data['unit'] ?? null)
+                ->required($data['is_required'] ?? false)
+                ->options($options);
+        } elseif ($type == 'upload_image') {
+            $field = Forms\Components\SpatieMediaLibraryFileUpload::make($fieldKey)
+                ->label($data['name'] ?? null)
+                ->helperText('支持上传图片')
+                ->collection($data['collection_name'] ?? null)
+                ->required($data['is_required'] ?? false)
+                ->multiple($data['is_multiple'] ?? false)
+                ->downloadable()
+                ->reorderable()
+                ->appendFiles()
+                ->minFiles($data['min_files'] ?? 1)
+                ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
+                ->image()
+                ->imagePreviewHeight('100')
+                ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
+                ->columns(1);
+        }
+
+        return $field ?? null;
+    }
 
     /**
      * tab 字段水化，保证分类中自定义字段，改变顺序时，数据库中保存的值也能正确显示
@@ -527,9 +584,10 @@ class AppraiseResource extends Resource
         $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
 
         foreach ($fields as $key => $field) {
-            $name = $field['name'];
+            $name = $field['name'] ?? null;
             $currentRecordFields = Arr::where($recordFields, function (array $value, int $key) use ($name) {
-                return $value['name'] == $name;
+                $valueName = $value['name'] ?? null;
+                return $valueName == $name && !is_null($valueName);
             });
 
             $recordField = Arr::first($currentRecordFields);
@@ -539,7 +597,10 @@ class AppraiseResource extends Resource
 
             foreach ($field['fields'] as $subKey => $subField) {
                 $currentRecordSubFields = Arr::where($recordField['fields'] ?? [], function (array $value, int $key) use ($subField) {
-                    return $value['name'] == $subField['name'];
+                    $valueName = $value['data']['name'] ?? null;
+                    $subFieldName = $subField['data']['name'] ?? null;
+
+                    return $valueName == $subFieldName && !is_null($valueName);
                 });
 
                 $recordSubField = Arr::first($currentRecordSubFields);
@@ -548,7 +609,7 @@ class AppraiseResource extends Resource
                     continue;
                 }
 
-                $fields[$key]['fields'][$subKey]['value'] = $recordSubField['value'] ?? null;
+                $fields[$key]['fields'][$subKey]['data']['value'] = $recordSubField['data']['value'] ?? null;
             }
         }
 
@@ -560,7 +621,7 @@ class AppraiseResource extends Resource
 
     public static function getFieldsInfo($data): array
     {
-        $currentOptions = $data['options']?? [];
+        $currentOptions = $data['options'] ?? [];
         $currentFields = $currentOptions['fields'] ?? [];
         $category_id = $data['category_id'];
 
@@ -570,7 +631,7 @@ class AppraiseResource extends Resource
 
             foreach ($fields as $key => $field) {
                 foreach ($field['fields'] as $subKey => $subField) {
-                    $fields[$key]['fields'][$subKey]['value'] = $currentFields[$key]['fields'][$subKey]['value']?? null;
+                    $fields[$key]['fields'][$subKey]['data']['value'] = $currentFields[$key]['fields'][$subKey]['data']['value'] ?? null;
                 }
             }
             $currentOptions['fields'] = $fields;
