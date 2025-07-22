@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
+use Livewire\Component as Livewire;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class AppraiseResource extends Resource
@@ -60,6 +61,7 @@ class AppraiseResource extends Resource
                         ->afterStateHydrated(function (Forms\Components\Tabs $component, ?array $state) {
                             self::hydratedFields($component, $state);
                         })
+                        ->key('dynamicTabs')
                         ->columns(1)->columnSpan(2),
                 ])->columns(1)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
@@ -319,6 +321,20 @@ class AppraiseResource extends Resource
                     // ->enableBranchNode()     // 可以选择非根节点
                     ->withCount()
                     ->live()
+                    // ->afterStateUpdated(fn(SelectTree $component) => $component
+                    //     ->getContainer()
+                    //     ->getComponent('dynamicTabs')
+                    //     ->getChildComponentContainer()
+                    //     ->fill()
+                    // )
+                    // ->afterStateUpdated(function (Livewire $livewire) {
+                    //     // dd($livewire->form->getComponent('dynamicTabs')
+                    //     // ->getChildComponentContainer()->fill());
+
+                    //     return $livewire->form->getComponent('dynamicTabs')
+                    //         ->getChildComponentContainer()
+                    //         ->fill();
+                    // })
                     ->required()
                     ->placeholder('请选择分类')
                     ->emptyLabel('未搜索到分类')
@@ -571,15 +587,16 @@ class AppraiseResource extends Resource
             return;
         }
 
-        $recordOptions = $record->options;
-        $recordFields = $recordOptions['fields'];       // 数据库中保存的值
+        // 这里一定要使用 state 中的值 (不可使用 $record 数据库中的值，没有 media 数据),里面已经包括了关联查的数据,比如  laravel-medialibrary 关联的 media 资源标识
+        $recordOptions = $state['options'] ?? [];
+        $recordFields = $recordOptions['fields'] ?? [];
 
         $category_id = $state['category_id'];
         if (!$category_id) {
             $component->state($state);
             return;
         }
-            
+
         $category = Category::findOrFail($category_id);
         $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
 
@@ -596,6 +613,7 @@ class AppraiseResource extends Resource
             }
 
             foreach ($field['fields'] as $subKey => $subField) {
+                // 首先找到数据库中是否有当前字段信息
                 $currentRecordSubFields = Arr::where($recordField['fields'] ?? [], function (array $value, int $key) use ($subField) {
                     $valueName = $value['data']['name'] ?? null;
                     $subFieldName = $subField['data']['name'] ?? null;

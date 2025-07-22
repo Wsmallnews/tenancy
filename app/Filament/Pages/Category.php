@@ -258,6 +258,7 @@ class Category extends TreePage
                         // ->deleteAction(
                         //     fn (Action $action) => $action->requiresConfirmation(),
                         // )
+                        ->addActionLabel('添加字段')
                         ->collapsible()
                         ->blockNumbers(false)
                         ->cloneable()
@@ -268,6 +269,7 @@ class Category extends TreePage
             //     fn(Action $action) => $action->requiresConfirmation(),
             // )
             ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+            ->addActionLabel('添加分组')
             ->collapsible()
             ->cloneable()
             ->addActionAlignment(Alignment::Start)
