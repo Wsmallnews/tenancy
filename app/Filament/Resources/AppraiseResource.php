@@ -321,20 +321,20 @@ class AppraiseResource extends Resource
                     // ->enableBranchNode()     // 可以选择非根节点
                     ->withCount()
                     ->live()
-                    // ->afterStateUpdated(fn(SelectTree $component) => $component
-                    //     ->getContainer()
-                    //     ->getComponent('dynamicTabs')
-                    //     ->getChildComponentContainer()
-                    //     ->fill()
-                    // )
-                    // ->afterStateUpdated(function (Livewire $livewire) {
-                    //     // dd($livewire->form->getComponent('dynamicTabs')
-                    //     // ->getChildComponentContainer()->fill());
+                    ->afterStateUpdated(function (Livewire $livewire) {
+                        $tabs = $livewire->form->getComponent('dynamicTabs')
+                            ->getChildComponentContainer()
+                            ->getComponents();      // 这里获取的是 整个 tabs 数组, 直接 fill 填充 整个 tabs 好像不行
 
-                    //     return $livewire->form->getComponent('dynamicTabs')
-                    //         ->getChildComponentContainer()
-                    //         ->fill();
-                    // })
+                        foreach ($tabs as $key => $tab) {
+                            if ($key >= 1) {
+                                $tab->getChildComponentContainer()->fill();
+                            }
+                        }
+                        // return $livewire->form->getComponent('dynamicTabs')
+                        //     ->getChildComponentContainer()
+                        //     ->fill();
+                    })
                     ->required()
                     ->placeholder('请选择分类')
                     ->emptyLabel('未搜索到分类')
