@@ -9,6 +9,18 @@
 
 
 /** --------------------------------左侧菜单栏来时------------------------------ **/
+
+/** 隐藏左侧菜单栏滚动条 **/
+.fi-sidebar-nav {
+    scrollbar-width: none; /* Firefox 兼容 */
+    -ms-overflow-style: none; /* IE/Edge 兼容 */
+}
+.fi-sidebar-nav::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+/** 隐藏左侧菜单栏滚动条 **/
+
+
 /** 左边头部 和 左边菜单栏 背景色 **/
 .fi-sidebar-header, .fi-sidebar-nav {
     @apply bg-primary-600 dark:bg-primary-700;
