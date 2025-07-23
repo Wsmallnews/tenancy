@@ -45,11 +45,11 @@ class NewVarietyResource extends Resource
             ->schema([
                 Forms\Components\Group::make()->schema([
                     Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('appraise_id')->label('选择评价')
+                        Forms\Components\Select::make('appraise_id')->label('选择种质')
                             ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                 return $query->normal()->orderBy('order_column', 'asc');
                             })
-                            ->placeholder('请选择评价')
+                            ->placeholder('请选择种质')
                             ->searchable()
                             ->preload()
                             ->live()

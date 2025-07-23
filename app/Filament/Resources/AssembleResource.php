@@ -45,47 +45,95 @@ class AssembleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('appraise_id')->label('选择评价')
+                    Forms\Components\Section::make('种质信息')->schema([
+                        Forms\Components\Select::make('appraise_id')->label('选择种质')
                             ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                 return $query->normal()->orderBy('order_column', 'asc');
                             })
-                            ->placeholder('请选择评价')
+                            ->placeholder('请选择种质')
                             ->searchable()
                             ->preload()
                             ->live()
-                            ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                                self::afterUpdateAppraiseInfo($component, $state, $set);
+                            // ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
+                            //     self::afterUpdateAppraiseInfo($component, $state, $set);
+                            // })
+                            ->required()
+                            ->columnSpanFull(),
+
+                        Forms\Components\ViewField::make('appraiseInfo')
+                            ->view('forms.fields.fields-info')
+                            ->viewData(function (Get $get) {
+                                $data = [
+                                    'title' => '种质信息',
+                                    'fields' => [],
+                                ];
+
+                                if ($get('appraise_id')) {
+                                    $appraise = Appraise::findOrFail($get('appraise_id'));
+                                    $coverMedia = $appraise->getFirstMedia('cover');
+
+                                    $data['fields'][] = [
+                                        'type' => 'image',
+                                        'field_name' => 'cover',
+                                        'label' => '封面图',
+                                        'value' => $coverMedia->getFullUrl(),
+                                    ];
+                                    $data['fields'][] = [
+                                        'type' => 'text',
+                                        'field_name' => 'resource_no',
+                                        'label' => '种质资源编号',
+                                        'value' => $appraise->resource_no,
+                                    ];
+                                    $data['fields'][] = [
+                                        'type' => 'text',
+                                        'field_name' => 'germplasm_name',
+                                        'label' => '种质中文名',
+                                        'value' => $appraise->germplasm_name,
+                                    ];
+                                    $data['fields'][] = [
+                                        'type' => 'text',
+                                        'field_name' => 'subject_name',
+                                        'label' => '科',
+                                        'value' => $appraise->subject_name,
+                                    ];
+                                    $data['fields'][] = [
+                                        'type' => 'text',
+                                        'field_name' => 'genus_name',
+                                        'label' => '属',
+                                        'value' => $appraise->genus_name,
+                                    ];
+                                    $data['fields'][] = [
+                                        'type' => 'text',
+                                        'field_name' => 'species_name',
+                                        'label' => '种',
+                                        'value' => $appraise->species_name,
+                                    ];
+                                    
+                                }
+                                return $data;
                             })
-                            ->required(),
-                        Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
-                            ->placeholder('请输入种质资源编号')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
-                            ->placeholder('请输入种质中文名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_az_name')->label('种质拉丁学名')
-                            ->placeholder('请输入种质拉丁学名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('subject_name')->label('科')
-                            ->placeholder('请输入科名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('genus_name')->label('属')
-                            ->placeholder('请输入属名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('species_name')->label('种')
-                            ->placeholder('请输入种名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\ViewField::make('cover')
-                            ->label('封面图')
-                            ->disabled()
-                            ->view('forms.fields.show-image'),
+                            ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                            ->columnSpanFull(),
+
+                        // Forms\Components\Placeholder::make('resource_no')->label('种质资源编号')
+                        //     ->content(fn(?Model $record): ?string => '我是资源编号'),
+                        // Forms\Components\Placeholder::make('germplasm_name')->label('种质中文名')
+                        //     ->content(fn(?Model $record): ?string => '我是种植中文名'),
+                        // Forms\Components\Placeholder::make('germplasm_az_name')->label('种质拉丁学名')
+                        //     ->content(fn(?Model $record): ?string => '拉丁文名asddfasdfs'),
+                        // Forms\Components\Placeholder::make('subject_name')->label('科')
+                        //     ->content(fn(?Model $record): ?string => '植物科'),
+                        // Forms\Components\Placeholder::make('genus_name')->label('属')
+                        //     ->content(fn(?Model $record): ?string => '桃树属'),
+                        // Forms\Components\Placeholder::make('species_name')->label('种')
+                        //     ->content(fn(?Model $record): ?string => 'sdffasdf'),
+                        // Forms\Components\ViewField::make('cover')
+                        //     ->label('封面图')
+                        //     ->disabled()
+                        //     ->view('forms.fields.show-image'),
+                    ])->columns(2),
+
+                    Forms\Components\Section::make('收集信息')->schema([
                         Forms\Components\TextInput::make('name')->label('收集人')
                             ->placeholder('请输入收集人')
                             ->required(),
@@ -101,7 +149,7 @@ class AssembleResource extends Resource
                         Forms\Components\TextInput::make('sub_subject_no')->label('所属子课题编号')
                             ->placeholder('请输入所属子课题编号')
                             ->required(),
-                    ]),
+                    ])->columns(2),
                     Forms\Components\Section::make('收集地信息')->schema([
                         // 选择国家，省市区
                         Country::make('country_code')->label('选择国家')
@@ -128,7 +176,7 @@ class AssembleResource extends Resource
                         Forms\Components\TextInput::make('latitude')->label('纬度')
                             ->placeholder('请输入收集地纬度')
                             ->required(),
-                    ]),
+                    ])->columns(2),
                 ])->columns(2)->columnSpan(2),
                 Forms\Components\Section::make('状态')->schema([
                     Forms\Components\TextInput::make('order_column')->label('排序')->integer()
@@ -317,18 +365,18 @@ class AssembleResource extends Resource
     /**
      * 选择时修改数据
      */
-    public static function afterUpdateAppraiseInfo(Forms\Components\Select $component, $state, Set $set)
-    {
-        $appraise = Appraise::findOrFail($state);
-        $coverMedia = $appraise->getFirstMedia('cover');
-        $set('resource_no', $appraise->resource_no);
-        $set('germplasm_name', $appraise->name);
-        $set('germplasm_az_name', $appraise->az_name);
-        $set('subject_name', $appraise->subject_name);
-        $set('genus_name', $appraise->genus_name);
-        $set('species_name', $appraise->species_name);
-        $set('cover', $coverMedia->getFullUrl());
-    }
+    // public static function afterUpdateAppraiseInfo(Forms\Components\Select $component, $state, Set $set)
+    // {
+    //     $appraise = Appraise::findOrFail($state);
+    //     $coverMedia = $appraise->getFirstMedia('cover');
+    //     $set('resource_no', $appraise->resource_no);
+    //     $set('germplasm_name', $appraise->name);
+    //     $set('germplasm_az_name', $appraise->az_name);
+    //     $set('subject_name', $appraise->subject_name);
+    //     $set('genus_name', $appraise->genus_name);
+    //     $set('species_name', $appraise->species_name);
+    //     $set('cover', $coverMedia->getFullUrl());
+    // }
 
 
     /**
@@ -337,19 +385,19 @@ class AssembleResource extends Resource
      * @param array $data
      * @return array
      */
-    public static function fillAppraiseInfo($data)
-    {
-        $appraise = Appraise::findOrFail($data['appraise_id']);
-        $coverMedia = $appraise->getFirstMedia('cover');
-        $data['resource_no'] = $appraise->resource_no;
-        $data['germplasm_name'] = $appraise->name;
-        $data['germplasm_az_name'] = $appraise->az_name;
-        $data['subject_name'] = $appraise->subject_name;
-        $data['genus_name'] = $appraise->genus_name;
-        $data['species_name'] = $appraise->species_name;
-        $data['cover'] = $coverMedia->getFullUrl();
-        return $data;
-    }
+    // public static function fillAppraiseInfo($data)
+    // {
+    //     $appraise = Appraise::findOrFail($data['appraise_id']);
+    //     $coverMedia = $appraise->getFirstMedia('cover');
+    //     $data['resource_no'] = $appraise->resource_no;
+    //     $data['germplasm_name'] = $appraise->name;
+    //     $data['germplasm_az_name'] = $appraise->az_name;
+    //     $data['subject_name'] = $appraise->subject_name;
+    //     $data['genus_name'] = $appraise->genus_name;
+    //     $data['species_name'] = $appraise->species_name;
+    //     $data['cover'] = $coverMedia->getFullUrl();
+    //     return $data;
+    // }
 
 
 
