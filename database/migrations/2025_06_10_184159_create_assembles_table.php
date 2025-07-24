@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->string('subject_no')->nullable()->comment('所属课题编号');
             $table->string('sub_subject_no')->nullable()->comment('所属子课题编号');
-            
+
             $table->string('longitude')->nullable()->comment('经度');
             $table->string('latitude')->nullable()->comment('纬度');
             $table->string('country_code')->nullable()->comment('国家编号');

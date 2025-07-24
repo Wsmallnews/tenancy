@@ -79,6 +79,7 @@ class AdminPanelProvider extends PanelProvider
                 '种质资源库',
                 '种质目录',
                 '研究成果',
+                '系统设置',
                 __('filament-shield::filament-shield.nav.group'),       // 权限管理
             ])
             ->authMiddleware([

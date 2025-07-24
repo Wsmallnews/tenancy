@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name')->nullable()->comment('品种权人');
             $table->date('variety_at')->nullable()->comment('年份');
             $table->string('cultivate_name')->nullable()->comment('培育人');
-            
+
             $table->string('status')->nullable()->comment('新品种状态');
             $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');
             $table->timestamps();

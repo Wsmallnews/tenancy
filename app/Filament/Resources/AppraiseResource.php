@@ -7,6 +7,7 @@ use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\AppraiseResource\Pages;
 use App\Models\Appraise;
 use App\Models\Category;
+use App\Settings\AppraiseSettings;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -339,40 +340,38 @@ class AppraiseResource extends Resource
                     ->placeholder('请选择分类')
                     ->emptyLabel('未搜索到分类')
                     ->treeKey('AppraiseCategoryId'),
-                Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
-                    ->placeholder('请输入种质资源编号')
+                Forms\Components\TextInput::make('resource_no')->label('全国统一编号')
+                    ->placeholder('请输入全国统一编号')
                     ->required(),
-                Forms\Components\TextInput::make('germplasm_no')->label('种质库编号')
-                    ->placeholder('请输入种质库编号')
+                Forms\Components\TextInput::make('germplasm_no')->label('种质圃编号')
+                    ->placeholder('请输入种质圃编号')
                     ->required(),
-                Forms\Components\TextInput::make('original_no')->label('原始编号')
-                    ->placeholder('请输入原始编号')
+                Forms\Components\TextInput::make('original_no')->label('引种号')
+                    ->placeholder('请输入引种号')
                     ->required(),
                 Forms\Components\TextInput::make('gather_no')->label('采集号')
                     ->placeholder('请输入采集号')
                     ->required(),
-                Forms\Components\TextInput::make('name')->label('中文名')
-                    ->placeholder('请输入中文名')
+                Forms\Components\TextInput::make('name')->label('种质名称')
+                    ->placeholder('请输入种质名称')
                     ->required(),
-                Forms\Components\TextInput::make('en_name')->label('英文名')
-                    ->placeholder('请输入英文名')
+                Forms\Components\TextInput::make('en_name')->label('种质外文名')
+                    ->placeholder('请输入种质外文名')
                     ->required(),
-                Forms\Components\TextInput::make('az_name')->label('拉丁学名')
-                    ->placeholder('请输入拉丁学名')
-                    ->required(),
+
                 Forms\Components\TextInput::make('subject_name')->label('科名')
                     ->placeholder('请输入科名')
                     ->required(),
                 Forms\Components\TextInput::make('genus_name')->label('属名')
                     ->placeholder('请输入属名')
                     ->required(),
-                Forms\Components\TextInput::make('species_name')->label('种名')
-                    ->placeholder('请输入种名')
+                Forms\Components\TextInput::make('species_name')->label('学名')
+                    ->placeholder('请输入学名')
                     ->required(),
             ])->columns(2),
             Forms\Components\Section::make('地理信息')->schema([
                 // 选择国家，省市区
-                Country::make('country_code')->label('选择国家')
+                Country::make('country_code')->label('选择原产国')
                     ->default('CN')
                     ->live()
                     ->afterStateUpdated(function (Set $set, Country $component, $state) {
@@ -382,13 +381,13 @@ class AppraiseResource extends Resource
                 Forms\Components\Hidden::make('country_name')
                     ->default('中国'),
                 DistrictSelect::make('district')
-                    ->label('地区')
-                    ->placeholder('选择省市')
+                    ->label('原产地区')
+                    ->placeholder('选择原产省市')
                     ->district(false)
                     ->required()
                     ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
-                Forms\Components\TextInput::make('address')->label('地址')
-                    ->placeholder('请输入地址')
+                Forms\Components\TextInput::make('address')->label('原产地')
+                    ->placeholder('请输入原产地址')
                     ->required(),
                 Forms\Components\TextInput::make('altitude')->label('海拔')
                     ->integer()
@@ -403,7 +402,7 @@ class AppraiseResource extends Resource
                     ->placeholder('请输入纬度')
                     ->required(),
 
-                Country::make('source_country_code')->label('选择来源国家')
+                Country::make('source_country_code')->label('选择来源国')
                     ->default('CN')
                     ->live()
                     ->afterStateUpdated(function (Set $set, Country $component, $state) {
@@ -431,8 +430,8 @@ class AppraiseResource extends Resource
                     })
                     ->required()
                     ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
-                Forms\Components\TextInput::make('source_address')->label('来源地址')
-                    ->placeholder('请输入来源地址')
+                Forms\Components\TextInput::make('source_address')->label('来源地')
+                    ->placeholder('请输入来源地')
                     ->required(),
             ])->columns(2),
             Forms\Components\Section::make('保存信息')->schema([
@@ -455,6 +454,48 @@ class AppraiseResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('breeding_method')->label('选育方法')
                     ->placeholder('请输入选育方法')
+                    ->required(),
+            ])->columns(2),
+            // 新增种质特性部分
+            Forms\Components\Section::make('种质特性')->schema([
+                Forms\Components\Select::make('germplasm_type')->label('种质类型')
+                    ->placeholder('请选择种质类型')
+                    ->required()
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_type, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\Select::make('germplasm_use')->label('用途')
+                    ->placeholder('请选择用途')
+                    ->required()
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_use, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\Select::make('fruit_use')->label('果实用途')
+                    ->placeholder('请选择果实用途')
+                    ->required()
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->fruit_use, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\Select::make('plant_use')->label('植株用途')
+                    ->placeholder('请选择植株用途')
+                    ->required()
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->plant_use, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\Select::make('assemble_resource')->label('种植收集源')
+                    ->placeholder('请选择种植收集源')
+                    ->required()
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_resource, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\Select::make('assemble_material_type')->label('收集材料类型')
+                    ->placeholder('请选择收集材料类型')
+                    ->required()
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_material_type, function ($item) {
+                        return [$item => $item];
+                    })),
+                Forms\Components\TextInput::make('observe_place')->label('观测地点')
+                    ->placeholder('请输入观测地点')
                     ->required(),
             ])->columns(2),
             Forms\Components\Section::make('图集管理')->schema([
