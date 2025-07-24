@@ -38,62 +38,66 @@ class AwardResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\TextInput::make('name')->label('奖项名称')
-                            ->placeholder('请输入奖项名称')
-                            ->required(),
-                        Forms\Components\Select::make('award_type_id')->label('选择奖项类型')
-                            ->relationship(name: 'awardType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择奖项类型')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Forms\Components\TextInput::make('award_agency')->label('授奖机构')
-                            ->placeholder('请输入授奖机构')
-                            ->required(),
-                        Forms\Components\TextInput::make('level')->label('级别')
-                            ->placeholder('请输入奖项级别')
-                            ->required(),
-                        Forms\Components\TextInput::make('award_name')->label('获奖人/团队')
-                            ->placeholder('请输入获奖人/团队')
-                            ->required(),
-                        Forms\Components\Textarea::make('remark')->label('备注'),
-                    ]),
-                    Forms\Components\Section::make('证书管理')->schema([
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
-                            ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
-                            ->collection('certs')
-                            ->required()
-                            ->multiple()
-                            ->downloadable()
-                            ->reorderable()
-                            ->appendFiles()
-                            ->minFiles(1)
-                            ->maxFiles(20)
-                            ->acceptedFileTypes(['application/pdf', 'image/*'])
-                            ->imagePreviewHeight('100')
-                            ->uploadingMessage('证书上传中...')
-                            ->columns(1),
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\TextInput::make('name')->label('奖项名称')
+                                ->placeholder('请输入奖项名称')
+                                ->required(),
+                            Forms\Components\Select::make('award_type_id')->label('选择奖项类型')
+                                ->relationship(name: 'awardType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择奖项类型')
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                            Forms\Components\TextInput::make('award_agency')->label('授奖机构')
+                                ->placeholder('请输入授奖机构')
+                                ->required(),
+                            Forms\Components\TextInput::make('level')->label('级别')
+                                ->placeholder('请输入奖项级别')
+                                ->required(),
+                            Forms\Components\TextInput::make('award_name')->label('获奖人/团队')
+                                ->placeholder('请输入获奖人/团队')
+                                ->required(),
+                            Forms\Components\Textarea::make('remark')->label('备注'),
+                        ])->columns(2),
+                        Forms\Components\Section::make('证书管理')->schema([
+                            Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
+                                ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
+                                ->collection('certs')
+                                ->required()
+                                ->multiple()
+                                ->downloadable()
+                                ->reorderable()
+                                ->appendFiles()
+                                ->minFiles(1)
+                                ->maxFiles(20)
+                                ->acceptedFileTypes(['application/pdf', 'image/*'])
+                                ->imagePreviewHeight('100')
+                                ->uploadingMessage('证书上传中...')
+                                ->columns(1),
+                        ])->columns(1),
                     ])->columns(1),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\DatePicker::make('award_at')->label('获奖日期')
-                        ->placeholder('请选择获奖日期')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\DatePicker::make('award_at')->label('获奖日期')
+                            ->placeholder('请选择获奖日期')
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

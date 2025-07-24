@@ -41,55 +41,59 @@ class PreserveResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('appraise_id')->label('选择种质')
-                            ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择种质')
-                            ->searchable()
-                            ->preload()
-                            ->live()
-                            ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                                self::afterUpdateAppraiseInfo($component, $state, $set);
-                            })
-                            ->required(),
-                        Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
-                            ->placeholder('请输入种质资源编号')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
-                            ->placeholder('请输入种质中文名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_az_name')->label('种质拉丁学名')
-                            ->placeholder('请输入种质拉丁学名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\ViewField::make('cover')
-                            ->label('封面图')
-                            ->disabled()
-                            ->view('forms.fields.show-image'),
-                        Forms\Components\TextInput::make('preserve_no')->label('保存编号')
-                            ->placeholder('请输入保存编号')
-                            ->required(),
-                        Forms\Components\TextInput::make('preserve_position')->label('保存位置')
-                            ->placeholder('请输入保存位置')
-                            ->required(),
-                    ]),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\Select::make('appraise_id')->label('选择种质')
+                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择种质')
+                                ->searchable()
+                                ->preload()
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
+                                    self::afterUpdateAppraiseInfo($component, $state, $set);
+                                })
+                                ->required(),
+                            Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
+                                ->placeholder('请输入种质资源编号')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
+                                ->placeholder('请输入种质中文名')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('germplasm_az_name')->label('种质拉丁学名')
+                                ->placeholder('请输入种质拉丁学名')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\ViewField::make('cover')
+                                ->label('封面图')
+                                ->disabled()
+                                ->view('forms.fields.show-image'),
+                            Forms\Components\TextInput::make('preserve_no')->label('保存编号')
+                                ->placeholder('请输入保存编号')
+                                ->required(),
+                            Forms\Components\TextInput::make('preserve_position')->label('保存位置')
+                                ->placeholder('请输入保存位置')
+                                ->required(),
+                        ])->columns(2),
+                    ])->columns(1),
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

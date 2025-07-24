@@ -38,67 +38,71 @@ class ThesisResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('thesis_type_id')->label('选择论文类型')
-                            ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择论文类型')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\Select::make('thesis_type_id')->label('选择论文类型')
+                                ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择论文类型')
+                                ->searchable()
+                                ->preload()
+                                ->required(),
 
-                        Forms\Components\TextInput::make('title')->label('标题')
-                            ->placeholder('请输入论文标题')
-                            ->required(),
-                        Forms\Components\TextInput::make('author_name')->label('作者')
-                            ->placeholder('请输入论文作者')
-                            ->required(),
-                        Forms\Components\TextInput::make('company_name')->label('所属单位')
-                            ->placeholder('请输入论文所属单位')
-                            ->required(),
-                        Forms\Components\Textarea::make('description')->label('摘要')
-                            ->placeholder('请输入论文摘要'),
-                        Forms\Components\Textarea::make('remark')->label('备注'),
-                    ]),
-                    Forms\Components\Section::make('附件管理')->schema([
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
-                            ->collection('theses')
-                            ->required()
-                            ->multiple()
-                            ->downloadable()
-                            ->reorderable()
-                            ->appendFiles()
-                            ->minFiles(1)
-                            ->maxFiles(20)
-                            ->acceptedFileTypes(['application/pdf'])
-                            ->uploadingMessage('附件上传中...')
-                            ->columns(1),
+                            Forms\Components\TextInput::make('title')->label('标题')
+                                ->placeholder('请输入论文标题')
+                                ->required(),
+                            Forms\Components\TextInput::make('author_name')->label('作者')
+                                ->placeholder('请输入论文作者')
+                                ->required(),
+                            Forms\Components\TextInput::make('company_name')->label('所属单位')
+                                ->placeholder('请输入论文所属单位')
+                                ->required(),
+                            Forms\Components\Textarea::make('description')->label('摘要')
+                                ->placeholder('请输入论文摘要'),
+                            Forms\Components\Textarea::make('remark')->label('备注'),
+                        ]),
+                        Forms\Components\Section::make('附件管理')->schema([
+                            Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
+                                ->collection('theses')
+                                ->required()
+                                ->multiple()
+                                ->downloadable()
+                                ->reorderable()
+                                ->appendFiles()
+                                ->minFiles(1)
+                                ->maxFiles(20)
+                                ->acceptedFileTypes(['application/pdf'])
+                                ->uploadingMessage('附件上传中...')
+                                ->columns(1),
+                        ]),
                     ])->columns(1),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('journal')->label('发布期刊')
-                        ->placeholder('请输入论文发布期刊')
-                        ->required(),
-                    Forms\Components\TextInput::make('issue_number')->label('卷期号')
-                        ->placeholder('请输入论文卷期号')
-                        ->required(),
-                    Forms\Components\DatePicker::make('published_at')->label('出版日期')
-                        ->placeholder('请选择出版日期')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\SpatieTagsInput::make('tags')->label('关键字')->type('keywords'),
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('journal')->label('发布期刊')
+                            ->placeholder('请输入论文发布期刊')
+                            ->required(),
+                        Forms\Components\TextInput::make('issue_number')->label('卷期号')
+                            ->placeholder('请输入论文卷期号')
+                            ->required(),
+                        Forms\Components\DatePicker::make('published_at')->label('出版日期')
+                            ->placeholder('请选择出版日期')
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\SpatieTagsInput::make('tags')->label('关键字')->type('keywords'),
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

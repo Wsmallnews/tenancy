@@ -38,68 +38,71 @@ class PatentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\TextInput::make('name')->label('专利名称')
-                            ->placeholder('请输入专利名称')
-                            ->required(),
-                        Forms\Components\Select::make('patent_type_id')->label('选择专利类型')
-                            ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择专利类型')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Forms\Components\TextInput::make('patent_apply_no')->label('专利申请号')
-                            ->placeholder('请输入专利申请号')
-                            ->required(),
-                        Forms\Components\TextInput::make('patent_no')->label('专利号')
-                            ->placeholder('请输入专利号')
-                            ->required(),
-                        Forms\Components\TextInput::make('author_name')->label('发明人/作者')
-                            ->placeholder('请输入发明人/作者')
-                            ->required(),
-                        Forms\Components\Textarea::make('description')->label('摘要')
-                            ->placeholder('请输入专利摘要'),
-                        Forms\Components\Textarea::make('remark')->label('备注'),
-                    ]),
-                    Forms\Components\Section::make('附件管理')->schema([
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
-                            ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
-                            ->collection('patents')
-                            ->required()
-                            ->multiple()
-                            ->downloadable()
-                            ->reorderable()
-                            ->appendFiles()
-                            ->minFiles(1)
-                            ->maxFiles(20)
-                            ->acceptedFileTypes(['application/pdf', 'image/*'])
-                            ->imagePreviewHeight('100')
-                            ->uploadingMessage('专利文件上传中...')
-                            ->columns(1),
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\TextInput::make('name')->label('专利名称')
+                                ->placeholder('请输入专利名称')
+                                ->required(),
+                            Forms\Components\Select::make('patent_type_id')->label('选择专利类型')
+                                ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择专利类型')
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                            Forms\Components\TextInput::make('patent_apply_no')->label('专利申请号')
+                                ->placeholder('请输入专利申请号')
+                                ->required(),
+                            Forms\Components\TextInput::make('patent_no')->label('专利号')
+                                ->placeholder('请输入专利号')
+                                ->required(),
+                            Forms\Components\TextInput::make('author_name')->label('发明人/作者')
+                                ->placeholder('请输入发明人/作者')
+                                ->required(),
+                            Forms\Components\Textarea::make('description')->label('摘要')
+                                ->placeholder('请输入专利摘要'),
+                            Forms\Components\Textarea::make('remark')->label('备注'),
+                        ])->columns(2),
+                        Forms\Components\Section::make('附件管理')->schema([
+                            Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
+                                ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
+                                ->collection('patents')
+                                ->required()
+                                ->multiple()
+                                ->downloadable()
+                                ->reorderable()
+                                ->appendFiles()
+                                ->minFiles(1)
+                                ->maxFiles(20)
+                                ->acceptedFileTypes(['application/pdf', 'image/*'])
+                                ->imagePreviewHeight('100')
+                                ->uploadingMessage('专利文件上传中...')
+                                ->columns(1),
+                        ])->columns(1),
                     ])->columns(1),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\DatePicker::make('applied_at')->label('申请日期')
-                        ->placeholder('请选择申请日期')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\DatePicker::make('authd_at')->label('授权日期')
-                        ->placeholder('请选择授权日期')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Ing)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\DatePicker::make('applied_at')->label('申请日期')
+                            ->placeholder('请选择申请日期')
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\DatePicker::make('authd_at')->label('授权日期')
+                            ->placeholder('请选择授权日期')
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Ing)
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

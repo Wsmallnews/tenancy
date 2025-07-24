@@ -43,75 +43,79 @@ class NewVarietyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\Select::make('appraise_id')->label('选择种质')
-                            ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择种质')
-                            ->searchable()
-                            ->preload()
-                            ->live()
-                            ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                                self::afterUpdateAppraiseInfo($component, $state, $set);
-                            })
-                            ->required(),
-                        Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
-                            ->placeholder('请输入种质资源编号')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
-                            ->placeholder('请输入种质中文名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('germplasm_en_name')->label('种质英文名')
-                            ->placeholder('请输入种质英文名')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('appraise_country_name')->label('种质所属国家')
-                            ->placeholder('请输入种质所属国家')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('appraise_province_city')->label('种质所属地区')
-                            ->placeholder('请输入种质所属地区')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\TextInput::make('appraise_address')->label('种质所属地址')
-                            ->placeholder('请输入种质所属地址')
-                            ->disabled()
-                            ->required(),
-                        Forms\Components\ViewField::make('cover')
-                            ->label('封面图')
-                            ->disabled()
-                            ->view('forms.fields.show-image'),
-                        Forms\Components\TextInput::make('variety_no')->label('品种权号')
-                            ->placeholder('请输入品种权号')
-                            ->required(),
-                        Forms\Components\TextInput::make('name')->label('品种权人')
-                            ->placeholder('请输入品种权人')
-                            ->required(),
-                        Forms\Components\DatePicker::make('variety_at')->label('年份')
-                            ->placeholder('请选择年份')
-                            ->native(false)
-                            ->displayFormat('Y-m')
-                            ->required(),
-                        Forms\Components\TextInput::make('cultivate_name')->label('培育人')
-                            ->placeholder('请输入培育人')
-                            ->required(),
-                    ]),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\Select::make('appraise_id')->label('选择种质')
+                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择种质')
+                                ->searchable()
+                                ->preload()
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
+                                    self::afterUpdateAppraiseInfo($component, $state, $set);
+                                })
+                                ->required(),
+                            Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
+                                ->placeholder('请输入种质资源编号')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
+                                ->placeholder('请输入种质中文名')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('germplasm_en_name')->label('种质英文名')
+                                ->placeholder('请输入种质英文名')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('appraise_country_name')->label('种质所属国家')
+                                ->placeholder('请输入种质所属国家')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('appraise_province_city')->label('种质所属地区')
+                                ->placeholder('请输入种质所属地区')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\TextInput::make('appraise_address')->label('种质所属地址')
+                                ->placeholder('请输入种质所属地址')
+                                ->disabled()
+                                ->required(),
+                            Forms\Components\ViewField::make('cover')
+                                ->label('封面图')
+                                ->disabled()
+                                ->view('forms.fields.show-image'),
+                            Forms\Components\TextInput::make('variety_no')->label('品种权号')
+                                ->placeholder('请输入品种权号')
+                                ->required(),
+                            Forms\Components\TextInput::make('name')->label('品种权人')
+                                ->placeholder('请输入品种权人')
+                                ->required(),
+                            Forms\Components\DatePicker::make('variety_at')->label('年份')
+                                ->placeholder('请选择年份')
+                                ->native(false)
+                                ->displayFormat('Y-m')
+                                ->required(),
+                            Forms\Components\TextInput::make('cultivate_name')->label('培育人')
+                                ->placeholder('请输入培育人')
+                                ->required(),
+                        ])->columns(2),
+                    ])->columns(1),
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

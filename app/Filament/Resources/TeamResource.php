@@ -43,31 +43,35 @@ class TeamResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema([
-                        Forms\Components\TextInput::make('name')->label('租户名称')
-                            ->placeholder('请输入租户名称')
-                            ->required(),
-                        Forms\Components\FileUpload::make('avatar_url')->label('头像')
-                            ->avatar()
-                            ->required()
-                            ->directory('users/avatars')
-                            ->openable()
-                            ->uploadingMessage('头像上传中...'),
-                    ]),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('slug')->label('标识')
-                            ->placeholder('请输入租户标识')
-                            ->regex('/^[A-Za-z0-9_]+$/')
-                            ->required(),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Enable)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema([
+                            Forms\Components\TextInput::make('name')->label('租户名称')
+                                ->placeholder('请输入租户名称')
+                                ->required(),
+                            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+                                ->avatar()
+                                ->required()
+                                ->directory('users/avatars')
+                                ->openable()
+                                ->uploadingMessage('头像上传中...'),
+                        ]),
+                    ])->columns(1),
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('slug')->label('标识')
+                                ->placeholder('请输入租户标识')
+                                ->regex('/^[A-Za-z0-9_]+$/')
+                                ->required(),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Enable)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

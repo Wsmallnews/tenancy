@@ -58,11 +58,12 @@ class UserResource extends Resource implements HasShieldPermissions
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('分配角色')->schema([
-                    Forms\Components\Select::make('roles')
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
+                    ])->columns(1),
+                    Forms\Components\Section::make('分配角色')->schema([
+                        Forms\Components\Select::make('roles')
                             ->relationship(name: 'roles', titleAttribute: 'name')
                             ->saveRelationshipsUsing(function (Model $record, $state) {
                                 $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
@@ -70,14 +71,18 @@ class UserResource extends Resource implements HasShieldPermissions
                             ->multiple()
                             ->preload()
                             ->searchable(),
-                    // Forms\Components\Radio::make('status')
-                    //     ->label('状态')
-                    //     ->default(Status::Normal)
-                    //     ->inline()
-                    //     ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-
-            ])->columns(3);
+                        // Forms\Components\Radio::make('status')
+                        //     ->label('状态')
+                        //     ->default(Status::Normal)
+                        //     ->inline()
+                        //     ->options(Status::class),
+                    ])
+                    ->extraAttributes(['style' => 'min-width: 300px;'])
+                    ->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

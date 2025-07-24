@@ -44,151 +44,154 @@ class AssembleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Section::make('种质信息')->schema([
-                        Forms\Components\Select::make('appraise_id')->label('选择种质')
-                            ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                return $query->normal()->orderBy('order_column', 'asc');
-                            })
-                            ->placeholder('请选择种质')
-                            ->searchable()
-                            ->preload()
-                            ->live()
-                            // ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                            //     self::afterUpdateAppraiseInfo($component, $state, $set);
-                            // })
-                            ->required()
-                            ->columnSpanFull(),
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Section::make('种质信息')->schema([
+                            Forms\Components\Select::make('appraise_id')->label('选择种质')
+                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->placeholder('请选择种质')
+                                ->searchable()
+                                ->preload()
+                                ->live()
+                                // ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
+                                //     self::afterUpdateAppraiseInfo($component, $state, $set);
+                                // })
+                                ->required()
+                                ->columnSpanFull(),
 
-                        Forms\Components\ViewField::make('appraiseInfo')
-                            ->view('forms.fields.fields-info')
-                            ->viewData(function (Get $get) {
-                                $data = [
-                                    'title' => '种质信息',
-                                    'fields' => [],
-                                ];
+                            Forms\Components\ViewField::make('appraiseInfo')
+                                ->view('forms.fields.fields-info')
+                                ->viewData(function (Get $get) {
+                                    $data = [
+                                        'title' => '种质信息',
+                                        'fields' => [],
+                                    ];
 
-                                if ($get('appraise_id')) {
-                                    $appraise = Appraise::findOrFail($get('appraise_id'));
-                                    $coverMedia = $appraise->getFirstMedia('cover');
+                                    if ($get('appraise_id')) {
+                                        $appraise = Appraise::findOrFail($get('appraise_id'));
+                                        $coverMedia = $appraise->getFirstMedia('cover');
 
-                                    $data['fields'][] = [
-                                        'type' => 'image',
-                                        'field_name' => 'cover',
-                                        'label' => '封面图',
-                                        'value' => $coverMedia->getFullUrl(),
-                                    ];
-                                    $data['fields'][] = [
-                                        'type' => 'text',
-                                        'field_name' => 'resource_no',
-                                        'label' => '种质资源编号',
-                                        'value' => $appraise->resource_no,
-                                    ];
-                                    $data['fields'][] = [
-                                        'type' => 'text',
-                                        'field_name' => 'germplasm_name',
-                                        'label' => '种质中文名',
-                                        'value' => $appraise->germplasm_name,
-                                    ];
-                                    $data['fields'][] = [
-                                        'type' => 'text',
-                                        'field_name' => 'subject_name',
-                                        'label' => '科',
-                                        'value' => $appraise->subject_name,
-                                    ];
-                                    $data['fields'][] = [
-                                        'type' => 'text',
-                                        'field_name' => 'genus_name',
-                                        'label' => '属',
-                                        'value' => $appraise->genus_name,
-                                    ];
-                                    $data['fields'][] = [
-                                        'type' => 'text',
-                                        'field_name' => 'species_name',
-                                        'label' => '种',
-                                        'value' => $appraise->species_name,
-                                    ];
-                                    
-                                }
-                                return $data;
-                            })
-                            ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
-                            ->columnSpanFull(),
+                                        $data['fields'][] = [
+                                            'type' => 'image',
+                                            'field_name' => 'cover',
+                                            'label' => '封面图',
+                                            'value' => $coverMedia->getFullUrl(),
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'resource_no',
+                                            'label' => '种质资源编号',
+                                            'value' => $appraise->resource_no,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'germplasm_name',
+                                            'label' => '种质中文名',
+                                            'value' => $appraise->germplasm_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'subject_name',
+                                            'label' => '科',
+                                            'value' => $appraise->subject_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'genus_name',
+                                            'label' => '属',
+                                            'value' => $appraise->genus_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'species_name',
+                                            'label' => '种',
+                                            'value' => $appraise->species_name,
+                                        ];
+                                        
+                                    }
+                                    return $data;
+                                })
+                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->columnSpanFull(),
 
-                        // Forms\Components\Placeholder::make('resource_no')->label('种质资源编号')
-                        //     ->content(fn(?Model $record): ?string => '我是资源编号'),
-                        // Forms\Components\Placeholder::make('germplasm_name')->label('种质中文名')
-                        //     ->content(fn(?Model $record): ?string => '我是种植中文名'),
-                        // Forms\Components\Placeholder::make('germplasm_az_name')->label('种质拉丁学名')
-                        //     ->content(fn(?Model $record): ?string => '拉丁文名asddfasdfs'),
-                        // Forms\Components\Placeholder::make('subject_name')->label('科')
-                        //     ->content(fn(?Model $record): ?string => '植物科'),
-                        // Forms\Components\Placeholder::make('genus_name')->label('属')
-                        //     ->content(fn(?Model $record): ?string => '桃树属'),
-                        // Forms\Components\Placeholder::make('species_name')->label('种')
-                        //     ->content(fn(?Model $record): ?string => 'sdffasdf'),
-                        // Forms\Components\ViewField::make('cover')
-                        //     ->label('封面图')
-                        //     ->disabled()
-                        //     ->view('forms.fields.show-image'),
-                    ])->columns(2),
-
-                    Forms\Components\Section::make('收集信息')->schema([
-                        Forms\Components\TextInput::make('name')->label('收集人')
-                            ->placeholder('请输入收集人')
-                            ->required(),
-                        Forms\Components\TextInput::make('assemble_no')->label('收集编号')
-                            ->placeholder('请输入收集编号')
-                            ->required(),
-                        Forms\Components\TextInput::make('company')->label('收集单位')
-                            ->placeholder('请输入收集单位')
-                            ->required(),
-                        Forms\Components\TextInput::make('subject_no')->label('所属课题编号')
-                            ->placeholder('请输入所属课题编号')
-                            ->required(),
-                        Forms\Components\TextInput::make('sub_subject_no')->label('所属子课题编号')
-                            ->placeholder('请输入所属子课题编号')
-                            ->required(),
-                    ])->columns(2),
-                    Forms\Components\Section::make('收集地信息')->schema([
-                        // 选择国家，省市区
-                        Country::make('country_code')->label('选择国家')
-                            ->default('CN')
-                            ->live()
-                            ->afterStateUpdated(function (Set $set, Country $component, $state) {
-                                $country_name = $component->getCountriesList()[$state] ?? null;
-                                $set('country_name', $country_name);
-                            }),
-                        Forms\Components\Hidden::make('country_name')
-                            ->default('中国'),
-                        DistrictSelect::make('district')
-                            ->label('收集地区')
-                            ->placeholder('选择省市')
-                            ->district(false)
-                            ->required()
-                            ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
-                        Forms\Components\TextInput::make('address')->label('收集地址')
-                            ->placeholder('请输入收集地址')
-                            ->required(),
-                        Forms\Components\TextInput::make('longitude')->label('经度')
-                            ->placeholder('请输入收集地经度')
-                            ->required(),
-                        Forms\Components\TextInput::make('latitude')->label('纬度')
-                            ->placeholder('请输入收集地纬度')
-                            ->required(),
-                    ])->columns(2),
-                ])->columns(2)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])->columns(3);
+                            // Forms\Components\Placeholder::make('resource_no')->label('种质资源编号')
+                            //     ->content(fn(?Model $record): ?string => '我是资源编号'),
+                            // Forms\Components\Placeholder::make('germplasm_name')->label('种质中文名')
+                            //     ->content(fn(?Model $record): ?string => '我是种植中文名'),
+                            // Forms\Components\Placeholder::make('germplasm_az_name')->label('种质拉丁学名')
+                            //     ->content(fn(?Model $record): ?string => '拉丁文名asddfasdfs'),
+                            // Forms\Components\Placeholder::make('subject_name')->label('科')
+                            //     ->content(fn(?Model $record): ?string => '植物科'),
+                            // Forms\Components\Placeholder::make('genus_name')->label('属')
+                            //     ->content(fn(?Model $record): ?string => '桃树属'),
+                            // Forms\Components\Placeholder::make('species_name')->label('种')
+                            //     ->content(fn(?Model $record): ?string => 'sdffasdf'),
+                            // Forms\Components\ViewField::make('cover')
+                            //     ->label('封面图')
+                            //     ->disabled()
+                            //     ->view('forms.fields.show-image'),
+                        ])->columns(2),
+                        Forms\Components\Section::make('收集信息')->schema([
+                            Forms\Components\TextInput::make('name')->label('收集人')
+                                ->placeholder('请输入收集人')
+                                ->required(),
+                            Forms\Components\TextInput::make('assemble_no')->label('收集编号')
+                                ->placeholder('请输入收集编号')
+                                ->required(),
+                            Forms\Components\TextInput::make('company')->label('收集单位')
+                                ->placeholder('请输入收集单位')
+                                ->required(),
+                            Forms\Components\TextInput::make('subject_no')->label('所属课题编号')
+                                ->placeholder('请输入所属课题编号')
+                                ->required(),
+                            Forms\Components\TextInput::make('sub_subject_no')->label('所属子课题编号')
+                                ->placeholder('请输入所属子课题编号')
+                                ->required(),
+                        ])->columns(2),
+                        Forms\Components\Section::make('收集地信息')->schema([
+                            // 选择国家，省市区
+                            Country::make('country_code')->label('选择国家')
+                                ->default('CN')
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                                    $country_name = $component->getCountriesList()[$state] ?? null;
+                                    $set('country_name', $country_name);
+                                }),
+                            Forms\Components\Hidden::make('country_name')
+                                ->default('中国'),
+                            DistrictSelect::make('district')
+                                ->label('收集地区')
+                                ->placeholder('选择省市')
+                                ->district(false)
+                                ->required()
+                                ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                            Forms\Components\TextInput::make('address')->label('收集地址')
+                                ->placeholder('请输入收集地址')
+                                ->required(),
+                            Forms\Components\TextInput::make('longitude')->label('经度')
+                                ->placeholder('请输入收集地经度')
+                                ->required(),
+                            Forms\Components\TextInput::make('latitude')->label('纬度')
+                                ->placeholder('请输入收集地纬度')
+                                ->required(),
+                        ])->columns(2),
+                    ])->columns(1),
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table

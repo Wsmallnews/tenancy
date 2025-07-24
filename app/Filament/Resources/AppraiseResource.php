@@ -48,35 +48,38 @@ class AppraiseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()->schema([
-                    Forms\Components\Tabs::make('Tabs')
-                        ->tabs(function (Get $get) {
-                            return [
-                                Forms\Components\Tabs\Tab::make('基础信息')
-                                    ->schema([
-                                        ...self::getBaseSchema($get)
-                                    ]),
-                                ...self::getCategoryTabs($get),
-                            ];
-                        })
-                        ->afterStateHydrated(function (Forms\Components\Tabs $component, ?array $state) {
-                            self::hydratedFields($component, $state);
-                        })
-                        ->key('dynamicTabs')
-                        ->columns(1)->columnSpan(2),
-                ])->columns(1)->columnSpan(2),
-                Forms\Components\Section::make('状态')->schema([
-                    Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                        ->placeholder('正序排列')
-                        ->rules(['integer', 'min:0']),
-                    Forms\Components\Radio::make('status')
-                        ->label('评价状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class),
-                ])->columns(1)->columnSpan(1),
-            ])
-            ->columns(3);
+                Forms\Components\Split::make([
+                    Forms\Components\Group::make()->schema([
+                        Forms\Components\Tabs::make('Tabs')
+                            ->tabs(function (Get $get) {
+                                return [
+                                    Forms\Components\Tabs\Tab::make('基础信息')
+                                        ->schema([
+                                            ...self::getBaseSchema($get)
+                                        ]),
+                                    ...self::getCategoryTabs($get),
+                                ];
+                            })
+                            ->afterStateHydrated(function (Forms\Components\Tabs $component, ?array $state) {
+                                self::hydratedFields($component, $state);
+                            })
+                            ->key('dynamicTabs')
+                            ->columns(1)->columnSpan(2),
+                    ])->columns(1),
+                    Forms\Components\Section::make('状态')->schema([
+                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
+                            ->placeholder('正序排列')
+                            ->rules(['integer', 'min:0']),
+                        Forms\Components\Radio::make('status')
+                            ->label('评价状态')
+                            ->default(Status::Normal)
+                            ->inline()
+                            ->options(Status::class),
+                    ])->grow(false),
+                ])
+                ->columnSpanFull()
+                ->from('lg')
+            ]);
     }
 
     public static function table(Table $table): Table
