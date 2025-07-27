@@ -1,3 +1,10 @@
+@php
+    $count = $count ?? count($fields ?? []);
+
+    $lgBlank = 2 - ($count % 2);
+    $twoXlBlank = 3 - ($count % 3);
+@endphp
+
 <div>
     <div class="text-sm">{{ $title }}</div>
     <x-filament::grid
@@ -7,7 +14,7 @@
         :twoXl="3"
     >
         @foreach($fields as $field)
-            <x-filament::grid.column 
+            <x-filament::grid.column
                 @class([
                     'w-full flex border-r border-b border-gray-200',
                     'row-span-2' => $field['type'] === 'image',
@@ -26,5 +33,17 @@
                 </div>
             </x-filament::grid.column>
         @endforeach
+
+        @for($i = 0; $i < $lgBlank; $i++)
+            <x-filament::grid.column
+                class="w-full border-r border-b border-gray-200 hidden lg:flex"
+            />
+        @endfor
+
+        @for($i = 0; $i < $twoXlBlank; $i++)
+            <x-filament::grid.column
+                class="w-full border-r border-b border-gray-200 hidden 2xl:flex"
+            />
+        @endfor
     </x-filament::grid>
 </div>

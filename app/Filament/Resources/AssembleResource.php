@@ -67,6 +67,7 @@ class AssembleResource extends Resource
                                     $data = [
                                         'title' => '种质信息',
                                         'fields' => [],
+                                        'count' => 7,      // 图片算两个
                                     ];
 
                                     if ($get('appraise_id')) {
@@ -109,7 +110,6 @@ class AssembleResource extends Resource
                                             'label' => '种',
                                             'value' => $appraise->species_name,
                                         ];
-                                        
                                     }
                                     return $data;
                                 })
@@ -229,23 +229,23 @@ class AssembleResource extends Resource
                 Tables\Columns\TextColumn::make('appraise.name')
                     ->label('种质中文名')
                     ->searchable()
-                    ->toggleable(), 
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.az_name')
                     ->label('种质拉丁学名')
                     ->searchable()
-                    ->toggleable(), 
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.subject_name')
                     ->label('科名')
                     ->searchable()
-                    ->toggleable(), 
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.genus_name')
                     ->label('属名')
                     ->searchable()
-                    ->toggleable(), 
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.species_name')
                     ->label('种名')
                     ->searchable()
-                    ->toggleable(), 
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('country_name')
                     ->label('收集国家')
                     ->searchable()
@@ -384,7 +384,7 @@ class AssembleResource extends Resource
 
     /**
      * 编辑时，自动填充数据
-     * 
+     *
      * @param array $data
      * @return array
      */
