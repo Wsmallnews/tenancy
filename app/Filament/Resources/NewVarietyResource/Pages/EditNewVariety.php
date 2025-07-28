@@ -18,18 +18,4 @@ class EditNewVariety extends EditRecord
             Actions\RestoreAction::make(),
         ];
     }
-
-
-    /**
-     * 填充数据前，填充 关联 字段
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function mutateFormDataBeforeFill(array $data): array
-    {
-        $data = static::getResource()::fillAppraiseInfo($data);
-
-        return $data;
-    }
 }

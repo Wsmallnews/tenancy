@@ -45,7 +45,7 @@ class NewVarietyResource extends Resource
             ->schema([
                 Forms\Components\Split::make([
                     Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema([
+                        Forms\Components\Section::make('种质信息')->schema([
                             Forms\Components\Select::make('appraise_id')->label('选择种质')
                                 ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
@@ -54,38 +54,89 @@ class NewVarietyResource extends Resource
                                 ->searchable()
                                 ->preload()
                                 ->live()
-                                ->afterStateUpdated(function (Set $set, Forms\Components\Select $component, $state) {
-                                    self::afterUpdateAppraiseInfo($component, $state, $set);
+                                ->required()
+                                ->columnSpanFull(),
+                            Forms\Components\ViewField::make('appraiseInfo')
+                                ->view('forms.fields.fields-info')
+                                ->viewData(function (Get $get) {
+                                    $data = [
+                                        'title' => '种质信息',
+                                        'fields' => [],
+                                        'count' => 11,      // 图片算两个
+                                    ];
+
+                                    if ($get('appraise_id')) {
+                                        $appraise = Appraise::findOrFail($get('appraise_id'));
+                                        $coverMedia = $appraise->getFirstMedia('cover');
+
+                                        $data['fields'][] = [
+                                            'type' => 'image',
+                                            'field_name' => 'cover',
+                                            'label' => '种质封面图',
+                                            'value' => $coverMedia->getFullUrl(),
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'resource_no',
+                                            'label' => '种质资源编号',
+                                            'value' => $appraise->resource_no,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'name',
+                                            'label' => '种质中文名',
+                                            'value' => $appraise->name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'en_name',
+                                            'label' => '种质外文名',
+                                            'value' => $appraise->en_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'country_name',
+                                            'label' => '种质原产国',
+                                            'value' => $appraise->country_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'district_name',
+                                            'label' => '种质原产地区',
+                                            'value' => $appraise->province_name . '/' . $appraise->city_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'address',
+                                            'label' => '种质原产地址',
+                                            'value' => $appraise->address,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'subject_name',
+                                            'label' => '科名',
+                                            'value' => $appraise->subject_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'genus_name',
+                                            'label' => '属名',
+                                            'value' => $appraise->genus_name,
+                                        ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'species_name',
+                                            'label' => '学名',
+                                            'value' => $appraise->species_name,
+                                        ];
+                                    }
+                                    return $data;
                                 })
-                                ->required(),
-                            Forms\Components\TextInput::make('resource_no')->label('种质资源编号')
-                                ->placeholder('请输入种质资源编号')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\TextInput::make('germplasm_name')->label('种质中文名')
-                                ->placeholder('请输入种质中文名')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\TextInput::make('germplasm_en_name')->label('种质英文名')
-                                ->placeholder('请输入种质英文名')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\TextInput::make('appraise_country_name')->label('种质所属国家')
-                                ->placeholder('请输入种质所属国家')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\TextInput::make('appraise_province_city')->label('种质所属地区')
-                                ->placeholder('请输入种质所属地区')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\TextInput::make('appraise_address')->label('种质所属地址')
-                                ->placeholder('请输入种质所属地址')
-                                ->disabled()
-                                ->required(),
-                            Forms\Components\ViewField::make('cover')
-                                ->label('封面图')
-                                ->disabled()
-                                ->view('forms.fields.show-image'),
+                                ->dehydrated(false)
+                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->columnSpanFull(),
+                        ]),
+                        Forms\Components\Section::make('品种信息')->schema([
                             Forms\Components\TextInput::make('variety_no')->label('品种权号')
                                 ->placeholder('请输入品种权号')
                                 ->required(),
@@ -138,7 +189,7 @@ class NewVarietyResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
-                    ->label('评价封面图')
+                    ->label('种质封面图')
                     ->collection('cover')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.resource_no')
@@ -150,23 +201,22 @@ class NewVarietyResource extends Resource
                     ->searchable()
                     ->toggleable(), 
                 Tables\Columns\TextColumn::make('appraise.en_name')
-                    ->label('种质英文名')
+                    ->label('种质外文名')
                     ->searchable()
                     ->toggleable(), 
                 Tables\Columns\TextColumn::make('appraise.country_name')
-                    ->label('种质所属国家')
+                    ->label('种质原产国')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('appraise.province_name')
-                    ->label('种质所属省')
+                Tables\Columns\TextColumn::make('appraise.district_name')
+                    ->label('种质原产地区')
                     ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('appraise.city_name')
-                    ->label('种质所属市')
-                    ->searchable()
+                    ->state(function (Model $record): string {
+                        return $record->appraise ? ($record->appraise->province_name . '/' . $record->appraise->city_name) : '';
+                    })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.address')
-                    ->label('种质所属地址')
+                    ->label('种质原产地址')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
@@ -263,43 +313,5 @@ class NewVarietyResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-
-    /**
-     * 选择时修改数据
-     */
-    public static function afterUpdateAppraiseInfo(Forms\Components\Select $component, $state, Set $set)
-    {
-        $appraise = Appraise::findOrFail($state);
-        $coverMedia = $appraise->getFirstMedia('cover');
-        $set('resource_no', $appraise->resource_no);
-        $set('germplasm_name', $appraise->name);
-        $set('germplasm_en_name', $appraise->en_name);
-        $set('appraise_country_name', $appraise->country_name);
-        $set('appraise_province_city', $appraise->province_name . '/' . $appraise->city_name);
-        $set('appraise_address', $appraise->address);
-        $set('cover', $coverMedia->getFullUrl());
-    }
-
-
-    /**
-     * 编辑时，自动填充数据
-     * 
-     * @param array $data
-     * @return array
-     */
-    public static function fillAppraiseInfo($data)
-    {
-        $appraise = Appraise::findOrFail($data['appraise_id']);
-        $coverMedia = $appraise->getFirstMedia('cover');
-        $data['resource_no'] = $appraise->resource_no;
-        $data['germplasm_name'] = $appraise->name;
-        $data['germplasm_en_name'] = $appraise->en_name;
-        $data['appraise_country_name'] = $appraise->country_name;
-        $data['appraise_province_city'] = $appraise->province_name . '/' . $appraise->city_name;
-        $data['appraise_address'] = $appraise->address;
-        $data['cover'] = $coverMedia->getFullUrl();
-        return $data;
     }
 }

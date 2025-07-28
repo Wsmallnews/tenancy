@@ -21,21 +21,6 @@ class EditAssemble extends EditRecord
 
 
     /**
-     * 填充数据前，填充 关联 字段
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function mutateFormDataBeforeFill(array $data): array
-    {
-        $data = static::getResource()::fillAppraiseInfo($data);
-
-        return $data;
-    }
-
-
-
-    /**
      * 保存前，重新组装 options 字段,填充对应的 省市区字段
      *
      * @param array $data
