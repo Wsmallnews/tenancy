@@ -1,8 +1,8 @@
 @php
     $count = $count ?? count($fields ?? []);
 
-    $lgBlank = 2 - ($count % 2);
-    $twoXlBlank = 3 - ($count % 3);
+    $lgBlank = ($count % 2) === 0 ? 0 : (2 - ($count % 2));
+    $twoXlBlank = ($count % 3) === 0 ? 0 : (3 - ($count % 3));
 @endphp
 
 <div class="flex flex-col gap-2">
@@ -37,13 +37,15 @@
         @for($i = 0; $i < $lgBlank; $i++)
             <x-filament::grid.column
                 class="w-full border-r border-b border-gray-200 hidden lg:flex 2xl:hidden"
-            />
+            >
+            </x-filament::grid.column>
         @endfor
 
         @for($i = 0; $i < $twoXlBlank; $i++)
             <x-filament::grid.column
                 class="w-full border-r border-b border-gray-200 hidden 2xl:flex"
-            />
+            >
+            </x-filament::grid.column>
         @endfor
     </x-filament::grid>
 </div>

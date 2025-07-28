@@ -93,13 +93,13 @@ class PreserveResource extends Resource
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'subject_name',
-                                            'label' => '科',
+                                            'label' => '科名',
                                             'value' => $appraise->subject_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'genus_name',
-                                            'label' => '属',
+                                            'label' => '属名',
                                             'value' => $appraise->genus_name,
                                         ];
                                         $data['fields'][] = [

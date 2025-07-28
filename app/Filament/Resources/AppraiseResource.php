@@ -95,15 +95,15 @@ class AppraiseResource extends Resource
                     ->collection('cover')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('resource_no')
-                    ->label('种质资源编号')
+                    ->label('全国统一编号')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('germplasm_no')
-                    ->label('种质库编号')
+                    ->label('种质圃编号')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('original_no')
-                    ->label('原始编号')
+                    ->label('引种号')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('gather_no')
@@ -111,15 +111,11 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('中文名')
+                    ->label('种质名称')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('en_name')
-                    ->label('英文名')
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('az_name')
-                    ->label('拉丁学名')
+                    ->label('种质外文名')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('subject_name')
@@ -131,23 +127,22 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('species_name')
-                    ->label('种名')
+                    ->label('学名')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('country_name')
-                    ->label('国家')
+                    ->label('原产国')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('province_name')
-                    ->label('省')
+                Tables\Columns\TextColumn::make('district_name')
+                    ->label('原产地区')
                     ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('city_name')
-                    ->label('市')
-                    ->searchable()
+                    ->state(function (Model $record): string {
+                        return $record->province_name . ' / ' . $record->city_name;
+                    })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
-                    ->label('地址')
+                    ->label('原产地址')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('altitude')
@@ -157,21 +152,21 @@ class AppraiseResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('longitude')
                     ->label('经纬度')
-                    ->formatStateUsing(function (Model $record, string $state): string {
-                        return $record->longitude . ',' . $record->latitude;
+                    ->state(function (Model $record): string {
+                        return $record->longitude . ', ' . $record->latitude;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('source_country_name')
-                    ->label('来源国家')
+                    ->label('来源国')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('source_province_name')
-                    ->label('来源省')
+
+                Tables\Columns\TextColumn::make('source_district_name')
+                    ->label('来源地区')
                     ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('source_city_name')
-                    ->label('来源市')
-                    ->searchable()
+                    ->state(function (Model $record): string {
+                        return $record->source_province_name . ' / ' . $record->source_city_name;
+                    })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('source_address')
                     ->label('来源地址')
@@ -200,6 +195,34 @@ class AppraiseResource extends Resource
                     ->label('选育方法')
                     ->searchable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('germplasm_type')
+                    ->label('种质类型')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('germplasm_use')
+                    ->label('种质用途')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('fruit_use')
+                    ->label('果实用途')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('plant_use')
+                    ->label('植株用途')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('assemble_resource')
+                    ->label('种植收集源')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('assemble_material_type')
+                    ->label('收集材料类型')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('observe_place')
+                    ->label('观测地点')
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->toggleable(),
@@ -218,7 +241,7 @@ class AppraiseResource extends Resource
             ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
-            ->searchPlaceholder('搜索评价名称、资源编号等...')
+            ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(MaxWidth::Medium)
             ->filters([
                 Tables\Filters\Filter::make('cultivationd_at')
@@ -361,7 +384,6 @@ class AppraiseResource extends Resource
                 Forms\Components\TextInput::make('en_name')->label('种质外文名')
                     ->placeholder('请输入种质外文名')
                     ->required(),
-
                 Forms\Components\TextInput::make('subject_name')->label('科名')
                     ->placeholder('请输入科名')
                     ->required(),
@@ -433,8 +455,8 @@ class AppraiseResource extends Resource
                     })
                     ->required()
                     ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
-                Forms\Components\TextInput::make('source_address')->label('来源地')
-                    ->placeholder('请输入来源地')
+                Forms\Components\TextInput::make('source_address')->label('来源地址')
+                    ->placeholder('请输入来源地址')
                     ->required(),
             ])->columns(2),
             Forms\Components\Section::make('保存信息')->schema([

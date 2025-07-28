@@ -103,7 +103,7 @@ class NewVarietyResource extends Resource
                                             'type' => 'text',
                                             'field_name' => 'district_name',
                                             'label' => '种质原产地区',
-                                            'value' => $appraise->province_name . '/' . $appraise->city_name,
+                                            'value' => $appraise->province_name . ' / ' . $appraise->city_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
@@ -212,7 +212,7 @@ class NewVarietyResource extends Resource
                     ->label('种质原产地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->appraise ? ($record->appraise->province_name . '/' . $record->appraise->city_name) : '';
+                        return $record->appraise ? ($record->appraise->province_name . ' / ' . $record->appraise->city_name) : '';
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.address')

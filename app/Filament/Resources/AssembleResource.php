@@ -98,19 +98,19 @@ class AssembleResource extends Resource
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'subject_name',
-                                            'label' => '科',
+                                            'label' => '科名',
                                             'value' => $appraise->subject_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'genus_name',
-                                            'label' => '属',
+                                            'label' => '属名',
                                             'value' => $appraise->genus_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'species_name',
-                                            'label' => '种',
+                                            'label' => '学名',
                                             'value' => $appraise->species_name,
                                         ];
                                     }
@@ -241,7 +241,7 @@ class AssembleResource extends Resource
                     ->label('收集地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->province_name . '/' . $record->city_name;
+                        return $record->province_name . ' / ' . $record->city_name;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
@@ -251,7 +251,7 @@ class AssembleResource extends Resource
                 Tables\Columns\TextColumn::make('longitude')
                     ->label('经纬度')
                     ->formatStateUsing(function (Model $record, string $state): string {
-                        return $record->longitude . ',' . $record->latitude;
+                        return $record->longitude . ', ' . $record->latitude;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
