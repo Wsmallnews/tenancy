@@ -65,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
             'assemble' => \App\Models\Assemble::class,
             'new_variety' => \App\Models\NewVariety::class,
             'category' => \App\Models\Category::class,
+            'catalog' => \App\Models\Catalog::class,
             'post' => \App\Models\Post::class,
             'post_category' => \App\Models\PostCategory::class,
             'navigation' => \App\Models\Navigation::class,

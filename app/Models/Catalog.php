@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Preserves\Status;
+use App\Enums\Catalogs\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +20,7 @@ class Catalog extends Model implements HasMedia
     use LogsActivity;
     use SoftDeletes;
 
-    protected $table = 'preserves';
+    protected $table = 'catalogs';
 
     protected $casts = [
         'status' => Status::class,

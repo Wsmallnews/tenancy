@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Preserves\Status;
+use App\Enums\Catalogs\Status;
+use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\CatalogResource\Pages;
 use App\Models\Appraise;
 use App\Models\Catalog;
@@ -16,6 +17,7 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class CatalogResource extends Resource
 {
@@ -59,7 +61,7 @@ class CatalogResource extends Resource
                                     $data = [
                                         'title' => '种质信息',
                                         'fields' => [],
-                                        'count' => 8,      // 图片算两个
+                                        'count' => 10,      // 图片算两个
                                     ];
 
                                     if ($get('appraise_id')) {
@@ -72,12 +74,12 @@ class CatalogResource extends Resource
                                             'label' => '种质封面图',
                                             'value' => $coverMedia->getFullUrl(),
                                         ];
-                                        // $data['fields'][] = [
-                                        //     'type' => 'text',
-                                        //     'field_name' => 'resource_no',
-                                        //     'label' => '种质资源编号',
-                                        //     'value' => $appraise->resource_no,
-                                        // ];
+                                        $data['fields'][] = [
+                                            'type' => 'text',
+                                            'field_name' => 'resource_no',
+                                            'label' => '种质资源编号',
+                                            'value' => $appraise->resource_no,
+                                        ];
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'name',
@@ -87,14 +89,8 @@ class CatalogResource extends Resource
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'en_name',
-                                            'label' => '种质中文名',
+                                            'label' => '种质外文名',
                                             'value' => $appraise->en_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'species_name',
-                                            'label' => '学名',
-                                            'value' => $appraise->species_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
@@ -102,9 +98,6 @@ class CatalogResource extends Resource
                                             'label' => '全国统一编号',
                                             'value' => $appraise->resource_no,
                                         ];
-
-                                        // @sn todo 编码类别
-                                        
                                         $data['fields'][] = [
                                             'type' => 'text',
                                             'field_name' => 'germplasm_type',
@@ -113,61 +106,22 @@ class CatalogResource extends Resource
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
-                                            'field_name' => 'original_no',
-                                            'label' => '引种号',
-                                            'value' => $appraise->original_no,
+                                            'field_name' => 'subject_name',
+                                            'label' => '科名',
+                                            'value' => $appraise->subject_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
-                                            'field_name' => 'country_name',
-                                            'label' => '种质原产国',
-                                            'value' => $appraise->country_name,
+                                            'field_name' => 'genus_name',
+                                            'label' => '属名',
+                                            'value' => $appraise->genus_name,
                                         ];
                                         $data['fields'][] = [
                                             'type' => 'text',
-                                            'field_name' => 'district_name',
-                                            'label' => '种质原产地区',
-                                            'value' => $appraise->province_name . ' / ' . $appraise->city_name,
+                                            'field_name' => 'species_name',
+                                            'label' => '学名',
+                                            'value' => $appraise->species_name,
                                         ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'address',
-                                            'label' => '种质原产地址',
-                                            'value' => $appraise->address,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'source_country_name',
-                                            'label' => '种质来源国',
-                                            'value' => $appraise->source_country_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'source_district_name',
-                                            'label' => '种质来源地区',
-                                            'value' => $appraise->source_province_name . ' / ' . $appraise->source_city_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'source_address',
-                                            'label' => '种质来源地址',
-                                            'value' => $appraise->source_address,
-                                        ];
-
-
-                                        // $data['fields'][] = [
-                                        //     'type' => 'text',
-                                        //     'field_name' => 'subject_name',
-                                        //     'label' => '科名',
-                                        //     'value' => $appraise->subject_name,
-                                        // ];
-                                        // $data['fields'][] = [
-                                        //     'type' => 'text',
-                                        //     'field_name' => 'genus_name',
-                                        //     'label' => '属名',
-                                        //     'value' => $appraise->genus_name,
-                                        // ];
-                                        
                                     }
                                     return $data;
                                 })
@@ -179,13 +133,19 @@ class CatalogResource extends Resource
                             Forms\Components\TextInput::make('name')->label('作物名称')
                                 ->placeholder('请输入作物名称')
                                 ->required(),
+                            Forms\Components\TextInput::make('code_type')->label('编码类型')
+                                ->placeholder('请输入编码类型')
+                                ->required(),
                             Forms\Components\TextInput::make('assemble_no')->label('收集编号')
                                 ->placeholder('请输入收集编号')
+                                ->required(),
+                            Forms\Components\TextInput::make('original_no')->label('原始编号')
+                                ->placeholder('请输入原始编号')
                                 ->required(),
                             Forms\Components\DatePicker::make('assemble_at')->label('收集日期')
                                 ->placeholder('请选择收集日期')
                                 ->native(false)
-                                ->displayFormat('Y-m')
+                                ->displayFormat('Y-m-d')
                                 ->required(),
                             Forms\Components\TextInput::make('resource_method')->label('资源来源方式')
                                 ->placeholder('请输入资源来源方式')
@@ -193,17 +153,109 @@ class CatalogResource extends Resource
                             Forms\Components\DatePicker::make('catalog_at')->label('编目时间')
                                 ->placeholder('请选择编目时间')
                                 ->native(false)
-                                ->displayFormat('Y-m')
+                                ->displayFormat('Y-m-d')
                                 ->required(),
+                        ])->columns(2),
 
+                        Forms\Components\Section::make('地址信息')->schema([
+                            // 选择国家，省市区
+                            Country::make('country_code')->label('选择原产国')
+                                ->default('CN')
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                                    $country_name = $component->getCountriesList()[$state] ?? null;
+                                    $set('country_name', $country_name);
+                                }),
+                            Forms\Components\Hidden::make('country_name')
+                                ->default('中国'),
+                            DistrictSelect::make('district')
+                                ->label('原产地区')
+                                ->placeholder('选择原产省市')
+                                ->district(false)
+                                ->required()
+                                ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                            Forms\Components\TextInput::make('address')->label('原产地')
+                                ->placeholder('请输入原产地址')
+                                ->required(),
+                            
+                            Country::make('source_country_code')->label('选择来源国')
+                                ->default('CN')
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, Country $component, $state) {
+                                    $source_country_name = $component->getCountriesList()[$state] ?? null;
+                                    $set('source_country_name', $source_country_name);
+                                }),
+                            Forms\Components\Hidden::make('source_country_name')
+                                ->default('中国'),
+                            DistrictSelect::make('source_district')
+                                ->label('来源地区')
+                                ->placeholder('选择来源省市')
+                                ->district(false)
+                                ->afterStateHydrated(function (DistrictSelect $component, ?array $state) {
+                                    $record = $component->getRecord();
+                                    if (! $record) {
+                                        $component->state($state);
+                                        return;
+                                    }
+                                    $component->state([
+                                        'province_name' => $record->source_province_name ?? null,
+                                        'province_id' => $record->source_province_id ?? null,
+                                        'city_name' => $record->source_city_name ?? null,
+                                        'city_id' => $record->source_city_id ?? null,
+                                    ]);
+                                })
+                                ->required()
+                                ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
+                            Forms\Components\TextInput::make('source_address')->label('来源地址')
+                                ->placeholder('请输入来源地址')
+                                ->required(),
+                            Forms\Components\TextInput::make('altitude')->label('海拔')
+                                ->integer()
+                                ->placeholder('请输入海拔')
+                                ->suffix('米')
+                                ->rules(['integer'])
+                                ->required(),
+                            Forms\Components\TextInput::make('longitude')->label('经度')
+                                ->placeholder('请输入经度')
+                                ->required(),
+                            Forms\Components\TextInput::make('latitude')->label('纬度')
+                                ->placeholder('请输入纬度')
+                                ->required(),
+                        ])->columns(2),
+
+                        Forms\Components\Section::make('收集信息')->schema([
                             Forms\Components\TextInput::make('assemble_address')->label('收集地点')
                                 ->placeholder('请输入收集地点')
                                 ->required(),
                             Forms\Components\TextInput::make('assemble_company')->label('收集单位')
                                 ->placeholder('请输入收集单位')
                                 ->required(),
-                            
-                        ])->columns(2),
+                            Forms\Components\TextInput::make('assember')->label('收集者')
+                                ->placeholder('请输入收集者')
+                                ->required(),
+                            Forms\Components\TextInput::make('assember_phone')->label('收集者手机号')
+                                ->placeholder('请输入收集者手机号')
+                                ->required(),
+                            Forms\Components\TextInput::make('provider')->label('提供者')
+                                ->placeholder('请输入提供者')
+                                ->required(),
+                            Forms\Components\TextInput::make('provider_phone')->label('提供者手机号')
+                                ->placeholder('请输入提供者手机号')
+                                ->required(),
+                                
+                            Forms\Components\TextInput::make('temp_save_company')->label('临时保存单位')
+                                ->placeholder('请输入临时保存单位')
+                                ->required(),
+                            Forms\Components\TextInput::make('original_save_company')->label('原保存单位')
+                                ->placeholder('请输入原保存单位')
+                                ->required(),
+                            Forms\Components\TextInput::make('original_save_company_no')->label('原保存单位编号')
+                                ->placeholder('请输入原保存单位编号')
+                                ->required(),
+                            Forms\Components\TextInput::make('inspect_assemble_project')->label('考察收集项目')
+                                ->placeholder('请输入考察收集项目')
+                                ->required(),
+                        ])->columns(2)
                     ])->columns(1),
                     Forms\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
@@ -225,14 +277,6 @@ class CatalogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('preserve_no')
-                    ->label('保存编号')
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('preserve_position')
-                    ->label('保存位置')
-                    ->searchable()
-                    ->toggleable(),
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
                     ->label('种质封面图')
                     ->collection('cover')
@@ -249,6 +293,13 @@ class CatalogResource extends Resource
                     ->label('种质外文名')
                     ->searchable()
                     ->toggleable(), 
+
+
+
+
+
+
+
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->toggleable(),
@@ -343,5 +394,25 @@ class CatalogResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+
+    public static function operDistrictInfo($data): array
+    {
+        $district = $data['district'] ?? [];
+        $data['province_name'] = $district['province_name'] ?? null;
+        $data['province_id'] = $district['province_id'] ?? null;
+        $data['city_name'] = $district['city_name'] ?? null;
+        $data['city_id'] = $district['city_id'] ?? null;
+        unset($data['district']);
+
+        $sourceDistrict = $data['source_district'] ?? [];
+        $data['source_province_name'] = $sourceDistrict['province_name'] ?? null;
+        $data['source_province_id'] = $sourceDistrict['province_id'] ?? null;
+        $data['source_city_name'] = $sourceDistrict['city_name'] ?? null;
+        $data['source_city_id'] = $sourceDistrict['city_id'] ?? null;
+        unset($data['source_district']);
+
+        return $data;
     }
 }

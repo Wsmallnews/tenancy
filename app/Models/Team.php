@@ -120,6 +120,11 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(Category::class);
     }
 
+    public function catalogs(): HasMany
+    {
+        return $this->hasMany(Catalog::class);
+    }
+
     public function navigations(): HasMany
     {
         return $this->hasMany(Navigation::class);
