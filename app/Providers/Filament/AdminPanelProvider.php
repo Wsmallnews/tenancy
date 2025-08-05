@@ -107,6 +107,6 @@ class AdminPanelProvider extends PanelProvider
                 ApplyTenantScopes::class,
             ], isPersistent: true)
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ;
+            ->spa();
     }
 }
