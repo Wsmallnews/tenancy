@@ -26,20 +26,73 @@
     @apply gap-y-4 py-4;
 }
 
+.fi-page > section .flex.gap-y-6 {
+    @apply gap-y-4;
+}
+
+.fi-page > section .fi-tabs {
+    @apply mx-0;
+}
+
 /** 表单 split 左右分割 **/
 .fi-fo-split {
     @apply gap-4;
 }
 
+.fi-form {
+    @apply gap-y-4
+}
+
 /** section 内边距 **/
+.fi-section-header {
+    @apply px-4;
+}
 .fi-section-content {
     @apply p-4;
 }
 
 /* 表单多 section 时，多个 section 的 gap */
 .fi-fo-component-ctn {
-    @apply gap-4
+    @apply gap-4;
 }
+
+/** 表单 tabs 下的 tab 区域 **/
+.fi-fo-tabs-tab {
+    @apply p-4;
+}
+
+.fi-ta-header-toolbar {
+    @apply sm:px-4;
+}
+.fi-pagination {
+    @apply sm:px-4;
+}
+
+/** 添加编辑的 弹框 **/
+.fi-modal-window .fi-modal-header {
+    @apply px-4 pt-4 gap-x-4;
+}
+.fi-modal-window .fi-modal-content {
+    @apply px-4 py-4;
+}
+.fi-modal-window .fi-modal-footer {
+    @apply px-4 pb-4;
+}
+
+/* 左侧导航 */
+/* .fi-sidebar-nav {
+    @apply px-2;
+} */
+/** 左侧导航，租户菜单 **/
+/* .fi-sidebar-nav-tenant-menu-ctn {
+    @apply mx-0;
+} */
+/* 左侧导航项组 */
+/* .fi-sidebar-nav-groups {
+    @apply mx-0;
+} */
+
+
 
 /** --------------------------------页面紧凑处理结束------------------------------ **/
 
@@ -141,7 +194,7 @@
 }
 /** tabs 圆角改小 **/
 .fi-tabs {
-    @apply rounded-md;
+    @apply px-4 rounded-md;
 }
 /** tabs 里面的 item 圆角改小 **/
 .fi-tabs-item {
