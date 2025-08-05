@@ -27,7 +27,7 @@ class CatalogResource extends Resource
 
     protected static ?string $navigationLabel = '编目';
 
-    protected static ?string $navigationGroup = '种质资源库';
+    protected static ?string $navigationGroup = '种质目录';
 
     protected static ?string $slug = 'catalogs';
 
@@ -37,7 +37,7 @@ class CatalogResource extends Resource
 
     protected static ?string $pluralModelLabel = '编目';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -277,6 +277,10 @@ class CatalogResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('作物名称')
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('appraise.cover')
                     ->label('种质封面图')
                     ->collection('cover')
@@ -294,12 +298,26 @@ class CatalogResource extends Resource
                     ->searchable()
                     ->toggleable(), 
 
-
-
-
-
-
-
+                Tables\Columns\TextColumn::make('code_type')
+                    ->label('编码类型')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('assemble_no')
+                    ->label('收集编号')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('original_no')
+                    ->label('原始编号')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('assemble_at')
+                    ->label('收集日期')
+                    ->searchable()
+                    ->toggleable(), 
+                Tables\Columns\TextColumn::make('catalog_at')
+                    ->label('编目时间')
+                    ->searchable()
+                    ->toggleable(), 
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->toggleable(),

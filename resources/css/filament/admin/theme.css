@@ -8,6 +8,54 @@
 @config '../../../../tailwind.config.js';
 
 
+.fi-body {
+    @apply bg-gray-100;
+}
+
+/** --------------------------------页面紧凑处理开始------------------------------ **/
+
+/* padding, margin, gap 等, 统一设置为 4 */
+
+/* 主内容区域 */
+.fi-main {
+    @apply md:px-4 lg:px-4;
+}
+
+/** 表单 page 标题，按钮，表单 区域 间距 */
+.fi-page > section {
+    @apply gap-y-4 py-4;
+}
+
+/** 表单 split 左右分割 **/
+.fi-fo-split {
+    @apply gap-4;
+}
+
+/** section 内边距 **/
+.fi-section-content {
+    @apply p-4;
+}
+
+/* 表单多 section 时，多个 section 的 gap */
+.fi-fo-component-ctn {
+    @apply gap-4
+}
+
+/** --------------------------------页面紧凑处理结束------------------------------ **/
+
+/** --------------------------------更改部分区域样式开始------------------------------ **/
+
+/** 页面标题 **/
+.fi-header {
+    @apply bg-white p-4 rounded-md shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
+}
+.fi-header-heading {
+    @apply text-xl;
+}
+
+
+/** --------------------------------更改部分区域样式结束------------------------------ **/
+
 /** --------------------------------左侧菜单栏来时------------------------------ **/
 
 /** 隐藏左侧菜单栏滚动条 **/

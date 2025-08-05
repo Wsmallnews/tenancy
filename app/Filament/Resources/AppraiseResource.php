@@ -348,7 +348,8 @@ class AppraiseResource extends Resource
                     // ->enableBranchNode()     // 可以选择非根节点
                     ->withCount()
                     ->live()
-                    ->afterStateUpdated(function (Livewire $livewire) {
+                    ->afterStateUpdated(function (Livewire $livewire) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
+                        // 动态变动新增的字段必须通过调用 fill 主动填充; 文档: https://filamentphp.com/docs/3.x/forms/advanced#dynamic-fields-based-on-a-select-option
                         $tabs = $livewire->form->getComponent('dynamicTabs')
                             ->getChildComponentContainer()
                             ->getComponents();      // 这里获取的是 整个 tabs 数组, 直接 fill 填充 整个 tabs 好像不行
@@ -552,6 +553,12 @@ class AppraiseResource extends Resource
     }
 
 
+    /**
+     * 获取分类的自定义字段
+     *
+     * @param Get $get
+     * @return array
+     */
     private static function getCategoryTabs($get): array
     {
         $tabs = [];
@@ -586,6 +593,14 @@ class AppraiseResource extends Resource
         return $tabs;
     }
 
+
+    /**
+     * 根据类型获取特定的字段
+     *
+     * @param string $fieldKey
+     * @param array $subField
+     * @return Forms\Components\Field|null
+     */
     private static function getFormFields($fieldKey, $subField): ?Forms\Components\Field
     {
         $type = $subField['type'] ?? null;
@@ -633,6 +648,21 @@ class AppraiseResource extends Resource
                 ->imagePreviewHeight('100')
                 ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
                 ->columns(1);
+        } elseif ($type == 'dateTimePicker') {
+            $field_type = $data['type'];
+            match($field_type) {
+                'date' => $field = Forms\Components\DatePicker::make($fieldKey),
+                'time' => $field = Forms\Components\TimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
+                'datetime' => $field = Forms\Components\DateTimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('Y-m-d H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
+                default => $field = Forms\Components\TextInput::make($fieldKey),
+            };
+
+            $field = $field
+                ->native(false)
+                ->label($data['name'] ?? null)
+                ->placeholder($data['placeholder'] ?? null)
+                ->suffix($data['unit'] ?? null)
+                ->required($data['is_required'] ?? false);
         }
 
         return $field ?? null;
@@ -703,6 +733,10 @@ class AppraiseResource extends Resource
     }
 
 
+    
+    /**
+     * 保存前处理数据,然后处理结果保存到数据库，CreateAppraise & EditAppraise 中调用
+     */
     public static function getFieldsInfo($data): array
     {
         $currentOptions = $data['options'] ?? [];
@@ -722,9 +756,12 @@ class AppraiseResource extends Resource
         }
 
         return $currentOptions;
-    } 
+    }
 
 
+    /**
+     * 保存前处理数据,然后处理结果保存到数据库，CreateAppraise & EditAppraise 中调用
+     */
     public static function operDistrictInfo($data): array
     {
         $district = $data['district'] ?? [];

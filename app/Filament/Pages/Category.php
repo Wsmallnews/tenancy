@@ -254,6 +254,50 @@ class Category extends TreePage
                                 ])
                                 ->extraAttributes(['style' => 'place-self: center'])
                                 ->columns(4),
+                            Forms\Components\Builder\Block::make('dateTimePicker')
+                                ->label(function (?array $state): string {
+                                    $name = $state['name'] ?? '';
+                                    return '日期时间' . ($name ? ' - ' . $name : '');
+                                })
+                                ->schema([
+                                    Forms\Components\TextInput::make('name')
+                                        ->hiddenLabel()
+                                        ->placeholder('请输入字段名称')
+                                        ->required()
+                                        ->live(onBlur: true)
+                                        ->rules([
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                        ])
+                                        ->columnSpan(1),
+                                    Forms\Components\Select::make('type')
+                                        ->hiddenLabel()
+                                        ->placeholder('请选择日期类型')
+                                        ->options([
+                                            'date' => '日期选择',
+                                            'time' => '时间选择',
+                                            'datetime' => '日期时间选择',
+                                        ])
+                                        ->required()
+                                        ->live()
+                                        ->columnSpan(1),
+                                    Forms\Components\Toggle::make('has_second')
+                                        ->label('是否需要秒')
+                                        ->default(true)
+                                        ->visible(fn(Get $get): bool => in_array($get('type'), ['datetime', 'time']))
+                                        ->columnSpan(1),
+                                    Forms\Components\TextInput::make('unit')
+                                        ->hiddenLabel()
+                                        ->placeholder('请输入字段单位')
+                                        ->columnSpan(1),
+                                    Forms\Components\TextInput::make('placeholder')
+                                        ->hiddenLabel()
+                                        ->placeholder('请输入字段输入提示')
+                                        ->columnSpan(1),
+                                    Forms\Components\Toggle::make('is_required')
+                                        ->label('是否必填')
+                                        ->columnSpan(1),
+                                ])
+                                ->columns(4),
                         ])
                         // ->deleteAction(
                         //     fn (Action $action) => $action->requiresConfirmation(),
