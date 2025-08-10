@@ -24,7 +24,8 @@
         "overtrue/laravel-pinyin": "^5.2",
         "parfaitementweb/filament-country-field": "^2.4",
         "ralphjsmit/laravel-filament-seo": "^1.5",
-        "rmsramos/activitylog": "^1.0"
+        "rmsramos/activitylog": "^1.0",
+        "wsmallnews/filament-nestedset": "dev-main"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
@@ -89,6 +90,12 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "addons/filament-nestedset"
+        }
+    ]
 }
