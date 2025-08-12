@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 // use RalphJSmit\Laravel\SEO\Support\HasSEO;
 // use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Kalnoy\Nestedset\NodeTrait;
+use Kalnoy\Nestedset\NestedSet;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -47,7 +48,7 @@ class Navigation extends Model implements HasMedia
 
     public function getScopeAttributes(): array
     {
-        return ['team_id'];
+        return ['team_id', 'active'];
     }
 
 

@@ -13,6 +13,8 @@ use Filament\Infolists;
 use Kalnoy\Nestedset\QueryBuilder;
 use Wsmallnews\FilamentNestedset\Pages\TreePage;
 
+use Filament\Resources\Components\Tab;
+
 class Test extends TreePage
 {
     protected static ?string $model = NavigationModel::class;
@@ -34,6 +36,19 @@ class Test extends TreePage
     protected static ?int $navigationSort = 1;
 
     public $level = 3;
+
+    public string $emptyLabel = '测试Test 数据为空';
+
+    protected string $tabFieldName = 'active';
+
+    public function getTabs(): array
+    {
+        return [
+            'web' => Tab::make()->label('Website Navigation'),
+            'shop' => Tab::make()->label('Shop Navigation')
+        ];
+    }
+
 
     public function createSchema($arguments): array
     {

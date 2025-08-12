@@ -12,6 +12,10 @@
     @apply bg-gray-100;
 }
 
+#nprogress .bar {
+    height: 4px !important;
+}
+
 /** --------------------------------页面紧凑处理开始------------------------------ **/
 
 /* padding, margin, gap 等, 统一设置为 4 */
