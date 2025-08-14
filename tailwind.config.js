@@ -6,7 +6,6 @@ export default {
         './app/Filament/**/*.php',
         './resources/views/**/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
-        './vendor/wsmallnews/**/**/*.blade.php',
         './awcodes/filament-table-repeater/resources/**/*.blade.php',
         './jaocero/activity-timeline/resources/views/**/*.blade.php',
     ],
