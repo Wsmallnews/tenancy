@@ -11,13 +11,19 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Infolists;
 use Kalnoy\Nestedset\QueryBuilder;
-use Wsmallnews\FilamentNestedset\Pages\TreePage;
+use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 use Filament\Resources\Components\Tab;
 
-class Test extends TreePage
+class Test extends NestedsetPage
 {
+    public $level = 3;
+
+    public string $emptyLabel = '测试Test 数据为空';
+
     protected static ?string $model = NavigationModel::class;
+    
+    protected static ?string $modelLabel = '测试管理';
 
     protected static ?string $title = '测试';
 
@@ -29,15 +35,9 @@ class Test extends TreePage
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = '测试管理';
-
     protected static ?string $pluralModelLabel = '测试啊管理';
 
     protected static ?int $navigationSort = 1;
-
-    public $level = 3;
-
-    public string $emptyLabel = '测试Test 数据为空';
 
     protected string $tabFieldName = 'active';
 
