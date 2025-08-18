@@ -33,13 +33,13 @@ class Test extends NestedsetPage
 
     protected static ?string $slug = 'tests';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string $recordTitleAttribute = 'name';
 
     protected static ?string $pluralModelLabel = '测试啊管理';
 
     protected static ?int $navigationSort = 1;
 
-    protected string $tabFieldName = 'active';
+    protected static ?string $tabFieldName = 'active';
 
     public function getTabs(): array
     {
@@ -83,7 +83,7 @@ class Test extends NestedsetPage
                 ->maxLength(255)
                 ->visible(function (Get $get) {
                     // 只有内容 和 页面 需要设置标识
-                    return in_array(static::getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
+                    return in_array($this->getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
                 }),
             Forms\Components\Radio::make('status')
                 ->label('导航状态')
@@ -94,7 +94,7 @@ class Test extends NestedsetPage
     }
 
 
-    public static function getInfolistColumns(): array
+    public function infolistSchema(): array
     {
         return [
             Infolists\Components\TextEntry::make('description')
@@ -106,7 +106,7 @@ class Test extends NestedsetPage
     }
 
 
-    private static function getNavigationType($type)
+    private function getNavigationType($type)
     {
         return $type instanceof NavigationTypeEnum ? $type : NavigationTypeEnum::tryFrom($type);
     }
