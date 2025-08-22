@@ -17,7 +17,6 @@ use Filament\Resources\Components\Tab;
 
 class Test extends NestedsetPage
 {
-    public $level = 3;
 
     public string $emptyLabel = '测试Test 数据为空';
 

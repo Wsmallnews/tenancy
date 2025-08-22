@@ -1,0 +1,429 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+/** 富文本编辑器样式, 图片的 remove 会和官网的一致 **/
+@import '../../../../vendor/filament/forms/dist/components/rich-editor.css';
+
+@import '../../../../vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
+
+
+@source '../../../../app/Filament';
+@source '../../../../resources/views';
+@source '../../../../vendor/awcodes/filament-table-repeater/resources';
+@source '../../../../vendor/jaocero/activity-timeline/resources/views';
+
+.fi-body {
+    @apply bg-gray-100;
+}
+
+#nprogress .bar {
+    height: 4px !important;
+}
+
+/** --------------------------------页面紧凑处理开始------------------------------ **/
+
+/* padding, margin, gap 等, 统一设置为 4 */
+
+/* 主内容区域 */
+.fi-main {
+    @apply md:px-4 lg:px-4;
+}
+
+/** 表单 page 标题，按钮，表单 区域 间距 */
+.fi-page > section {
+    @apply gap-y-4 py-4;
+}
+
+.fi-page > section .flex.gap-y-6 {
+    @apply gap-y-4;
+}
+
+.fi-page > section .fi-tabs {
+    @apply mx-0;
+}
+
+/** 表单 split 左右分割 **/
+.fi-fo-split {
+    @apply gap-4;
+}
+
+.fi-form {
+    @apply gap-y-4
+}
+
+/** section 内边距 **/
+.fi-section-header {
+    @apply px-4;
+}
+.fi-section-content {
+    @apply p-4;
+}
+
+/* 表单多 section 时，多个 section 的 gap */
+.fi-fo-component-ctn {
+    @apply gap-4;
+}
+
+/** 表单 tabs 下的 tab 区域 **/
+.fi-fo-tabs-tab {
+    @apply p-4;
+}
+
+.fi-ta-header-toolbar {
+    @apply sm:px-4;
+}
+.fi-pagination {
+    @apply sm:px-4;
+}
+
+/** 添加编辑的 弹框 **/
+.fi-modal-window .fi-modal-header {
+    @apply px-4 pt-4 gap-x-4;
+}
+.fi-modal-window .fi-modal-content {
+    @apply px-4 py-4;
+}
+.fi-modal-window .fi-modal-footer {
+    @apply px-4 pb-4;
+}
+
+/* 左侧导航 */
+/* .fi-sidebar-nav {
+    @apply px-2;
+} */
+/** 左侧导航，租户菜单 **/
+/* .fi-sidebar-nav-tenant-menu-ctn {
+    @apply mx-0;
+} */
+/* 左侧导航项组 */
+/* .fi-sidebar-nav-groups {
+    @apply mx-0;
+} */
+
+
+
+/** --------------------------------页面紧凑处理结束------------------------------ **/
+
+/** --------------------------------更改部分区域样式开始------------------------------ **/
+
+/** 页面标题 **/
+.fi-header {
+    @apply bg-white p-4 rounded-md shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
+}
+.fi-header-heading {
+    @apply text-xl;
+}
+
+
+/** --------------------------------更改部分区域样式结束------------------------------ **/
+
+/** --------------------------------左侧菜单栏来时------------------------------ **/
+
+/** 隐藏左侧菜单栏滚动条 **/
+.fi-sidebar-nav {
+    scrollbar-width: none; /* Firefox 兼容 */
+    -ms-overflow-style: none; /* IE/Edge 兼容 */
+}
+.fi-sidebar-nav::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+/** 隐藏左侧菜单栏滚动条 **/
+
+
+/** 左边头部 和 左边菜单栏 背景色 **/
+.fi-sidebar-header, .fi-sidebar-nav {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+/** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
+.fi-sidebar-header .fi-logo, .fi-sidebar-header .fi-icon-btn svg,   /** 左侧菜单栏头部 logo,和折叠箭头 **/
+.fi-tenant-menu-trigger span, .fi-tenant-menu-trigger svg,          /** 左侧菜单栏多租户的内容，和 svg **/
+
+/** 左侧菜单栏未选中时候的样式 限定 fi-sidebar-nav 父级 **/
+.fi-sidebar-nav .fi-sidebar-group-collapse-button, 
+.fi-sidebar-nav .fi-sidebar-group-label, 
+.fi-sidebar-nav .fi-sidebar-item-icon,
+.fi-sidebar-nav .fi-sidebar-item-label {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
+.fi-sidebar-nav .fi-tenant-menu-trigger, 
+.fi-sidebar-nav .fi-sidebar-item-button {
+    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
+}
+
+/** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
+.fi-sidebar-item.fi-sidebar-item-active .fi-sidebar-item-button {
+    @apply bg-primary-700 dark:bg-primary-800;
+}
+
+/** 集群菜单文字 和 菜单图标，选中颜色 **/
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** --------------------------------左侧菜单栏结束------------------------------ **/
+
+
+/** -------------------------------- 内容圆角开始------------------------------ **/
+/** 左侧菜单 按钮 圆角改小 **/
+.fi-sidebar-item-button {
+    @apply rounded-md;
+}
+/** 表格圆角改小 **/
+.fi-ta-ctn {
+    @apply rounded-md;
+}
+/** section 圆角改小 **/
+.fi-section {
+    @apply rounded-md;
+}
+/** tabs 圆角改小 **/
+.fi-fo-tabs {
+    @apply rounded-md;
+}
+/** button 圆角改小 **/
+.fi-btn {
+    @apply rounded-md;
+}
+/** form 字段包装器 圆角改小 **/
+.fi-input-wrp {
+    @apply rounded-md;
+}
+/** dropdown 下拉菜单圆角改小 **/
+.fi-dropdown-panel {
+    @apply rounded-md;
+}
+/** form表单 repeater 圆角改小 **/
+.fi-fo-repeater-item {
+    @apply rounded-md;
+}
+/** tabs 圆角改小 **/
+.fi-tabs {
+    @apply px-4 rounded-md;
+}
+/** tabs 里面的 item 圆角改小 **/
+.fi-tabs-item {
+    @apply rounded-md;
+}
+/** form表单 plugins table repeater 圆角改小 **/
+.table-repeater-container {
+    @apply rounded-md;
+}
+/** plugins tree 圆角改小 **/
+#studio15-tree {
+    @apply rounded-md;
+}
+.studio15-tree li div.flex {
+    @apply rounded-md;
+}
+/** -------------------------------- 内容圆角结束------------------------------ **/
+
+
+/** -------------------------------- 修改 tabs 样式------------------------------ **/
+.fi-tabs-item-active {
+    @apply bg-primary-600 dark:bg-primary-700 ;
+}
+.fi-tabs-item-active .fi-tabs-item-label {
+    @apply text-white dark:text-white;
+}
+/** -------------------------------- 修改 tabs 样式------------------------------ **/
+
+
+/* .fi-layout {
+    @apply bg-[#f5f8fa] dark:bg-[#252a35];
+}
+
+.fi-topbar nav,
+.fi-sidebar-header {
+    @apply bg-[#f5f8fa] dark:bg-[#252a35];
+}
+
+.fi-btn-color-primary {
+    @apply bg-[#88c0d0];
+}
+
+.fi-ta-ctn {
+    @apply dark:bg-[#3b4252];
+}
+
+.fi-ta-table {
+    @apply divide-gray-100;
+}
+
+.fi-ta-table tbody {
+    @apply divide-gray-100;
+}
+
+.fi-ta-table thead tr {
+    @apply bg-[#fbfcfd];
+}
+
+.fi-sidebar-item-label {
+    @apply dark:text-gray-400;
+}
+
+.fi-sidebar-item-active a svg {
+    @apply text-primary-800;
+}
+
+.fi-sidebar-item-active a span {
+    @apply text-primary-800 dark:text-primary-400;
+}
+
+.fi-sidebar-item .fi-sidebar-item-button {
+    @apply rounded-lg hover:bg-[#d8dee9] dark:hover:bg-white/5;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    @apply rounded-lg bg-[#eceff4] dark:focus-visible:bg-white/5 dark:bg-white/5;
+}
+
+.fi-fo-field-wrp-label span {
+    @apply text-[#4c566a];
+}
+
+.fi-breadcrumbs-item-label {
+    @apply text-[#4c566a];
+}
+
+.fi-header-heading,
+.fi-ta-header-cell-label,
+.fi-btn-color-gray span {
+    @apply text-[#434c5e] dark:text-[#e5e9f0];
+}
+
+.fi-body {
+    @apply bg-[#f5f8fa] dark:bg-polarnight-900;
+}
+
+.fi-input-wrp {
+    @apply ring-1 ring-[#d8dee9];
+}
+
+.fi-tabs-item-active {
+    @apply bg-primary-100;
+}
+
+.fi-tabs-item-active span {
+    @apply !text-secondary-900;
+}
+
+.fi-ta-ctn {
+    @apply shadow-md rounded border-none ring-0 dark:ring-1 divide-gray-100;
+}
+
+.fi-section,
+.fi-wi-stats-overview-stat,
+.fi-ta-ctn,
+.fi-tenant-menu,
+.fi-dropdown-panel {
+    @apply border border-transparent dark:bg-secondary-900 dark:[background:linear-gradient(#2e3440, #3b4252)_padding-box, linear-gradient(to_right, rgb(var(--primary-800)), rgb(var(--gray-800)))_border-box;
+    ];
+}
+
+.fi-section,
+.fi-wi-stats-overview-stat {
+    @apply shadow-md rounded border-none ring-0 dark:ring-1;
+}
+
+.fi-topbar-item-active a,
+.fi-topbar-item-active button {
+    @apply bg-secondary-500 hover:bg-secondary-400 dark:bg-primary-500 dark:text-secondary-500 dark:hover:bg-primary-400;
+}
+
+.fi-topbar-item-active svg {
+    @apply dark:text-secondary-500;
+}
+
+.fi-topbar .fi-tenant-menu {
+    @apply lg: !hidden;
+}
+
+.fi-tenant-menu {
+    @apply rounded-lg mt-4;
+}
+
+.fi-fo-field-wrp-error-message {
+    @apply text-[#bf616a] dark:text-[#d08770];
+}
+
+.fi-invalid {
+    @apply ring-[#bf616a] dark:ring-[#d08770];
+}
+
+.fi-global-search-field .fi-input-wrp,
+.fi-ta-search-field .fi-input-wrp {
+    @apply rounded-full bg-[#f5f8fa] dark:bg-gray-900;
+}
+
+.fi-global-search-field .fi-input-wrp {
+    @apply ring-4 ring-white dark:ring-gray-800;
+}
+
+.fi-global-search-field .fi-input-wrp .fi-input-wrp-prefix {
+    @apply bg-white dark:bg-gray-800 rounded-full ps-2 mr-2;
+}
+
+.fi-btn:not(.fi-btn-group .fi-btn) {
+    @apply rounded-full;
+}
+
+.fi-btn-group>.fi-btn:first-of-type {
+    @apply rounded-s-full;
+}
+
+.fi-btn-group>.fi-btn:last-of-type {
+    @apply rounded-e-full;
+}
+
+.fi-btn-group {
+    @apply rounded-full;
+}
+
+.fi-wi-widget .fi-section,
+.fi-wi-stats-overview-stat {
+    @apply dark:ring-gray-700 dark:hover:text-white/70 dark:hover:ring-gray-500;
+}
+
+.fi-fo-toggle {
+    @apply bg-primary-500;
+}
+
+.fi-badge {
+    @apply rounded-xl;
+}
+
+.fi-fo-field-wrp-helper-text {
+    @apply text-gray-500 dark:text-gray-300;
+}
+
+.fi-tabs-item-active span {
+    @apply dark:text-gray-100 !important;
+}
+
+.fi-sidebar-item-button .fi-badge {
+    @apply bg-primary-300 dark:bg-primary-200;
+}
+
+.fi-sidebar-item-button .fi-badge span span {
+    @apply text-gray-700;
+}
+
+.fi-input {
+    @apply disabled:bg-gray-50 dark:disabled:bg-gray-800 !important;
+}
+
+.fi-btn.fi-color-primary .fi-btn-label {
+    @apply text-primary-950;
+}
+
+.fi-sidebar-nav {
+    @apply bg-blue-700 dark:bg-blue-800;
+}
+
+.fi-sidebar-item-label,
+.fi-sidebar-group-button {
+    @apply text-white dark:text-white;
+} */
