@@ -40,6 +40,8 @@ class Test extends NestedsetPage
 
     protected static ?string $tabFieldName = 'active';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public function getTabs(): array
     {
         return [
