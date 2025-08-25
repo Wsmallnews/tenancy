@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82e0d1048449292ae426a341c8b084f8",
+    "content-hash": "78046245d949d54be929e6bec5cc057d",
     "packages": [
         {
             "name": "15web/filament-tree",
@@ -9999,13 +9999,20 @@
         },
         {
             "name": "wsmallnews/filament-nestedset",
-            "version": "dev-main",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Wsmallnews/filament-nestedset.git",
+                "reference": "2d12bcd939a81c30da2698c4928c7381eea295bf"
+            },
             "dist": {
-                "type": "path",
-                "url": "addons/filament-nestedset",
-                "reference": "812bd44ef34a50e5419a5603c0e16adc42e811f8"
+                "type": "zip",
+                "url": "https://api.github.com/repos/Wsmallnews/filament-nestedset/zipball/2d12bcd939a81c30da2698c4928c7381eea295bf",
+                "reference": "2d12bcd939a81c30da2698c4928c7381eea295bf",
+                "shasum": ""
             },
             "require": {
+                "codewithdennis/filament-select-tree": "^3.1",
                 "filament/filament": "^3.0",
                 "kalnoy/nestedset": "^6.0",
                 "php": "^8.1",
@@ -10038,28 +10045,7 @@
                     "Wsmallnews\\FilamentNestedset\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Wsmallnews\\FilamentNestedset\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -10087,9 +10073,13 @@
                 "issues": "https://github.com/wsmallnews/filament-nestedset/issues",
                 "source": "https://github.com/wsmallnews/filament-nestedset"
             },
-            "transport-options": {
-                "relative": true
-            }
+            "funding": [
+                {
+                    "url": "https://github.com/Wsmallnews",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-08-22T08:37:31+00:00"
         }
     ],
     "packages-dev": [
@@ -13396,14 +13386,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "wsmallnews/filament-nestedset": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
