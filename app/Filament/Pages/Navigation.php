@@ -34,7 +34,7 @@ class Navigation extends TreePage
     public static function getModel(): string|QueryBuilder
     {
         if (Filament::getTenant()) {
-            return NavigationModel::scoped(['team_id' => Filament::getTenant()->id, 'active' => 'web']);
+            return NavigationModel::scoped(['team_id' => Filament::getTenant()->id]);
         } else {
             return NavigationModel::class;
         }
