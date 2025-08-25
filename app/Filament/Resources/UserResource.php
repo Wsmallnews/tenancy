@@ -113,35 +113,35 @@ class UserResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                ActivityLogTimelineTableAction::make('Activities')
-                    ->label('操作记录')
-                    ->activitiesUsing(function (?Model $record, ActivityLogTimelineTableAction $component) {
-                        return \App\Models\Activity::query()
-                            ->with(['subject', 'causer'])
-                            ->where(function (Builder $query) use ($record, $component) {
-                                $query->where(function (Builder $q) use ($record) {
-                                    $q->where('causer_type', $record->getMorphClass())
-                                        ->where('causer_id', $record->getKey());
-                                })->when($component->getWithRelations(), function (Builder $query, array $relations) use ($record) {
-                                    foreach ($relations as $relation) {
-                                        $model = get_class($record->{$relation}()->getRelated());
-                                        $query->orWhere(function (Builder $q) use ($record, $model, $relation) {
-                                            $q->where('subject_type', (new $model)->getMorphClass())
-                                                ->whereIn('subject_id', $record->{$relation}()->pluck('id'));
-                                        });
-                                    }
-                                });
-                            })
-                            ->latest()
-                            ->limit($component->getLimit())
-                            ->get();
-                    })
-                    ->modifyTitleUsing(function ($state) {
-                        return $state['description'];
-                    })
-                    ->timelineIcons(LogEvent::getIcons(true))
-                    ->timelineIconColors(LogEvent::getColors(true))
-                    ->limit(10),
+                // ActivityLogTimelineTableAction::make('Activities')
+                //     ->label('操作记录')
+                //     ->activitiesUsing(function (?Model $record, ActivityLogTimelineTableAction $component) {
+                //         return \App\Models\Activity::query()
+                //             ->with(['subject', 'causer'])
+                //             ->where(function (Builder $query) use ($record, $component) {
+                //                 $query->where(function (Builder $q) use ($record) {
+                //                     $q->where('causer_type', $record->getMorphClass())
+                //                         ->where('causer_id', $record->getKey());
+                //                 })->when($component->getWithRelations(), function (Builder $query, array $relations) use ($record) {
+                //                     foreach ($relations as $relation) {
+                //                         $model = get_class($record->{$relation}()->getRelated());
+                //                         $query->orWhere(function (Builder $q) use ($record, $model, $relation) {
+                //                             $q->where('subject_type', (new $model)->getMorphClass())
+                //                                 ->whereIn('subject_id', $record->{$relation}()->pluck('id'));
+                //                         });
+                //                     }
+                //                 });
+                //             })
+                //             ->latest()
+                //             ->limit($component->getLimit())
+                //             ->get();
+                //     })
+                //     ->modifyTitleUsing(function ($state) {
+                //         return $state['description'];
+                //     })
+                //     ->timelineIcons(LogEvent::getIcons(true))
+                //     ->timelineIconColors(LogEvent::getColors(true))
+                //     ->limit(10),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

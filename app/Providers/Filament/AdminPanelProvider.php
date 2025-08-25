@@ -62,16 +62,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                ActivitylogPlugin::make()
-                    ->resource(\App\Filament\Resources\ActivityLogResource::class)
-                    ->label('操作日志')
-                    ->pluralLabel('操作日志')
-                    ->navigationGroup(function () {
-                        return Utils::isResourceNavigationGroupEnabled()
-                            ? __('filament-shield::filament-shield.nav.group')
-                            : '';
-                    })
-                    ->navigationSort(3),
+                // ActivitylogPlugin::make()
+                //     ->resource(\App\Filament\Resources\ActivityLogResource::class)
+                //     ->label('操作日志')
+                //     ->pluralLabel('操作日志')
+                //     ->navigationGroup(function () {
+                //         return Utils::isResourceNavigationGroupEnabled()
+                //             ? __('filament-shield::filament-shield.nav.group')
+                //             : '';
+                //     })
+                //     ->navigationSort(3),
             ])
             ->navigationGroups([
                 '内容管理',
