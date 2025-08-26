@@ -17,7 +17,7 @@ use App\Models\Navigation as NavigationModel;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Infolists;
-use Kalnoy\Nestedset\QueryBuilder;
+use UnitEnum;
 use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 class Test extends NestedsetPage
@@ -33,7 +33,7 @@ class Test extends NestedsetPage
 
     protected static ?string $navigationLabel = '测试';
 
-    protected static string | \UnitEnum | null $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'tests';
 
@@ -44,6 +44,8 @@ class Test extends NestedsetPage
     protected static ?int $navigationSort = 1;
 
     protected static ?string $tabFieldName = 'active';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public function getTabs(): array
     {

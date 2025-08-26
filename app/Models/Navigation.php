@@ -17,13 +17,11 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Studio15\FilamentTree\Concerns\InteractsWithTree;
 
 class Navigation extends Model implements HasMedia
 {
     use NodeTrait;
     use InteractsWithMedia;
-    use InteractsWithTree;
     // use HasSEO;
     use LogsActivity;
 
@@ -49,12 +47,6 @@ class Navigation extends Model implements HasMedia
     public function getScopeAttributes(): array
     {
         return ['team_id', 'active'];
-    }
-
-
-    public static function getTreeLabelAttribute(): string
-    {
-        return 'name';
     }
 
 

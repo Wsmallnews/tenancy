@@ -4,55 +4,48 @@ namespace App\Filament\Pages;
 
 use App\Enums\PostCategories\Status;
 use App\Models\PostCategory as PostCategoryModel;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Infolists;
 use Filament\Schemas;
-use Filament\Support\Enums\Alignment;
-use Kalnoy\Nestedset\QueryBuilder;
-use Studio15\FilamentTree\Components\TreePage;
+use UnitEnum;
+use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
-class PostCategory extends TreePage
+class PostCategory extends NestedsetPage
 {
+    public string $emptyLabel = '资讯分类为空';
+
+    protected static ?string $model = PostCategoryModel::class;
+
+    protected static ?string $modelLabel = '资讯分类';
+
     protected static ?string $title = '资讯分类';
 
     protected static ?string $navigationLabel = '资讯分类';
 
     protected static ?string $navigationParentItem = '资讯管理';
 
-    protected static ?string $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'post-categories';
 
-    protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?string $modelLabel = '资讯分类';
+    protected static string $recordTitleAttribute = 'name';
 
     protected static ?string $pluralModelLabel = '资讯分类';
 
     protected static ?int $navigationSort = 1;
 
-    public static function getModel(): string|QueryBuilder
+    public function createSchema($arguments): array
     {
-        if (Filament::getTenant()) {
-            return PostCategoryModel::scoped(['team_id' => Filament::getTenant()->id]);
-        } else {
-            return PostCategoryModel::class;
-        }
+        return $this->schema($arguments);
     }
 
-    public static function getCreateForm(): array
+    public function editSchema($arguments): array
     {
-        return static::getSchemas();
+        return $this->schema($arguments);
     }
 
-    public static function getEditForm(): array
-    {
-        return static::getSchemas();
-    }
 
-    public static function getInfolistColumns(): array
+    public function infolistSchema(): array
     {
         return [
             Infolists\Components\TextEntry::make('remark')
@@ -65,7 +58,7 @@ class PostCategory extends TreePage
 
 
 
-    private static function getSchemas()
+    protected function schema(array $arguments): array
     {
         return [
             Forms\Components\TextInput::make('name')->label('分类名称')

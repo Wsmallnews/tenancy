@@ -12,46 +12,42 @@ use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Kalnoy\Nestedset\QueryBuilder;
-use Studio15\FilamentTree\Components\TreePage;
+use UnitEnum;
+use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
-class Navigation extends TreePage
+class Navigation extends NestedsetPage
 {
+    public string $emptyLabel = '导航数据为空';
+
+    protected static ?string $model = NavigationModel::class;
+
+    protected static ?string $modelLabel = '导航管理';
+
     protected static ?string $title = '导航管理';
 
     protected static ?string $navigationLabel = '导航管理';
 
-    protected static ?string $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'navigations';
 
-    protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?string $modelLabel = '导航管理';
+    protected static string $recordTitleAttribute = 'name';
 
     protected static ?string $pluralModelLabel = '导航管理';
 
     protected static ?int $navigationSort = 1;
 
-    public static function getModel(): string|QueryBuilder
+    public function createSchema($arguments): array
     {
-        if (Filament::getTenant()) {
-            return NavigationModel::scoped(['team_id' => Filament::getTenant()->id, 'active' => 'web']);
-        } else {
-            return NavigationModel::class;
-        }
+        return $this->schema($arguments);
     }
 
-    public static function getCreateForm(): array
+    public function editSchema($arguments): array
     {
-        return static::getSchemas();
+        return $this->schema($arguments);
     }
 
-    public static function getEditForm(): array
-    {
-        return static::getSchemas();
-    }
-
-    public static function getInfolistColumns(): array
+    public function infolistSchema(): array
     {
         return [
             Infolists\Components\TextEntry::make('description')
@@ -64,7 +60,7 @@ class Navigation extends TreePage
 
 
 
-    private static function getSchemas()
+    protected function schema(array $arguments): array
     {
         return [
             Forms\Components\Select::make('type')
