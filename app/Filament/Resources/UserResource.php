@@ -186,7 +186,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        return Utils::getSubNavigationPosition() ?? static::$subNavigationPosition;
+        return Utils::getSubNavigationPosition() ?? parent::getSubNavigationPosition();
     }
 
 
