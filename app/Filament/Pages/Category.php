@@ -206,6 +206,7 @@ class Category extends NestedsetPage
                                                 ->columnSpanFull()
                                                 ->grid(3),
                                         ])
+                                        ->columnSpanFull()
                                 ])
                                 ->columns(4),
                             Forms\Components\Builder\Block::make('upload_image')

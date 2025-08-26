@@ -218,7 +218,7 @@ class UserResource extends Resource implements HasShieldPermissions
                 ->placeholder('请输入登录邮箱')
                 ->required(),
             Forms\Components\TextInput::make('password')
-                ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
+                ->label(__('filament-panels::auth/pages/edit-profile.form.password.label'))
                 ->placeholder('不修改则留空')
                 ->password()
                 ->revealable(filament()->arePasswordsRevealable())

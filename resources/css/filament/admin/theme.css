@@ -6,7 +6,7 @@
 /* @source '../../../../vendor/jaocero/activity-timeline/resources/views'; */
 
 .fi-body {
-    @apply bg-gray-100;
+    @apply bg-slate-100 dark:bg-slate-950;
 }
 
 #nprogress .bar {
@@ -22,65 +22,61 @@
     @apply md:px-4 lg:px-4;
 }
 
+/* form 和 btn 的间距 */
+.fi-sc-form {
+    @apply gap-4;
+}
+
+/* schema 中 flex 的间距 */
+.fi-sc-flex {
+    @apply gap-4;
+}
+
+/* schema 中 has-gap 的间距 */
+.fi-sc-has-gap {
+    @apply gap-4;
+}
+
+/* schema 中 section 的间距 */
+.fi-section .fi-section-content-ctn .fi-section-content {
+    @apply gap-4 p-4;
+}
+.fi-section .fi-section-header {
+    @apply px-4 py-3;
+}
+
+/** schema 中 tabs tab 的内间距 */
+.fi-sc-tabs-tab.fi-active {
+    @apply p-4;
+}
+
+
 /** 表单 page 标题，按钮，表单 区域 间距 */
 .fi-page-header-main-ctn {
     @apply gap-y-4 py-4;
 }
 
-/* .fi-page > section .flex.gap-y-6 {
-    @apply gap-y-4;
-}
-
-.fi-page > section .fi-tabs {
-    @apply mx-0;
-} */
-
-/** 表单 split 左右分割 **/
-/* .fi-fo-split {
-    @apply gap-4;
-}
-
-.fi-form {
-    @apply gap-y-4
-} */
-
-/** section 内边距 **/
-/* .fi-section-header {
-    @apply px-4;
-}
-.fi-section-content {
-    @apply p-4;
-} */
-
-/* 表单多 section 时，多个 section 的 gap */
-/* .fi-fo-component-ctn {
-    @apply gap-4;
-} */
-
-/** 表单 tabs 下的 tab 区域 **/
-/* .fi-fo-tabs-tab {
-    @apply p-4;
-}
-
 .fi-ta-header-toolbar {
     @apply sm:px-4;
 }
+
+.fi-ta-cell {
+    @apply sm:first-of-type:ps-4 sm:last-of-type:pe-4;
+}
 .fi-pagination {
     @apply sm:px-4;
-} */
-
-/** 添加编辑的 弹框 **/
-/* .fi-modal-window .fi-modal-header {
-    @apply px-4 pt-4 gap-x-4;
 }
-.fi-modal-window .fi-modal-content {
+
+/** modal 的间距 **/
+.fi-modal-header {
+    @apply px-4 pt-4;
+}
+.fi-modal-content {
     @apply px-4 py-4;
 }
-.fi-modal-window .fi-modal-footer {
+.fi-modal-footer {
     @apply px-4 pb-4;
-} */
-
-
+}
 /** --------------------------------页面紧凑处理结束------------------------------ **/
 
 
@@ -95,14 +91,157 @@
 }
 
 
-/** tabs 样式  @sn todo 好像没效果 **/
-.fi-tabs-item-active {
+/** tabs 样式 **/
+
+.fi-tabs-item.fi-active {
     @apply bg-primary-600 dark:bg-primary-700;
 }
-.fi-tabs-item-active .fi-tabs-item-label {
+.fi-tabs-item.fi-active .fi-tabs-item-label, .fi-tabs-item.fi-active svg {
     @apply text-white dark:text-white;
 }
-
+.fi-tabs {
+    &:not(.fi-contained) {
+        @apply mx-0;
+    }
+}
 /** --------------------------------更改部分区域样式结束------------------------------ **/
 
 
+/** -------------------------------- 内容圆角开始------------------------------ **/
+/** 左侧菜单 按钮 圆角改小 **/
+/* .fi-sidebar-item-button {
+    @apply rounded-md;
+} */
+
+/** 表格圆角改小 **/
+.fi-ta-ctn {
+    @apply rounded-md;
+}
+
+/** section 圆角改小 **/
+.fi-section {
+    @apply rounded-md;
+}
+
+/** tabs 圆角改小 **/
+.fi-fo-tabs {
+    @apply rounded-md;
+}
+
+/** button 圆角改小 **/
+.fi-btn {
+    @apply rounded-md;
+}
+
+/** form 字段包装器 圆角改小 **/
+.fi-input-wrp {
+    @apply rounded-md;
+}
+
+/** dropdown 下拉菜单圆角改小 **/
+.fi-dropdown-panel {
+    @apply rounded-md;
+}
+
+/** form表单 repeater 圆角改小 **/
+.fi-fo-repeater-item {
+    @apply rounded-md;
+}
+
+/* form 表单 builder item 圆角 */
+.fi-fo-builder-item {
+    @apply rounded-md;
+}
+
+.fi-fieldset {
+    @apply rounded-md;
+}
+
+/** tabs 圆角改小 **/
+.fi-tabs {
+    @apply px-4 rounded-md;
+}
+
+/** tabs 里面的 item 圆角改小 **/
+.fi-tabs-item {
+    @apply rounded-md;
+}
+
+/** plugins filament-nestedset 圆角改小 **/
+.fi-sn-tree-container {
+    @apply rounded-md;
+}
+
+/** -------------------------------- 内容圆角结束------------------------------ **/
+
+
+/** 头部 fi-topbar 样式开始 **/
+
+.fi-topbar {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+.fi-topbar .fi-topbar-start .fi-icon-btn,
+.fi-topbar .fi-topbar-start .fi-logo {
+    @apply text-white dark:text-white;
+}
+
+.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-prefix .fi-icon,
+.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-content-ctn .fi-input {
+    @apply dark:placeholder:text-gray-300 dark:text-gray-300;
+}
+/** 头部 fi-topbar 样式结束 **/
+
+
+/** --------------------------------左侧菜单栏开始------------------------------ **/
+
+/** 隐藏左侧菜单栏滚动条 **/
+.fi-sidebar-nav {
+    scrollbar-width: none;
+    /* Firefox 兼容 */
+    -ms-overflow-style: none;
+    /* IE/Edge 兼容 */
+}
+
+.fi-sidebar-nav::-webkit-scrollbar {
+    display: none;
+    /* 隐藏滚动条 */
+}
+/** 隐藏左侧菜单栏滚动条 结束 **/
+
+
+/** 左边头部 和 左边菜单栏 背景色 **/
+.fi-sidebar-nav {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+/** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
+/** 左侧菜单栏多租户的内容，和 svg **/
+.fi-tenant-menu-trigger span,
+.fi-tenant-menu-trigger svg,
+/** 左侧菜单栏未选中时候的样式 限定 fi-sidebar-nav 父级 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-label,                     /** 左侧菜单栏分组的文字 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-collapse-btn .fi-icon,      /** 左侧菜单栏分组的折叠图标 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-icon,        /** 左侧菜单栏分组的图标 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-label {      /** 左侧菜单栏分组的文字 **/
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
+.fi-sidebar-nav .fi-tenant-menu-trigger,
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-btn {
+    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
+}
+
+/** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    @apply bg-primary-700 dark:bg-primary-800;
+}
+
+/** 集群菜单文字 和 菜单图标，选中颜色 @sn todo 待测试 **/
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** --------------------------------左侧菜单栏结束------------------------------ **/

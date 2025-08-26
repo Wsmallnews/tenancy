@@ -128,7 +128,9 @@ class AppraiseSetting extends SettingsPage
                         ->addActionLabel('添加选项')
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
-                ])->columns(2),
+                ])
+                ->columns(2)
+                ->columnSpanFull(),
             ]);
     }
 }
