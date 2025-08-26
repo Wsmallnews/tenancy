@@ -2,28 +2,32 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\Posts\Status;
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '资讯管理';
 
-    protected static ?string $navigationGroup = '内容管理';
+    protected static string | \UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'posts';
 
@@ -35,13 +39,13 @@ class PostResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('基础信息')->schema([
                             // 单选 分类
                             // SelectTree::make('category_id')->label('选择分类')
                             //     ->relationship(relationship: 'category', titleAttribute: 'name', parentAttribute: 'parent_id')
@@ -71,7 +75,7 @@ class PostResource extends Resource
                             Forms\Components\Textarea::make('description')->label('描述')
                                 ->placeholder('请输入描述'),
                         ])->columns(1),
-                        Forms\Components\Section::make('内容')->schema([
+                        Schemas\Components\Section::make('内容')->schema([
                             Forms\Components\SpatieMediaLibraryFileUpload::make('image')->label('主图')
                                 ->collection('main')
                                 ->required()
@@ -93,7 +97,7 @@ class PostResource extends Resource
                             //     ->maxFiles(20)
                             //     ->uploadingMessage('轮播图片上传中...')
                             //     ->imagePreviewHeight('100'),
-                            Forms\Components\Group::make()
+                            Schemas\Components\Group::make()
                                 ->relationship('content')
                                 ->schema([
                                     Forms\Components\RichEditor::make('content')
@@ -106,7 +110,7 @@ class PostResource extends Resource
                                 ])->columns(1),
                         ])->columns(1),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\SpatieTagsInput::make('tags')->label('标签')->type('post_tags'),
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
                             ->placeholder('正序排列')
@@ -170,11 +174,11 @@ class PostResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索标题、描述、标签等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -191,8 +195,8 @@ class PostResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -210,15 +214,15 @@ class PostResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

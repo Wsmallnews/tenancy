@@ -5,8 +5,8 @@ namespace App\Filament\Resources\TeamResource\Pages;
 use App\Enums\Teams\Status;
 use App\Filament\Resources\TeamResource;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 

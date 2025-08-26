@@ -11,9 +11,9 @@ use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Infolists;
+use Filament\Schemas;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
 use Kalnoy\Nestedset\QueryBuilder;
@@ -77,7 +77,7 @@ class Category extends TreePage
                 ->required(),
             Forms\Components\Textarea::make('remark')->label('备注'),
 
-            Forms\Components\Group::make()
+            Schemas\Components\Group::make()
                 ->schema([
                     Forms\Components\Radio::make('status')
                         ->label('状态')
@@ -196,7 +196,7 @@ class Category extends TreePage
                                     //     ->hiddenLabel()
                                     //     ->placeholder('请输入下拉选项, 按回车确认')
                                     //     ->columnSpan(4),
-                                    Forms\Components\Fieldset::make('Options')
+                                    Schemas\Components\Fieldset::make('Options')
                                         ->label('添加下拉选项')
                                         ->schema([
                                             Forms\Components\Repeater::make('options')

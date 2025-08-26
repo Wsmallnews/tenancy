@@ -8,8 +8,9 @@ use App\Features\NavigationType;
 use App\Models\Navigation as NavigationModel;
 use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Get;
 use Filament\Infolists;
+use Filament\Schemas;
+use Filament\Schemas\Components\Utilities\Get;
 use Kalnoy\Nestedset\QueryBuilder;
 use Studio15\FilamentTree\Components\TreePage;
 
@@ -113,7 +114,7 @@ class Navigation extends TreePage
                     return static::getNavigationType($get('type')) != NavigationTypeEnum::Child;
                 }),
 
-            Forms\Components\Group::make()
+            Schemas\Components\Group::make()
                 ->relationship('content')
                 ->schema([
                     Forms\Components\RichEditor::make('content')
@@ -142,10 +143,10 @@ class Navigation extends TreePage
                     return static::getNavigationType($get('type')) == NavigationTypeEnum::Route;
                 }),
 
-            Forms\Components\Fieldset::make('url_params')
+            Schemas\Components\Fieldset::make('url_params')
                 ->label('请求参数')
                 ->schema([
-                    Forms\Components\Group::make()
+                    Schemas\Components\Group::make()
                         ->schema([
                             Forms\Components\Toggle::make('has_routes')
                                 ->label('路由参数')
@@ -162,7 +163,7 @@ class Navigation extends TreePage
                         ])
                         ->columns(1)
                         ->columnSpan(1),
-                    Forms\Components\Group::make()
+                    Schemas\Components\Group::make()
                         ->schema([
                             Forms\Components\Toggle::make('has_queries')
                                 ->label('查询参数')
@@ -201,7 +202,7 @@ class Navigation extends TreePage
                     ->fill()
                 ),
 
-            Forms\Components\Fieldset::make('extras')
+            Schemas\Components\Fieldset::make('extras')
                 ->label('选项')
                 ->schema(function (Get $get) {
                     return NavigationType::make()->getTypeForms($get('options.type'), ['fields' => $get()]);

@@ -2,12 +2,15 @@
 
 namespace App\Filament\Pages;
 
+use BackedEnum;
 use App\Settings\AppraiseSettings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
+use UnitEnum;
 
 class AppraiseSetting extends SettingsPage
 {
@@ -15,21 +18,21 @@ class AppraiseSetting extends SettingsPage
 
     protected static ?string $navigationLabel = '种质设置';
 
-    protected static ?string $navigationGroup = '设置管理';
+    protected static string | UnitEnum | null $navigationGroup = '设置管理';
 
     protected static ?string $slug = 'appraise-settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static ?int $navigationSort = 1;
 
     protected static string $settings = AppraiseSettings::class;
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('选项字典')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Section::make('选项字典')->schema([
                     Forms\Components\Repeater::make('germplasm_type')
                         ->label('种质类型')
                         ->simple(

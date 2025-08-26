@@ -6,6 +6,9 @@ use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -148,22 +151,22 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        \Filament\Tables\Table::$defaultCurrency = 'CNY';
-        \Filament\Tables\Table::$defaultDateDisplayFormat = 'Y-m-d';
-        \Filament\Tables\Table::$defaultDateTimeDisplayFormat = 'Y-m-d H:i:s';
-        \Filament\Tables\Table::$defaultNumberLocale = null;
-        \Filament\Tables\Table::$defaultTimeDisplayFormat = 'H:i:s';
+        Table::configureUsing(fn(Table $table) => $table->defaultCurrency('CNY'));
+        Table::configureUsing(fn(Table $table) => $table->defaultDateDisplayFormat('Y-m-d'));
+        Table::configureUsing(fn(Table $table) => $table->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        Table::configureUsing(fn(Table $table) => $table->defaultNumberLocale(null));
+        Table::configureUsing(fn(Table $table) => $table->defaultTimeDisplayFormat('H:i:s'));
 
-        \Filament\Infolists\Infolist::$defaultCurrency = 'CNY';
-        \Filament\Infolists\Infolist::$defaultDateDisplayFormat = 'Y-m-d';
-        \Filament\Infolists\Infolist::$defaultDateTimeDisplayFormat = 'Y-m-d H:i:s';
-        \Filament\Infolists\Infolist::$defaultNumberLocale = null;
-        \Filament\Infolists\Infolist::$defaultTimeDisplayFormat = 'H:i:s';
+        Schema::configureUsing(fn(Schema $schema) => $schema->defaultCurrency('CNY'));
+        Schema::configureUsing(fn(Schema $schema) => $schema->defaultDateDisplayFormat('Y-m-d'));
+        Schema::configureUsing(fn(Schema $schema) => $schema->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        Schema::configureUsing(fn(Schema $schema) => $schema->defaultNumberLocale(null));
+        Schema::configureUsing(fn(Schema $schema) => $schema->defaultTimeDisplayFormat('H:i:s'));
 
-        \Filament\Forms\Components\DateTimePicker::$defaultDateDisplayFormat = 'Y-m-d';
-        \Filament\Forms\Components\DateTimePicker::$defaultDateTimeDisplayFormat = 'Y-m-d H:i:s';
-        \Filament\Forms\Components\DateTimePicker::$defaultDateTimeWithSecondsDisplayFormat = 'Y-m-d H:i:s';
-        \Filament\Forms\Components\DateTimePicker::$defaultTimeDisplayFormat = 'H:i';
-        \Filament\Forms\Components\DateTimePicker::$defaultTimeWithSecondsDisplayFormat = 'H:i:s';
+        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateDisplayFormat('Y-m-d'));
+        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeWithSecondsDisplayFormat('Y-m-d H:i:s'));
+        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeDisplayFormat('H:i'));
+        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeWithSecondsDisplayFormat('H:i:s'));
     }
 }

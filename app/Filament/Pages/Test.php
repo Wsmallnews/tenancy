@@ -2,18 +2,23 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\Radio;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\IconEntry;
 use App\Enums\Navigations\Status;
 use App\Enums\Navigations\Type as NavigationTypeEnum;
 use App\Features\NavigationType;
 use App\Models\Navigation as NavigationModel;
 use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Get;
 use Filament\Infolists;
 use Kalnoy\Nestedset\QueryBuilder;
 use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
-
-use Filament\Resources\Components\Tab;
 
 class Test extends NestedsetPage
 {
@@ -28,7 +33,7 @@ class Test extends NestedsetPage
 
     protected static ?string $navigationLabel = '测试';
 
-    protected static ?string $navigationGroup = '内容管理';
+    protected static string | \UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'tests';
 
@@ -63,19 +68,19 @@ class Test extends NestedsetPage
     protected function schema(array $arguments): array
     {
         return [
-            Forms\Components\Select::make('type')
+            Select::make('type')
                 // ->helperText('如果存在子导航，父导航设置的 跳转链接/路由等将失效')
                 ->label('导航类型')
                 ->options(NavigationTypeEnum::class)
                 ->default(NavigationTypeEnum::Route)
                 ->live()
                 ->required(),
-            Forms\Components\TextInput::make('name')->label('导航名称')
+            TextInput::make('name')->label('导航名称')
                 ->placeholder('请输入导航名称')
                 ->required(),
-            Forms\Components\Textarea::make('description')->label('描述'),
+            Textarea::make('description')->label('描述'),
 
-            Forms\Components\TextInput::make('slug')
+            TextInput::make('slug')
                 ->label('导航标识')
                 ->unique(ignorable: fn(?NavigationModel $record): ?NavigationModel => $record)
                 ->required()
@@ -84,7 +89,7 @@ class Test extends NestedsetPage
                     // 只有内容 和 页面 需要设置标识
                     return in_array($this->getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
                 }),
-            Forms\Components\Radio::make('status')
+            Radio::make('status')
                 ->label('导航状态')
                 ->options(Status::class)
                 ->default(Status::Normal)
@@ -96,10 +101,10 @@ class Test extends NestedsetPage
     public function infolistSchema(): array
     {
         return [
-            Infolists\Components\TextEntry::make('description')
+            TextEntry::make('description')
                 ->label('描述')
                 ->visible(fn($state): bool => $state ? true : false),
-            Infolists\Components\IconEntry::make('status')
+            IconEntry::make('status')
                 ->label('状态'),
         ];
     }

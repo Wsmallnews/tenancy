@@ -2,27 +2,31 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
+use Filament\Support\Enums\Width;
 use App\Enums\Theses\Status;
 use App\Filament\Resources\ThesisResource\Pages;
 use App\Models\Thesis;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class ThesisResource extends Resource
 {
     protected static ?string $model = Thesis::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '论文';
 
-    protected static ?string $navigationGroup = '研究成果';
+    protected static string | UnitEnum | null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'theses';
 
@@ -34,13 +38,13 @@ class ThesisResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('基础信息')->schema([
                             Forms\Components\Select::make('thesis_type_id')->label('选择论文类型')
                                 ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
@@ -63,7 +67,7 @@ class ThesisResource extends Resource
                                 ->placeholder('请输入论文摘要'),
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ]),
-                        Forms\Components\Section::make('附件管理')->schema([
+                        Schemas\Components\Section::make('附件管理')->schema([
                             Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
                                 ->collection('theses')
                                 ->required()
@@ -78,7 +82,7 @@ class ThesisResource extends Resource
                                 ->columns(1),
                         ]),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('journal')->label('发布期刊')
                             ->placeholder('请输入论文发布期刊')
                             ->required(),
@@ -170,11 +174,11 @@ class ThesisResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索论文标题、作者等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('published_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('published_from')->label('发布开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('published_until')->label('发布结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -191,8 +195,8 @@ class ThesisResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -209,8 +213,8 @@ class ThesisResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -228,15 +232,15 @@ class ThesisResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

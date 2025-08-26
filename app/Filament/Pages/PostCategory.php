@@ -8,6 +8,7 @@ use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Infolists;
+use Filament\Schemas;
 use Filament\Support\Enums\Alignment;
 use Kalnoy\Nestedset\QueryBuilder;
 use Studio15\FilamentTree\Components\TreePage;
@@ -72,7 +73,7 @@ class PostCategory extends TreePage
                 ->required(),
             Forms\Components\Textarea::make('remark')->label('备注'),
 
-            Forms\Components\Group::make()
+            Schemas\Components\Group::make()
                 ->schema([
                     Forms\Components\Radio::make('status')
                         ->label('状态')

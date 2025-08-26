@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\Activities\LogEvent;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,7 +31,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '管理员';
 
@@ -54,15 +57,15 @@ class UserResource extends Resource implements HasShieldPermissions
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
                     ])->columns(1),
-                    Forms\Components\Section::make('分配角色')->schema([
+                    Schemas\Components\Section::make('分配角色')->schema([
                         Forms\Components\Select::make('roles')
                             ->relationship(name: 'roles', titleAttribute: 'name')
                             ->saveRelationshipsUsing(function (Model $record, $state) {
@@ -112,7 +115,7 @@ class UserResource extends Resource implements HasShieldPermissions
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 // ActivityLogTimelineTableAction::make('Activities')
                 //     ->label('操作记录')
                 //     ->activitiesUsing(function (?Model $record, ActivityLogTimelineTableAction $component) {
@@ -142,11 +145,11 @@ class UserResource extends Resource implements HasShieldPermissions
                 //     ->timelineIcons(LogEvent::getIcons(true))
                 //     ->timelineIconColors(LogEvent::getColors(true))
                 //     ->limit(10),
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

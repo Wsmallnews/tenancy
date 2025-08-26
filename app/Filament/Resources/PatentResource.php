@@ -2,27 +2,31 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
+use Filament\Support\Enums\Width;
 use App\Enums\Patents\Status;
 use App\Filament\Resources\PatentResource\Pages;
 use App\Models\Patent;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class PatentResource extends Resource
 {
     protected static ?string $model = Patent::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '专利';
 
-    protected static ?string $navigationGroup = '研究成果';
+    protected static string | UnitEnum | null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'patents';
 
@@ -34,13 +38,13 @@ class PatentResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('基础信息')->schema([
                             Forms\Components\TextInput::make('name')->label('专利名称')
                                 ->placeholder('请输入专利名称')
                                 ->required(),
@@ -65,7 +69,7 @@ class PatentResource extends Resource
                                 ->placeholder('请输入专利摘要'),
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
-                        Forms\Components\Section::make('附件管理')->schema([
+                        Schemas\Components\Section::make('附件管理')->schema([
                             Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
                                 ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
                                 ->collection('patents')
@@ -82,7 +86,7 @@ class PatentResource extends Resource
                                 ->columns(1),
                         ])->columns(1),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\DatePicker::make('applied_at')->label('申请日期')
                             ->placeholder('请选择申请日期')
                             ->native(false)
@@ -164,11 +168,11 @@ class PatentResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索专利名称、专利号等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('applied_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('applied_from')->label('申请开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('applied_until')->label('申请结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -185,8 +189,8 @@ class PatentResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('authd_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('authd_from')->label('授权开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('authd_until')->label('授权结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -203,8 +207,8 @@ class PatentResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -221,8 +225,8 @@ class PatentResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -240,15 +244,15 @@ class PatentResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

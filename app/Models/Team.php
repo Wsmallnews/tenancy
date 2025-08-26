@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use App\Enums\Teams\Status;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasCurrentTenantLabel;
@@ -17,7 +18,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;

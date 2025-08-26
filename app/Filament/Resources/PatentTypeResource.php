@@ -2,27 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\PatentTypes\Status;
 use App\Filament\Resources\PatentTypeResource\Pages;
-use App\Filament\Resources\PatentTypeResource\RelationManagers;
 use App\Models\PatentType;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class PatentTypeResource extends Resource
 {
     protected static ?string $model = PatentType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '专利类型';
 
-    protected static ?string $navigationGroup = '研究成果';
+    protected static string | UnitEnum | null $navigationGroup = '研究成果';
 
     protected static ?string $navigationParentItem = '专利';
 
@@ -36,10 +37,10 @@ class PatentTypeResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\TextInput::make('name')->label('类型名称')
                     ->placeholder('请输入类型名称')
                     ->required()
@@ -84,13 +85,13 @@ class PatentTypeResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

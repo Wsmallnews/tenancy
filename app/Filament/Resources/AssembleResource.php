@@ -2,33 +2,37 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\Assembles\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\AssembleResource\Pages;
 use App\Models\Appraise;
 use App\Models\Assemble;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use UnitEnum;
 
 class AssembleResource extends Resource
 {
     protected static ?string $model = Assemble::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '收集';
 
-    protected static ?string $navigationGroup = '种质资源库';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库';
 
     protected static ?string $slug = 'assembles';
 
@@ -40,13 +44,13 @@ class AssembleResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('种质信息')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('种质信息')->schema([
                             Forms\Components\Select::make('appraise_id')->label('选择种质')
                                 ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
@@ -120,7 +124,7 @@ class AssembleResource extends Resource
                                 ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ])->columns(2),
-                        Forms\Components\Section::make('收集信息')->schema([
+                        Schemas\Components\Section::make('收集信息')->schema([
                             Forms\Components\TextInput::make('name')->label('收集人')
                                 ->placeholder('请输入收集人')
                                 ->required(),
@@ -137,7 +141,7 @@ class AssembleResource extends Resource
                                 ->placeholder('请输入所属子课题编号')
                                 ->required(),
                         ])->columns(2),
-                        Forms\Components\Section::make('收集地信息')->schema([
+                        Schemas\Components\Section::make('收集地信息')->schema([
                             // 选择国家，省市区
                             Country::make('country_code')->label('选择国家')
                                 ->default('CN')
@@ -165,7 +169,7 @@ class AssembleResource extends Resource
                                 ->required(),
                         ])->columns(2),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
                             ->placeholder('正序排列')
                             ->rules(['integer', 'min:0']),
@@ -273,11 +277,11 @@ class AssembleResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索收集编号、收集人等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -294,8 +298,8 @@ class AssembleResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -313,15 +317,15 @@ class AssembleResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -336,8 +340,6 @@ class AssembleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAssembles::route('/'),
-            'create' => Pages\CreateAssemble::route('/create'),
             'edit' => Pages\EditAssemble::route('/{record}/edit'),
         ];
     }

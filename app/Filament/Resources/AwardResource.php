@@ -2,27 +2,31 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\Awards\Status;
 use App\Filament\Resources\AwardResource\Pages;
 use App\Models\Award;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class AwardResource extends Resource
 {
     protected static ?string $model = Award::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '奖项';
 
-    protected static ?string $navigationGroup = '研究成果';
+    protected static string | UnitEnum | null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'awards';
 
@@ -34,13 +38,13 @@ class AwardResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Section::make('基础信息')->schema([
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Section::make('基础信息')->schema([
                             Forms\Components\TextInput::make('name')->label('奖项名称')
                                 ->placeholder('请输入奖项名称')
                                 ->required(),
@@ -63,7 +67,7 @@ class AwardResource extends Resource
                                 ->required(),
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
-                        Forms\Components\Section::make('证书管理')->schema([
+                        Schemas\Components\Section::make('证书管理')->schema([
                             Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
                                 ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
                                 ->collection('certs')
@@ -80,7 +84,7 @@ class AwardResource extends Resource
                                 ->columns(1),
                         ])->columns(1),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\DatePicker::make('award_at')->label('获奖日期')
                             ->placeholder('请选择获奖日期')
                             ->native(false)
@@ -154,11 +158,11 @@ class AwardResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('award_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('award_from')->label('获奖开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('award_until')->label('获奖结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -175,8 +179,8 @@ class AwardResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -193,8 +197,8 @@ class AwardResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -212,15 +216,15 @@ class AwardResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use Wsmallnews\Support\Features\Currency;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
@@ -56,7 +58,7 @@ if (! function_exists('db_listen')) {
      */
     function db_listen()
     {
-        \Illuminate\Support\Facades\DB::listen(function ($query) {
+        DB::listen(function ($query) {
             $sql = $query->sql . ' ## | ';
             foreach ($query->bindings as $k => $v) {
                 $sql .= $k . ' => ' . $v . ' | ';
@@ -76,7 +78,7 @@ if (! function_exists('sn_currency')) {
      */
     function sn_currency()
     {
-        return app(\Wsmallnews\Support\Features\Currency::class);
+        return app(Currency::class);
     }
 }
 

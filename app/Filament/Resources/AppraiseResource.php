@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use BackedEnum;
 use App\Enums\Appraises\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\AppraiseResource\Pages;
@@ -9,30 +10,33 @@ use App\Models\Appraise;
 use App\Models\Category;
 use App\Settings\AppraiseSettings;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Schemas;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use UnitEnum;
 
 class AppraiseResource extends Resource
 {
     protected static ?string $model = Appraise::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '评价';
 
-    protected static ?string $navigationGroup = '种质资源库';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库';
 
     protected static ?string $slug = 'appraises';
 
@@ -44,29 +48,29 @@ class AppraiseResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Split::make([
-                    Forms\Components\Group::make()->schema([
-                        Forms\Components\Tabs::make('Tabs')
+        return $schema
+            ->components([
+                Schemas\Components\Flex::make([
+                    Schemas\Components\Group::make()->schema([
+                        Schemas\Components\Tabs::make('Tabs')
                             ->tabs(function (Get $get) {
                                 return [
-                                    Forms\Components\Tabs\Tab::make('基础信息')
+                                    Schemas\Components\Tabs\Tab::make('基础信息')
                                         ->schema([
                                             ...self::getBaseSchema($get)
                                         ]),
                                     ...self::getCategoryTabs($get),
                                 ];
                             })
-                            ->afterStateHydrated(function (Forms\Components\Tabs $component, ?array $state) {
+                            ->afterStateHydrated(function (Schemas\Components\Tabs $component, ?array $state) {
                                 self::hydratedFields($component, $state);
                             })
                             ->key('dynamicTabs')
                             ->columns(1)->columnSpan(2),
                     ])->columns(1),
-                    Forms\Components\Section::make('状态')->schema([
+                    Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
                             ->placeholder('正序排列')
                             ->rules(['integer', 'min:0']),
@@ -242,11 +246,11 @@ class AppraiseResource extends Resource
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters([
                 Tables\Filters\Filter::make('cultivationd_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('cultivationd_from')->label('育成开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('cultivationd_until')->label('育成结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -263,8 +267,8 @@ class AppraiseResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -281,8 +285,8 @@ class AppraiseResource extends Resource
                             );
                     }),
                 Tables\Filters\Filter::make('updated_at')
-                    ->form([
-                        Forms\Components\Group::make()->schema([
+                    ->schema([
+                        Schemas\Components\Group::make()->schema([
                             Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
                             Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
                         ])->columns(2),
@@ -300,15 +304,15 @@ class AppraiseResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -341,7 +345,7 @@ class AppraiseResource extends Resource
     private static function getBaseSchema(): array
     {
         return [
-            Forms\Components\Section::make('基础信息')->schema([
+            Schemas\Components\Section::make('基础信息')->schema([
                 SelectTree::make('category_id')->label('选择分类')
                     ->relationship(relationship: 'category', titleAttribute: 'name', parentAttribute: 'parent_id')
                     ->searchable()
@@ -395,7 +399,7 @@ class AppraiseResource extends Resource
                     ->placeholder('请输入学名')
                     ->required(),
             ])->columns(2),
-            Forms\Components\Section::make('地理信息')->schema([
+            Schemas\Components\Section::make('地理信息')->schema([
                 // 选择国家，省市区
                 Country::make('country_code')->label('选择原产国')
                     ->default('CN')
@@ -460,7 +464,7 @@ class AppraiseResource extends Resource
                     ->placeholder('请输入来源地址')
                     ->required(),
             ])->columns(2),
-            Forms\Components\Section::make('保存信息')->schema([
+            Schemas\Components\Section::make('保存信息')->schema([
                 Forms\Components\TextInput::make('save_company')->label('保存单位')
                     ->placeholder('请输入保存单位')
                     ->required(),
@@ -483,7 +487,7 @@ class AppraiseResource extends Resource
                     ->required(),
             ])->columns(2),
             // 新增种质特性部分
-            Forms\Components\Section::make('种质特性')->schema([
+            Schemas\Components\Section::make('种质特性')->schema([
                 Forms\Components\Select::make('germplasm_type')->label('种质类型')
                     ->placeholder('请选择种质类型')
                     ->required()
@@ -524,7 +528,7 @@ class AppraiseResource extends Resource
                     ->placeholder('请输入观测地点')
                     ->required(),
             ])->columns(2),
-            Forms\Components\Section::make('图集管理')->schema([
+            Schemas\Components\Section::make('图集管理')->schema([
                 Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('封面图')
                     ->helperText('支持上传图片')
                     ->collection('cover')
@@ -569,7 +573,7 @@ class AppraiseResource extends Resource
 
             $fields = $category->options['fields'] ?? [];
             foreach ($fields as $key => $field) {
-                $tabs[] = Forms\Components\Tabs\Tab::make($field['name'])
+                $tabs[] = Schemas\Components\Tabs\Tab::make($field['name'])
                     ->schema(function () use ($key, $field) {
                         $schemas = [];
                         foreach ($field['fields'] as $subKey => $subField) {
@@ -671,11 +675,11 @@ class AppraiseResource extends Resource
     /**
      * tab 字段水化，保证分类中自定义字段，改变顺序时，数据库中保存的值也能正确显示
      *
-     * @param Forms\Components\Tabs $component
+     * @param Schemas\Components\Tabs $component
      * @param array|null $state
      * @return void
      */
-    public static function hydratedFields(Forms\Components\Tabs $component, ?array $state)
+    public static function hydratedFields(Schemas\Components\Tabs $component, ?array $state)
     {
         $record = $component->getRecord();
         if (! $record) {
