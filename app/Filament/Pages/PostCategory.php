@@ -66,15 +66,11 @@ class PostCategory extends NestedsetPage
                 ->required(),
             Forms\Components\Textarea::make('remark')->label('备注'),
 
-            Schemas\Components\Group::make()
-                ->schema([
-                    Forms\Components\Radio::make('status')
-                        ->label('状态')
-                        ->default(Status::Normal)
-                        ->inline()
-                        ->options(Status::class)
-                        ->columnSpan(1),
-                ])->columns(2),
+            Forms\Components\Radio::make('status')
+                ->label('状态')
+                ->default(Status::Normal)
+                ->inline()
+                ->options(Status::class),
         ];
     }
 }

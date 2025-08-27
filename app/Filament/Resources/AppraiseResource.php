@@ -355,12 +355,12 @@ class AppraiseResource extends Resource
                     ->afterStateUpdated(function (Livewire $livewire) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
                         // 动态变动新增的字段必须通过调用 fill 主动填充; 文档: https://filamentphp.com/docs/3.x/forms/advanced#dynamic-fields-based-on-a-select-option
                         $tabs = $livewire->form->getComponent('dynamicTabs')
-                            ->getChildSchema()
+                            ?->getChildSchema()
                             ->getComponents();      // 这里获取的是 整个 tabs 数组, 直接 fill 填充 整个 tabs 好像不行
 
                         foreach ($tabs as $key => $tab) {
                             if ($key >= 1) {
-                                $tab->getChildSchema()->fill();
+                                $tab?->getChildSchema()?->fill();
                             }
                         }
                     })

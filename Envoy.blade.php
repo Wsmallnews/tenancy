@@ -2,8 +2,8 @@
 
 @setup
     $repo = 'git@github.com:Wsmallnews/tenancy.git';
-    $branch = $branch ?? 'main';
-    $appDir = '/www/wwwroot/resource-db.eep.ink';  // 服务器项目目录
+    $branch = $branch ?? 'v4';
+    $appDir = '/www/wwwroot/resource-dbv4.eep.ink';  // 服务器项目目录
     $env = $env ?? 'local'; // 环境变量
 @endsetup
 
@@ -20,30 +20,30 @@
 {{-- 更新代码 --}}
 @task('update-code', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    git config --global --add safe.directory /www/wwwroot/resource-db.eep.ink
+    git config --global --add safe.directory {{ $appDir }}
     git pull origin {{ $branch }}
 @endtask
 
 {{-- 安装依赖 --}}
 @task('install-dependencies', ['on' => ['test'], 'parallel' => true])
-    cd /www/wwwroot/resource-db.eep.ink
+    cd {{ $appDir }}
     composer install
-    chown -R www:www /www/wwwroot/resource-db.eep.ink
+    chown -R www:www {{ $appDir }}
 @endtask
 
 {{-- 执行迁移 --}}
 @task('run-migrate', ['on' => ['test'], 'parallel' => true])
-    cd /www/wwwroot/resource-db.eep.ink
+    cd {{ $appDir }}
     php artisan migrate --force
 @endtask
 
 
 {{-- 执行 npm --}}
 @task('run-npm', ['on' => ['test'], 'parallel' => true])
-    cd /www/wwwroot/resource-db.eep.ink
+    cd {{ $appDir }}
     npm install
     npm run build
-    chown -R www:www /www/wwwroot/resource-db.eep.ink
+    chown -R www:www {{ $appDir }}
 @endtask
 
 

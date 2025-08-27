@@ -191,10 +191,10 @@ class Navigation extends NestedsetPage
                 ->visible(function (Get $get) {
                     return $get('type') == NavigationTypeEnum::Content;
                 })
-                ->afterStateUpdated(fn (Forms\Components\Select $component) => $component
+                ->afterStateUpdated(fn (Forms\Components\Select $component, $state) => $state && $component
                     ->getContainer()
-                    ->getComponent('dynamicExtrasFields')
-                    ->getChildSchema()
+                    ->getComponent('dynamicExtrasFields')       // 当 dynamicExtrasFields visible = false, 也就是不可见时， 这里获取的是 null
+                    ?->getChildSchema()
                     ->fill()
                 ),
 
@@ -213,6 +213,7 @@ class Navigation extends NestedsetPage
 
             Forms\Components\Radio::make('status')
                 ->label('导航状态')
+                ->inline()
                 ->options(Status::class)
                 ->default(Status::Normal)
                 ->required()

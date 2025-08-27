@@ -93,6 +93,7 @@ class Test extends NestedsetPage
                 }),
             Radio::make('status')
                 ->label('导航状态')
+                ->inline()
                 ->options(Status::class)
                 ->default(Status::Normal)
                 ->required()

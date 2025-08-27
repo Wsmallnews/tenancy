@@ -100,6 +100,7 @@ class PatentResource extends Resource
                             ->rules(['integer', 'min:0']),
                         Forms\Components\Radio::make('status')
                             ->label('状态')
+                            ->inline()
                             ->default(Status::Ing)
                             ->options(Status::class),
                     ])->grow(false),

@@ -36,6 +36,16 @@ class PostCategory extends Model
         return ['team_id'];
     }
 
+    public function scopeNormal($query)
+    {
+        return $query->where('status', Status::Normal);
+    }
+
+    public function scopeHidden($query)
+    {
+        return $query->where('status', Status::Hidden);
+    }
+
 
     public function team(): BelongsTo
     {
