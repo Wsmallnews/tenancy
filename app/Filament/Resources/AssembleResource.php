@@ -340,6 +340,8 @@ class AssembleResource extends Resource
     public static function getPages(): array
     {
         return [
+            'index' => Pages\ListAssembles::route('/'),
+            'create' => Pages\CreateAssemble::route('/create'),
             'edit' => Pages\EditAssemble::route('/{record}/edit'),
         ];
     }
