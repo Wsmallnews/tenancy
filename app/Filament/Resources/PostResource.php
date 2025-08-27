@@ -23,11 +23,11 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '资讯管理';
 
-    protected static string | \UnitEnum | null $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
     protected static ?string $slug = 'posts';
 
@@ -83,7 +83,7 @@ class PostResource extends Resource
                                 ->image()
                                 ->downloadable()
                                 ->uploadingMessage('主图上传中...')
-                                ->imagePreviewHeight('100'),
+                                ->imagePreviewHeight('200'),
                             // SpatieMediaLibraryFileUpload::make('images')->label('轮播图')
                             //     ->collection('gallery')
                             //     ->image()
@@ -96,7 +96,7 @@ class PostResource extends Resource
                             //     ->minFiles(1)
                             //     ->maxFiles(20)
                             //     ->uploadingMessage('轮播图片上传中...')
-                            //     ->imagePreviewHeight('100'),
+                            //     ->imagePreviewHeight('200'),
                             Schemas\Components\Group::make()
                                 ->relationship('content')
                                 ->schema([

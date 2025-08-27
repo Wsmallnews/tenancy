@@ -355,17 +355,14 @@ class AppraiseResource extends Resource
                     ->afterStateUpdated(function (Livewire $livewire) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
                         // 动态变动新增的字段必须通过调用 fill 主动填充; 文档: https://filamentphp.com/docs/3.x/forms/advanced#dynamic-fields-based-on-a-select-option
                         $tabs = $livewire->form->getComponent('dynamicTabs')
-                            ->getChildComponentContainer()
+                            ->getChildSchema()
                             ->getComponents();      // 这里获取的是 整个 tabs 数组, 直接 fill 填充 整个 tabs 好像不行
 
                         foreach ($tabs as $key => $tab) {
                             if ($key >= 1) {
-                                $tab->getChildComponentContainer()->fill();
+                                $tab->getChildSchema()->fill();
                             }
                         }
-                        // return $livewire->form->getComponent('dynamicTabs')
-                        //     ->getChildComponentContainer()
-                        //     ->fill();
                     })
                     ->required()
                     ->placeholder('请选择分类')
@@ -535,7 +532,7 @@ class AppraiseResource extends Resource
                     ->required()
                     ->downloadable()
                     ->image()
-                    ->imagePreviewHeight('100')
+                    ->imagePreviewHeight('200')
                     ->uploadingMessage('封面上传中...')
                     ->columns(1),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('galleries')->label('详情图')
@@ -549,7 +546,7 @@ class AppraiseResource extends Resource
                     ->minFiles(1)
                     ->maxFiles(20)
                     ->image()
-                    ->imagePreviewHeight('100')
+                    ->imagePreviewHeight('200')
                     ->uploadingMessage('详情图上传中...')
                     ->columns(1),
             ])->columns(2),
@@ -649,7 +646,7 @@ class AppraiseResource extends Resource
                 ->minFiles($data['min_files'] ?? 1)
                 ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
                 ->image()
-                ->imagePreviewHeight('100')
+                ->imagePreviewHeight('200')
                 ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
                 ->columns(1);
         } elseif ($type == 'dateTimePicker') {

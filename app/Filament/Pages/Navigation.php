@@ -82,7 +82,7 @@ class Navigation extends NestedsetPage
                 ->maxLength(255)
                 ->visible(function (Get $get) {
                     // 只有内容 和 页面 需要设置标识
-                    return in_array(static::getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
+                    return in_array($get('type'), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
                 }),
 
             Forms\Components\SpatieMediaLibraryFileUpload::make('banner')->label('导航Banner')
@@ -91,10 +91,10 @@ class Navigation extends NestedsetPage
                 ->openable()
                 ->downloadable()
                 ->uploadingMessage('Banner 上传中...')
-                ->imagePreviewHeight('100')
+                ->imagePreviewHeight('200')
                 ->visible(function (Get $get) {
                     // 只有内容 和 页面 需要设置 Banner
-                    return in_array(static::getNavigationType($get('type')), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
+                    return in_array($get('type'), [NavigationTypeEnum::Page, NavigationTypeEnum::Content]);
                 }),
 
             Forms\Components\Select::make('options.target')
@@ -107,7 +107,7 @@ class Navigation extends NestedsetPage
                 ->required()
                 ->visible(function (Get $get) {
                     // 没有子导航了，就显示跳转类型
-                    return static::getNavigationType($get('type')) != NavigationTypeEnum::Child;
+                    return $get('type') != NavigationTypeEnum::Child;
                 }),
 
             Schemas\Components\Group::make()
@@ -120,7 +120,7 @@ class Navigation extends NestedsetPage
                 ])
                 ->visible(function (Get $get) {
                     // 没有子导航了，就显示跳转类型
-                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Page;
+                    return $get('type') == NavigationTypeEnum::Page;
                 }),
 
             Forms\Components\TextInput::make('options.url')
@@ -128,7 +128,7 @@ class Navigation extends NestedsetPage
                 ->required()
                 ->visible(function (Get $get) {
                     // Url 类型显示 跳转链接
-                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Url;
+                    return $get('type') == NavigationTypeEnum::Url;
                 }),
 
             Forms\Components\TextInput::make('options.route')
@@ -136,7 +136,7 @@ class Navigation extends NestedsetPage
                 ->required()
                 ->visible(function (Get $get) {
                     // 跳转路由,填写路由名称
-                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Route;
+                    return $get('type') == NavigationTypeEnum::Route;
                 }),
 
             Schemas\Components\Fieldset::make('url_params')
@@ -178,7 +178,7 @@ class Navigation extends NestedsetPage
                         ->columnSpan(1),
                 ])->visible(function (Get $get) {
                     // 内容类型的导航，选了内容类型，并且内容类型有 form 表单
-                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Route;
+                    return $get('type') == NavigationTypeEnum::Route;
                 })
                 ->columns(2)
                 ->statePath('options._url_params'),
@@ -189,12 +189,12 @@ class Navigation extends NestedsetPage
                 ->live()
                 ->required()
                 ->visible(function (Get $get) {
-                    return static::getNavigationType($get('type')) == NavigationTypeEnum::Content;
+                    return $get('type') == NavigationTypeEnum::Content;
                 })
-                ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
+                ->afterStateUpdated(fn (Forms\Components\Select $component) => $component
                     ->getContainer()
                     ->getComponent('dynamicExtrasFields')
-                    ->getChildComponentContainer()
+                    ->getChildSchema()
                     ->fill()
                 ),
 
@@ -206,7 +206,7 @@ class Navigation extends NestedsetPage
                     $hasForms = NavigationType::make()->hasForms($get('options.type'), ['fields' => $get()]);
 
                     // 内容类型的导航，选了内容类型，并且内容类型有 form 表单
-                    return (static::getNavigationType($get('type')) == NavigationTypeEnum::Content) && filled($get('options.type')) && $hasForms;
+                    return ($get('type') == NavigationTypeEnum::Content) && filled($get('options.type')) && $hasForms;
                 })
                 ->statePath('options._extras')
                 ->key('dynamicExtrasFields'),
@@ -217,11 +217,5 @@ class Navigation extends NestedsetPage
                 ->default(Status::Normal)
                 ->required()
         ];
-    }
-
-
-    private static function getNavigationType($type)
-    {
-        return $type instanceof NavigationTypeEnum ? $type : NavigationTypeEnum::tryFrom($type);
     }
 }

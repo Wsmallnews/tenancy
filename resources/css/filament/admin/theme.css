@@ -211,11 +211,13 @@
 
 
 /** 左边头部 和 左边菜单栏 背景色 **/
-.fi-sidebar-nav {
+.fi-sidebar-header, .fi-sidebar-nav {
     @apply bg-primary-600 dark:bg-primary-700;
 }
 
 /** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
+.fi-sidebar-header .fi-logo,   /** 小屏幕时，悬浮左侧菜单栏头部 **/
+.fi-topbar .fi-topbar-open-sidebar-btn svg,     /** 小屏幕时，悬浮左侧菜单栏头部 的操作 icon **/
 /** 左侧菜单栏多租户的内容，和 svg **/
 .fi-tenant-menu-trigger span,
 .fi-tenant-menu-trigger svg,

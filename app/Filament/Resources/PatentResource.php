@@ -81,7 +81,7 @@ class PatentResource extends Resource
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                ->imagePreviewHeight('100')
+                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('专利文件上传中...')
                                 ->columns(1),
                         ])->columns(1),
