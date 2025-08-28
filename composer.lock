@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91cb589321154f60675c99e5dcbbfb2f",
+    "content-hash": "862b6191532593ec552ba0dedbb2abb0",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -10113,16 +10113,16 @@
         },
         {
             "name": "wsmallnews/filament-nestedset",
-            "version": "v2.0.0-beta.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/filament-nestedset.git",
-                "reference": "6b612354a1f97819532376f3ee7bca4d231521a1"
+                "reference": "84600d69e7442cabc9a4ccae2aec13bd81bf60b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/filament-nestedset/zipball/6b612354a1f97819532376f3ee7bca4d231521a1",
-                "reference": "6b612354a1f97819532376f3ee7bca4d231521a1",
+                "url": "https://api.github.com/repos/Wsmallnews/filament-nestedset/zipball/84600d69e7442cabc9a4ccae2aec13bd81bf60b5",
+                "reference": "84600d69e7442cabc9a4ccae2aec13bd81bf60b5",
                 "shasum": ""
             },
             "require": {
@@ -10193,7 +10193,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-22T08:38:14+00:00"
+            "time": "2025-08-28T09:29:35+00:00"
         }
     ],
     "packages-dev": [
