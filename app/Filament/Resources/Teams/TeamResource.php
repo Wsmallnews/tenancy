@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,7 +27,7 @@ class TeamResource extends Resource
 {
     protected static ?string $model = Team::class;
 
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '资源库';
 
@@ -106,7 +107,6 @@ class TeamResource extends Resource
                     ->toggleable()
                     ->sortable(),
             ])
-            ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->defaultSort('id', 'desc')
             ->searchPlaceholder('搜索租户名称')
             ->filtersFormWidth(Width::Medium)

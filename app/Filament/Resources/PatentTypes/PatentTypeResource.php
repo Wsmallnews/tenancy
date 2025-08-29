@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -19,7 +20,7 @@ class PatentTypeResource extends Resource
 {
     protected static ?string $model = PatentType::class;
 
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '专利类型';
 
@@ -78,7 +79,6 @@ class PatentTypeResource extends Resource
                     ->toggleable()
                     ->sortable(),
             ])
-            ->deferFilters()        // 延迟过滤,用户点击 apply 按钮后才会应用过滤器
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
             ->searchPlaceholder('搜索专利类型')
