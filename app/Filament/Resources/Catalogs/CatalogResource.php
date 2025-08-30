@@ -20,6 +20,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use UnitEnum;
@@ -167,6 +168,10 @@ class CatalogResource extends Resource
                             Country::make('country_code')->label('选择原产国')
                                 ->default('CN')
                                 ->live()
+                                ->options(
+                                    // @sn todo 插件 bug 临时解决办法
+                                    Country::make('country_code')->getOptions()
+                                )
                                 ->afterStateUpdated(function (Set $set, Country $component, $state) {
                                     $country_name = $component->getCountriesList()[$state] ?? null;
                                     $set('country_name', $country_name);
@@ -186,6 +191,10 @@ class CatalogResource extends Resource
                             Country::make('source_country_code')->label('选择来源国')
                                 ->default('CN')
                                 ->live()
+                                ->options(
+                                    // @sn todo 插件 bug 临时解决办法
+                                    Country::make('source_country_code')->getOptions()
+                                )
                                 ->afterStateUpdated(function (Set $set, Country $component, $state) {
                                     $source_country_name = $component->getCountriesList()[$state] ?? null;
                                     $set('source_country_name', $source_country_name);
@@ -232,8 +241,24 @@ class CatalogResource extends Resource
                             Forms\Components\TextInput::make('assemble_address')->label('收集地点')
                                 ->placeholder('请输入收集地点')
                                 ->required(),
-                            Forms\Components\TextInput::make('assemble_company')->label('收集单位')
-                                ->placeholder('请输入收集单位')
+                            Forms\Components\Select::make('assemble_company_id')->label('收集单位') 
+                                ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                                    $record = $component->getRelationship()->getRelated();
+                                    $record->fill($data);
+                                    $record->save();
+                                    $schema->model($record)->saveRelationships();
+                                    return $record->getKey();
+                                })
+                                ->placeholder('请选择收集单位')
+                                ->searchable(['name', 'code'])
+                                ->preload()
                                 ->required(),
                             Forms\Components\TextInput::make('assember')->label('收集者')
                                 ->placeholder('请输入收集者')
@@ -248,14 +273,43 @@ class CatalogResource extends Resource
                                 ->placeholder('请输入提供者手机号')
                                 ->required(),
                                 
-                            Forms\Components\TextInput::make('temp_save_company')->label('临时保存单位')
-                                ->placeholder('请输入临时保存单位')
+                            Forms\Components\Select::make('temp_save_company_id')->label('临时保存单位') 
+                                ->relationship(name: 'tempSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                                    $record = $component->getRelationship()->getRelated();
+                                    $record->fill($data);
+                                    $record->save();
+                                    $schema->model($record)->saveRelationships();
+                                    return $record->getKey();
+                                })
+                                ->placeholder('请选择临时保存单位')
+                                ->searchable(['name', 'code'])
+                                ->preload()
                                 ->required(),
-                            Forms\Components\TextInput::make('original_save_company')->label('原保存单位')
-                                ->placeholder('请输入原保存单位')
-                                ->required(),
-                            Forms\Components\TextInput::make('original_save_company_no')->label('原保存单位编号')
-                                ->placeholder('请输入原保存单位编号')
+                            Forms\Components\Select::make('original_save_company_id')->label('原保存单位') 
+                                ->relationship(name: 'originalSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                                    $record = $component->getRelationship()->getRelated();
+                                    $record->fill($data);
+                                    $record->save();
+                                    $schema->model($record)->saveRelationships();
+                                    return $record->getKey();
+                                })
+                                ->placeholder('请选择原保存单位')
+                                ->searchable(['name', 'code'])
+                                ->preload()
                                 ->required(),
                             Forms\Components\TextInput::make('inspect_assemble_project')->label('考察收集项目')
                                 ->placeholder('请输入考察收集项目')

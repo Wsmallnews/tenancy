@@ -177,21 +177,19 @@ class AppraiseResource extends Resource
                     ->label('来源地址')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('save_company')
+                Tables\Columns\TextColumn::make('saveCompany.name')
+                    ->formatStateUsing(fn($record) => $record?->saveCompany ? "{$record->saveCompany->name} (编号：{$record->saveCompany->code})" : null)
+                    ->searchable()
                     ->label('保存单位')
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('save_company_no')
-                    ->label('保存单位编号')
-                    ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('pedigree')
                     ->label('系谱')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('breeding_company')
-                    ->label('选育单位')
+                Tables\Columns\TextColumn::make('breedingCompany.name')
+                    ->formatStateUsing(fn($record) => $record?->breedingCompany ? "{$record->breedingCompany->name} (编号：{$record->breedingCompany->code})" : null)
                     ->searchable()
+                    ->label('选育单位')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('cultivationd_at')
                     ->label('育成年份')
@@ -401,6 +399,10 @@ class AppraiseResource extends Resource
                 Country::make('country_code')->label('选择原产国')
                     ->default('CN')
                     ->live()
+                    ->options(
+                        // @sn todo 插件 bug 临时解决办法
+                        Country::make('country_code')->getOptions()
+                    )
                     ->afterStateUpdated(function (Set $set, Country $component, $state) {
                         $country_name = $component->getCountriesList()[$state] ?? null;
                         $set('country_name', $country_name);
@@ -432,6 +434,10 @@ class AppraiseResource extends Resource
                 Country::make('source_country_code')->label('选择来源国')
                     ->default('CN')
                     ->live()
+                    ->options(
+                        // @sn todo 插件 bug 临时解决办法
+                        Country::make('source_country_code')->getOptions()
+                    )
                     ->afterStateUpdated(function (Set $set, Country $component, $state) {
                         $source_country_name = $component->getCountriesList()[$state] ?? null;
                         $set('source_country_name', $source_country_name);
@@ -462,17 +468,46 @@ class AppraiseResource extends Resource
                     ->required(),
             ])->columns(2),
             Schemas\Components\Section::make('保存信息')->schema([
-                Forms\Components\TextInput::make('save_company')->label('保存单位')
-                    ->placeholder('请输入保存单位')
-                    ->required(),
-                Forms\Components\TextInput::make('save_company_no')->label('保存单位编号')
-                    ->placeholder('请输入保存单位编号')
+                Forms\Components\Select::make('save_company_id')->label('保存单位')
+                    ->relationship(name: 'saveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                        return $query->normal()->orderBy('order_column', 'asc');
+                    })
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                    ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                    ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                        $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                        $record = $component->getRelationship()->getRelated();
+                        $record->fill($data);
+                        $record->save();
+                        $schema->model($record)->saveRelationships();
+                        return $record->getKey();
+                    })
+                    ->placeholder('请选择保存单位')
+                    ->searchable(['name', 'code'])
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('pedigree')->label('系谱')
                     ->placeholder('请输入系谱')
                     ->required(),
-                Forms\Components\TextInput::make('breeding_company')->label('选育单位')
-                    ->placeholder('请输入选育单位')
+                Forms\Components\Select::make('breeding_company_id')->label('选育单位')
+                    ->relationship(name: 'breedingCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                        return $query->normal()->orderBy('order_column', 'asc');
+                    })
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                    ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                    ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                        $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                        $record = $component->getRelationship()->getRelated();
+                        $record->fill($data);
+                        $record->save();
+                        $schema->model($record)->saveRelationships();
+                        return $record->getKey();
+                    })
+                    ->placeholder('请选择选育单位')
+                    ->searchable(['name', 'code'])
+                    ->preload()
                     ->required(),
                 Forms\Components\DatePicker::make('cultivationd_at')->label('育成年份')
                     ->placeholder('请选择育成年份')

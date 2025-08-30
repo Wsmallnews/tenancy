@@ -132,8 +132,24 @@ class AssembleResource extends Resource
                             Forms\Components\TextInput::make('assemble_no')->label('收集编号')
                                 ->placeholder('请输入收集编号')
                                 ->required(),
-                            Forms\Components\TextInput::make('company')->label('收集单位')
-                                ->placeholder('请输入收集单位')
+                            Forms\Components\Select::make('assemble_company_id')->label('收集单位') 
+                                ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                                    $record = $component->getRelationship()->getRelated();
+                                    $record->fill($data);
+                                    $record->save();
+                                    $schema->model($record)->saveRelationships();
+                                    return $record->getKey();
+                                })
+                                ->placeholder('请选择收集单位')
+                                ->searchable(['name', 'code'])
+                                ->preload()
                                 ->required(),
                             Forms\Components\TextInput::make('subject_no')->label('所属课题编号')
                                 ->placeholder('请输入所属课题编号')
@@ -147,6 +163,10 @@ class AssembleResource extends Resource
                             Country::make('country_code')->label('选择国家')
                                 ->default('CN')
                                 ->live()
+                                ->options(
+                                    // @sn todo 插件 bug 临时解决办法
+                                    Country::make('country_code')->getOptions()
+                                )
                                 ->afterStateUpdated(function (Set $set, Country $component, $state) {
                                     $country_name = $component->getCountriesList()[$state] ?? null;
                                     $set('country_name', $country_name);
@@ -194,9 +214,10 @@ class AssembleResource extends Resource
                     ->label('收集人')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('company')
-                    ->label('收集单位')
+                Tables\Columns\TextColumn::make('assembleCompany.name')
+                    ->formatStateUsing(fn ($record) => $record?->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : null)
                     ->searchable()
+                    ->label('收集单位')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('assemble_no')
                     ->label('收集编号')

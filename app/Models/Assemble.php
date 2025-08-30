@@ -51,6 +51,11 @@ class Assemble extends Model implements HasMedia
         return $this->belongsTo(Appraise::class);
     }
 
+    public function assembleCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'assemble_company_id');
+    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

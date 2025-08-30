@@ -16,6 +16,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
 
@@ -61,8 +62,24 @@ class ThesisResource extends Resource
                             Forms\Components\TextInput::make('author_name')->label('作者')
                                 ->placeholder('请输入论文作者')
                                 ->required(),
-                            Forms\Components\TextInput::make('company_name')->label('所属单位')
-                                ->placeholder('请输入论文所属单位')
+                            Forms\Components\Select::make('company_id')->label('所属单位')
+                                ->relationship(name: 'company', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                    return $query->normal()->orderBy('order_column', 'asc');
+                                })
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
+                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+
+                                    $record = $component->getRelationship()->getRelated();
+                                    $record->fill($data);
+                                    $record->save();
+                                    $schema->model($record)->saveRelationships();
+                                    return $record->getKey();
+                                })
+                                ->placeholder('请选择论文所属单位')
+                                ->searchable(['name', 'code'])
+                                ->preload()
                                 ->required(),
                             Forms\Components\Textarea::make('description')->label('摘要')
                                 ->placeholder('请输入论文摘要'),
@@ -136,7 +153,8 @@ class ThesisResource extends Resource
                     ->searchable()
                     ->label('作者')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('company_name')
+                Tables\Columns\TextColumn::make('company.name')
+                    ->formatStateUsing(fn ($record) => $record?->company ? "{$record->company->name} (编号：{$record->company->code})" : null)
                     ->searchable()
                     ->label('所属单位')
                     ->toggleable(),

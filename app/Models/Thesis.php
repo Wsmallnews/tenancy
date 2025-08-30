@@ -49,6 +49,12 @@ class Thesis extends Model implements HasMedia
         return $this->belongsTo(ThesisType::class);
     }
 
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

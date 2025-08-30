@@ -51,6 +51,21 @@ class Catalog extends Model implements HasMedia
         return $this->belongsTo(Appraise::class);
     }
 
+    public function assembleCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'assemble_company_id');
+    }
+
+    public function tempSaveCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'temp_save_company_id');
+    }
+
+    public function originalSaveCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'original_save_company_id');
+    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

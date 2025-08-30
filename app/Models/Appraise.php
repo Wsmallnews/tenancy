@@ -53,6 +53,15 @@ class Appraise extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
+    public function saveCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'save_company_id');
+    }
+
+    public function breedingCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'breeding_company_id');
+    }
 
     public function preserves(): HasMany
     {
