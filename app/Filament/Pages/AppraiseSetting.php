@@ -32,9 +32,9 @@ class AppraiseSetting extends SettingsPage
     {
         return $schema
             ->components([
-                Schemas\Components\Section::make('选项字典')->schema([
+                Schemas\Components\Section::make('种质类型')->schema([
                     Forms\Components\Repeater::make('germplasm_type')
-                        ->label('种质类型')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -48,9 +48,10 @@ class AppraiseSetting extends SettingsPage
                         ->addActionLabel('添加选项')
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
-
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('用途')->schema([
                     Forms\Components\Repeater::make('germplasm_use')
-                        ->label('用途')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -65,8 +66,10 @@ class AppraiseSetting extends SettingsPage
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
 
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('果实用途')->schema([
                     Forms\Components\Repeater::make('fruit_use')
-                        ->label('果实用途')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -80,9 +83,10 @@ class AppraiseSetting extends SettingsPage
                         ->addActionLabel('添加选项')
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
-
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('植株用途')->schema([
                     Forms\Components\Repeater::make('plant_use')
-                        ->label('植株用途')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -97,8 +101,10 @@ class AppraiseSetting extends SettingsPage
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
 
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('种植收集源')->schema([
                     Forms\Components\Repeater::make('assemble_resource')
-                        ->label('种植收集源')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -113,8 +119,10 @@ class AppraiseSetting extends SettingsPage
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
 
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('收集材料类型')->schema([
                     Forms\Components\Repeater::make('assemble_material_type')
-                        ->label('收集材料类型')
+                        ->hiddenLabel()
                         ->simple(
                             Forms\Components\TextInput::make('value')
                                 ->hiddenLabel()
@@ -128,9 +136,7 @@ class AppraiseSetting extends SettingsPage
                         ->addActionLabel('添加选项')
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
-                ])
-                ->columns(2)
-                ->columnSpanFull(),
+                ])->columns(2)->columnSpanFull()
             ]);
     }
 }

@@ -294,6 +294,7 @@ class Category extends NestedsetPage
                         // ->deleteAction(
                         //     fn (Action $action) => $action->requiresConfirmation(),
                         // )
+                        ->extraAttributes(['class' => 'category-custom-field'])
                         ->addActionLabel('添加字段')
                         ->collapsible()
                         ->blockNumbers(false)
@@ -304,6 +305,7 @@ class Category extends NestedsetPage
             // ->deleteAction(          // 需要研究下 modal 的层级，如何不关闭当前编辑的 modal
             //     fn(Action $action) => $action->requiresConfirmation(),
             // )
+            ->extraAttributes(['class' => 'category-custom-field-group'])
             ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
             ->addActionLabel('添加分组')
             ->collapsible()

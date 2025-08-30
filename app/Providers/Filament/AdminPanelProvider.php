@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Http\Middleware\ApplyTenantScopes;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
@@ -104,7 +103,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->tenantMiddleware([
                 SyncShieldTenant::class,
-                ApplyTenantScopes::class,
             ], isPersistent: true)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->spa();
