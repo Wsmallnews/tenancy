@@ -46,7 +46,7 @@ class Navigation extends Model implements HasMedia
 
     public function getScopeAttributes(): array
     {
-        return ['team_id', 'active'];
+        return ['team_id'];
     }
 
 

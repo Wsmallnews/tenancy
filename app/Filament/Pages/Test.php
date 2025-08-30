@@ -43,17 +43,17 @@ class Test extends NestedsetPage
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $tabFieldName = 'active';
+    // protected static ?string $tabFieldName = 'active';
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public function getTabs(): array
-    {
-        return [
-            'web' => Tab::make()->label('Website Navigation'),
-            'shop' => Tab::make()->label('Shop Navigation')
-        ];
-    }
+    // public function getTabs(): array
+    // {
+    //     return [
+    //         'web' => Tab::make()->label('Website Navigation'),
+    //         'shop' => Tab::make()->label('Shop Navigation')
+    //     ];
+    // }
 
 
     public function createSchema($arguments): array
