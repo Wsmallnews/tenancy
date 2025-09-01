@@ -7,7 +7,10 @@ use App\Models\Permission;
 use App\Models\Role;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\TextSize;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -169,5 +172,12 @@ class AppServiceProvider extends ServiceProvider
         DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeWithSecondsDisplayFormat('Y-m-d H:i:s'));
         DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeDisplayFormat('H:i'));
         DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeWithSecondsDisplayFormat('H:i:s'));
+
+        TextEntry::configureUsing(function (TextEntry $entry): void {
+            $entry->size(TextSize::Medium)
+                ->weight(FontWeight::Bold)
+                // ->inlineLabel()
+                ->alignStart();
+        });
     }
 }

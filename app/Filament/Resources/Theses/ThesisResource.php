@@ -6,6 +6,7 @@ use BackedEnum;
 use Filament\Support\Enums\Width;
 use App\Enums\Theses\Status;
 use App\Filament\Resources\Theses\Pages;
+use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
 use App\Models\Thesis;
 use Filament\Actions;
 use Filament\Forms;
@@ -126,6 +127,13 @@ class ThesisResource extends Resource
                 ->from('lg')
             ]);
     }
+
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return ThesisInfolist::configure($schema);
+    }
+
 
     public static function table(Table $table): Table
     {
@@ -251,6 +259,7 @@ class ThesisResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -275,6 +284,7 @@ class ThesisResource extends Resource
         return [
             'index' => Pages\ListTheses::route('/'),
             'create' => Pages\CreateThesis::route('/create'),
+            'view' => Pages\ViewThesis::route('/{record}'),
             'edit' => Pages\EditThesis::route('/{record}/edit'),
         ];
     }
