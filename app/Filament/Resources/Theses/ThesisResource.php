@@ -52,6 +52,7 @@ class ThesisResource extends Resource
                                 ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm::configure($schema))
                                 ->placeholder('请选择论文类型')
                                 ->searchable()
                                 ->preload()

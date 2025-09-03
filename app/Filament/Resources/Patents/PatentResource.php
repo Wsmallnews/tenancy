@@ -54,6 +54,7 @@ class PatentResource extends Resource
                                 ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm::configure($schema))
                                 ->placeholder('请选择专利类型')
                                 ->searchable()
                                 ->preload()

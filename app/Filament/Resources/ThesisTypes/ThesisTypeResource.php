@@ -4,9 +4,9 @@ namespace App\Filament\Resources\ThesisTypes;
 
 use BackedEnum;
 use App\Filament\Resources\ThesisTypes\Pages\ManageThesisTypes;
+use App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm;
 use App\Enums\ThesisTypes\Status;
 use App\Models\ThesisType;
-
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -41,21 +41,7 @@ class ThesisTypeResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Forms\Components\TextInput::make('name')->label('类型名称')
-                    ->placeholder('请输入类型名称')
-                    ->required(),
-                Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                    ->placeholder('正序排列')
-                    ->rules(['integer', 'min:0']),
-                Forms\Components\Radio::make('status')
-                    ->label('状态')
-                    ->inline()
-                    ->default(Status::Normal)
-                    ->options(Status::class),
-            ])
-            ->columns(1);
+        return ThesisTypeForm::configure($schema);
     }
 
     public static function table(Table $table): Table

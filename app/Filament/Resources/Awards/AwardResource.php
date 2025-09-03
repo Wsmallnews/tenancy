@@ -54,6 +54,7 @@ class AwardResource extends Resource
                                 ->relationship(name: 'awardType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
+                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm::configure($schema))
                                 ->placeholder('请选择奖项类型')
                                 ->searchable()
                                 ->preload()

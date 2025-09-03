@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PatentTypes;
 use BackedEnum;
 use App\Enums\PatentTypes\Status;
 use App\Filament\Resources\PatentTypes\Pages;
+use App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm;
 use App\Models\PatentType;
 use Filament\Actions;
 use Filament\Forms;
@@ -40,21 +41,7 @@ class PatentTypeResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Forms\Components\TextInput::make('name')->label('类型名称')
-                    ->placeholder('请输入类型名称')
-                    ->required(),
-                Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                    ->placeholder('正序排列')
-                    ->rules(['integer', 'min:0']),
-                Forms\Components\Radio::make('status')
-                    ->label('状态')
-                    ->inline()
-                    ->default(Status::Normal)
-                    ->options(Status::class),
-            ])
-            ->columns(1);
+        return PatentTypeForm::configure($schema);
     }
 
     public static function table(Table $table): Table
