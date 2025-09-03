@@ -6,6 +6,7 @@ use BackedEnum;
 use Filament\Support\Enums\Width;
 use App\Enums\Patents\Status;
 use App\Filament\Resources\Patents\Pages;
+use App\Filament\Resources\Patents\Schemas\PatentInfolist;
 use App\Models\Patent;
 use Filament\Actions;
 use Filament\Forms;
@@ -109,6 +110,11 @@ class PatentResource extends Resource
                 ->columnSpanFull()
                 ->from('lg')
             ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return PatentInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -246,6 +252,7 @@ class PatentResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -270,6 +277,7 @@ class PatentResource extends Resource
         return [
             'index' => Pages\ListPatents::route('/'),
             'create' => Pages\CreatePatent::route('/create'),
+            'view' => Pages\ViewPatent::route('/{record}'),
             'edit' => Pages\EditPatent::route('/{record}/edit'),
         ];
     }

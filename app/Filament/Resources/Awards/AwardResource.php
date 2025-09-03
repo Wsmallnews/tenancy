@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Awards;
 use BackedEnum;
 use App\Enums\Awards\Status;
 use App\Filament\Resources\Awards\Pages;
+use App\Filament\Resources\Awards\Schemas\AwardInfolist;
 use App\Models\Award;
 use Filament\Actions;
 use Filament\Forms;
@@ -60,7 +61,7 @@ class AwardResource extends Resource
                             Forms\Components\TextInput::make('award_agency')->label('授奖机构')
                                 ->placeholder('请输入授奖机构')
                                 ->required(),
-                            Forms\Components\TextInput::make('level')->label('级别')
+                            Forms\Components\TextInput::make('level')->label('奖项级别')
                                 ->placeholder('请输入奖项级别')
                                 ->required(),
                             Forms\Components\TextInput::make('award_name')->label('获奖人/团队')
@@ -103,6 +104,11 @@ class AwardResource extends Resource
                 ->columnSpanFull()
                 ->from('lg')
             ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AwardInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -217,6 +223,7 @@ class AwardResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -241,6 +248,7 @@ class AwardResource extends Resource
         return [
             'index' => Pages\ListAwards::route('/'),
             'create' => Pages\CreateAward::route('/create'),
+            'view' => Pages\ViewAward::route('/{record}'),
             'edit' => Pages\EditAward::route('/{record}/edit'),
         ];
     }
