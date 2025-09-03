@@ -33,7 +33,7 @@ class CatalogResource extends Resource
 
     protected static ?string $navigationLabel = '编目';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质目录';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'catalogs';
 

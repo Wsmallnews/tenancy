@@ -8,6 +8,7 @@ use App\Filament\Resources\Teams\Pages;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\Team;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -29,9 +30,7 @@ class TeamResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = '资源库';
-
-    protected static string | UnitEnum | null $navigationGroup = '资源库管理';
+    protected static ?string $navigationLabel = '资源库(圃)';
 
     protected static ?string $slug = 'teams';
 
@@ -67,6 +66,7 @@ class TeamResource extends Resource
                         Forms\Components\TextInput::make('slug')->label('标识')
                                 ->placeholder('请输入租户标识')
                                 ->regex('/^[A-Za-z0-9_]+$/')
+                                ->unique()
                                 ->required(),
                         Forms\Components\Radio::make('status')
                             ->label('状态')
@@ -231,5 +231,12 @@ class TeamResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return Utils::isResourceNavigationGroupEnabled()
+            ? __('filament-shield::filament-shield.nav.group')
+            : '';
     }
 }

@@ -33,7 +33,7 @@ class AssembleResource extends Resource
 
     protected static ?string $navigationLabel = '收集';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'assembles';
 

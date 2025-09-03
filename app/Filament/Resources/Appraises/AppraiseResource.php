@@ -37,7 +37,7 @@ class AppraiseResource extends Resource
 
     protected static ?string $navigationLabel = '评价';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'appraises';
 

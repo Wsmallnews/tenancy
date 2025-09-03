@@ -29,7 +29,7 @@ class PreserveResource extends Resource
 
     protected static ?string $navigationLabel = '保存';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'preserves';
 

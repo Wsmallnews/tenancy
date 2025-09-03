@@ -26,7 +26,7 @@ class Category extends NestedsetPage
 
     protected static ?string $navigationLabel = '种质分类';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质目录';
+    protected static string | UnitEnum | null $navigationGroup = '属性选项';
 
     protected static ?string $slug = 'categories';
 

@@ -38,7 +38,7 @@ class PatentResource extends Resource
 
     protected static ?string $pluralModelLabel = '专利';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {

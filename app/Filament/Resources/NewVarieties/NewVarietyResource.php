@@ -31,7 +31,7 @@ class NewVarietyResource extends Resource
 
     protected static ?string $navigationLabel = '新品种';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质目录';
+    protected static string | UnitEnum | null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'new-varieties';
 
@@ -41,7 +41,7 @@ class NewVarietyResource extends Resource
 
     protected static ?string $pluralModelLabel = '新品种';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {

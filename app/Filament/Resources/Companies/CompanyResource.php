@@ -23,7 +23,7 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationLabel = '单位管理';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质目录';
+    protected static string | UnitEnum | null $navigationGroup = '属性选项';
 
     protected static ?string $slug = 'companies';
     

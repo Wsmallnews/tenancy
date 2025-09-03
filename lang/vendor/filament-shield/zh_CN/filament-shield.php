@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => '权限管理',
+    'nav.group' => '账号管理',
     'nav.role.label' => '角色',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => '角色',

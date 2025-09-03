@@ -84,6 +84,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
 
     public function canAccessPanel(Panel $panel): bool
     {
+        return true;        // @sn todo 这里不限制登录判断
         return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
     }
 
