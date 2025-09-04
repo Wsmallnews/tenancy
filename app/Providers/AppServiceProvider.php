@@ -177,6 +177,7 @@ class AppServiceProvider extends ServiceProvider
             $entry->size(TextSize::Medium)
                 ->weight(FontWeight::Bold)
                 // ->inlineLabel()
+                ->entryWrapperView('infolists.entry-wrapper')
                 ->alignStart();
         });
     }
