@@ -34,7 +34,7 @@
         $attributes
             ->merge($entry?->getExtraEntryWrapperAttributes() ?? [], escape: false)
             ->class([
-                'fi-in-entry-bak min-h-14 flex items-stretch gap-0',
+                'fi-in-entry-bak min-h-14 h-full flex items-stretch gap-0',
                 'fi-in-entry-has-inline-label' => $hasInlineLabel,
             ])
     }}
@@ -45,7 +45,7 @@
         </dt>
     @endif
 
-    <div class="fi-in-entry-label-col w-24 shrink-0 flex items-center bg-gray-200 p-2 ">
+    <div class="fi-in-entry-label-col w-24 shrink-0 flex items-center border-r border-gray-100 bg-gray-100 p-2 ">
         {{ $entry?->getChildSchema($entry::ABOVE_LABEL_SCHEMA_KEY) }}
 
         @if (($label && (! $labelSrOnly)) || $beforeLabelContainer || $afterLabelContainer)
@@ -79,7 +79,7 @@
         {{ $entry?->getChildSchema($entry::BELOW_LABEL_SCHEMA_KEY) }}
     </div>
 
-    <div class="fi-in-entry-content-col flex items-center p-2 grow">
+    <div class="fi-in-entry-content-col flex items-center bg-white p-2 grow">
         {{ $entry?->getChildSchema($entry::ABOVE_CONTENT_SCHEMA_KEY) }}
 
         <dd class="fi-in-entry-content-ctn">
