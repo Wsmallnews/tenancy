@@ -38,7 +38,7 @@ class ThesisInfolist
                         Infolists\Components\TextEntry::make('journal')
                             ->label('发布期刊')
                             ->extraEntryWrapperAttributes([
-                                'class' => 'sn-many-rows',
+                                'class' => 'sn-two-rows',
                             ]),
 
                         Infolists\Components\TextEntry::make('issue_number')

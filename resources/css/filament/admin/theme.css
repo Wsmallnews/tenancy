@@ -15,11 +15,15 @@
 
 /** 表格网格样式 容器样式 **/
 .sn-grid-table {
-    @apply bg-gray-200 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10;
+    @apply bg-gray-200 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-700 dark:ring-white/10;
 }
 /** 表格网格样式 grid样式 **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap {
     @apply gap-[1px];
+}
+/** 表格网络 特定子元素 所占行数设置 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col {
+    @apply has-[.sn-two-rows]:row-span-2 has-[.sn-three-rows]:row-span-3 has-[.sn-four-rows]:row-span-4; 
 }
 /** 表格网格样式 下面的 entry 的样式 **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry {
@@ -27,11 +31,11 @@
 }
 /** 表格网格样式 下面的 entry label 样式 **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-label-col {
-    @apply w-24 shrink-0 flex items-center border-r border-gray-100 bg-gray-100 p-2;
+    @apply w-24 shrink-0 flex items-center border-r border-gray-100 bg-gray-100 dark:border-gray-700 dark:bg-gray-800 p-2;
 }
 /** 表格网格样式 下面的 entry content 样式 **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-content-col {
-    @apply flex items-center bg-white p-2 grow;
+    @apply flex items-center bg-white p-2 grow dark:bg-gray-900;
 }
 
 
