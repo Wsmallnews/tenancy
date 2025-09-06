@@ -10,6 +10,7 @@ use App\Models\Appraise;
 use App\Models\Assemble;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Infolists;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
@@ -62,66 +63,46 @@ class AssembleResource extends Resource
                                 ->live()
                                 ->required()
                                 ->columnSpanFull(),
-
-                            Forms\Components\ViewField::make('appraiseInfo')
-                                ->view('forms.fields.fields-info')
-                                ->viewData(function (Get $get) {
-                                    $data = [
-                                        'title' => '种质信息',
-                                        'fields' => [],
-                                        'count' => 8,      // 图片算两个
-                                    ];
-
-                                    if ($get('appraise_id')) {
-                                        $appraise = Appraise::findOrFail($get('appraise_id'));
+                            Schemas\Components\Grid::make([
+                                    'default' => 1,
+                                    'lg' => 2,
+                                    'xl' => 3,
+                                ])
+                                ->extraAttributes([
+                                    'class' => 'sn-grid-table',
+                                ])
+                                ->schema(function(Get $get) {
+                                    if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
-                                        $data['fields'][] = [
-                                            'type' => 'image',
-                                            'field_name' => 'cover',
-                                            'label' => '种质封面图',
-                                            'value' => $coverMedia->getFullUrl(),
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'resource_no',
-                                            'label' => '种质资源编号',
-                                            'value' => $appraise->resource_no,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'name',
-                                            'label' => '种质中文名',
-                                            'value' => $appraise->name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'en_name',
-                                            'label' => '种质外文名',
-                                            'value' => $appraise->en_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'subject_name',
-                                            'label' => '科名',
-                                            'value' => $appraise->subject_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'genus_name',
-                                            'label' => '属名',
-                                            'value' => $appraise->genus_name,
-                                        ];
-                                        $data['fields'][] = [
-                                            'type' => 'text',
-                                            'field_name' => 'species_name',
-                                            'label' => '学名',
-                                            'value' => $appraise->species_name,
+                                        return [
+                                            Infolists\Components\ImageEntry::make('appraise_cover')
+                                                ->label('种质封面图')
+                                                ->state($coverMedia?->getFullUrl())
+                                                ->extraAttributes([
+                                                    'class' => 'sn-two-rows'
+                                                ]),
+                                            Infolists\Components\TextEntry::make('appraise_resource_no')
+                                                ->label('全国统一编号')
+                                                ->state($appraise->resource_no),
+                                            Infolists\Components\TextEntry::make('appraise_name')
+                                                ->label('种质中文名')
+                                                ->state($appraise->name),
+                                            Infolists\Components\TextEntry::make('appraise_en_name')
+                                                ->label('种质外文名')
+                                                ->state($appraise->en_name),
+                                            Infolists\Components\TextEntry::make('appraise_subject_name')
+                                                ->label('科名')
+                                                ->state($appraise->subject_name),
+                                            Infolists\Components\TextEntry::make('appraise_genus_name')
+                                                ->label('属名')
+                                                ->state($appraise->genus_name),
+                                            Infolists\Components\TextEntry::make('appraise_species_name')
+                                                ->label('学名')
+                                                ->state($appraise->species_name),
                                         ];
                                     }
-                                    return $data;
                                 })
-                                ->dehydrated(false)
                                 ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ])->columns(2),
@@ -132,7 +113,7 @@ class AssembleResource extends Resource
                             Forms\Components\TextInput::make('assemble_no')->label('收集编号')
                                 ->placeholder('请输入收集编号')
                                 ->required(),
-                            Forms\Components\Select::make('assemble_company_id')->label('收集单位') 
+                            Forms\Components\Select::make('assemble_company_id')->label('收集单位')
                                 ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
@@ -236,7 +217,7 @@ class AssembleResource extends Resource
                     ->collection('cover')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.resource_no')
-                    ->label('种质资源编号')
+                    ->label('全国统一编号')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.name')

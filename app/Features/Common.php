@@ -2,6 +2,7 @@
 
 namespace App\Features;
 
+use App\Filament\Infolists\Components\SwiperEntry;
 use Filament\Actions;
 use Filament\Infolists;
 use Filament\Schemas;
@@ -18,27 +19,45 @@ class Common
         $medias = $record->getRelationValue('media');
 
         $files = $medias
-            ->filter(fn ($media) => 
+            ->filter(fn ($media) =>
                 $media->getAttributeValue('collection_name') === $collection && Str::doesntStartWith($media->mime_type, 'image/')
             )
             ->sortBy('order_column');
 
         $images = $medias
-            ->filter(fn ($media) => 
+            ->filter(fn ($media) =>
                 $media->getAttributeValue('collection_name') === $collection && Str::startsWith($media->mime_type, 'image/')
             )
             ->sortBy('order_column');
 
+        if ($images->isNotEmpty()) {
+            // 图片
+            $schemas[] = Schemas\Components\Section::make('图片')
+                ->schema([
+                    SwiperEntry::make($collection)
+                        ->hiddenLabel()
+                        ->collection($collection)
+                        ->filterMediaUsing(
+                            fn ($media): MediaCollection => $media->filter(function ($item) {
+                                return Str::startsWith($item->mime_type, 'image/');
+                            })
+                        )->columnSpanFull()
+                ])
+                ->extraAttributes([
+                    'class' => 'sn-attachment-image-list',
+                ])
+                ->columnSpan(1);
+        }
+
         if ($files->isNotEmpty()) {
-            $schemas[] = Schemas\Components\Fieldset::make()
-                ->label('文件')
+            $schemas[] = Schemas\Components\Section::make('文件')
                 ->schema(function () use ($files) {
                     return $files->map(function ($media) {
                         return Infolists\Components\TextEntry::make('fileentry-' . $media->fila_name)
                             ->hiddenLabel()
                             ->state($media)
                             ->formatStateUsing(fn ($state) => $state->name . '.' . $state->extension)
-                            ->beforeContent(function ($state) {
+                            ->afterContent(function ($state) {
                                 return Actions\Action::make('download-' . $state->file_name)
                                     ->icon(Heroicon::ArrowDownTray)
                                     ->iconButton()
@@ -46,25 +65,14 @@ class Common
                                         return response()->download($state->getPath(), $state->name . '.' . $state->extension);
                                     }
                                 );
-                            });
-                    })->all();
-                });
-        }
-
-        if ($images->isNotEmpty()) {
-            // 图片
-            $schemas[] = Schemas\Components\Fieldset::make()
-                ->label('图片')
-                ->schema([
-                    Infolists\Components\SpatieMediaLibraryImageEntry::make($collection)
-                        ->hiddenLabel()
-                        ->collection($collection)
-                        ->filterMediaUsing(
-                            fn ($media): MediaCollection => $media->filter(function ($item) {
-                                return Str::startsWith($item->mime_type, 'image/');
                             })
-                        )
-                ])->columns(1);
+                            ->columnSpanFull();
+                    })->all();
+                })
+                ->extraAttributes([
+                    'class' => 'sn-attachment-file-list',
+                ])
+                ->columnSpan(fn () => $images->isNotEmpty() ? 1 : 2);
         }
 
         return $schemas;
