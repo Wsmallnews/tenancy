@@ -6,6 +6,7 @@ use BackedEnum;
 use App\Enums\NewVarieties\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\NewVarieties\Pages;
+use App\Filament\Resources\NewVarieties\Schemas\NewVarietyInfolist;
 use App\Models\Appraise;
 use App\Models\NewVariety;
 use Filament\Actions;
@@ -147,6 +148,13 @@ class NewVarietyResource extends Resource
             ]);
     }
 
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return NewVarietyInfolist::configure($schema);
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -256,6 +264,7 @@ class NewVarietyResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -280,6 +289,7 @@ class NewVarietyResource extends Resource
         return [
             'index' => Pages\ListNewVarieties::route('/'),
             'create' => Pages\CreateNewVariety::route('/create'),
+            'view' => Pages\ViewNewVariety::route('/{record}'),
             'edit' => Pages\EditNewVariety::route('/{record}/edit'),
         ];
     }

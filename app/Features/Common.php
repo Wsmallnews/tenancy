@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
@@ -76,5 +77,17 @@ class Common
         }
 
         return $schemas;
+    }
+
+
+    /**
+     * 标题 带下划线
+     *
+     * @param string $title
+     * @return HtmlString
+     */
+    public static function title($title)
+    {
+        return new HtmlString('<span class="relative inline text-lg font-bold after:absolute after:bg-primary-500 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-1.5">' . $title . '</span>');
     }
 }

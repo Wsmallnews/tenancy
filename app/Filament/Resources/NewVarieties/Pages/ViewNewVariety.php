@@ -3,20 +3,17 @@
 namespace App\Filament\Resources\NewVarieties\Pages;
 
 use App\Filament\Resources\NewVarieties\NewVarietyResource;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditNewVariety extends EditRecord
+class ViewNewVariety extends ViewRecord
 {
     protected static string $resource = NewVarietyResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
+            EditAction::make(),
         ];
     }
 }

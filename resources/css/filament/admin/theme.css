@@ -3,6 +3,7 @@
 @import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css';
 
 @source '../../../../app/Filament/**/*';
+@source '../../../../app/Features/**/*';
 @source '../../../../resources/views/**/*';
 
 .fi-body {
