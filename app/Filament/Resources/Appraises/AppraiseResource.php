@@ -155,7 +155,7 @@ class AppraiseResource extends Resource
                     ->suffix('米')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('longitude')
+                Tables\Columns\TextColumn::make('lng_lat')
                     ->label('经纬度')
                     ->state(function (Model $record): string {
                         return $record->longitude . ', ' . $record->latitude;

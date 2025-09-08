@@ -88,6 +88,6 @@ class Common
      */
     public static function title($title)
     {
-        return new HtmlString('<span class="relative inline text-lg font-bold after:absolute after:bg-primary-500 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-1.5">' . $title . '</span>');
+        return new HtmlString('<span class="relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
     }
 }

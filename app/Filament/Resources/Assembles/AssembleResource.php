@@ -6,6 +6,7 @@ use BackedEnum;
 use App\Enums\Assembles\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Assembles\Pages;
+use App\Filament\Resources\Assembles\Schemas\AssembleInfolist;
 use App\Models\Appraise;
 use App\Models\Assemble;
 use Filament\Actions;
@@ -187,6 +188,13 @@ class AssembleResource extends Resource
             ]);
     }
 
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AssembleInfolist::configure($schema);
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -255,7 +263,7 @@ class AssembleResource extends Resource
                     ->label('收集地址')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('longitude')
+                Tables\Columns\TextColumn::make('lng_lat')
                     ->label('经纬度')
                     ->formatStateUsing(function (Model $record, string $state): string {
                         return $record->longitude . ', ' . $record->latitude;
@@ -320,6 +328,7 @@ class AssembleResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -344,6 +353,7 @@ class AssembleResource extends Resource
         return [
             'index' => Pages\ListAssembles::route('/'),
             'create' => Pages\CreateAssemble::route('/create'),
+            'view' => Pages\ViewAssemble::route('/{record}'),
             'edit' => Pages\EditAssemble::route('/{record}/edit'),
         ];
     }

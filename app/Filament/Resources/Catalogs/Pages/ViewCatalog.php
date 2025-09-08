@@ -3,17 +3,17 @@
 namespace App\Filament\Resources\Catalogs\Pages;
 
 use App\Filament\Resources\Catalogs\CatalogResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
 
-class ListCatalogs extends ListRecords
+class ViewCatalog extends ViewRecord
 {
     protected static string $resource = CatalogResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            EditAction::make(),
         ];
     }
 }

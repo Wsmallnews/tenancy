@@ -6,6 +6,7 @@ use BackedEnum;
 use App\Enums\Catalogs\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Catalogs\Pages;
+use App\Filament\Resources\Catalogs\Schemas\CatalogInfolist;
 use App\Models\Appraise;
 use App\Models\Catalog;
 use Filament\Actions;
@@ -307,6 +308,13 @@ class CatalogResource extends Resource
             ]);
     }
 
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return CatalogInfolist::configure($schema);
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -411,6 +419,7 @@ class CatalogResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -435,6 +444,7 @@ class CatalogResource extends Resource
         return [
             'index' => Pages\ListCataLogs::route('/'),
             'create' => Pages\CreateCatalog::route('/create'),
+            'view' => Pages\ViewCatalog::route('/{record}'),
             'edit' => Pages\EditCatalog::route('/{record}/edit'),
         ];
     }

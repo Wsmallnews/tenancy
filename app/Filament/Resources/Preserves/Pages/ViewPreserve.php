@@ -3,20 +3,17 @@
 namespace App\Filament\Resources\Preserves\Pages;
 
 use App\Filament\Resources\Preserves\PreserveResource;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditPreserve extends EditRecord
+class ViewPreserve extends ViewRecord
 {
     protected static string $resource = PreserveResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
+            EditAction::make(),
         ];
     }
 }

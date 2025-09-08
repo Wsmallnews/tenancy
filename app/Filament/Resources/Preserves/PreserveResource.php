@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Preserves;
 use BackedEnum;
 use App\Enums\Preserves\Status;
 use App\Filament\Resources\Preserves\Pages;
+use App\Filament\Resources\Preserves\Schemas\PreserveInfolist;
 use App\Models\Appraise;
 use App\Models\Preserve;
 use Filament\Actions;
@@ -126,6 +127,13 @@ class PreserveResource extends Resource
             ]);
     }
 
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return PreserveInfolist::configure($schema);
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -213,6 +221,7 @@ class PreserveResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -237,6 +246,7 @@ class PreserveResource extends Resource
         return [
             'index' => Pages\ListPreserves::route('/'),
             'create' => Pages\CreatePreserve::route('/create'),
+            'view' => Pages\ViewPreserve::route('/{record}'),
             'edit' => Pages\EditPreserve::route('/{record}/edit'),
         ];
     }
