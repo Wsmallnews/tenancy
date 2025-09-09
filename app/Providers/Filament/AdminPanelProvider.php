@@ -66,9 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 //     ->label('操作日志')
                 //     ->pluralLabel('操作日志')
                 //     ->navigationGroup(function () {
-                //         return Utils::isResourceNavigationGroupEnabled()
-                //             ? __('filament-shield::filament-shield.nav.group')
-                //             : '';
+                //         return __('filament-shield::filament-shield.nav.group');
                 //     })
                 //     ->navigationSort(3),
             ])

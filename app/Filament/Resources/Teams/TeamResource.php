@@ -8,7 +8,6 @@ use App\Filament\Resources\Teams\Pages;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\Team;
 use App\Models\User;
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -235,8 +234,6 @@ class TeamResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return Utils::isResourceNavigationGroupEnabled()
-            ? __('filament-shield::filament-shield.nav.group')
-            : '';
+        return __('filament-shield::filament-shield.nav.group');
     }
 }

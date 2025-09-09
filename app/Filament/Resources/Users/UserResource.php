@@ -180,28 +180,8 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function getNavigationGroup(): ?string
     {
-        return Utils::isResourceNavigationGroupEnabled()
-            ? __('filament-shield::filament-shield.nav.group')
-            : '';
+        return __('filament-shield::filament-shield.nav.group');        // 和角色放到一个组
     }
-
-    public static function getSubNavigationPosition(): SubNavigationPosition
-    {
-        return Utils::getSubNavigationPosition() ?? parent::getSubNavigationPosition();
-    }
-
-
-
-    public static function isScopedToTenant(): bool
-    {
-        return Utils::isScopedToTenant();
-    }
-
-    public static function canGloballySearch(): bool
-    {
-        return Utils::isResourceGloballySearchable() && count(static::getGloballySearchableAttributes()) && static::canViewAny();
-    }
-
 
     public static function getBaseFormsComponent(): array
     {
