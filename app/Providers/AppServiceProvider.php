@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
+use BezhanSalleh\FilamentShield\Commands;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\TextEntry;
@@ -35,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
         app(\Spatie\Permission\PermissionRegistrar::class)
             ->setPermissionClass(Permission::class)
             ->setRoleClass(Role::class);
+
+        // shield 禁止在正式环境执行命令
+        Commands\SetupCommand::prohibit($this->app->isProduction());
+        Commands\InstallCommand::prohibit($this->app->isProduction());
+        Commands\GenerateCommand::prohibit($this->app->isProduction());
+        Commands\PublishCommand::prohibit($this->app->isProduction());
 
         Model::unguard();
 
