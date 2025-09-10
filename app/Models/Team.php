@@ -51,19 +51,24 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return 'current';
     }
 
-    public function users(): BelongsToMany
+    public function accurateIdentifies(): HasMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(AccurateIdentify::class);
     }
 
-    public function theses(): HasMany
+    public function activities(): HasMany
     {
-        return $this->hasMany(Thesis::class);
+        return $this->hasMany(Activity::class);
     }
 
-    public function thesisTypes(): HasMany
+    public function appraises(): HasMany
     {
-        return $this->hasMany(ThesisType::class);
+        return $this->hasMany(Appraise::class);
+    }
+
+    public function assembles(): HasMany
+    {
+        return $this->hasMany(Assemble::class);
     }
 
     public function awards(): HasMany
@@ -76,9 +81,34 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(AwardType::class);
     }
 
+    public function catalogs(): HasMany
+    {
+        return $this->hasMany(Catalog::class);
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+
+    public function contents(): HasMany
+    {
+        return $this->hasMany(Content::class);
+    }
+
+    public function navigations(): HasMany
+    {
+        return $this->hasMany(Navigation::class);
+    }
+
+    public function newVarieties(): HasMany
+    {
+        return $this->hasMany(NewVariety::class);
     }
 
     public function patents(): HasMany
@@ -91,51 +121,6 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(PatentType::class);
     }
 
-    public function roles(): HasMany
-    {
-        return $this->hasMany(Role::class);
-    }
-    
-    public function appraises(): HasMany
-    {
-        return $this->hasMany(Appraise::class);
-    }
-
-    public function preserves(): HasMany
-    {
-        return $this->hasMany(Preserve::class);
-    }
-
-    public function assembles(): HasMany
-    {
-        return $this->hasMany(Assemble::class);
-    }
-
-    public function NewVarieties(): HasMany
-    {
-        return $this->hasMany(NewVariety::class);
-    }
-
-    public function activities(): HasMany
-    {
-        return $this->hasMany(Activity::class);
-    }
-
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
-    }
-
-    public function catalogs(): HasMany
-    {
-        return $this->hasMany(Catalog::class);
-    }
-
-    public function navigations(): HasMany
-    {
-        return $this->hasMany(Navigation::class);
-    }
-
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
@@ -146,8 +131,38 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(PostCategory::class);
     }
 
-    public function contents(): HasMany
+    public function preserves(): HasMany
     {
-        return $this->hasMany(Content::class);
+        return $this->hasMany(Preserve::class);
+    }
+
+    public function projectManages(): HasMany
+    {
+        return $this->hasMany(ProjectManage::class);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class);
+    }
+
+    public function shares(): HasMany
+    {
+        return $this->hasMany(Share::class);
+    }
+
+    public function theses(): HasMany
+    {
+        return $this->hasMany(Thesis::class);
+    }
+
+    public function thesisTypes(): HasMany
+    {
+        return $this->hasMany(ThesisType::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 }
