@@ -12,7 +12,7 @@ class ActivityObserver
         if (has_tenancy()) {
             $activity->team_id = current_tenant()->id;
         } else {
-            $activity->team_id = Filament::getTenant()->id;
+            $activity->team_id = Filament::getTenant()?->id;
         }
     }
 }
