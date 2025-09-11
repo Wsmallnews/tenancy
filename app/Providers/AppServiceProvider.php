@@ -77,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
             'new_variety' => \App\Models\NewVariety::class,
             'patent' => \App\Models\Patent::class,
             'patent_type' => \App\Models\PatentType::class,
+            'phenotype_identify' => \App\Models\PhenotypeIdentify::class,
             'post' => \App\Models\Post::class,
             'post_category' => \App\Models\PostCategory::class,
             'preserve' => \App\Models\Preserve::class,
