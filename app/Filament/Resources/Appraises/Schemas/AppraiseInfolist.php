@@ -18,15 +18,29 @@ class AppraiseInfolist
                 Schemas\Components\Flex::make([
                     Schemas\Components\View::make('components.schemas.sidebar')
                         ->schema([
-                            Schemas\Components\Text::make(new HtmlString('<a href="#appraiseCollection">收集信息</a>')),
-                            Schemas\Components\Text::make(new HtmlString('<a href="#appraiseGenotype">种质信息</a>'))
+                            Schemas\Components\Text::make(Common::sidebar('收集信息', 'appraiseCollection'))
+                                ->extraAttributes([
+                                    'class' => 'sn-page-sidebar-item',
+                                ]),
+                            Schemas\Components\Text::make(Common::sidebar('种质信息', 'appraiseGenotype'))
+                                ->extraAttributes([
+                                    'class' => 'sn-page-sidebar-item',
+                                ]),
+                            Schemas\Components\Text::make(Common::sidebar('表型信息', 'tableGenotype'))
+                                ->extraAttributes([
+                                    'class' => 'sn-page-sidebar-item',
+                                ]),
+                            Schemas\Components\Text::make(Common::sidebar('其他信息', 'otherGenotype'))
+                                ->extraAttributes([
+                                    'class' => 'sn-page-sidebar-item',
+                                ])
                         ])->grow(false),
                     // Schemas\Components\Group::make([
                     //     \Filament\Forms\Components\TextInput::make('title'),
                     //     \Filament\Forms\Components\Textarea::make('content'),
                     // ])->grow(false),
                     Schemas\Components\Group::make([
-                        Schemas\Components\Text::make(Common::title('收集信息'))->extraAttributes(['id' => 'appraiseCollection']),
+                        Schemas\Components\Text::make(Common::title('收集信息', 'appraiseCollection')),
                         Schemas\Components\Grid::make([
                                 'default' => 1,
                                 'xl' => 2,
@@ -69,7 +83,84 @@ class AppraiseInfolist
                                 Infolists\Components\TextEntry::make('status')
                                     ->label('状态'),
                             ])->columnSpanFull(),
-                        Schemas\Components\Text::make(Common::title('种质信息'))->extraAttributes(['id' => 'appraiseGenotype']),
+                        Schemas\Components\Text::make(Common::title('种质信息', 'appraiseGenotype')),
+                        Schemas\Components\Grid::make([
+                                'default' => 1,
+                                'xl' => 2,
+                                '2xl' => 3,
+                            ])
+                            ->extraAttributes([
+                                'class' => 'sn-grid-table',
+                            ])
+                            ->schema([
+                                Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
+                                    ->label('种质封面图')
+                                    ->collection('cover')
+                                    ->extraAttributes([
+                                        'class' => 'sn-two-rows'
+                                    ]),
+                                Infolists\Components\TextEntry::make('appraise.resource_no')
+                                    ->label('全国统一编号'),
+                                Infolists\Components\TextEntry::make('appraise.name')
+                                    ->label('种质中文名'),
+                                Infolists\Components\TextEntry::make('appraise.en_name')
+                                    ->label('种质外文名'),
+                                Infolists\Components\TextEntry::make('appraise.country_name')
+                                    ->label('种质原产国'),
+                                Infolists\Components\TextEntry::make('appraise.district_name')
+                                    ->label('种质原产地区')
+                                    ->state(function (Model $record) {
+                                        return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
+                                    }),
+                                Infolists\Components\TextEntry::make('appraise.address')
+                                    ->label('种质原产地址'),
+                                Infolists\Components\TextEntry::make('appraise.subject_name')
+                                    ->label('科名'),
+                                Infolists\Components\TextEntry::make('appraise.genus_name')
+                                    ->label('属名'),
+                                Infolists\Components\TextEntry::make('appraise.species_name')
+                                    ->label('学名'),
+                            ])->columnSpanFull(),
+
+                        Schemas\Components\Text::make(Common::title('表型信息', 'tableGenotype')),
+                        Schemas\Components\Grid::make([
+                                'default' => 1,
+                                'xl' => 2,
+                                '2xl' => 3,
+                            ])
+                            ->extraAttributes([
+                                'class' => 'sn-grid-table',
+                            ])
+                            ->schema([
+                                Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
+                                    ->label('种质封面图')
+                                    ->collection('cover')
+                                    ->extraAttributes([
+                                        'class' => 'sn-two-rows'
+                                    ]),
+                                Infolists\Components\TextEntry::make('appraise.resource_no')
+                                    ->label('全国统一编号'),
+                                Infolists\Components\TextEntry::make('appraise.name')
+                                    ->label('种质中文名'),
+                                Infolists\Components\TextEntry::make('appraise.en_name')
+                                    ->label('种质外文名'),
+                                Infolists\Components\TextEntry::make('appraise.country_name')
+                                    ->label('种质原产国'),
+                                Infolists\Components\TextEntry::make('appraise.district_name')
+                                    ->label('种质原产地区')
+                                    ->state(function (Model $record) {
+                                        return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
+                                    }),
+                                Infolists\Components\TextEntry::make('appraise.address')
+                                    ->label('种质原产地址'),
+                                Infolists\Components\TextEntry::make('appraise.subject_name')
+                                    ->label('科名'),
+                                Infolists\Components\TextEntry::make('appraise.genus_name')
+                                    ->label('属名'),
+                                Infolists\Components\TextEntry::make('appraise.species_name')
+                                    ->label('学名'),
+                            ])->columnSpanFull(),
+                        Schemas\Components\Text::make(Common::title('其他信息', 'otherGenotype')),
                         Schemas\Components\Grid::make([
                                 'default' => 1,
                                 'xl' => 2,

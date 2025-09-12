@@ -86,8 +86,20 @@ class Common
      * @param string $title
      * @return HtmlString
      */
-    public static function title($title)
+    public static function title($title, $id = null, $icon = null)
     {
-        return new HtmlString('<span class="relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
+        return new HtmlString('<span ' . ($id ? 'id="' . $id . '"' : '') . ' class="scroll-mt-20 relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
+    }
+
+
+    /**
+     * sidebar 带下划线
+     *
+     * @param string $title
+     * @return HtmlString
+     */
+    public static function sidebar($title, $id = null, $icon = null)
+    {
+        return new HtmlString('<a ' . ($id ? 'href="#' . $id . '"' : '') . ' class="relative inline-block w-full text-gray-950 dark:text-white ">' . $title . '</a>');
     }
 }

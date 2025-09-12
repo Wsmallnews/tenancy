@@ -6,12 +6,24 @@
 @source '../../../../app/Features/**/*';
 @source '../../../../resources/views/**/*';
 
+html {
+    @apply scroll-smooth;
+}
+
 .fi-body {
     @apply bg-slate-100 dark:bg-slate-950;
 }
 
 #nprogress .bar {
     height: 4px !important;
+}
+
+/** 页面内部侧边栏样式 **/
+.sn-page-sidebar .fi-sc.fi-grid.fi-sc-has-gap {
+    @apply gap-1;
+}
+.sn-page-sidebar-item {
+    @apply w-full p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800;
 }
 
 /** 表格网格样式 容器样式 **/
