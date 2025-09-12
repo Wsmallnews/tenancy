@@ -6,6 +6,7 @@ use BackedEnum;
 use App\Enums\Appraises\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
+use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Models\Appraise;
 use App\Models\Category;
 use App\Settings\AppraiseSettings;
@@ -85,6 +86,11 @@ class AppraiseResource extends Resource
                 ->columnSpanFull()
                 ->from('lg')
             ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AppraiseInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -303,6 +309,7 @@ class AppraiseResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -327,6 +334,7 @@ class AppraiseResource extends Resource
         return [
             'index' => Pages\ListAppraises::route('/'),
             'create' => Pages\CreateAppraise::route('/create'),
+            'view' => Pages\ViewAppraise::route('/{record}'),
             'edit' => Pages\EditAppraise::route('/{record}/edit'),
         ];
     }
