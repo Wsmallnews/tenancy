@@ -6,10 +6,13 @@ use App\Filament\Infolists\Components\SwiperEntry;
 use Filament\Actions;
 use Filament\Infolists;
 use Filament\Schemas;
+use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+
+use function Filament\Support\generate_icon_html;
 
 class Common
 {
@@ -81,18 +84,6 @@ class Common
 
 
     /**
-     * 标题 带下划线
-     *
-     * @param string $title
-     * @return HtmlString
-     */
-    public static function title($title, $id = null, $icon = null)
-    {
-        return new HtmlString('<span ' . ($id ? 'id="' . $id . '"' : '') . ' class="scroll-mt-20 relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
-    }
-
-
-    /**
      * sidebar 带下划线
      *
      * @param string $title
@@ -100,6 +91,17 @@ class Common
      */
     public static function sidebar($title, $id = null, $icon = null)
     {
-        return new HtmlString('<a ' . ($id ? 'href="#' . $id . '"' : '') . ' class="relative inline-block w-full text-gray-950 dark:text-white ">' . $title . '</a>');
+        return new HtmlString('<div class="sn-page-sidebar-item w-full flex gap-2 items-center" @click="swithSidebar(\'' . $id . '\')" :class="currentTab == \'' . $id . '\' ? \'sn-active\' : \'\'" >' . ($icon ? generate_icon_html($icon, size: IconSize::Large)->toHtml() : '') . '<a ' . ($id ? 'href="#' . $id . '"' : '') . ' class="inline-block w-full">' . $title . '</a></div>');
+    }
+
+    /**
+     * 标题 带下划线
+     *
+     * @param string $title
+     * @return HtmlString
+     */
+    public static function title($title, $id = null, $icon = null)
+    {
+        return new HtmlString('<span ' . ($id ? 'id="' . $id . '"' : '') . ' class="sn-page-sidebar-content-item scroll-mt-20 relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
     }
 }

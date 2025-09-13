@@ -6,6 +6,7 @@ use App\Features\Common;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 
@@ -18,27 +19,11 @@ class AppraiseInfolist
                 Schemas\Components\Flex::make([
                     Schemas\Components\View::make('components.schemas.sidebar')
                         ->schema([
-                            Schemas\Components\Text::make(Common::sidebar('收集信息', 'appraiseCollection'))
-                                ->extraAttributes([
-                                    'class' => 'sn-page-sidebar-item',
-                                ]),
-                            Schemas\Components\Text::make(Common::sidebar('种质信息', 'appraiseGenotype'))
-                                ->extraAttributes([
-                                    'class' => 'sn-page-sidebar-item',
-                                ]),
-                            Schemas\Components\Text::make(Common::sidebar('表型信息', 'tableGenotype'))
-                                ->extraAttributes([
-                                    'class' => 'sn-page-sidebar-item',
-                                ]),
-                            Schemas\Components\Text::make(Common::sidebar('其他信息', 'otherGenotype'))
-                                ->extraAttributes([
-                                    'class' => 'sn-page-sidebar-item',
-                                ])
+                            Schemas\Components\Text::make(Common::sidebar('收集信息', 'appraiseCollection', Heroicon::OutlinedRectangleStack)),
+                            Schemas\Components\Text::make(Common::sidebar('种质信息', 'appraiseGenotype', Heroicon::OutlinedRectangleStack)),
+                            Schemas\Components\Text::make(Common::sidebar('表型信息', 'tableGenotype', Heroicon::OutlinedRectangleStack)),
+                            Schemas\Components\Text::make(Common::sidebar('其他信息', 'otherGenotype', Heroicon::OutlinedRectangleStack)),
                         ])->grow(false),
-                    // Schemas\Components\Group::make([
-                    //     \Filament\Forms\Components\TextInput::make('title'),
-                    //     \Filament\Forms\Components\Textarea::make('content'),
-                    // ])->grow(false),
                     Schemas\Components\Group::make([
                         Schemas\Components\Text::make(Common::title('收集信息', 'appraiseCollection')),
                         Schemas\Components\Grid::make([
