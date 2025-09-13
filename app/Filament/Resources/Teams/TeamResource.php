@@ -43,6 +43,21 @@ class TeamResource extends Resource
 
     protected static bool $isScopedToTenant = false;        // 只有初始用户可访问
 
+    /**
+     * 租户管理 只有 1 号租户可以访问
+     *
+     * @return boolean
+     */
+    public static function canAccess(): bool
+    {
+        $tenant = Filament::getTenant();
+        if ($tenant && $tenant->id == 1) {
+            return static::canViewAny();
+        }
+
+        return false;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -178,12 +193,17 @@ class TeamResource extends Resource
                         // 获取当前面板的 ID
                         $panelId = Filament::getCurrentOrDefaultPanel()->getId();
 
-                        // 创建 超级管理角色，并且绑定管理员到该角色
-                        $exitCode = Artisan::call('shield:super-admin', [
-                            '--panel' => $panelId,
-                            '--tenant' => $team->id,
-                            '--user' => $data['user_id']
-                        ]);
+                        $exitCode = User::withoutEvents(function () use ($panelId, $team, $data) {
+                            // 创建角色时，creating 会覆盖 传入的 tenant_id, 这里使用 withoutEvents 暂时屏蔽 creating 事件
+                            // 创建 超级管理角色，并且绑定管理员到该角色 
+                            $exitCode = Artisan::call('shield:super-admin', [
+                                '--panel' => $panelId,
+                                '--tenant' => $team->id,
+                                '--user' => $data['user_id']
+                            ]);
+                            
+                            return $exitCode;
+                        });
 
                         if ($exitCode !== 0) {
                             $action->failure();
@@ -197,14 +217,14 @@ class TeamResource extends Resource
                     ->color('warning')
                     ->visible(fn(Team $team): bool => $team->users()->count() === 0),
                 Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
-                Actions\RestoreAction::make(),
+                // Actions\DeleteAction::make(),
+                // Actions\RestoreAction::make(),
             ])
             ->toolbarActions([
-                Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
-                    Actions\RestoreBulkAction::make(),
-                ]),
+                // Actions\BulkActionGroup::make([
+                //     Actions\DeleteBulkAction::make(),
+                //     Actions\RestoreBulkAction::make(),
+                // ]),
             ]);
     }
 
