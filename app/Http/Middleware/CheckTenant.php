@@ -22,8 +22,12 @@ class CheckTenant
 
         $tenant = Filament::getTenant();
 
-        if (!$tenant || $tenant->status !== Status::Enable) {
+        if (!$tenant || $tenant->status == Status::Disabled) {
             abort(403, '当前租户已被禁用');
+        }
+
+        if ($tenant->status !== Status::Enable) {
+            abort(403, '当前租户不可登录');
         }
 
         return $next($request);

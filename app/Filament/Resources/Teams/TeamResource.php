@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Teams;
 use BackedEnum;
 use App\Enums\Teams\Status;
 use App\Filament\Resources\Teams\Pages;
+use App\Filament\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\Team;
 use App\Models\User;
@@ -21,7 +22,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
-use UnitEnum;
 
 class TeamResource extends Resource
 {
@@ -92,6 +92,11 @@ class TeamResource extends Resource
                 ->columnSpanFull()
                 ->from('lg')
             ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return TeamInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -216,6 +221,7 @@ class TeamResource extends Resource
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->color('warning')
                     ->visible(fn(Team $team): bool => $team->users()->count() === 0),
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 // Actions\DeleteAction::make(),
                 // Actions\RestoreAction::make(),
@@ -240,6 +246,7 @@ class TeamResource extends Resource
         return [
             'index' => Pages\ListTeams::route('/'),
             'create' => Pages\CreateTeam::route('/create'),
+            'view' => Pages\ViewTeam::route('/{record}'),
             'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
     }

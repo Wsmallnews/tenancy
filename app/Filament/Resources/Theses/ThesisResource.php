@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Theses;
 
 use BackedEnum;
-use Filament\Support\Enums\Width;
 use App\Enums\Theses\Status;
 use App\Filament\Resources\Theses\Pages;
 use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
@@ -13,6 +12,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
