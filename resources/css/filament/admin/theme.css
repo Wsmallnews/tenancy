@@ -153,14 +153,26 @@ html {
 .fi-page-header-main-ctn {
     @apply gap-y-4 py-4;
 }
-
+.fi-ta-header {
+    @apply ps-4 pe-4;
+}
+/** 表格工具栏左右间距 **/
 .fi-ta-header-toolbar {
     @apply sm:px-4;
 }
-
+/** 表格不带复选框时，标题的左边距离 **/
+.fi-ta-header-cell {
+    @apply sm:first-of-type:ps-4;
+}
+/** 表格内容带复选框时候的左边距 **/
 .fi-ta-cell {
     @apply sm:first-of-type:ps-4 sm:last-of-type:pe-4;
 }
+/** 表格内容不带复选框时候的左边距 **/
+.fi-ta-cell .fi-ta-text {
+    @apply sm:first-of-type:ps-0;
+}
+/** 表格分页器左右间距 **/
 .fi-pagination {
     @apply sm:px-4;
 }

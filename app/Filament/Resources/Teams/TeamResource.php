@@ -12,6 +12,7 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
@@ -237,7 +238,7 @@ class TeamResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // 'users' => RelationManagers\UsersRelationManager::class,
         ];
     }
 

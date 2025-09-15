@@ -109,8 +109,15 @@ class UserResource extends Resource implements HasShieldPermissions
                     // ->formatStateUsing(fn ($state): array => is_array($state) ? array_map(fn($name): string => __($name), $state) : [__($state)])
                     ->badge()
                     ->toggleable()
-                    ->color('warning')
-                    ,
+                    ->color('warning'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('创建时间')
+                    ->toggleable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新时间')
+                    ->toggleable()
+                    ->sortable(),
             ])
             ->searchPlaceholder('搜索管理员姓名、邮箱等...')
             ->filters([
