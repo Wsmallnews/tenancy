@@ -471,7 +471,7 @@ class AppraiseResource extends Resource
                     })
                     ->required()
                     ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
-                Forms\Components\TextInput::make('source_address')->label('来源地址')
+                Forms\Components\TextInput::make('source_address')->label('来源地')
                     ->placeholder('请输入来源地址')
                     ->required(),
             ])->columns(2),

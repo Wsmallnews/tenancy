@@ -3,12 +3,14 @@
 namespace App\Filament\Resources\Appraises\Schemas;
 
 use App\Features\Common;
+use App\Models\Category;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 class AppraiseInfolist
 {
@@ -18,173 +20,264 @@ class AppraiseInfolist
             ->components([
                 Schemas\Components\Flex::make([
                     Schemas\Components\View::make('components.schemas.sidebar')
-                        ->schema([
-                            Schemas\Components\Text::make(Common::sidebar('收集信息', 'appraiseCollection', Heroicon::OutlinedRectangleStack)),
-                            Schemas\Components\Text::make(Common::sidebar('种质信息', 'appraiseGenotype', Heroicon::OutlinedRectangleStack)),
-                            Schemas\Components\Text::make(Common::sidebar('表型信息', 'tableGenotype', Heroicon::OutlinedRectangleStack)),
-                            Schemas\Components\Text::make(Common::sidebar('其他信息', 'otherGenotype', Heroicon::OutlinedRectangleStack)),
-                        ])->grow(false),
-                    Schemas\Components\Group::make([
-                        Schemas\Components\Text::make(Common::title('收集信息', 'appraiseCollection')),
-                        Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                            ->extraAttributes([
-                                'class' => 'sn-grid-table',
-                            ])
-                            ->schema([
-                                Infolists\Components\TextEntry::make('name')
-                                    ->label('收集人'),
-                                Infolists\Components\TextEntry::make('assemble_no')
-                                    ->label('收集编号'),
-                                Infolists\Components\TextEntry::make('assembleCompany.name')
-                                    ->label('收集单位')
-                                    ->formatStateUsing(fn(Model $record, $state) => $record->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : '-'),
-                                Infolists\Components\TextEntry::make('subject_no')
-                                    ->label('所属课题编号'),
-                                Infolists\Components\TextEntry::make('sub_subject_no')
-                                    ->label('所属子课题编号'),
-                                Infolists\Components\TextEntry::make('country_name')
-                                    ->label('收集国家'),
-                                Infolists\Components\TextEntry::make('district_name')
-                                    ->label('收集地区')
-                                    ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}"),
-                                Infolists\Components\TextEntry::make('address')
-                                    ->label('收集地址'),
-                                Infolists\Components\TextEntry::make('lng_lat')
-                                    ->label('经纬度')
-                                    ->state(fn(Model $record) => "{$record->longitude}, {$record->latitude}"),
-                                Infolists\Components\TextEntry::make('created_at')
-                                    ->label('创建时间')
-                                    ->dateTime(),
-                                Infolists\Components\TextEntry::make('updated_at')
-                                    ->label('更新时间')
-                                    ->dateTime(),
-                                Infolists\Components\TextEntry::make('order_column')
-                                    ->label('排序')
-                                    ->numeric(),
-                                Infolists\Components\TextEntry::make('status')
-                                    ->label('状态'),
-                            ])->columnSpanFull(),
-                        Schemas\Components\Text::make(Common::title('种质信息', 'appraiseGenotype')),
-                        Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                            ->extraAttributes([
-                                'class' => 'sn-grid-table',
-                            ])
-                            ->schema([
-                                Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
-                                    ->label('种质封面图')
-                                    ->collection('cover')
-                                    ->extraAttributes([
-                                        'class' => 'sn-two-rows'
-                                    ]),
-                                Infolists\Components\TextEntry::make('appraise.resource_no')
-                                    ->label('全国统一编号'),
-                                Infolists\Components\TextEntry::make('appraise.name')
-                                    ->label('种质中文名'),
-                                Infolists\Components\TextEntry::make('appraise.en_name')
-                                    ->label('种质外文名'),
-                                Infolists\Components\TextEntry::make('appraise.country_name')
-                                    ->label('种质原产国'),
-                                Infolists\Components\TextEntry::make('appraise.district_name')
-                                    ->label('种质原产地区')
-                                    ->state(function (Model $record) {
-                                        return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                                    }),
-                                Infolists\Components\TextEntry::make('appraise.address')
-                                    ->label('种质原产地址'),
-                                Infolists\Components\TextEntry::make('appraise.subject_name')
-                                    ->label('科名'),
-                                Infolists\Components\TextEntry::make('appraise.genus_name')
-                                    ->label('属名'),
-                                Infolists\Components\TextEntry::make('appraise.species_name')
-                                    ->label('学名'),
-                            ])->columnSpanFull(),
+                        ->schema(function ($record) {
+                            return array_merge([
+                                Schemas\Components\Text::make(Common::sidebar('基础信息', 'appraiseBase', Heroicon::OutlinedRectangleStack)),
+                                Schemas\Components\Text::make(Common::sidebar('地理信息', 'appraiseAddress', Heroicon::OutlinedRectangleStack)),
+                                Schemas\Components\Text::make(Common::sidebar('保存信息', 'appraiseSave', Heroicon::OutlinedRectangleStack)),
+                                Schemas\Components\Text::make(Common::sidebar('种质特性', 'appraiseFeature', Heroicon::OutlinedRectangleStack)),
+                                Schemas\Components\Text::make(Common::sidebar('种质图集', 'appraiseMedia', Heroicon::OutlinedRectangleStack)),
+                            ], self::getSidebarItems($record));
+                        })->grow(false),
+                    Schemas\Components\Group::make(function ($record) {
+                        $sidebarContents = [
+                            Schemas\Components\Text::make(Common::title('基础信息', 'appraiseBase')),
+                            Schemas\Components\Grid::make([
+                                    'default' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 3,
+                                ])
+                                ->extraAttributes([
+                                    'class' => 'sn-grid-table',
+                                ])
+                                ->schema([
+                                    Infolists\Components\SpatieMediaLibraryImageEntry::make('firstMedia')
+                                        ->label('种质封面图')
+                                        ->collection('cover')
+                                        ->extraAttributes([
+                                            'class' => 'sn-two-rows'
+                                        ]),
+                                    Infolists\Components\TextEntry::make('category.name')
+                                        ->label('所属分类'),
+                                    Infolists\Components\TextEntry::make('resource_no')
+                                        ->label('全国统一编号'),
+                                    Infolists\Components\TextEntry::make('germplasm_no')
+                                        ->label('种质圃编号'),
+                                    Infolists\Components\TextEntry::make('original_no')
+                                        ->label('引种号'),
+                                    Infolists\Components\TextEntry::make('gather_no')
+                                        ->label('采集号'),
+                                    Infolists\Components\TextEntry::make('name')
+                                        ->label('种质名称'),
+                                    Infolists\Components\TextEntry::make('en_name')
+                                        ->label('种质外文名'),
+                                    Infolists\Components\TextEntry::make('subject_name')
+                                        ->label('科名'),
+                                    Infolists\Components\TextEntry::make('genus_name')
+                                        ->label('属名'),
+                                    Infolists\Components\TextEntry::make('species_name')
+                                        ->label('学名'),
+                                    Infolists\Components\TextEntry::make('created_at')
+                                        ->label('创建时间')
+                                        ->dateTime(),
+                                    Infolists\Components\TextEntry::make('updated_at')
+                                        ->label('更新时间')
+                                        ->dateTime(),
+                                    Infolists\Components\TextEntry::make('order_column')
+                                        ->label('排序')
+                                        ->numeric(),
+                                    Infolists\Components\TextEntry::make('status')
+                                        ->label('评价状态'),
+                                ])->columnSpanFull(),
+                            Schemas\Components\Text::make(Common::title('地理信息', 'appraiseAddress')),
+                            Schemas\Components\Grid::make([
+                                    'default' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 3,
+                                ])
+                                ->extraAttributes([
+                                    'class' => 'sn-grid-table',
+                                ])
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('country_name')
+                                        ->label('原产国'),
+                                    Infolists\Components\TextEntry::make('district_name')
+                                        ->label('原产地区')
+                                        ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}"),
+                                    Infolists\Components\TextEntry::make('address')
+                                        ->label('原产地'),
+                                    Infolists\Components\TextEntry::make('altitude')
+                                        ->label('海拔')
+                                        ->suffix('米'),
+                                    Infolists\Components\TextEntry::make('lng_lat')
+                                        ->label('经纬度')
+                                        ->state(fn(Model $record) => "{$record->longitude}, {$record->latitude}"),
 
-                        Schemas\Components\Text::make(Common::title('表型信息', 'tableGenotype')),
-                        Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                            ->extraAttributes([
-                                'class' => 'sn-grid-table',
-                            ])
-                            ->schema([
-                                Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
-                                    ->label('种质封面图')
-                                    ->collection('cover')
-                                    ->extraAttributes([
-                                        'class' => 'sn-two-rows'
-                                    ]),
-                                Infolists\Components\TextEntry::make('appraise.resource_no')
-                                    ->label('全国统一编号'),
-                                Infolists\Components\TextEntry::make('appraise.name')
-                                    ->label('种质中文名'),
-                                Infolists\Components\TextEntry::make('appraise.en_name')
-                                    ->label('种质外文名'),
-                                Infolists\Components\TextEntry::make('appraise.country_name')
-                                    ->label('种质原产国'),
-                                Infolists\Components\TextEntry::make('appraise.district_name')
-                                    ->label('种质原产地区')
-                                    ->state(function (Model $record) {
-                                        return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                                    }),
-                                Infolists\Components\TextEntry::make('appraise.address')
-                                    ->label('种质原产地址'),
-                                Infolists\Components\TextEntry::make('appraise.subject_name')
-                                    ->label('科名'),
-                                Infolists\Components\TextEntry::make('appraise.genus_name')
-                                    ->label('属名'),
-                                Infolists\Components\TextEntry::make('appraise.species_name')
-                                    ->label('学名'),
-                            ])->columnSpanFull(),
-                        Schemas\Components\Text::make(Common::title('其他信息', 'otherGenotype')),
-                        Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                            ->extraAttributes([
-                                'class' => 'sn-grid-table',
-                            ])
-                            ->schema([
-                                Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
-                                    ->label('种质封面图')
-                                    ->collection('cover')
-                                    ->extraAttributes([
-                                        'class' => 'sn-two-rows'
-                                    ]),
-                                Infolists\Components\TextEntry::make('appraise.resource_no')
-                                    ->label('全国统一编号'),
-                                Infolists\Components\TextEntry::make('appraise.name')
-                                    ->label('种质中文名'),
-                                Infolists\Components\TextEntry::make('appraise.en_name')
-                                    ->label('种质外文名'),
-                                Infolists\Components\TextEntry::make('appraise.country_name')
-                                    ->label('种质原产国'),
-                                Infolists\Components\TextEntry::make('appraise.district_name')
-                                    ->label('种质原产地区')
-                                    ->state(function (Model $record) {
-                                        return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                                    }),
-                                Infolists\Components\TextEntry::make('appraise.address')
-                                    ->label('种质原产地址'),
-                                Infolists\Components\TextEntry::make('appraise.subject_name')
-                                    ->label('科名'),
-                                Infolists\Components\TextEntry::make('appraise.genus_name')
-                                    ->label('属名'),
-                                Infolists\Components\TextEntry::make('appraise.species_name')
-                                    ->label('学名'),
-                            ])->columnSpanFull(),
-                    ])->columns(1)
+                                    Infolists\Components\TextEntry::make('source_country_name')
+                                        ->label('来源国'),
+                                    Infolists\Components\TextEntry::make('source_district_name')
+                                        ->label('来源地区')
+                                        ->state(fn(Model $record) => "{$record->source_province_name} / {$record->source_city_name}"),
+                                    Infolists\Components\TextEntry::make('source_address')
+                                        ->label('来源地'),
+                                ])->columnSpanFull(),
+                            Schemas\Components\Text::make(Common::title('保存信息', 'appraiseSave')),
+                            Schemas\Components\Grid::make([
+                                    'default' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 3,
+                                ])
+                                ->extraAttributes([
+                                    'class' => 'sn-grid-table',
+                                ])
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('saveCompany.name')
+                                        ->label('保存单位')
+                                        ->formatStateUsing(fn(Model $record, $state) => $record->saveCompany ? "{$record->saveCompany->name} (编号：{$record->saveCompany->code})" : '-'),
+                                    Infolists\Components\TextEntry::make('pedigree')
+                                        ->label('系谱'),
+                                    Infolists\Components\TextEntry::make('breedingCompany.name')
+                                        ->label('选育单位')
+                                        ->formatStateUsing(fn(Model $record, $state) => $record->breedingCompany ? "{$record->breedingCompany->name} (编号：{$record->breedingCompany->code})" : '-'),
+                                    Infolists\Components\TextEntry::make('cultivationd_at')
+                                        ->label('育成年份')
+                                        ->date('Y-m'),
+                                    Infolists\Components\TextEntry::make('breeding_method')
+                                        ->label('选育方法'),
+                                ])->columnSpanFull(),
+                            Schemas\Components\Text::make(Common::title('种质特性', 'appraiseFeature')),
+                            Schemas\Components\Grid::make([
+                                    'default' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 3,
+                                ])
+                                ->extraAttributes([
+                                    'class' => 'sn-grid-table',
+                                ])
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('germplasm_type')
+                                        ->label('种质类型'),
+                                    Infolists\Components\TextEntry::make('germplasm_use')
+                                        ->label('用途'),
+                                    Infolists\Components\TextEntry::make('fruit_use')
+                                        ->label('果实用途'),
+                                    Infolists\Components\TextEntry::make('plant_use')
+                                        ->label('植株用途'),
+                                    Infolists\Components\TextEntry::make('assemble_resource')
+                                        ->label('种植收集源'),
+                                    Infolists\Components\TextEntry::make('assemble_material_type')
+                                        ->label('收集材料类型'),
+                                    Infolists\Components\TextEntry::make('observe_place')
+                                        ->label('观测地点'),
+                                ])->columnSpanFull(),
+                            Schemas\Components\Text::make(Common::title('种质图集', 'appraiseMedia')),
+                            Schemas\Components\Group::make()
+                                ->schema(function (Model $record) {
+                                    return Common::mediasEntry($record, 'galleries');
+                                })
+                                ->extraAttributes([
+                                    'class' => 'sn-attachment-group',
+                                ])
+                                ->columns(['default' => 1,  'xl' => 2])->columnSpanFull(),
+                        ];
+
+                        $sidebarContents = array_merge($sidebarContents, self::getSidebarContents($record));
+
+                        return $sidebarContents;
+                    })->columnSpanFull(),
                 ])->columnSpanFull()
             ]);
+    }
+
+
+    protected static function getSidebarItems($record) 
+    {
+        $schemas = [];
+
+        $category_id = $record->category_id;
+        if ($category_id) {
+            $category = Category::findOrFail($category_id);
+
+            $fields = $category->options['fields'] ?? [];
+            foreach ($fields as $key => $field) {
+                $schemas[] = Schemas\Components\Text::make(Common::sidebar($field['name'], self::getSidebarId($field['name']), Heroicon::OutlinedRectangleStack));
+            }
+        }
+
+        return $schemas;
+    }
+
+
+    protected static function getSidebarContents($record)
+    {
+        $sidebarContents = [];
+
+        $category_id = $record->category_id;
+        if ($category_id) {
+            $category = Category::findOrFail($category_id);
+
+            $fields = $category->options['fields'] ?? [];
+            foreach ($fields as $key => $field) {
+                $sidebarContents[] = Schemas\Components\Text::make(Common::title($field['name'], self::getSidebarId($field['name'])));
+
+                $sidebarContents[] = Schemas\Components\Grid::make([
+                        'default' => 1,
+                        'xl' => 2,
+                        '2xl' => 3,
+                    ])
+                    ->extraAttributes([
+                        'class' => 'sn-grid-table',
+                    ])
+                    ->schema(function () use ($record, $key, $field) {
+                        $schemas = [];
+                        foreach ($field['fields'] as $subKey => $subField) {
+                            $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey .  '.data.value';
+                            if ($field = static::getEntryFields($record, $fieldKey, $subField)) {     // 根据参数获取对应的表单
+                                $schemas[] = $field;
+                            }
+                        }
+
+                        return $schemas;
+                    })->columnSpanFull();
+            }
+        }
+
+        return $sidebarContents;
+    }
+
+
+    /**
+     * 根据类型获取特定的 entry 字段
+     *
+     * @param string $fieldKey
+     * @param array $subField
+     * @return Infolists\Components\Entry|null
+     */
+    protected static function getEntryFields($record, $fieldKey, $subField): ?Infolists\Components\Entry
+    {
+        $type = $subField['type'] ?? null;
+        $data = $subField['data'] ?? [];
+
+        if ($type == 'textInput' || $type == 'number' || $type == 'select') {
+            $entry = Infolists\Components\TextEntry::make($fieldKey)
+                ->label($data['name'] ?? null)
+                ->placeholder($data['placeholder'] ?? null)
+                ->suffix($data['unit'] ?? null);
+        } elseif ($type == 'upload_image') {
+            // label
+            // 标题是否隐藏等
+            $entry = Common::mediasEntry($record, $data['collection_name'] ?? null);
+        } elseif ($type == 'dateTimePicker') {
+            $field_type = $data['type'];
+            match ($field_type) {
+                'date' => $entry = Infolists\Components\TextEntry::make($fieldKey),
+                'time' => $entry = Infolists\Components\TextEntry::make($fieldKey)->time('H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
+                'datetime' => $entry = Infolists\Components\TextEntry::make($fieldKey)->dateTime('Y-m-d H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
+                default => $entry = Infolists\Components\TextEntry::make($fieldKey),
+            };
+
+            $entry = $entry
+                ->label($data['name'] ?? null)
+                ->placeholder($data['placeholder'] ?? null)
+                ->suffix($data['unit'] ?? null);
+        }
+
+        return Arr::wrap($entry) ?? null;
+    }
+
+
+    private static function getSidebarId($name)
+    {
+        return 'appraise' . Str::Studly(pinyin_permalink($name));
     }
 }
