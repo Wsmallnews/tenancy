@@ -150,7 +150,10 @@ class AppraiseResource extends Resource
                     ->label('原产地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->province_name . ' / ' . $record->city_name;
+                        if ($record->country_code == 'CN') {
+                            return $record->province_name . ' / ' . $record->city_name;
+                        }
+                        return '/';
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
@@ -177,7 +180,10 @@ class AppraiseResource extends Resource
                     ->label('来源地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->source_province_name . ' / ' . $record->source_city_name;
+                        if ($record->source_country_code == 'CN') {
+                            return $record->source_province_name . ' / ' . $record->source_city_name;
+                        }
+                        return '/';
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('source_address')

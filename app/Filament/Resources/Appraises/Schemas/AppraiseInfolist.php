@@ -92,7 +92,8 @@ class AppraiseInfolist
                                         ->label('原产国'),
                                     Infolists\Components\TextEntry::make('district_name')
                                         ->label('原产地区')
-                                        ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}"),
+                                        ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}")
+                                        ->visible(fn(Model $record) => $record->country_code == 'CN'),
                                     Infolists\Components\TextEntry::make('address')
                                         ->label('原产地'),
                                     Infolists\Components\TextEntry::make('altitude')
@@ -106,7 +107,8 @@ class AppraiseInfolist
                                         ->label('来源国'),
                                     Infolists\Components\TextEntry::make('source_district_name')
                                         ->label('来源地区')
-                                        ->state(fn(Model $record) => "{$record->source_province_name} / {$record->source_city_name}"),
+                                        ->state(fn(Model $record) => "{$record->source_province_name} / {$record->source_city_name}")
+                                        ->visible(fn(Model $record) => $record->source_country_code == 'CN'),
                                     Infolists\Components\TextEntry::make('source_address')
                                         ->label('来源地'),
                                 ])->columnSpanFull(),

@@ -257,7 +257,10 @@ class AssembleResource extends Resource
                     ->label('收集地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->province_name . ' / ' . $record->city_name;
+                        if ($record->country_code == 'CN') {
+                            return $record->province_name . ' / ' . $record->city_name;
+                        }
+                        return '/';
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')

@@ -74,7 +74,8 @@ class NewVarietyInfolist
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
                                 return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                            }),
+                            })
+                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')

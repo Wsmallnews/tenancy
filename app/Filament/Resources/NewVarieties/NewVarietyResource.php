@@ -97,7 +97,8 @@ class NewVarietyResource extends Resource
                                                 ->state($appraise->country_name),
                                             Infolists\Components\TextEntry::make('appraise_district_name')
                                                 ->label('种质原产地区')
-                                                ->state($appraise->province_name . ' / ' . $appraise->city_name),
+                                                ->state($appraise->province_name . ' / ' . $appraise->city_name)
+                                                ->visible(fn(Model $record) => $appraise?->country_code == 'CN'),
                                             Infolists\Components\TextEntry::make('appraise_address')
                                                 ->label('种质原产地址')
                                                 ->state($appraise->address),
@@ -199,7 +200,10 @@ class NewVarietyResource extends Resource
                     ->label('种质原产地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->appraise ? ($record->appraise->province_name . ' / ' . $record->appraise->city_name) : '';
+                        if ($record->appraise?->country_code == 'CN') {
+                            return $record->appraise->province_name . ' / ' . $record->appraise->city_name;
+                        }
+                        return '/';
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('appraise.address')

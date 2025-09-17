@@ -44,14 +44,16 @@ class CatalogInfolist
                             ->label('原产国'),
                         Infolists\Components\TextEntry::make('district_name')
                             ->label('原产地区')
-                            ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}"),
+                            ->state(fn(Model $record) => "{$record->province_name} / {$record->city_name}")
+                            ->visible(fn(Model $record) => $record->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('address')
                             ->label('原产地'),
                         Infolists\Components\TextEntry::make('source_country_name')
                             ->label('来源国'),
                         Infolists\Components\TextEntry::make('source_district_name')
                             ->label('来源地区')
-                            ->state(fn(Model $record) => "{$record->source_province_name} / {$record->source_city_name}"),
+                            ->state(fn(Model $record) => "{$record->source_province_name} / {$record->source_city_name}")
+                            ->visible(fn(Model $record) => $record->source_country_code == 'CN'),
                         Infolists\Components\TextEntry::make('source_address')
                             ->label('来源地址'),
                         Infolists\Components\TextEntry::make('lng_lat')
@@ -133,7 +135,8 @@ class CatalogInfolist
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
                                 return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                            }),
+                            })
+                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')

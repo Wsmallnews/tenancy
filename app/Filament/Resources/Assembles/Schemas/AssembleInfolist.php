@@ -39,7 +39,8 @@ class AssembleInfolist
                             ->label('收集国家'),
                         Infolists\Components\TextEntry::make('district_name')
                             ->label('收集地区')
-                            ->state(fn (Model $record) => "{$record->province_name} / {$record->city_name}"),
+                            ->state(fn (Model $record) => "{$record->province_name} / {$record->city_name}")
+                            ->visible(fn(Model $record) => $record->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('address')
                             ->label('收集地址'),
                         Infolists\Components\TextEntry::make('lng_lat')
@@ -85,7 +86,8 @@ class AssembleInfolist
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
                                 return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
-                            }),
+                            })
+                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')
