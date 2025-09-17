@@ -9,7 +9,6 @@ use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class AppraiseInfolist
@@ -175,7 +174,9 @@ class AppraiseInfolist
 
                         return $sidebarContents;
                     })->columnSpanFull(),
-                ])->columnSpanFull()
+                ])
+                ->columnSpanFull()
+                ->from('md')
             ]);
     }
 
@@ -210,6 +211,7 @@ class AppraiseInfolist
             foreach ($fields as $key => $field) {
                 $sidebarContents[] = Schemas\Components\Text::make(Common::title($field['name'], self::getSidebarId($field['name'])));
 
+                // 非 media 字段
                 $sidebarContents[] = Schemas\Components\Grid::make([
                         'default' => 1,
                         'xl' => 2,
@@ -222,13 +224,22 @@ class AppraiseInfolist
                         $schemas = [];
                         foreach ($field['fields'] as $subKey => $subField) {
                             $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey .  '.data.value';
-                            if ($field = static::getEntryFields($record, $fieldKey, $subField)) {     // 根据参数获取对应的表单
-                                $schemas[] = $field;
+                            if ($entryField = static::getEntryFieldsWithoutMedia($fieldKey, $subField)) {     // 根据参数获取对应的 entry
+                                $schemas[] = $entryField;
                             }
                         }
 
                         return $schemas;
                     })->columnSpanFull();
+
+                // media 字段
+                foreach ($field['fields'] as $subKey => $subField) {
+                    $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey .  '.data.value';
+                    if ($entryField = static::getEntryFieldsOnlyMedia($fieldKey, $subField)) {     // 根据参数获取对应的表单
+                        // $schemas = array_merge($schemas, $entryField);
+                        $sidebarContents[] = $entryField;
+                    }
+                }
             }
         }
 
@@ -237,13 +248,13 @@ class AppraiseInfolist
 
 
     /**
-     * 根据类型获取特定的 entry 字段
+     * 根据类型获取特定的 entry 字段(除了 media)
      *
      * @param string $fieldKey
      * @param array $subField
      * @return Infolists\Components\Entry|null
      */
-    protected static function getEntryFields($record, $fieldKey, $subField): ?Infolists\Components\Entry
+    protected static function getEntryFieldsWithoutMedia($fieldKey, $subField): ?Infolists\Components\Entry
     {
         $type = $subField['type'] ?? null;
         $data = $subField['data'] ?? [];
@@ -253,10 +264,6 @@ class AppraiseInfolist
                 ->label($data['name'] ?? null)
                 ->placeholder($data['placeholder'] ?? null)
                 ->suffix($data['unit'] ?? null);
-        } elseif ($type == 'upload_image') {
-            // label
-            // 标题是否隐藏等
-            $entry = Common::mediasEntry($record, $data['collection_name'] ?? null);
         } elseif ($type == 'dateTimePicker') {
             $field_type = $data['type'];
             match ($field_type) {
@@ -272,7 +279,34 @@ class AppraiseInfolist
                 ->suffix($data['unit'] ?? null);
         }
 
-        return Arr::wrap($entry) ?? null;
+        return $entry ?? null;
+    }
+
+
+    /**
+     * 根据类型获取特定的 entry 字段(仅 media)
+     *
+     * @param string $fieldKey
+     * @param array $subField
+     * @return Schemas\Components\Group|null
+     */
+    protected static function getEntryFieldsOnlyMedia($fieldKey, $subField): ?Schemas\Components\Group
+    {
+        $type = $subField['type'] ?? null;
+        $data = $subField['data'] ?? [];
+
+        if ($type == 'upload_image') {
+            $schema = Schemas\Components\Group::make()
+                ->schema(function (Model $record) use ($data) {
+                    return Common::mediasEntry($record, $data['collection_name'] ?? null, $data['name'] ?? null);
+                })
+                ->extraAttributes([
+                    'class' => 'sn-attachment-group',
+                ])
+                ->columns(['default' => 1,  'xl' => 2])->columnSpanFull();
+        }
+
+        return $schema ?? null;
     }
 
 

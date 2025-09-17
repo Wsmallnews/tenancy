@@ -16,7 +16,7 @@ use function Filament\Support\generate_icon_html;
 
 class Common
 {
-    public static function mediasEntry($record, $collection = 'default')
+    public static function mediasEntry($record, $collection = 'default', $label = null)
     {
         $schemas = [];
 
@@ -36,7 +36,7 @@ class Common
 
         if ($images->isNotEmpty()) {
             // 图片
-            $schemas[] = Schemas\Components\Section::make('图片')
+            $schemas[] = Schemas\Components\Section::make(($label ? $label . ' 图片' : '图片'))
                 ->schema([
                     SwiperEntry::make($collection)
                         ->hiddenLabel()
@@ -54,7 +54,7 @@ class Common
         }
 
         if ($files->isNotEmpty()) {
-            $schemas[] = Schemas\Components\Section::make('文件')
+            $schemas[] = Schemas\Components\Section::make(($label ? $label . ' 文件' : '文件'))
                 ->schema(function () use ($files) {
                     return $files->map(function ($media) {
                         return Infolists\Components\TextEntry::make('fileentry-' . $media->fila_name)

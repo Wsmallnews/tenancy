@@ -1,4 +1,4 @@
-<div class="sn-page-sidebar max-w-60 min-w-44 index-1000" x-data="sidebarManager({})">
+<div class="sn-page-sidebar w-full md:max-w-60 min-w-44 rounded-md md:rounded-none bg-white md:bg-transparent shadow-sm md:shadow-none ring-1 md:ring-0 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10" x-data="sidebarManager({})">
     {{ $getChildSchema() }}
 </div>
 

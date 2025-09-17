@@ -45,6 +45,7 @@ html {
     @apply 
         has-[.sn-page-sidebar]:sticky
         has-[.sn-page-sidebar]:top-20
+        has-[.sn-page-sidebar]:z-20
 }
 
 /** 表格网格样式 容器样式 **/
