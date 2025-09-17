@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Patents;
 
 use BackedEnum;
-use Filament\Support\Enums\Width;
 use App\Enums\Patents\Status;
+use App\Features\Common;
 use App\Filament\Resources\Patents\Pages;
 use App\Filament\Resources\Patents\Schemas\PatentInfolist;
 use App\Models\Patent;
@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -178,78 +179,9 @@ class PatentResource extends Resource
             ->searchPlaceholder('搜索专利名称、专利号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Tables\Filters\Filter::make('applied_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('applied_from')->label('申请开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('applied_until')->label('申请结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['applied_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('applied_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['applied_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('applied_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('authd_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('authd_from')->label('授权开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('authd_until')->label('授权结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['authd_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('authd_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['authd_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('authd_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('created_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('updated_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['updated_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['updated_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                            );
-                    }),
+                Common::dateTimeRangeFilter('applied_at', '申请'),
+                Common::dateTimeRangeFilter('authd_at', '授权'),
+                ...Common::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

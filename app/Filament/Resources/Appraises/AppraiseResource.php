@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Appraises;
 
 use BackedEnum;
 use App\Enums\Appraises\Status;
+use App\Features\Common;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
@@ -252,60 +253,8 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Tables\Filters\Filter::make('cultivationd_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('cultivationd_from')->label('育成开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('cultivationd_until')->label('育成结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['cultivationd_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('cultivationd_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['cultivationd_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('cultivationd_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('created_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('updated_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['updated_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['updated_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                            );
-                    }),
+                Common::dateTimeRangeFilter('cultivationd_at', '育成'),
+                ...Common::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

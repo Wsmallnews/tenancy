@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources\ProjectManages\Tables;
 
+use App\Features\Common;
 use Filament\Actions;
-use Filament\Forms;
-use Filament\Schemas;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProjectManagesTable
 {
@@ -36,42 +34,7 @@ class ProjectManagesTable
             ->searchPlaceholder('搜索 @sn todo 等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Tables\Filters\Filter::make('created_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('updated_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['updated_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['updated_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                            );
-                    }),
+                ...Common::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

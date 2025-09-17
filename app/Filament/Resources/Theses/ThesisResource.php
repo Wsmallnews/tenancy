@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Theses;
 
 use BackedEnum;
 use App\Enums\Theses\Status;
+use App\Features\Common;
 use App\Filament\Resources\Theses\Pages;
 use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
 use App\Models\Thesis;
@@ -203,60 +204,8 @@ class ThesisResource extends Resource
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Tables\Filters\Filter::make('published_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('published_from')->label('发布开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('published_until')->label('发布结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['published_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['published_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('created_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('updated_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['updated_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['updated_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                            );
-                    }),
+                Common::dateTimeRangeFilter('published_at', '发布'),
+                ...Common::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

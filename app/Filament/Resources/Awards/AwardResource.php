@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Awards;
 
 use BackedEnum;
 use App\Enums\Awards\Status;
+use App\Features\Common;
 use App\Filament\Resources\Awards\Pages;
 use App\Filament\Resources\Awards\Schemas\AwardInfolist;
 use App\Models\Award;
@@ -167,60 +168,8 @@ class AwardResource extends Resource
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Tables\Filters\Filter::make('award_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('award_from')->label('获奖开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('award_until')->label('获奖结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['award_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('award_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['award_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('award_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('created_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('created_from')->label('创建开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('created_until')->label('创建结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    }),
-                Tables\Filters\Filter::make('updated_at')
-                    ->schema([
-                        Schemas\Components\Group::make()->schema([
-                            Forms\Components\DatePicker::make('updated_from')->label('更新开始时间')->columnSpan(1),
-                            Forms\Components\DatePicker::make('updated_until')->label('更新结束时间')->columnSpan(1),
-                        ])->columns(2),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['updated_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['updated_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                            );
-                    }),
+                Common::dateTimeRangeFilter('award_at', '获奖'),
+                ...Common::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

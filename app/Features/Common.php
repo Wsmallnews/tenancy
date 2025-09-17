@@ -4,10 +4,13 @@ namespace App\Features;
 
 use App\Filament\Infolists\Components\SwiperEntry;
 use Filament\Actions;
+use Filament\Forms;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -103,5 +106,50 @@ class Common
     public static function title($title, $id = null, $icon = null)
     {
         return new HtmlString('<span ' . ($id ? 'id="' . $id . '"' : '') . ' class="sn-page-sidebar-content-item scroll-mt-20 relative inline text-lg font-bold text-gray-950 dark:text-white after:absolute after:bg-primary-600 after:w-full after:h-1 after:rounded-md after:left-0 after:-bottom-2">' . $title . '</span>');
+    }
+
+
+
+    /**
+     * 创建时间，更新时间 筛选
+     *
+     * @return array
+     */
+    public static function createUpdateRangeFilter(): array
+    {
+        return [
+            static::dateTimeRangeFilter('created_at', '创建'),
+            static::dateTimeRangeFilter('updated_at', '更新')
+        ];
+    }
+
+
+    /**
+     * 时间区间筛选
+     *
+     * @param string $field_name
+     * @param string | null $label
+     * @return Tables\Filters\Filter
+     */
+    public static function dateTimeRangeFilter($field_name, $label = null): Tables\Filters\Filter
+    {
+        return Tables\Filters\Filter::make($field_name)
+            ->schema([
+                Schemas\Components\Group::make()->schema([
+                    Forms\Components\DatePicker::make($field_name . '_from')->label(($label ?? '') . '开始时间')->columnSpan(1),
+                    Forms\Components\DatePicker::make($field_name . '_until')->label(($label ?? '') . '结束时间')->columnSpan(1),
+                ])->columns(2),
+            ])
+            ->query(function (Builder $query, array $data) use ($field_name): Builder  {
+                return $query
+                    ->when(
+                        $data[$field_name . '_from'],
+                        fn(Builder $query, $date): Builder => $query->whereDate($field_name, '>=', $date),
+                    )
+                    ->when(
+                        $data[$field_name . '_until'],
+                        fn(Builder $query, $date): Builder => $query->whereDate($field_name, '<=', $date),
+                    );
+            });
     }
 }
