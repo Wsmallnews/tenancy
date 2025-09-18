@@ -18,6 +18,11 @@ html {
     height: 4px !important;
 }
 
+/** 包含 sn-district-select 的外围 section 设置成 visible 房子自定义的 区域选择器 样式被遮挡 **/
+.fi-section {
+    @apply has-[.sn-district-select]:overflow-visible;
+}
+
 /** 页面内部侧边栏样式 **/
 .sn-page-sidebar .fi-sc.fi-grid.fi-sc-has-gap {
     @apply gap-1;

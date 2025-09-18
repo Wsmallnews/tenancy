@@ -237,7 +237,37 @@ class District
             $cascaders[] = $tmp_arr;
         }
 
-        // 处理直辖市，上面直辖市是 二级的，将直辖市也处理成三级
+
+        // // (20250918 如果需要市辖区，不要解开这个注释，这个是老数据格式) 处理直辖市，上面直辖市是 二级的，将直辖市也处理成三级 (直辖市，从子级中取第一个为市辖区 (老数据，新数据 children 都是区，没有市辖区数据了))
+        // foreach ($cascaders as &$cascader) {
+        //     // 是直辖市，处理一下
+        //     if (in_array($cascader['id'], $this->directCityIds())) {
+        //         // 拿到所有子集
+        //         $currentAreas = $cascader['children'];
+
+        //         // 原本 children 的第一个就是市辖区
+        //         $currentCity = $currentAreas[0];
+
+        //         // 移除第一个,获取真正的所有区
+        //         unset($currentAreas[0]);
+        //         $currentAreas = array_values($currentAreas);
+
+        //         // 处理真正的区的 parent_id 改为 city 的 id
+        //         foreach ($currentAreas as &$currentArea) {
+        //             $currentArea['parent_id'] = $currentCity['id'];
+        //             $currentArea['level'] = 'district';
+        //         }
+
+        //         // 将区放到市下面
+        //         $currentCity['children'] = $currentAreas;
+
+        //         // 更新省的 children
+        //         $cascader['children'] = [$currentCity];
+        //     }
+        // }
+
+
+        // (20250918 如果需要市辖区，解开这个注释)处理直辖市，上面直辖市是 二级的，将直辖市也处理成三级 （直辖市，手动组装市辖区数据）
         foreach ($cascaders as &$cascader) {
             // 是直辖市，处理一下
             if (in_array($cascader['id'], $this->directCityIds())) {
@@ -245,11 +275,7 @@ class District
                 $currentAreas = $cascader['children'];
 
                 // 原本 children 的第一个就是市辖区
-                $currentCity = $currentAreas[0];
-
-                // 移除第一个,获取真正的所有区
-                unset($currentAreas[0]);
-                $currentAreas = array_values($currentAreas);
+                $currentCity = $this->getDirectCity($cascader);
 
                 // 处理真正的区的 parent_id 改为 city 的 id
                 foreach ($currentAreas as &$currentArea) {
@@ -267,6 +293,20 @@ class District
 
         return $cascaders;
     }
+
+
+    protected function getDirectCity($cascader) 
+    {
+        return [
+            'name' => '市辖区',
+            'short_name' => '市辖区',
+            'id' => substr($cascader['id'], 0, 2) . '0100',
+            'parent_id' => $cascader['id'],
+            'level' => 'city',
+            'children' => [],
+        ];
+    }
+
 
     /**
      * 格式化 cascader 数据

@@ -18,7 +18,7 @@
 @endphp
 
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div class="w-full relative"
+    <div class="sn-district-select w-full relative"
         x-data="districtSelectManager({
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             options: @js($options),
