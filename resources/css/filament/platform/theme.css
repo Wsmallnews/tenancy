@@ -1,0 +1,369 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../app/Features/**/*';
+@source '../../../../resources/views/**/*';
+
+html {
+    @apply scroll-smooth;
+}
+
+.fi-body {
+    @apply bg-slate-100 dark:bg-slate-950;
+}
+
+#nprogress .bar {
+    height: 4px !important;
+}
+
+/** 包含 sn-district-select 的外围 section 设置成 visible 房子自定义的 区域选择器 样式被遮挡 **/
+.fi-section {
+    @apply has-[.sn-district-select]:overflow-visible;
+}
+
+/** 页面内部侧边栏样式 **/
+.sn-page-sidebar .fi-sc.fi-grid.fi-sc-has-gap {
+    @apply gap-1;
+}
+/** sidebar-item 外层容器样式设置**/
+.fi-sc-text {
+    @apply 
+        has-[.sn-page-sidebar-item]:inline-block 
+        has-[.sn-page-sidebar-item]:w-full 
+        has-[.sn-page-sidebar-item]:p-2 
+        has-[.sn-page-sidebar-item]:rounded-md 
+        has-[.sn-page-sidebar-item]:hover:bg-gray-200 
+        has-[.sn-page-sidebar-item]:dark:hover:bg-gray-800
+        has-[.sn-page-sidebar-item]:text-gray-950 
+        has-[.sn-page-sidebar-item]:dark:text-white
+}
+.fi-sc-text {
+    @apply 
+        has-[.sn-page-sidebar-item.sn-active]:text-white 
+        has-[.sn-page-sidebar-item.sn-active]:bg-primary-600 
+        has-[.sn-page-sidebar-item.sn-active]:dark:bg-primary-700
+}
+/** sn-page-sidebar 外层容器 吸顶 **/
+.fi-sc-flex > div {
+    @apply 
+        has-[.sn-page-sidebar]:sticky
+        has-[.sn-page-sidebar]:top-20
+        has-[.sn-page-sidebar]:z-20
+}
+
+/** 表格网格样式 容器样式 **/
+.sn-grid-table {
+    @apply bg-gray-200 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-700 dark:ring-white/10;
+}
+/** 表格网格样式 grid样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap {
+    @apply gap-[1px];
+}
+/** 表格网络 特定子元素 所占行数设置 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col {
+    @apply has-[.sn-two-rows]:row-span-2 has-[.sn-three-rows]:row-span-3 has-[.sn-four-rows]:row-span-4;
+}
+/** 表格网格样式 下面的 entry 的样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry {
+    @apply min-h-14 h-full flex items-stretch gap-0;
+}
+/** 表格网格样式 下面的 entry label 样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-label-col {
+    @apply w-30 shrink-0 flex items-center border-r border-gray-100 bg-gray-100 dark:border-gray-700 dark:bg-gray-800 p-4;
+}
+/** 表格网格样式 下面的 entry content 样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-content-col {
+    @apply flex items-center bg-white px-4 py-2 grow dark:bg-gray-900;
+}
+
+/** 附件组件中 图片列表样式 **/
+.sn-attachment-image-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content {
+    @apply gap-0 p-0;
+}
+.sn-attachment-image-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content .fi-in-entry{
+    @apply gap-0;
+}
+/** 附件组件中的 文件列表样式 **/
+.sn-attachment-file-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content {
+    @apply gap-0 p-0;
+}
+.sn-attachment-file-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content .fi-grid-col {
+    @apply px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-800;
+}
+
+
+/** 分类 repeater 区域样式设置 **/
+.fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item {
+    @apply overflow-hidden;
+}
+.fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item .fi-fo-repeater-item-header {
+    @apply bg-gray-400 dark:bg-gray-700;
+}
+.fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item .fi-fo-repeater-item-content{
+    @apply bg-gray-200 dark:bg-gray-800;
+}
+/** 分类 repeater 下的 builder 区域样式设置 **/
+.fi-fo-builder.category-custom-field .fi-fo-builder-item {
+    @apply overflow-hidden;
+}
+
+.fi-fo-builder.category-custom-field .fi-fo-builder-item .fi-fo-builder-item-header {
+    @apply bg-gray-400 dark:bg-gray-700;
+}
+.fi-fo-builder.category-custom-field .fi-fo-builder-item .fi-fo-builder-item-content {
+    @apply bg-gray-300 dark:bg-gray-900;
+}
+
+
+/** --------------------------------页面紧凑处理开始------------------------------ **/
+
+/* padding, margin, gap 等, 统一设置为 4 */
+
+/* 主内容区域 */
+.fi-main {
+    @apply md:px-4 lg:px-4;
+}
+
+/* form 和 btn 的间距 */
+.fi-sc-form {
+    @apply gap-4;
+}
+
+/* schema 中 flex 的间距 */
+.fi-sc-flex {
+    @apply gap-4;
+}
+
+/* schema 中 has-gap 的间距 */
+.fi-sc-has-gap {
+    @apply gap-4;
+}
+
+/* schema 中 section 的间距 */
+.fi-section .fi-section-content-ctn .fi-section-content {
+    @apply gap-4 p-4;
+}
+.fi-section .fi-section-header {
+    @apply px-4 py-3;
+}
+
+/** schema 中 tabs tab 的内间距 */
+.fi-sc-tabs-tab.fi-active {
+    @apply p-4;
+}
+
+
+/** 表单 page 标题，按钮，表单 区域 间距 */
+.fi-page-header-main-ctn {
+    @apply gap-y-4 py-4;
+}
+.fi-ta-header {
+    @apply ps-4 pe-4;
+}
+/** 表格工具栏左右间距 **/
+.fi-ta-header-toolbar {
+    @apply sm:px-4;
+}
+/** 表格不带复选框时，标题的左边距离 **/
+.fi-ta-header-cell {
+    @apply sm:first-of-type:ps-4;
+}
+/** 表格内容带复选框时候的左边距 **/
+.fi-ta-cell {
+    @apply sm:first-of-type:ps-4 sm:last-of-type:pe-4;
+}
+/** 表格内容不带复选框时候的左边距 **/
+.fi-ta-cell .fi-ta-text {
+    @apply sm:first-of-type:ps-0;
+}
+/** 表格分页器左右间距 **/
+.fi-pagination {
+    @apply sm:px-4;
+}
+
+/** modal 的间距 **/
+.fi-modal-header {
+    @apply px-4 pt-4;
+}
+.fi-modal-content {
+    @apply px-4 py-4;
+}
+.fi-modal-footer {
+    @apply px-4 pb-4;
+}
+/** --------------------------------页面紧凑处理结束------------------------------ **/
+
+
+/** --------------------------------更改部分区域样式开始------------------------------ **/
+/** 部分 section 移除了内边距，内容会超出section 的圆角 **/
+.fi-section {
+    @apply overflow-hidden;
+}
+
+/** 页面标题 **/
+.fi-header {
+    @apply bg-white p-4 rounded-md shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
+}
+.fi-header-heading {
+    @apply text-xl;
+}
+
+
+/** tabs 样式 **/
+
+.fi-tabs-item.fi-active {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+.fi-tabs-item.fi-active .fi-tabs-item-label, .fi-tabs-item.fi-active svg {
+    @apply text-white dark:text-white;
+}
+.fi-tabs {
+    &:not(.fi-contained) {
+        @apply mx-0;
+    }
+}
+/** --------------------------------更改部分区域样式结束------------------------------ **/
+
+
+/** -------------------------------- 内容圆角开始------------------------------ **/
+/** 左侧菜单 按钮 圆角改小 **/
+/* .fi-sidebar-item-button {
+    @apply rounded-md;
+} */
+
+/** 表格圆角改小 **/
+.fi-ta-ctn {
+    @apply rounded-md;
+}
+
+/** section 圆角改小 **/
+.fi-section {
+    @apply rounded-md;
+}
+
+/** tabs 圆角改小 **/
+.fi-fo-tabs {
+    @apply rounded-md;
+}
+
+/** button 圆角改小 **/
+.fi-btn {
+    @apply rounded-md;
+}
+
+/** form 字段包装器 圆角改小 **/
+.fi-input-wrp {
+    @apply rounded-md;
+}
+
+/** dropdown 下拉菜单圆角改小 **/
+.fi-dropdown-panel {
+    @apply rounded-md;
+}
+
+/** form表单 repeater 圆角改小 **/
+.fi-fo-repeater-item {
+    @apply rounded-md;
+}
+
+/* form 表单 builder item 圆角 */
+.fi-fo-builder-item {
+    @apply rounded-md;
+}
+
+.fi-fieldset {
+    @apply rounded-md;
+}
+
+/** tabs 圆角改小 **/
+.fi-tabs {
+    @apply px-4 rounded-md;
+}
+
+/** tabs 里面的 item 圆角改小 **/
+.fi-tabs-item {
+    @apply rounded-md;
+}
+
+/** plugins filament-nestedset 圆角改小 **/
+.fi-sn-tree-container {
+    @apply rounded-md;
+}
+
+/** -------------------------------- 内容圆角结束------------------------------ **/
+
+
+/** 头部 fi-topbar 样式开始 **/
+
+.fi-topbar {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+.fi-topbar .fi-topbar-start .fi-icon-btn,
+.fi-topbar .fi-topbar-start .fi-logo {
+    @apply text-white dark:text-white;
+}
+
+.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-prefix .fi-icon,
+.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-content-ctn .fi-input {
+    @apply dark:placeholder:text-gray-300 dark:text-gray-300;
+}
+/** 头部 fi-topbar 样式结束 **/
+
+
+/** --------------------------------左侧菜单栏开始------------------------------ **/
+
+/** 隐藏左侧菜单栏滚动条 **/
+.fi-sidebar-nav {
+    scrollbar-width: none;
+    /* Firefox 兼容 */
+    -ms-overflow-style: none;
+    /* IE/Edge 兼容 */
+}
+
+.fi-sidebar-nav::-webkit-scrollbar {
+    display: none;
+    /* 隐藏滚动条 */
+}
+/** 隐藏左侧菜单栏滚动条 结束 **/
+
+
+/** 左边头部 和 左边菜单栏 背景色 **/
+.fi-sidebar-header, .fi-sidebar-nav {
+    @apply bg-primary-600 dark:bg-primary-700;
+}
+
+/** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
+.fi-sidebar-header .fi-logo,   /** 小屏幕时，悬浮左侧菜单栏头部 **/
+.fi-topbar .fi-topbar-open-sidebar-btn svg,     /** 小屏幕时，悬浮左侧菜单栏头部 的操作 icon **/
+/** 左侧菜单栏多租户的内容，和 svg **/
+.fi-tenant-menu-trigger span,
+.fi-tenant-menu-trigger svg,
+/** 左侧菜单栏未选中时候的样式 限定 fi-sidebar-nav 父级 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-label,                     /** 左侧菜单栏分组的文字 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-collapse-btn .fi-icon,      /** 左侧菜单栏分组的折叠图标 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-icon,        /** 左侧菜单栏分组的图标 **/
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-label {      /** 左侧菜单栏分组的文字 **/
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
+.fi-sidebar-nav .fi-tenant-menu-trigger,
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-btn {
+    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
+}
+
+/** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    @apply bg-primary-700 dark:bg-primary-800;
+}
+
+/** 集群菜单文字 和 菜单图标，选中颜色 @sn todo 待测试 **/
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+}
+
+/** --------------------------------左侧菜单栏结束------------------------------ **/

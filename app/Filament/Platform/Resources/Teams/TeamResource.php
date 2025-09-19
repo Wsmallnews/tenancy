@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\Teams;
+namespace App\Filament\Platform\Resources\Teams;
 
 use BackedEnum;
 use App\Enums\Teams\Status;
 use App\Features\Common;
-use App\Filament\Resources\Teams\Pages;
-use App\Filament\Resources\Teams\Schemas\TeamInfolist;
-use App\Filament\Resources\Users\UserResource;
+use App\Filament\Platform\Resources\Teams\Pages;
+use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
+use App\Filament\Platform\Resources\Users\UserResource;
 use App\Models\Team;
 use App\Models\User;
 use Filament\Actions;
@@ -42,25 +42,6 @@ class TeamResource extends Resource
     protected static ?string $pluralModelLabel = '资源库';
 
     protected static ?int $navigationSort = 1;
-
-    protected static bool $isScopedToTenant = false;        // 只有初始用户可访问
-
-    protected static bool $shouldRegisterNavigation = false;
-
-    /**
-     * 租户管理 只有 1 号租户可以访问
-     *
-     * @return boolean
-     */
-    public static function canAccess(): bool
-    {
-        $tenant = Filament::getTenant();
-        if ($tenant && $tenant->id == 1) {
-            return static::canViewAny();
-        }
-
-        return false;
-    }
 
     public static function form(Schema $schema): Schema
     {
