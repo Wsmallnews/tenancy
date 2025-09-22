@@ -7,6 +7,7 @@ use App\Enums\Teams\Status;
 use App\Features\Common;
 use App\Filament\Platform\Resources\Teams\Pages;
 use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
+use App\Filament\Platform\Resources\Users\Schemas\UserForm;
 use App\Filament\Platform\Resources\Users\UserResource;
 use App\Models\Team;
 use App\Models\User;
@@ -129,7 +130,7 @@ class TeamResource extends Resource
                             ->label('选择超管')
                             ->required()
                             ->options(User::query()->pluck('name', 'id'))
-                            ->createOptionForm(UserResource::getBaseFormsComponent())
+                            ->createOptionForm(UserForm::getBaseFormsComponent())
                             ->createOptionUsing(function (array $data): int {
                                 $user = User::create($data);
                                 return $user->id;
@@ -152,7 +153,7 @@ class TeamResource extends Resource
                         $panelId = Filament::getCurrentOrDefaultPanel()->getId();
 
                         $exitCode = User::withoutEvents(function () use ($panelId, $team, $data) {
-                            // 创建角色时，creating 会覆盖 传入的 tenant_id, 这里使用 withoutEvents 暂时屏蔽 creating 事件
+                            // 创建角色时，creating 会覆盖 传入的 tenant_id, 这里使用 withoutEvents 暂时屏蔽 creating 事件 (platform 面板可以不要 withoutEvents 了)
                             // 创建 超级管理角色，并且绑定管理员到该角色 
                             $exitCode = Artisan::call('shield:super-admin', [
                                 '--panel' => $panelId,
@@ -176,14 +177,6 @@ class TeamResource extends Resource
                     ->visible(fn(Team $team): bool => $team->users()->count() === 0),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
-                // Actions\DeleteAction::make(),
-                // Actions\RestoreAction::make(),
-            ])
-            ->toolbarActions([
-                // Actions\BulkActionGroup::make([
-                //     Actions\DeleteBulkAction::make(),
-                //     Actions\RestoreBulkAction::make(),
-                // ]),
             ]);
     }
 

@@ -5,13 +5,12 @@ namespace App\Filament\Platform\Resources\Users;
 use BackedEnum;
 use App\Enums\Activities\LogEvent;
 use App\Filament\Platform\Resources\Users\Pages;
+use App\Filament\Platform\Resources\Users\Schemas\UserForm;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
-use Filament\Forms;
-use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
@@ -20,8 +19,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
 class UserResource extends Resource implements HasShieldPermissions
@@ -62,33 +59,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Schemas\Components\Flex::make([
-                    Schemas\Components\Group::make()->schema([
-                        Schemas\Components\Section::make('基础信息')->schema(self::getBaseFormsComponent()),
-                    ])->columns(1),
-                    Schemas\Components\Section::make('分配角色')->schema([
-                        Forms\Components\Select::make('roles')
-                            ->relationship(name: 'roles', titleAttribute: 'name')
-                            ->saveRelationshipsUsing(function (Model $record, $state) {
-                                $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
-                            })
-                            ->multiple()
-                            ->preload()
-                            ->searchable(),
-                        // Forms\Components\Radio::make('status')
-                        //     ->label('状态')
-                        //     ->default(Status::Normal)
-                        //     ->inline()
-                        //     ->options(Status::class),
-                    ])
-                    ->extraAttributes(['style' => 'min-width: 300px;'])
-                    ->grow(false),
-                ])
-                ->columnSpanFull()
-                ->from('lg')
-            ]);
+        return UserForm::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -190,34 +161,5 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getNavigationGroup(): ?string
     {
         return __('filament-shield::filament-shield.nav.group');        // 和角色放到一个组
-    }
-
-    public static function getBaseFormsComponent(): array
-    {
-        return [
-            Forms\Components\TextInput::make('name')->label('管理员名称')
-                ->placeholder('请输入管理员名称')
-                ->required(),
-            Forms\Components\FileUpload::make('avatar_url')->label('头像')
-                ->avatar()
-                ->required()
-                ->directory('users/avatars')
-                ->openable()
-                ->uploadingMessage('头像上传中...'),
-            Forms\Components\TextInput::make('email')->label('邮箱')
-                ->placeholder('请输入登录邮箱')
-                ->required(),
-            Forms\Components\TextInput::make('password')
-                ->label(__('filament-panels::auth/pages/edit-profile.form.password.label'))
-                ->placeholder('不修改则留空')
-                ->password()
-                ->revealable(filament()->arePasswordsRevealable())
-                ->rule(Password::default())
-                ->autocomplete('new-password')
-                ->dehydrated(fn($state): bool => filled($state))
-                ->dehydrateStateUsing(fn($state): string => Hash::make($state))
-                // ->same('passwordConfirmation')       // 是否需要确认密码
-                ->live(debounce: 500),
-        ];
     }
 }
