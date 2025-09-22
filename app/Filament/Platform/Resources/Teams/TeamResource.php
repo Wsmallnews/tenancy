@@ -13,6 +13,7 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Schemas;
@@ -42,6 +43,8 @@ class TeamResource extends Resource
     protected static ?string $pluralModelLabel = '资源库';
 
     protected static ?int $navigationSort = 1;
+
+    protected static bool $shouldSkipAuthorization = true;     // @sn todo 暂时跳过授权
 
     public static function form(Schema $schema): Schema
     {
@@ -184,11 +187,15 @@ class TeamResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
+
+    public static function getRecordSubNavigation(Page $page): array
     {
-        return [
-            // 'users' => RelationManagers\UsersRelationManager::class,
-        ];
+        return $page->generateNavigationItems([
+            Pages\ViewTeam::class,
+            Pages\EditTeam::class,
+            Pages\ManageRoles::class,
+            Pages\ManageUsers::class,
+        ]);
     }
 
     public static function getPages(): array
@@ -198,6 +205,8 @@ class TeamResource extends Resource
             'create' => Pages\CreateTeam::route('/create'),
             'view' => Pages\ViewTeam::route('/{record}'),
             'edit' => Pages\EditTeam::route('/{record}/edit'),
+            'manage-roles' => Pages\ManageRoles::route('/{record}/roles'),
+            'manage-admins' => Pages\ManageUsers::route('/{record}/admins'),
         ];
     }
 

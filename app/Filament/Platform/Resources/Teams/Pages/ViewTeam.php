@@ -2,7 +2,7 @@
 
 namespace App\Filament\Platform\Resources\Teams\Pages;
 
-use App\Filament\Platform\Resources\Teams\RelationManagers\UsersRelationManager;
+use App\Filament\Platform\Resources\Teams\RelationManagers;
 use App\Filament\Platform\Resources\Teams\TeamResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -17,12 +17,4 @@ class ViewTeam extends ViewRecord
             EditAction::make(),
         ];
     }
-
-
-    // public function getAllRelationManagers(): array
-    // {
-    //     return [
-    //         'users' => UsersRelationManager::class,
-    //     ];
-    // }
 }
