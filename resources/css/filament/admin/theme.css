@@ -116,6 +116,10 @@ html {
     @apply bg-gray-300 dark:bg-gray-900;
 }
 
+/** 页面子导航侧边栏宽度设置 **/
+.fi-page-sub-navigation-sidebar-ctn {
+    @apply max-w-48;
+}
 
 /** --------------------------------页面紧凑处理开始------------------------------ **/
 
@@ -124,6 +128,11 @@ html {
 /* 主内容区域 */
 .fi-main {
     @apply md:px-4 lg:px-4;
+}
+
+/** 页面主内容区域间距设置（和子导航之间的间距） **/
+.fi-page-main {
+    @apply gap-4;
 }
 
 /* form 和 btn 的间距 */
