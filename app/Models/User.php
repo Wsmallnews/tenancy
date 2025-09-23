@@ -46,6 +46,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
      * @var list<string>
      */
     protected $hidden = [
+        'user_type',
         'password',
         'remember_token',
     ];
@@ -84,8 +85,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;        // @sn todo 这里不限制登录判断
-        return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
+        return match ($panel->getId()) {
+            'platform' => $this->user_type == 'platform',
+            'admin' => $this->user_type == 'admin',
+            default => false,
+        };
+        // return true;        // @sn todo 这里不限制登录判断
+        // return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
     }
 
     public function teams(): BelongsToMany

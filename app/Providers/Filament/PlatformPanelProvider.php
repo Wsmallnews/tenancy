@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -52,8 +53,13 @@ class PlatformPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugins([])
-            ->navigationGroups([])
+            ->plugins([
+                FilamentShieldPlugin::make(),
+            ])
+            ->navigationGroups([
+                '资源库管理',
+                __('filament-shield::filament-shield.nav.group'),       // 权限管理
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ])

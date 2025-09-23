@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Platform\Resources\Users;
+namespace App\Filament\Platform\Resources\PlatformUsers;
 
 use BackedEnum;
 use App\Enums\Activities\LogEvent;
-use App\Filament\Platform\Resources\Users\Pages;
-use App\Filament\Platform\Resources\Users\Schemas\UserForm;
+use App\Filament\Platform\Resources\PlatformUsers\Pages;
+use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
@@ -18,14 +18,13 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Model;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
-class UserResource extends Resource implements HasShieldPermissions
+class PlatformUserResource extends Resource implements HasShieldPermissions
 {
     use HasShieldFormComponents;
-
-    protected static ?string $tenantOwnershipRelationshipName = 'teams';
 
     protected static ?string $model = User::class;
 
@@ -59,7 +58,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function form(Schema $schema): Schema
     {
-        return UserForm::configure($schema);
+        return PlatformUserForm::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -161,5 +160,13 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getNavigationGroup(): ?string
     {
         return __('filament-shield::filament-shield.nav.group');        // 和角色放到一个组
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])->where('user_type', 'platform');
     }
 }

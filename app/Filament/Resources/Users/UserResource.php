@@ -20,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
@@ -189,6 +190,16 @@ class UserResource extends Resource implements HasShieldPermissions
     {
         return __('filament-shield::filament-shield.nav.group');        // 和角色放到一个组
     }
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])->where('user_type', 'admin');
+    }
+
 
     public static function getBaseFormsComponent(): array
     {

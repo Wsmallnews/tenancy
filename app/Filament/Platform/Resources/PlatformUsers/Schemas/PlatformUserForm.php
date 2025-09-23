@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Platform\Resources\Users\Schemas;
+namespace App\Filament\Platform\Resources\PlatformUsers\Schemas;
 
 use Filament\Forms;
 use Filament\Schemas;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class UserForm
+class PlatformUserForm
 {
 
     /**

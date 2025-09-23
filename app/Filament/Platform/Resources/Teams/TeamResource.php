@@ -7,8 +7,7 @@ use App\Enums\Teams\Status;
 use App\Features\Common;
 use App\Filament\Platform\Resources\Teams\Pages;
 use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
-use App\Filament\Platform\Resources\Users\Schemas\UserForm;
-use App\Filament\Platform\Resources\Users\UserResource;
+use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\Team;
 use App\Models\User;
 use Filament\Actions;
@@ -26,6 +25,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
+use UnitEnum;
 
 class TeamResource extends Resource
 {
@@ -34,6 +34,8 @@ class TeamResource extends Resource
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '资源库(圃)';
+
+    protected static string | UnitEnum | null $navigationGroup = '资源库管理';
 
     protected static ?string $slug = 'teams';
 
@@ -129,9 +131,10 @@ class TeamResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->label('选择超管')
                             ->required()
-                            ->options(User::query()->pluck('name', 'id'))
-                            ->createOptionForm(UserForm::getBaseFormsComponent())
+                            ->options(User::query()->where('user_type', 'admin')->pluck('name', 'id'))
+                            ->createOptionForm(PlatformUserForm::getBaseFormsComponent())
                             ->createOptionUsing(function (array $data): int {
+                                $data['user_type'] = 'admin';   // 租户管理员
                                 $user = User::create($data);
                                 return $user->id;
                             })
@@ -209,10 +212,5 @@ class TeamResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return __('filament-shield::filament-shield.nav.group');
     }
 }

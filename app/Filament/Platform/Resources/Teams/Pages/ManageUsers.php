@@ -3,7 +3,7 @@
 namespace App\Filament\Platform\Resources\Teams\Pages;
 
 use App\Filament\Platform\Resources\Teams\TeamResource;
-use App\Filament\Platform\Resources\Users\Schemas\UserForm;
+use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\Team;
 use App\Models\User;
 use Filament\Actions;
@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class ManageUsers extends ManageRelatedRecords
 {
@@ -38,13 +39,14 @@ class ManageUsers extends ManageRelatedRecords
         $recordTenant = $this->getOwnerRecord();        // 关系所属租户
         setPermissionsTeamId($recordTenant->id);
         
-        return UserForm::teamConfigure($schema);
+        return PlatformUserForm::teamConfigure($schema);
     }
 
 
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('user_type', 'admin'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
@@ -84,8 +86,13 @@ class ManageUsers extends ManageRelatedRecords
             ->searchPlaceholder('搜索管理员姓名、邮箱等...')
             ->headerActions([
                 Actions\CreateAction::make()
-                    ->label('创建管理员'),
+                    ->label('创建管理员')
+                    ->mutateDataUsing(function (array $data): array {
+                        $data['user_type'] = 'admin';       // 租户管理员
+                        return $data;
+                    }),
                 Actions\AttachAction::make()
+                    ->recordSelectOptionsQuery(fn (Builder $query) => $query->where('user_type', 'admin'))
                     ->schema(fn (Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\Select::make('roles')
