@@ -53,6 +53,8 @@ class ManageRoles extends ManageRelatedRecords
                     ->toggleable()
                     ->sortable(),
             ])
+            ->modelLabel(self::$modelLabel)
+            ->pluralModelLabel(self::$pluralModelLabel)
             ->headerActions([
                 // Actions\CreateAction::make(),
             ]);

@@ -10,6 +10,7 @@ use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\Team;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -46,8 +47,6 @@ class TeamResource extends Resource
     protected static ?string $pluralModelLabel = '资源库';
 
     protected static ?int $navigationSort = 1;
-
-    protected static bool $shouldSkipAuthorization = true;     // @sn todo 暂时跳过授权
 
     public static function form(Schema $schema): Schema
     {
@@ -177,7 +176,7 @@ class TeamResource extends Resource
                     ->failureNotificationTitle('初始化失败')
                     ->icon('heroicon-m-adjustments-horizontal')
                     ->color('warning')
-                    ->visible(fn(Team $team): bool => $team->users()->count() === 0),
+                    ->visible(fn(Team $team): bool => $team->users()->count() === 0 || !Utils::getRoleModel()::where('guard_name', Filament::getPanel('admin')?->getAuthGuard() ?? '')->where('name', Utils::getSuperAdminName())->where(Utils::getTenantModelForeignKey(), $team->id)->exists()),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
             ]);

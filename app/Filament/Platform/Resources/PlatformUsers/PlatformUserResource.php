@@ -42,8 +42,6 @@ class PlatformUserResource extends Resource implements HasShieldPermissions
 
     protected static ?int $navigationSort = -2;
 
-    protected static bool $shouldSkipAuthorization = true;     // @sn todo 暂时跳过授权
-
     public static function getPermissionPrefixes(): array
     {
         return [

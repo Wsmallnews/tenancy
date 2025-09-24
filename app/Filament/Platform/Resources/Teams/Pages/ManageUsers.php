@@ -81,6 +81,8 @@ class ManageUsers extends ManageRelatedRecords
                     ->toggleable()
                     ->sortable(),
             ])
+            ->modelLabel(self::$modelLabel)
+            ->pluralModelLabel(self::$pluralModelLabel)
             ->searchPlaceholder('搜索管理员姓名、邮箱等...')
             ->headerActions([
                 Actions\CreateAction::make()
