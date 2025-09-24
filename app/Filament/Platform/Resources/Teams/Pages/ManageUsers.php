@@ -59,14 +59,12 @@ class ManageUsers extends ManageRelatedRecords
                     ->searchable()
                     ->label('邮箱')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('roles.name')
+                Tables\Columns\TextColumn::make('roles_name')
                     ->state(function ($record) {
                         $recordTenant = $this->getOwnerRecord();        // 关系所属租户
                         
-                        setPermissionsTeamId($recordTenant->id);
+                        setPermissionsTeamId($recordTenant->id);        // 一次性请求，没有后续了，不需要刻意还原之前的 team_id
                         $roles = $record->roles()->get();
-
-                        setPermissionsTeamId(null);                     // 清空租户信息
 
                         return $roles->pluck('name');
                     })

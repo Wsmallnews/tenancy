@@ -3,8 +3,10 @@
 namespace App\Filament\Platform\Resources\Teams\Pages;
 
 use App\Filament\Platform\Resources\Teams\TeamResource;
+use App\Filament\Platform\Resources\Roles\Schemas\RoleForm;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRelatedRecords;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -26,6 +28,15 @@ class ManageRoles extends ManageRelatedRecords
 
     protected static bool $shouldSkipAuthorization = true;      // @sn todo 跳过授权
 
+
+    public function form(Schema $schema): Schema
+    {
+        $recordTenant = $this->getOwnerRecord();        // 关系所属租户
+        setPermissionsTeamId($recordTenant->id);
+
+        return RoleForm::teamConfigure($schema, $recordTenant->id);
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -43,7 +54,7 @@ class ManageRoles extends ManageRelatedRecords
                     ->sortable(),
             ])
             ->headerActions([
-                Actions\CreateAction::make(),
+                // Actions\CreateAction::make(),
             ]);
     }
 }

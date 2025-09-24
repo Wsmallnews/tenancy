@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -53,6 +54,9 @@ class PlatformPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->middleware([
+                PlatformSetPermissionsTeamId::class,        // 因为 spatie/laravel-permission 的 model_has_roles and model_has_permissions 的 team_id 不可为 null, 所以给 platform 设置一个超大的 team_id
+            ], isPersistent: true)
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])
