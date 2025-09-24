@@ -14,57 +14,57 @@ class NewVarietyPolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:NewVariety');
+        return $authUser->can('ViewAny:NewVarieties:NewVariety');
     }
 
     public function view(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('View:NewVariety');
+        return $authUser->can('View:NewVarieties:NewVariety');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:NewVariety');
+        return $authUser->can('Create:NewVarieties:NewVariety');
     }
 
     public function update(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('Update:NewVariety');
+        return $authUser->can('Update:NewVarieties:NewVariety');
     }
 
     public function delete(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('Delete:NewVariety');
+        return $authUser->can('Delete:NewVarieties:NewVariety');
     }
 
     public function restore(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('Restore:NewVariety');
+        return $authUser->can('Restore:NewVarieties:NewVariety');
     }
 
     public function forceDelete(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('ForceDelete:NewVariety');
+        return $authUser->can('ForceDelete:NewVarieties:NewVariety');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:NewVariety');
+        return $authUser->can('ForceDeleteAny:NewVarieties:NewVariety');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:NewVariety');
+        return $authUser->can('RestoreAny:NewVarieties:NewVariety');
     }
 
     public function replicate(AuthUser $authUser, NewVariety $newVariety): bool
     {
-        return $authUser->can('Replicate:NewVariety');
+        return $authUser->can('Replicate:NewVarieties:NewVariety');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:NewVariety');
+        return $authUser->can('Reorder:NewVarieties:NewVariety');
     }
 
 }

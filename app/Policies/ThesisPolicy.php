@@ -14,57 +14,57 @@ class ThesisPolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:Thesis');
+        return $authUser->can('ViewAny:Theses:Thesis');
     }
 
     public function view(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('View:Thesis');
+        return $authUser->can('View:Theses:Thesis');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:Thesis');
+        return $authUser->can('Create:Theses:Thesis');
     }
 
     public function update(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('Update:Thesis');
+        return $authUser->can('Update:Theses:Thesis');
     }
 
     public function delete(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('Delete:Thesis');
+        return $authUser->can('Delete:Theses:Thesis');
     }
 
     public function restore(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('Restore:Thesis');
+        return $authUser->can('Restore:Theses:Thesis');
     }
 
     public function forceDelete(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('ForceDelete:Thesis');
+        return $authUser->can('ForceDelete:Theses:Thesis');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:Thesis');
+        return $authUser->can('ForceDeleteAny:Theses:Thesis');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:Thesis');
+        return $authUser->can('RestoreAny:Theses:Thesis');
     }
 
     public function replicate(AuthUser $authUser, Thesis $thesis): bool
     {
-        return $authUser->can('Replicate:Thesis');
+        return $authUser->can('Replicate:Theses:Thesis');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:Thesis');
+        return $authUser->can('Reorder:Theses:Thesis');
     }
 
 }

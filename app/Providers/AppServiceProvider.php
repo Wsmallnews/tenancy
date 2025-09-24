@@ -6,15 +6,18 @@ use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
 use BezhanSalleh\FilamentShield\Commands;
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -42,6 +45,29 @@ class AppServiceProvider extends ServiceProvider
         Commands\InstallCommand::prohibit($this->app->isProduction());
         Commands\GenerateCommand::prohibit($this->app->isProduction());
         Commands\PublishCommand::prohibit($this->app->isProduction());
+
+        // 自定义权限节点名字
+        FilamentShield::buildPermissionKeyUsing(
+            function (string $entity, string $affix, string $subject, string $case, string $separator) {
+                if (
+                    is_subclass_of($entity, Resource::class) 
+                    && !Str::endsWith($entity, 'RoleResource')       // role 权限节点共用，不会出现在同一个 panel, 这里排除特异生成，使用原生规则
+                ) {
+                    $subject = str($subject)
+                        ->prepend(Str::studly($entity::getSlug()) . $separator)
+                        ->trim()
+                        ->toString();
+                }
+
+                return FilamentShield::defaultPermissionKeyBuilder(
+                    affix: $affix,
+                    separator: $separator,
+                    subject: $subject,
+                    case: $case
+                );
+            }
+        );
+
 
         Model::unguard();
 

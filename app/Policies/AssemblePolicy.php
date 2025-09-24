@@ -14,57 +14,57 @@ class AssemblePolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:Assemble');
+        return $authUser->can('ViewAny:Assembles:Assemble');
     }
 
     public function view(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('View:Assemble');
+        return $authUser->can('View:Assembles:Assemble');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:Assemble');
+        return $authUser->can('Create:Assembles:Assemble');
     }
 
     public function update(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('Update:Assemble');
+        return $authUser->can('Update:Assembles:Assemble');
     }
 
     public function delete(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('Delete:Assemble');
+        return $authUser->can('Delete:Assembles:Assemble');
     }
 
     public function restore(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('Restore:Assemble');
+        return $authUser->can('Restore:Assembles:Assemble');
     }
 
     public function forceDelete(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('ForceDelete:Assemble');
+        return $authUser->can('ForceDelete:Assembles:Assemble');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:Assemble');
+        return $authUser->can('ForceDeleteAny:Assembles:Assemble');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:Assemble');
+        return $authUser->can('RestoreAny:Assembles:Assemble');
     }
 
     public function replicate(AuthUser $authUser, Assemble $assemble): bool
     {
-        return $authUser->can('Replicate:Assemble');
+        return $authUser->can('Replicate:Assembles:Assemble');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:Assemble');
+        return $authUser->can('Reorder:Assembles:Assemble');
     }
 
 }

@@ -173,7 +173,7 @@ return [
             ],
         ],
         'exclude' => [
-            //
+            \App\Filament\Resources\Tests\TestResource::class,
         ],
     ],
 
@@ -193,6 +193,7 @@ return [
         'prefix' => 'view',
         'exclude' => [
             \Filament\Pages\Dashboard::class,
+            \App\Filament\Pages\Test::class,
         ],
     ],
 

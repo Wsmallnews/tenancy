@@ -14,57 +14,57 @@ class PatentPolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:Patent');
+        return $authUser->can('ViewAny:Patents:Patent');
     }
 
     public function view(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('View:Patent');
+        return $authUser->can('View:Patents:Patent');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:Patent');
+        return $authUser->can('Create:Patents:Patent');
     }
 
     public function update(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('Update:Patent');
+        return $authUser->can('Update:Patents:Patent');
     }
 
     public function delete(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('Delete:Patent');
+        return $authUser->can('Delete:Patents:Patent');
     }
 
     public function restore(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('Restore:Patent');
+        return $authUser->can('Restore:Patents:Patent');
     }
 
     public function forceDelete(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('ForceDelete:Patent');
+        return $authUser->can('ForceDelete:Patents:Patent');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:Patent');
+        return $authUser->can('ForceDeleteAny:Patents:Patent');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:Patent');
+        return $authUser->can('RestoreAny:Patents:Patent');
     }
 
     public function replicate(AuthUser $authUser, Patent $patent): bool
     {
-        return $authUser->can('Replicate:Patent');
+        return $authUser->can('Replicate:Patents:Patent');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:Patent');
+        return $authUser->can('Reorder:Patents:Patent');
     }
 
 }

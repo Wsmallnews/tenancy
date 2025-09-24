@@ -14,57 +14,57 @@ class AwardTypePolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:AwardType');
+        return $authUser->can('ViewAny:AwardTypes:AwardType');
     }
 
     public function view(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('View:AwardType');
+        return $authUser->can('View:AwardTypes:AwardType');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:AwardType');
+        return $authUser->can('Create:AwardTypes:AwardType');
     }
 
     public function update(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('Update:AwardType');
+        return $authUser->can('Update:AwardTypes:AwardType');
     }
 
     public function delete(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('Delete:AwardType');
+        return $authUser->can('Delete:AwardTypes:AwardType');
     }
 
     public function restore(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('Restore:AwardType');
+        return $authUser->can('Restore:AwardTypes:AwardType');
     }
 
     public function forceDelete(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('ForceDelete:AwardType');
+        return $authUser->can('ForceDelete:AwardTypes:AwardType');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:AwardType');
+        return $authUser->can('ForceDeleteAny:AwardTypes:AwardType');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:AwardType');
+        return $authUser->can('RestoreAny:AwardTypes:AwardType');
     }
 
     public function replicate(AuthUser $authUser, AwardType $awardType): bool
     {
-        return $authUser->can('Replicate:AwardType');
+        return $authUser->can('Replicate:AwardTypes:AwardType');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:AwardType');
+        return $authUser->can('Reorder:AwardTypes:AwardType');
     }
 
 }

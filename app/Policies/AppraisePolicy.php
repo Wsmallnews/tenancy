@@ -14,57 +14,57 @@ class AppraisePolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:Appraise');
+        return $authUser->can('ViewAny:Appraises:Appraise');
     }
 
     public function view(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('View:Appraise');
+        return $authUser->can('View:Appraises:Appraise');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:Appraise');
+        return $authUser->can('Create:Appraises:Appraise');
     }
 
     public function update(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('Update:Appraise');
+        return $authUser->can('Update:Appraises:Appraise');
     }
 
     public function delete(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('Delete:Appraise');
+        return $authUser->can('Delete:Appraises:Appraise');
     }
 
     public function restore(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('Restore:Appraise');
+        return $authUser->can('Restore:Appraises:Appraise');
     }
 
     public function forceDelete(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('ForceDelete:Appraise');
+        return $authUser->can('ForceDelete:Appraises:Appraise');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:Appraise');
+        return $authUser->can('ForceDeleteAny:Appraises:Appraise');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:Appraise');
+        return $authUser->can('RestoreAny:Appraises:Appraise');
     }
 
     public function replicate(AuthUser $authUser, Appraise $appraise): bool
     {
-        return $authUser->can('Replicate:Appraise');
+        return $authUser->can('Replicate:Appraises:Appraise');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:Appraise');
+        return $authUser->can('Reorder:Appraises:Appraise');
     }
 
 }

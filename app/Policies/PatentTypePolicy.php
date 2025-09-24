@@ -14,57 +14,57 @@ class PatentTypePolicy
     
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ViewAny:PatentType');
+        return $authUser->can('ViewAny:PatentTypes:PatentType');
     }
 
     public function view(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('View:PatentType');
+        return $authUser->can('View:PatentTypes:PatentType');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('Create:PatentType');
+        return $authUser->can('Create:PatentTypes:PatentType');
     }
 
     public function update(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('Update:PatentType');
+        return $authUser->can('Update:PatentTypes:PatentType');
     }
 
     public function delete(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('Delete:PatentType');
+        return $authUser->can('Delete:PatentTypes:PatentType');
     }
 
     public function restore(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('Restore:PatentType');
+        return $authUser->can('Restore:PatentTypes:PatentType');
     }
 
     public function forceDelete(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('ForceDelete:PatentType');
+        return $authUser->can('ForceDelete:PatentTypes:PatentType');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('ForceDeleteAny:PatentType');
+        return $authUser->can('ForceDeleteAny:PatentTypes:PatentType');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('RestoreAny:PatentType');
+        return $authUser->can('RestoreAny:PatentTypes:PatentType');
     }
 
     public function replicate(AuthUser $authUser, PatentType $patentType): bool
     {
-        return $authUser->can('Replicate:PatentType');
+        return $authUser->can('Replicate:PatentTypes:PatentType');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('Reorder:PatentType');
+        return $authUser->can('Reorder:PatentTypes:PatentType');
     }
 
 }
