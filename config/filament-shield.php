@@ -118,7 +118,7 @@ return [
 
     'policies' => [
         'path' => app_path('Policies'),
-        'merge' => true,
+        'merge' => false,
         'generate' => true,
         'methods' => [
             'viewAny', 'view', 'create', 'update', 'delete', 'restore',
@@ -164,12 +164,36 @@ return [
     'resources' => [
         'subject' => 'model',
         'manage' => [
+            \App\Filament\Platform\Resources\Roles\RoleResource::class => [
+                'viewAny',
+                'view',
+                'create',
+                'update',
+                'delete',
+            ],
+            \App\Filament\Platform\Resources\PlatformUsers\PlatformUserResource::class => [
+                'viewAny',
+                'view',
+                'create',
+                'update',
+                'delete',
+                'deleteAny',
+            ],
+
             \BezhanSalleh\FilamentShield\Resources\Roles\RoleResource::class => [
                 'viewAny',
                 'view',
                 'create',
                 'update',
                 'delete',
+            ],
+            \App\Filament\Resources\Users\UserResource::class => [
+                'viewAny',
+                'view',
+                'create',
+                'update',
+                'delete',
+                'deleteAny',
             ],
         ],
         'exclude' => [
