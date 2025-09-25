@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Enums\Categories\Status;
 use App\Models\Category as CategoryModel;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
 use Filament\Forms;
 use Filament\Infolists;
@@ -16,6 +17,8 @@ use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 class Category extends NestedsetPage
 {
+    use HasPageShield;
+
     public string $emptyLabel = '分类数据为空';
 
     protected static ?string $model = CategoryModel::class;

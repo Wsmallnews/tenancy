@@ -6,7 +6,6 @@ use BackedEnum;
 use App\Enums\Activities\LogEvent;
 use App\Filament\Resources\Users\Pages;
 use App\Models\User;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
@@ -25,10 +24,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
-class UserResource extends Resource implements HasShieldPermissions
+class UserResource extends Resource
 {
-    use HasShieldFormComponents;
-
     protected static ?string $tenantOwnershipRelationshipName = 'teams';
 
     protected static ?string $model = User::class;

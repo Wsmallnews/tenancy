@@ -7,7 +7,6 @@ use App\Enums\Activities\LogEvent;
 use App\Filament\Platform\Resources\PlatformUsers\Pages;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\User;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
@@ -22,10 +21,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Model;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
-class PlatformUserResource extends Resource implements HasShieldPermissions
+class PlatformUserResource extends Resource
 {
-    use HasShieldFormComponents;
-
     protected static ?string $model = User::class;
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;

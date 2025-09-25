@@ -20,6 +20,8 @@ class AppraiseSetting extends SettingsPage
 
     protected static string | UnitEnum | null $navigationGroup = '设置管理';
 
+    protected static ?string $title = '种质设置';
+
     protected static ?string $slug = 'appraise-settings';
 
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';

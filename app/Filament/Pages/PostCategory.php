@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Enums\PostCategories\Status;
 use App\Models\PostCategory as PostCategoryModel;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Schemas;
@@ -12,6 +13,8 @@ use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 class PostCategory extends NestedsetPage
 {
+    use HasPageShield;
+
     public string $emptyLabel = '资讯分类为空';
 
     protected static ?string $model = PostCategoryModel::class;

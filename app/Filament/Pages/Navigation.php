@@ -6,6 +6,7 @@ use App\Enums\Navigations\Status;
 use App\Enums\Navigations\Type as NavigationTypeEnum;
 use App\Features\NavigationType;
 use App\Models\Navigation as NavigationModel;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Infolists;
@@ -17,6 +18,8 @@ use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 class Navigation extends NestedsetPage
 {
+    use HasPageShield;
+
     public string $emptyLabel = '导航数据为空';
 
     protected static ?string $model = NavigationModel::class;

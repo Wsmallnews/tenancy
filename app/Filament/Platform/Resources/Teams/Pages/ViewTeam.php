@@ -11,6 +11,8 @@ class ViewTeam extends ViewRecord
 {
     protected static string $resource = TeamResource::class;
 
+    protected static ?string $navigationLabel = '查看';
+
     protected function getHeaderActions(): array
     {
         return [

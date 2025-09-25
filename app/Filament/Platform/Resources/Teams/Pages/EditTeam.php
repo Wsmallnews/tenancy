@@ -11,6 +11,8 @@ class EditTeam extends EditRecord
 {
     protected static string $resource = TeamResource::class;
 
+    protected static ?string $navigationLabel = '编辑';
+
     protected function getHeaderActions(): array
     {
         return [
