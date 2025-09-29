@@ -21,7 +21,7 @@
         "overtrue/laravel-pinyin": "^5.2",
         "parfaitementweb/filament-country-field": "^2.5",
         "spatie/laravel-activitylog": "*",
-        "wsmallnews/filament-nestedset": "2.0.0"
+        "wsmallnews/filament-nestedset": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

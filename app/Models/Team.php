@@ -121,6 +121,11 @@ class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
         return $this->hasMany(PatentType::class);
     }
 
+    public function personnels(): HasMany
+    {
+        return $this->hasMany(Personnel::class);
+    }
+
     public function phenotypeIdentifies(): HasMany
     {
         return $this->hasMany(PhenotypeIdentify::class);
