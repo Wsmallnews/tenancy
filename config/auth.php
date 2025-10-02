@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'platform' => [     // 总平台登录认证
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*
