@@ -53,12 +53,12 @@ class Post extends Model implements HasMedia
 
 
     /**
-     * post 需要分类时候解开（多对多分类）
+     * post 分类多对多查询
      */
     public function scopeWhereCategoryIn($query, array | Collection $categoryIds)
     {
         return $query->whereHas('categories', function ($query) use ($categoryIds) {
-            $query->whereIn('categories.id', $categoryIds);
+            $query->whereIn('id', $categoryIds);
         });
     }
 

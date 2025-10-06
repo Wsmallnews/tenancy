@@ -16,6 +16,15 @@ class PersonnelForm
                 Schemas\Components\Flex::make([
                     Schemas\Components\Group::make()->schema([
                         Schemas\Components\Section::make('成员信息')->schema([
+                            Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')->label('头像')
+                                ->helperText('支持上传图片')
+                                ->collection('avatar')
+                                ->required()
+                                ->downloadable()
+                                ->image()
+                                ->imagePreviewHeight('200')
+                                ->uploadingMessage('头像上传中...')
+                                ->columns(1),
                             Forms\Components\TextInput::make('name')->label('姓名')
                                 ->placeholder('请输入成员姓名')
                                 ->required(),
@@ -35,7 +44,8 @@ class PersonnelForm
                                     Forms\Components\RichEditor::make('content')
                                         ->fileAttachmentsDirectory('contents/' . date('Ymd'))
                                         ->label('履历'),
-                                ])->columns(1),
+                                ])->columns(1)
+                                ->columnSpanFull(),
                         ])->columns(2),
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([

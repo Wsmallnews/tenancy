@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Personnel extends Model
+class Personnel extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use LogsActivity;
     use SoftDeletes;
 
     protected $table = 'personnels';
-    
+
     protected $casts = [
         'status' => Status::class,
     ];
@@ -38,6 +41,15 @@ class Personnel extends Model
     public function scopeHidden($query)
     {
         return $query->where('status', Status::Hidden);
+    }
+
+    public function scopeScopeTenant($query)
+    {
+        if (has_tenancy()) {
+            return $query->where('team_id', current_tenant()->id);
+        } else {
+            return $query->whereNull('team_id');
+        }
     }
 
     public function content(): MorphOne

@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         FilamentShield::buildPermissionKeyUsing(
             function (string $entity, string $affix, string $subject, string $case, string $separator) {
                 if (
-                    is_subclass_of($entity, Resource::class) 
+                    is_subclass_of($entity, Resource::class)
                     && !Str::endsWith($entity, 'RoleResource')       // role 权限节点共用，不会出现在同一个 panel, 这里排除特异生成，使用原生规则
                 ) {
                     $subject = str($subject)
@@ -86,6 +86,9 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
         Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
         Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
+        Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
+        Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
+
 
         // 注册模型别名
         Relation::enforceMorphMap([
@@ -155,6 +158,31 @@ class AppServiceProvider extends ServiceProvider
                 ],
                 'components' => [
                     \App\Livewire\Components\Post::class
+                ]
+            ],
+            [
+                'type' => 'personnels',
+                'label' => '人员列表',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Personnels::class
+                ]
+            ],
+            [
+                'type' => 'personnel-detail',
+                'label' => '人员详情',
+                'forms' => fn($fields) => [
+                    Forms\Components\Select::make('id')->label('选择人员')
+                        ->options(\App\Models\Personnel::normal()->limit(30)->pluck('name', 'id'))
+                        ->getSearchResultsUsing(fn(string $search): array => \App\Models\Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+                        // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+                        ->placeholder('请选择人员详情')
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+                ],
+                'components' => [
+                    \App\Livewire\Components\Personnel::class
                 ]
             ],
             // [

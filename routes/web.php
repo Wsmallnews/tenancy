@@ -5,6 +5,8 @@ use App\Livewire\Index;
 use App\Livewire\Navigation;
 use App\Livewire\Posts;
 use App\Livewire\Post;
+use App\Livewire\Personnels;
+use App\Livewire\Personnel;
 use App\Http\Middleware\IdentifyTenant;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
@@ -19,6 +21,8 @@ Route::prefix("tenant/{tenant:slug}")
 
         Route::get('/posts', Posts::class)->name('posts');
         Route::get('/posts/{id}', Post::class)->name('posts.show');
+        Route::get('/personnels', Personnels::class)->name('personnels');
+        Route::get('/personnels/{id}', Personnel::class)->name('personnels.show');
     });
 
 

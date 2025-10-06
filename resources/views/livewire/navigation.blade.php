@@ -25,7 +25,7 @@
             <x-filament::breadcrumbs :breadcrumbs="$breadcrumbs" />
         </div>
 
-        <div class="flex flex-col md:flex-row items-start gap-4">
+        <div class="w-full flex flex-col md:flex-row items-start gap-4">
             @if ($brothers->isNotEmpty())
                 <ul class="flex flex-col w-full md:w-72 shrink-0 bg-primary-500">
                     @foreach ($brothers as $brother)
@@ -41,11 +41,9 @@
                 </ul>
             @endif
 
-            <div class="flex flex-col grow gap-4">
+            <div class="w-full flex flex-col grow gap-4">
                 @foreach ($components as $component_name => $params)
-                    <x-base.block>
-                        @livewire($component_name, $params, key($component_name . '-' . $loop->index))
-                    </x-base.block>
+                    @livewire($component_name, $params, key($component_name . '-' . $loop->index))
                 @endforeach
             </div>
         </div>
