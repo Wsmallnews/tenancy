@@ -160,6 +160,10 @@ class PostResource extends Resource
                     ->label('标签')
                     ->type('post_tags')
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('views')
+                    ->label('浏览量')
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->toggleable(),

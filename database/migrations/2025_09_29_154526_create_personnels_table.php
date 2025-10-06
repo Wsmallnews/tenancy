@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('research_focus')->nullable()->comment('研究方向');
             $table->string('research_result')->nullable()->comment('研究成果');
             $table->string('intro')->nullable()->comment('个人简介');
+            $table->unsignedBigInteger('views')->default(0)->comment('浏览量');
 
             $table->string('status')->nullable()->comment('状态');
             $table->unsignedInteger('order_column')->nullable()->index()->comment('排序');

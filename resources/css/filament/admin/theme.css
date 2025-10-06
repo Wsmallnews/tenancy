@@ -29,25 +29,25 @@ html {
 }
 /** sidebar-item 外层容器样式设置**/
 .fi-sc-text {
-    @apply 
-        has-[.sn-page-sidebar-item]:inline-block 
-        has-[.sn-page-sidebar-item]:w-full 
-        has-[.sn-page-sidebar-item]:p-2 
-        has-[.sn-page-sidebar-item]:rounded-md 
-        has-[.sn-page-sidebar-item]:hover:bg-gray-200 
+    @apply
+        has-[.sn-page-sidebar-item]:inline-block
+        has-[.sn-page-sidebar-item]:w-full
+        has-[.sn-page-sidebar-item]:p-2
+        has-[.sn-page-sidebar-item]:rounded-md
+        has-[.sn-page-sidebar-item]:hover:bg-gray-200
         has-[.sn-page-sidebar-item]:dark:hover:bg-gray-800
-        has-[.sn-page-sidebar-item]:text-gray-950 
+        has-[.sn-page-sidebar-item]:text-gray-950
         has-[.sn-page-sidebar-item]:dark:text-white
 }
 .fi-sc-text {
-    @apply 
-        has-[.sn-page-sidebar-item.sn-active]:text-white 
-        has-[.sn-page-sidebar-item.sn-active]:bg-primary-600 
+    @apply
+        has-[.sn-page-sidebar-item.sn-active]:text-white
+        has-[.sn-page-sidebar-item.sn-active]:bg-primary-600
         has-[.sn-page-sidebar-item.sn-active]:dark:bg-primary-700
 }
 /** sn-page-sidebar 外层容器 吸顶 **/
 .fi-sc-flex > div {
-    @apply 
+    @apply
         has-[.sn-page-sidebar]:sticky
         has-[.sn-page-sidebar]:top-20
         has-[.sn-page-sidebar]:z-20

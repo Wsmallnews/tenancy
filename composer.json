@@ -20,6 +20,7 @@
         "malzariey/filament-daterangepicker-filter": "^4.0",
         "overtrue/laravel-pinyin": "^5.2",
         "parfaitementweb/filament-country-field": "^2.5",
+        "ralphjsmit/laravel-filament-seo": "^2.0",
         "spatie/laravel-activitylog": "*",
         "wsmallnews/filament-nestedset": "^2.0"
     },

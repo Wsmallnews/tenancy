@@ -17,10 +17,10 @@
         @filamentStyles
         @vite('resources/css/app.css')
 
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 
-    <body class="antialiased bg-white">
+    <body class="antialiased bg-slate-100">
         {{ $slot }}
 
         @livewire('notifications')

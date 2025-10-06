@@ -8,7 +8,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms;
 
 class ThesisTypeForm
-{   
+{
     public static function configure(Schema $schema): Schema
     {
         return $schema

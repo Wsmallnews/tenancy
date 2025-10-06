@@ -53,6 +53,7 @@ class TestsTable
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
+                    ->alignCenter()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
