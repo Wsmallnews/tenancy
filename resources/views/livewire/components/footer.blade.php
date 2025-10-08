@@ -28,13 +28,13 @@
                 @endforeach
             </div>
             <div class="w-full md:w-1/3 flex flex-col gap-4">
-                <div class="text-gray-800 font-bold text-xl text-center md:text-left leading-6">关注或联系我们</div>
-                <div class="text-gray-600 text-base text-center md:text-left leading-5">添加微信或关注官方微信</div>
-                <div class="flex justify-center md:justify-start">
+                <div class="text-gray-800 font-bold text-xl text-center leading-6">关注或联系我们</div>
+                <div class="text-gray-600 text-base text-center leading-5">添加微信或关注官方微信</div>
+                <div class="flex justify-center">
                     <img class="w-[100px] h-[100px] mr-[12px]" src="{{ asset('image/wechat_qrcode.webp') }}" />
                     <img class="w-[100px] h-[100px]" src="{{ asset('image/wechat_official_qrcode.webp') }}" />
                 </div>
-                <div class="flex items-center justify-center md:justify-start">
+                <div class="flex items-center justify-center">
                     <div class="text-gray-600 text-base leading-5">联系电话：</div>
                     <div class="text-gray-600 text-lg leading-6">12345678901</div>
                 </div>
