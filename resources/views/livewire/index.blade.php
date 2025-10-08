@@ -6,13 +6,13 @@
     {!! seo() !!}
 @endpush
 
-<div class="w-full" x-data="index({})">
+<div class="w-full flex flex-col grow gap-4" x-data="index({})">
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto flex flex-col gap-4">
+    <div class="container mx-auto flex flex-col grow gap-4">
         {{-- <div class="swiper first-screen-swiper first-screen-swiper-css">
             <div class="swiper-wrapper">
-                @foreach ($indexBlocks as $block) 
+                @foreach ($indexBlocks as $block)
                     @if ($block->getFirstMediaUrl('main'))
                         <div class="swiper-slide">
                             <div class="slide-content">

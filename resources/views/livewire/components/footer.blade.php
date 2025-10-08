@@ -1,3 +1,49 @@
-<div class="w-full bg-[url('/image/footer.png')]">
-    底部
+<div class="w-full">
+    <div class="container mx-auto flex flex-col gap-4">
+        <div class="w-full flex gap-16">
+            <div class="hidden md:flex md:w-2/3 gap-4 justify-between">
+                @foreach ($navigations as $navigation)
+                    <div class="flex flex-col justify-start gap-4">
+                        <a class="inline-block text-gray-800 font-bold text-xl leading-6 hover:text-primary-600"
+                            @if ($navigation->children->count() > 0)
+                                href="javascript:;"
+                            @else
+                                {{ \Filament\Support\generate_href_html($navigation->url_info['url'], $navigation->url_info['target'] ?? false) }}
+                            @endif
+                        >
+                            {{ $navigation->name }}
+                        </a>
+                        <div class="bg-primary-600 w-9 h-0.75"></div>
+                        @if ($navigation->children->count() > 0)
+                            <div class="flex flex-col justify-start gap-4">
+                                @foreach ($navigation->children as $child)
+                                    <a class="text-gray-600 text-base leading-5 items-center hover:text-primary-600"
+                                        {{ \Filament\Support\generate_href_html($child->url_info['url'], $child->url_info['target'] ?? false) }}>
+                                        {{ $child->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            <div class="w-full md:w-1/3 flex flex-col gap-4">
+                <div class="text-gray-800 font-bold text-xl text-center md:text-left leading-6">关注或联系我们</div>
+                <div class="text-gray-600 text-base text-center md:text-left leading-5">添加微信或关注官方微信</div>
+                <div class="flex justify-center md:justify-start">
+                    <img class="w-[100px] h-[100px] mr-[12px]" src="{{ asset('image/wechat_qrcode.webp') }}" />
+                    <img class="w-[100px] h-[100px]" src="{{ asset('image/wechat_official_qrcode.webp') }}" />
+                </div>
+                <div class="flex items-center justify-center md:justify-start">
+                    <div class="text-gray-600 text-base leading-5">联系电话：</div>
+                    <div class="text-gray-600 text-lg leading-6">12345678901</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full h-12 border-t border-gray-300 flex items-center justify-center text-base text-gray-500">
+            Copyright © 2025-2025 生命之光 版權所有 &nbsp;
+            <a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备123456789号</a>
+        </div>
+    </div>
 </div>

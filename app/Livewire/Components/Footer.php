@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Components;
 
-use App\Features\Tree;
 use App\Models\Navigation as NavigationModel;
 use App\Settings\GeneralSettings;
 use Livewire\Component;
@@ -10,28 +9,21 @@ use Livewire\Component;
 class Footer extends Component
 {
 
-    // public $navigations;
-
-    public function mount() {}
-
-
-
-    public function boot()
-    {
-        // $this->navigations = (new Tree(function () {
-        //     return NavigationModel::query()->normal()->orderBy('order_column', 'asc')->orderBy('id', 'asc');
-        // }))->getTree(items: $tops, resultCb: function ($navigations) {
-        //     return $navigations->map(function ($navigation) {
-        //         return $navigation->resolveNavigation($navigation);
-        //     });
-        // });
-    }
-
-
-
     public function render()
     {
+        $navigations = NavigationModel::scoped(has_tenancy() ? ['team_id' => current_tenant()->id] : [])
+            ->normal()
+            ->where(function ($query) {
+                $query->where('options->footer_show', true)
+                    ->orWhereNull('options->footer_show');
+            })
+            ->defaultOrder()->get()
+            ->map(function (NavigationModel $navigation) {
+                return $navigation->resolveNavigation($navigation);
+            })->toTree();
+
         return view('livewire.components.footer', [
+            'navigations' => $navigations,
             // 'general' => app(GeneralSettings::class)
         ]);
     }

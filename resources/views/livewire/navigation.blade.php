@@ -10,10 +10,10 @@
     {!! seo()->for($navigation) !!}
 @endpush
 
-<div class="w-full" x-data>
+<div class="w-full flex flex-col grow gap-4">
     <livewire:sn-components-navigation />
 
-    <div class="container mx-auto flex flex-col gap-4">
+    <div class="container mx-auto flex flex-col grow gap-4">
         @if ($navigation->getFirstMediaUrl('banner'))
             <div class="w-full relative">
                 <img src="{{ $navigation->getFirstMediaUrl('banner') }}" class="w-full">

@@ -78,6 +78,15 @@ class Navigation extends NestedsetPage
                 ->required(),
             Forms\Components\Textarea::make('description')->label('描述'),
 
+            Forms\Components\Toggle::make('options.footer_show')
+                ->label('底部显示')
+                ->default(false)
+                ->helperText('如果开启底部显示，则在底部显示该导航')
+                ->required()
+                ->visible(function (Get $get) {
+                    // 只有内容 和 页面 需要设置标识
+                    return in_array($get('type'), [NavigationTypeEnum::Child]);
+                }),
             Forms\Components\TextInput::make('slug')
                 ->label('导航标识')
                 ->unique(ignorable: fn(?NavigationModel $record): ?NavigationModel => $record)

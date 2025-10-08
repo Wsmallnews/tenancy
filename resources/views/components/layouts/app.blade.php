@@ -20,7 +20,12 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 
-    <body class="antialiased bg-slate-100">
+    <body class="antialiased bg-slate-100 flex flex-col">
+        <div class="w-full flex h-32 overflow-hidden bg-[url({{ asset('image/banner.jpg') }})]">
+            <div class="container mx-auto flex items-center justify-start">
+                <img src="{{ asset('image/logo.png') }}" alt="logo" class="h-full object-contain">
+            </div>
+        </div>
         {{ $slot }}
 
         @livewire('notifications')
