@@ -8,6 +8,7 @@ return [
      */
     'settings' => [
         \App\Settings\AppraiseSettings::class,
+        \App\Settings\GeneralSettings::class,
     ],
 
     /*

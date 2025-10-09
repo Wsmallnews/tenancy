@@ -24,7 +24,7 @@ class Footer extends Component
 
         return view('livewire.components.footer', [
             'navigations' => $navigations,
-            // 'general' => app(GeneralSettings::class)
+            'general' => app(GeneralSettings::class)
         ]);
     }
 }

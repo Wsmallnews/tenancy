@@ -27,23 +27,41 @@
                     </div>
                 @endforeach
             </div>
-            <div class="w-full md:w-1/3 flex flex-col gap-4">
+            <div class="w-full md:w-1/3 flex flex-col px-4 gap-4">
                 <div class="text-gray-800 font-bold text-xl text-center leading-6">关注或联系我们</div>
                 <div class="text-gray-600 text-base text-center leading-5">添加微信或关注官方微信</div>
                 <div class="flex justify-center">
-                    <img class="w-[100px] h-[100px] mr-[12px]" src="{{ asset('image/wechat_qrcode.webp') }}" />
-                    <img class="w-[100px] h-[100px]" src="{{ asset('image/wechat_official_qrcode.webp') }}" />
+                    @if ($general->wechat_qrcode)
+                        <img class="w-[100px] h-[100px] mr-[12px]" src="{{ files_url($general->wechat_qrcode) }}" />
+                    @endif
+                    @if ($general->wechat_official_qrcode)
+                        <img class="w-[100px] h-[100px]" src="{{ files_url($general->wechat_official_qrcode) }}" />
+                    @endif
                 </div>
-                <div class="flex items-center justify-center">
-                    <div class="text-gray-600 text-base leading-5">联系电话：</div>
-                    <div class="text-gray-600 text-lg leading-6">12345678901</div>
-                </div>
+                @if ($general->phone)
+                    <div class="flex items-center justify-start">
+                        <div class="min-w-20 text-gray-600 text-base leading-5">联系电话：</div>
+                        <div class="text-gray-600 text-lg leading-6">{{ $general->phone }}</div>
+                    </div>
+                @endif
+                @if ($general->email)
+                    <div class="flex items-center justify-start">
+                        <div class="min-w-20 text-gray-600 text-base leading-5">联系邮箱：</div>
+                        <div class="text-gray-600 text-lg leading-6">{{ $general->email }}</div>
+                    </div>
+                @endif
+                @if ($general->address)
+                    <div class="flex items-center justify-start">
+                        <div class="min-w-20 text-gray-600 text-base leading-5">联系地址：</div>
+                        <div class="text-gray-600 text-lg leading-6">{{ $general->address }}</div>
+                    </div>
+                @endif
             </div>
         </div>
 
         <div class="w-full h-12 border-t border-gray-300 flex items-center justify-center text-base text-gray-500">
-            Copyright © 2025-2025 生命之光 版權所有 &nbsp;
-            <a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备123456789号</a>
+            Copyright © {{ $general->copytime }} {{ $general->copyright }} 版权所有 &nbsp;
+            <a href="{{ $general->beian_url }}https://beian.miit.gov.cn/" target="_blank">{{ $general->beian_no }}</a>
         </div>
     </div>
 </div>
