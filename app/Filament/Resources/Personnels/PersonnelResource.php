@@ -21,7 +21,7 @@ class PersonnelResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = '成员管理';
+    protected static ?string $navigationLabel = '人员管理';
 
     protected static string | UnitEnum | null $navigationGroup = '属性选项';
 
@@ -29,9 +29,9 @@ class PersonnelResource extends Resource
     
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = '成员';
+    protected static ?string $modelLabel = '人员';
 
-    protected static ?string $pluralModelLabel = '成员管理';
+    protected static ?string $pluralModelLabel = '人员管理';
 
     protected static ?int $navigationSort = 2;
 

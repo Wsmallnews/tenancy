@@ -21,7 +21,7 @@
     </head>
 
     <body class="antialiased bg-slate-50 flex flex-col">
-        <div class="w-full flex h-32 overflow-hidden bg-[url({{ asset('image/banner.jpg') }})] bg-top-right bg-cover">
+        <div class="w-full shrink-0 flex h-32 overflow-hidden bg-[url({{ asset('image/banner.jpg') }})] bg-top-right bg-cover">
             <div class="container mx-auto flex items-center justify-start">
                 <img src="{{ asset('image/logo.png') }}" alt="logo" class="h-full object-contain">
             </div>

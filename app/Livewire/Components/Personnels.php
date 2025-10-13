@@ -16,6 +16,10 @@ class Personnels extends Component
 
     public Collection $personnels;
 
+    public string $wrapperView = 'base.empty-block';
+
+    public string $itemWrapperView = 'base.block';
+
     public function mount()
     {
         $this->personnels = $this->personnels ?? collect([]);
@@ -29,7 +33,7 @@ class Personnels extends Component
 
     public function render()
     {
-        // 查询资讯
+        // 查询人员
         $query = PersonnelModel::query()->scopeTenant()->normal()->with(['media'])->orderBy('order_column', 'desc');
 
         // 分页

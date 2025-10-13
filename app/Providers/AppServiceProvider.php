@@ -126,14 +126,14 @@ class AppServiceProvider extends ServiceProvider
         NavigationType::make()->registers([
             [
                 'type' => 'posts',
-                'label' => '资讯列表',
+                'label' => '图文列表',
                 'forms' => fn($fields) => [
                     // @sn todo 这里需要优化， 明明选了，还是提示字段没填
-                    Forms\Components\Select::make('category_ids')->label('选择资讯分类')
+                    Forms\Components\Select::make('category_ids')->label('选择图文分类')
                         ->options(\App\Models\PostCategory::normal()->whereNull('parent_id')->pluck('name', 'id'))
                         ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-                        ->placeholder('请选择资讯分类')
+                        ->placeholder('请选择图文分类')
                         ->multiple()
                         ->searchable()
                         ->preload()
@@ -145,13 +145,13 @@ class AppServiceProvider extends ServiceProvider
             ],
             [
                 'type' => 'post-detail',
-                'label' => '资讯详情',
+                'label' => '图文详情',
                 'forms' => fn($fields) => [
-                    Forms\Components\Select::make('id')->label('选择资讯')
+                    Forms\Components\Select::make('id')->label('选择图文')
                         ->options(\App\Models\Post::normal()->limit(30)->pluck('title', 'id'))
                         ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-                        ->placeholder('请选择资讯详情')
+                        ->placeholder('请选择图文详情')
                         ->searchable()
                         ->preload()
                         ->required(),
@@ -184,38 +184,6 @@ class AppServiceProvider extends ServiceProvider
                 'components' => [
                     \App\Livewire\Components\Personnel::class
                 ]
-            ],
-            // [
-            //     'type' => 'lights',
-            //     'label' => '生命之光列表',
-            //     'forms' => function () {
-            //         return [];
-            //     },
-            //     'components' => [
-            //         Lights::class
-            //     ],
-            // ],
-            // [
-            //     'type' => 'trustees-light',
-            //     'label' => '受托人名单(生命之光)',
-            //     'forms' => function () {
-            //         return [];
-            //     },
-            //     'component' => [
-            //         Trustees::class => [
-            //             'type' => 'light',
-            //         ]
-            //     ],
-            // ],
-            [
-                'type' => 'mentor-info',
-                'label' => '导师简介',
-                'forms' => function () {
-                    return [];
-                },
-                'components' => [
-                    \App\Livewire\Components\MentorInfo::class
-                ],
             ],
         ]);
 

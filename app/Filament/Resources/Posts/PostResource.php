@@ -27,7 +27,7 @@ class PostResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = '资讯管理';
+    protected static ?string $navigationLabel = '图文管理';
 
     protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
@@ -35,9 +35,9 @@ class PostResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $modelLabel = '资讯';
+    protected static ?string $modelLabel = '图文';
 
-    protected static ?string $pluralModelLabel = '资讯';
+    protected static ?string $pluralModelLabel = '图文';
 
     protected static ?int $navigationSort = 2;
 
@@ -55,7 +55,7 @@ class PostResource extends Resource
                             //     ->parentNullValue(0)
                             //     ->enableBranchNode()
                             //     ->withCount()
-                            //     // ->placeholder(__('请选择资讯分类'))
+                            //     // ->placeholder(__('请选择图文分类'))
                             //     // ->emptyLabel(__('未搜索到分类'))
                             //     ->treeKey('postCategoryId')
                             //     ,
@@ -66,7 +66,7 @@ class PostResource extends Resource
                                 ->searchable()
                                 ->enableBranchNode()
                                 ->withCount()
-                                // ->placeholder(__('请选择资讯分类'))
+                                // ->placeholder(__('请选择图文分类'))
                                 // ->emptyLabel(__('未搜索到分类'))
                                 ->treeKey('postCategories')
                                 ,

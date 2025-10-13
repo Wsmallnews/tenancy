@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col md:flex-row gap-4" x-data="indexPosts({})">
+<x-dynamic-component :component="$wrapperView" class="w-full flex flex-col md:flex-row gap-4" x-data="indexPosts({})">
     <div class="h-96 relative overflow-hidden flex-1 gap-4">
         <div class="swiper news-swiper">
             <div class="swiper-wrapper">
@@ -19,7 +19,7 @@
         <div class="h-96 flex flex-col flex-1 gap-4">
             @foreach($posts as $post)
                 @if ($loop->index >= ($limit / 2))
-                    <div class="flex items-center" @click="toJump('{{ sn_route('posts.show', $post->id) }}')">
+                    <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('posts.show', $post->id) }}" class="flex items-center">
                         <div class="w-[176px] h-[100px]">
                             <img src="{{ $post->getFirstMediaUrl('main', 'thumb') }}" class="w-full h-full object-cover" />
                         </div>
@@ -34,12 +34,12 @@
                                 {{ optional($post->updated_at)->format('Y-m-d') }}
                             </div>
                         </div>
-                    </div>
+                    </x-dynamic-component>
                 @endif
             @endforeach
         </div>
     @endif
-</div>
+</x-dynamic-component>
 
 @assets
 

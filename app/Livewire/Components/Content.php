@@ -9,6 +9,8 @@ class Content extends Component
 {
     public ?ContentModel $content = null;
 
+    public string $wrapperView = 'base.block';
+
     public function render()
     {
         return view('livewire.components.content');

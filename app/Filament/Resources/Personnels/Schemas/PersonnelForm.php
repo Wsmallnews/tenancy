@@ -15,7 +15,7 @@ class PersonnelForm
             ->components([
                 Schemas\Components\Flex::make([
                     Schemas\Components\Group::make()->schema([
-                        Schemas\Components\Section::make('成员信息')->schema([
+                        Schemas\Components\Section::make('人员信息')->schema([
                             Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')->label('头像')
                                 ->helperText('支持上传图片')
                                 ->collection('avatar')
@@ -26,12 +26,12 @@ class PersonnelForm
                                 ->uploadingMessage('头像上传中...')
                                 ->columns(1),
                             Forms\Components\TextInput::make('name')->label('姓名')
-                                ->placeholder('请输入成员姓名')
+                                ->placeholder('请输入人员姓名')
                                 ->required(),
                             Forms\Components\TextInput::make('qualification')->label('学历')
-                                ->placeholder('请输入成员学历'),
+                                ->placeholder('请输入人员学历'),
                             Forms\Components\TextInput::make('professional_title')->label('职称')
-                                ->placeholder('请输入成员职称'),
+                                ->placeholder('请输入人员职称'),
                             Forms\Components\TextInput::make('research_focus')->label('研究方向')
                                 ->placeholder('请输入研究方向'),
                             Forms\Components\TextInput::make('research_result')->label('研究成果')

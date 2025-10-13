@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post_categories', function (Blueprint $table) {
-            $table->comment('资讯分类');
+            $table->comment('图文分类');
             $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');

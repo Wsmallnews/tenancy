@@ -15,17 +15,17 @@ class PostCategory extends NestedsetPage
 {
     use HasPageShield;
 
-    public string $emptyLabel = '资讯分类为空';
+    public string $emptyLabel = '图文分类为空';
 
     protected static ?string $model = PostCategoryModel::class;
 
-    protected static ?string $modelLabel = '资讯分类';
+    protected static ?string $modelLabel = '图文分类';
 
-    protected static ?string $title = '资讯分类';
+    protected static ?string $title = '图文分类';
 
-    protected static ?string $navigationLabel = '资讯分类';
+    protected static ?string $navigationLabel = '图文分类';
 
-    protected static ?string $navigationParentItem = '资讯管理';
+    protected static ?string $navigationParentItem = '图文管理';
 
     protected static string | UnitEnum | null $navigationGroup = '内容管理';
 
@@ -33,7 +33,7 @@ class PostCategory extends NestedsetPage
 
     protected static string $recordTitleAttribute = 'name';
 
-    protected static ?string $pluralModelLabel = '资讯分类';
+    protected static ?string $pluralModelLabel = '图文分类';
 
     protected static ?int $navigationSort = 1;
 

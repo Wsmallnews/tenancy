@@ -1,3 +1,3 @@
-<div class="w-full">
+<x-dynamic-component :component="$wrapperView" class="w-full">
     {!! $content?->content !!}
-</div>
+</x-dynamic-component>

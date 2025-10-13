@@ -10,6 +10,10 @@ class IndexPosts extends Component
 {
     public int $limit = 10;
 
+    public string $wrapperView = 'base.empty-block';
+
+    public string $itemWrapperView = 'base.block';
+
     public function render()
     {
         $posts = Post::query()->normal()->limit($this->limit)->get();

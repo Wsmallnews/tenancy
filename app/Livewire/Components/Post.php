@@ -10,6 +10,8 @@ class Post extends Component
 {
     public int $id;
 
+    public string $wrapperView = 'base.block';
+
     public function render()
     {
         $post = PostModel::query()->scopeTenant()->normal()->with(['media', 'content'])->findOrFail($this->id);

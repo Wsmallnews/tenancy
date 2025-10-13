@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->comment('资讯');
+            $table->comment('图文');
             $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');

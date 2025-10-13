@@ -66,7 +66,7 @@ class PersonnelsTable
             ])
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
-            ->searchPlaceholder('搜索成员姓名、学历、职称等...')
+            ->searchPlaceholder('搜索人员姓名、学历、职称等...')
             ->filters([
                 TrashedFilter::make(),
             ])

@@ -15,9 +15,13 @@ class Posts extends Component
     use CanPagination;
     use WithoutUrlPagination;
 
-    public int | array $category_ids = [];
+    public int | array $category_ids = [];      // @sn todo 有时间把这个改为驼峰
 
     public Collection $posts;
+
+    public string $wrapperView = 'base.empty-block';
+
+    public string $itemWrapperView = 'base.block';
 
     public function mount()
     {
@@ -42,7 +46,7 @@ class Posts extends Component
         }
         $allCategories = $allCategories->filter()->unique()->values();
 
-        // 查询资讯
+        // 查询图文
         $query = PostModel::query()->scopeTenant()->normal()->with(['media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
             $query->whereCategoryIn($allCategories);
         })->orderBy('order_column', 'desc');
