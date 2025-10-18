@@ -14,6 +14,49 @@ class ProjectManagesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('project_no')
+                    ->label('项目编号')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('项目名称')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('项目类型')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('subject')
+                    ->label('所属学科')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('initiation_company')
+                    ->label('立项单位')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('level')
+                    ->label('项目级别')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('manager_name')
+                    ->label('负责人')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('attend_name')
+                    ->label('参与人')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('start_at')
+                    ->label('开始时间')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('end_at')
+                    ->label('结束时间')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('budget')
+                    ->label('总预算')
+                    ->searchable()
+                    ->toggleable(),
+
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->alignCenter()
@@ -32,7 +75,7 @@ class ProjectManagesTable
             ])
             ->reorderable('order_column')
             ->defaultSort('order_column', 'asc')
-            ->searchPlaceholder('搜索 @sn todo 等...')
+            ->searchPlaceholder('搜索项目编号、项目名称等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
                 ...Common::createUpdateRangeFilter(),

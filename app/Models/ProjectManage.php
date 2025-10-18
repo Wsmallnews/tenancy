@@ -15,7 +15,7 @@ class ProjectManage extends Model
     use LogsActivity;
     use SoftDeletes;
 
-    protected $table = 'appraises';     // @sn todo
+    protected $table = 'project_manages';     // 项目管理表
 
     protected $casts = [
         'status' => Status::class,
