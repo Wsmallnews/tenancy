@@ -27,7 +27,7 @@ class PostCategory extends NestedsetPage
 
     protected static ?string $navigationParentItem = '图文管理';
 
-    protected static string | UnitEnum | null $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '网站管理';
 
     protected static ?string $slug = 'post-categories';
 

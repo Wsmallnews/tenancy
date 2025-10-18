@@ -30,7 +30,7 @@ class Navigation extends NestedsetPage
 
     protected static ?string $navigationLabel = '导航管理';
 
-    protected static string | UnitEnum | null $navigationGroup = '内容管理';
+    protected static string | UnitEnum | null $navigationGroup = '网站管理';
 
     protected static ?string $slug = 'navigations';
 

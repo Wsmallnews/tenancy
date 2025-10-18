@@ -72,7 +72,7 @@ class AdminPanelProvider extends PanelProvider
                 //     ->navigationSort(3),
             ])
             ->navigationGroups([
-                '内容管理',
+                '网站管理',
                 '种质资源库(圃)',
                 '属性选项',
                 '研究成果',
