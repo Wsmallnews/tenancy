@@ -1,6 +1,6 @@
 <x-dynamic-component :component="$wrapperView" class="w-full">
-    <x-paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
-        <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <x-paginators.container :page-type="$pageType" class="@container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
+        <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @7xl:grid-cols-3 gap-4">
             @foreach ($personnels as $personnel)
                 <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('personnels.show', $personnel->id) }}" class="w-full flex flex-row gap-4 overflow-hidden group">
                     @if ($personnel->getFirstMediaUrl('avatar'))
