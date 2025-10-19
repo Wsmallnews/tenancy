@@ -3,7 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\PlatformSetPermissionsTeamId;
+use App\Filament\Platform\Pages\Backup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -21,6 +24,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 
 class PlatformPanelProvider extends PanelProvider
 {
@@ -60,6 +64,13 @@ class PlatformPanelProvider extends PanelProvider
             ], isPersistent: true)
             ->plugins([
                 FilamentShieldPlugin::make(),
+                FilamentSpatieLaravelBackupPlugin::make()
+                    ->usingPage(Backup::class)
+                    ->authorize(fn () => Filament::auth()->user()?->hasRole(Utils::getSuperAdminName()))            // 只有超管可以访问备份，内部权限download-backup 和 delete-backup，因为已经验证必须 超管了， 不再需要额外配置
+                    ->usingPolingInterval('10s')                                                                    // 再看看这个是干啥的
+                    // ->usingQueue('my-queue') // default value is null
+                    // ->timeout(120)              // 超时时间 120s
+                    ->noTimeout()               // 不限制超时时间
             ])
             ->navigationGroups([
                 '资源库管理',
