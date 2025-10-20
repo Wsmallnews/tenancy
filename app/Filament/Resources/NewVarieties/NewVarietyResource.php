@@ -98,7 +98,7 @@ class NewVarietyResource extends Resource
                                             Infolists\Components\TextEntry::make('appraise_district_name')
                                                 ->label('种质原产地区')
                                                 ->state($appraise->province_name . ' / ' . $appraise->city_name)
-                                                ->visible(fn(Model $record) => $appraise?->country_code == 'CN'),
+                                                ->visible(fn(?Model $record) => $appraise?->country_code == 'CN'),
                                             Infolists\Components\TextEntry::make('appraise_address')
                                                 ->label('种质原产地址')
                                                 ->state($appraise->address),
