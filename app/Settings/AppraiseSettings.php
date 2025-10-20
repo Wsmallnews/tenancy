@@ -18,6 +18,9 @@ class AppraiseSettings extends Settings
 
     public array $assemble_material_type;
 
+    // 基因型鉴定方法(精准鉴定)
+    public array $gene_identify_method;
+
     public static function group(): string
     {
         return 'appraise';

@@ -138,6 +138,23 @@ class AppraiseSetting extends SettingsPage
                         ->addActionLabel('添加选项')
                         ->columnSpanFull()
                         ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
+                ])->columns(2)->columnSpanFull(),
+                Schemas\Components\Section::make('基因型鉴定方法')->schema([
+                    Forms\Components\Repeater::make('gene_identify_method')
+                        ->hiddenLabel()
+                        ->simple(
+                            Forms\Components\TextInput::make('value')
+                                ->hiddenLabel()
+                                ->placeholder('请输入选项名称')
+                                ->required()
+                                ->columnSpanFull()
+                        )
+                        ->required()
+                        ->minItems(1)
+                        ->addActionAlignment(Alignment::Start)
+                        ->addActionLabel('添加选项')
+                        ->columnSpanFull()
+                        ->grid(['md' => 2, 'lg' => 3, 'xl' => 4]),
                 ])->columns(2)->columnSpanFull()
             ]);
     }

@@ -9,13 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class AccurateIdentify extends Model
+class AccurateIdentify extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use LogsActivity;
     use SoftDeletes;
 
-    protected $table = 'appraises';     // @sn todo
+    protected $table = 'accurate_identifies';
 
     protected $casts = [
         'status' => Status::class,
