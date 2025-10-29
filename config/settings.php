@@ -9,6 +9,7 @@ return [
     'settings' => [
         \App\Settings\AppraiseSettings::class,
         \App\Settings\GeneralSettings::class,
+        \App\Settings\ProjectSettings::class,
     ],
 
     /*
@@ -39,6 +40,12 @@ return [
             'type' => Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository::class,
             'model' => null,
             'table' => null,
+            'connection' => null,
+        ],
+        'team_database' => [
+            'type' => App\Features\SettingsRepositories\DatabaseSettingsRepository::class,
+            'model' => null,
+            'table' => 'team_settings',
             'connection' => null,
         ],
         'redis' => [
