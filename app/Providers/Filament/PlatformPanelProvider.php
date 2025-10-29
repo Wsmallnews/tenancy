@@ -68,7 +68,7 @@ class PlatformPanelProvider extends PanelProvider
                     ->usingPage(Backup::class)
                     ->authorize(fn () => Filament::auth()->user()?->hasRole(Utils::getSuperAdminName()))            // 只有超管可以访问备份，内部权限download-backup 和 delete-backup，因为已经验证必须 超管了， 不再需要额外配置
                     ->usingPolingInterval('10s')                                                                    // 再看看这个是干啥的
-                    // ->usingQueue('my-queue') // default value is null
+                    ->usingQueue('default') // default value is null
                     // ->timeout(120)              // 超时时间 120s
                     ->noTimeout()               // 不限制超时时间
             ])
