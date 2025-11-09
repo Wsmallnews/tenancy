@@ -1,4 +1,4 @@
-@servers(['test' => ['root@169.197.82.139']])
+@servers(['test' => ['root@91.200.242.153']])
 
 @setup
     $repo = 'git@github.com:Wsmallnews/tenancy.git';
