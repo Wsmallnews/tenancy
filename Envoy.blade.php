@@ -41,8 +41,8 @@
 {{-- 执行 npm --}}
 @task('run-npm', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    npm install
-    npm run build
+    source ~/.bashrc && npm install
+    source ~/.bashrc && npm run build
     chown -R www:www {{ $appDir }}
 @endtask
 
