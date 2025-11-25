@@ -15,7 +15,7 @@ class PostCategory extends NestedsetPage
 {
     use HasPageShield;
 
-    public string $emptyLabel = '图文分类为空';
+    protected static ?string $emptyLabel = '图文分类为空';
 
     protected static ?string $model = PostCategoryModel::class;
 

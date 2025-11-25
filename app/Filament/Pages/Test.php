@@ -22,8 +22,7 @@ use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
 class Test extends NestedsetPage
 {
-
-    public string $emptyLabel = '测试Test 数据为空';
+    protected static ?string $emptyLabel = '测试Test 数据为空';
 
     protected static ?string $model = NavigationModel::class;
     

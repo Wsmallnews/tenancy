@@ -20,7 +20,7 @@ class Navigation extends NestedsetPage
 {
     use HasPageShield;
 
-    public string $emptyLabel = '导航数据为空';
+    protected static ?string $emptyLabel = '导航数据为空';
 
     protected static ?string $model = NavigationModel::class;
 

@@ -19,7 +19,7 @@ class Category extends NestedsetPage
 {
     use HasPageShield;
 
-    public string $emptyLabel = '分类数据为空';
+    protected static ?string $emptyLabel = '分类数据为空';
 
     protected static ?string $model = CategoryModel::class;
 
