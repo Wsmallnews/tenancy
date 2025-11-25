@@ -22,4 +22,9 @@ class ProjectSettings extends Settings
     {
         return 'team_database';
     }
+
+    public static function cacheKey(): string
+    {
+        return static::class . '_team_' . general_current_tenant()?->id;
+    }
 }
