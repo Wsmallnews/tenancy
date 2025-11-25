@@ -41,8 +41,13 @@
 {{-- 执行 npm --}}
 @task('run-npm', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    source ~/.bashrc && npm install
-    source ~/.bashrc && npm run build
+
+    {{-- 如果服务器是 nvm 安装的 node, 并且一直提示 npm 命令找不到，则需要执行以下命令： --}}
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    
+    npm install
+    npm run build
     chown -R www:www {{ $appDir }}
 @endtask
 

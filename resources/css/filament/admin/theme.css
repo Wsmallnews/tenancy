@@ -362,7 +362,7 @@ html {
 }
 
 /** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
-.fi-sidebar-nav .fi-tenant-menu-trigger,
+.fi-tenant-menu-trigger,
 .fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-btn {
     @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
 }
