@@ -61,7 +61,7 @@
 
         <div class="w-full h-12 border-t border-gray-300 flex items-center justify-center text-base text-gray-500">
             Copyright © {{ $general->copytime }} {{ $general->copyright }} 版权所有 &nbsp;
-            <a href="{{ $general->beian_url }}https://beian.miit.gov.cn/" target="_blank">{{ $general->beian_no }}</a>
+            <a href="{{ $general->beian_url }}" target="_blank">{{ $general->beian_no }}</a>
         </div>
     </div>
 </div>
