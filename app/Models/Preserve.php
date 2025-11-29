@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\Preserves\Status;
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -13,7 +12,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
 
-class Preserve extends Model implements HasMedia
+class Preserve extends Base implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;

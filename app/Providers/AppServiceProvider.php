@@ -89,6 +89,13 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
+        Livewire::component('sn-components-appraise-show', \App\Livewire\Components\AppraiseShow::class);
+        Livewire::component('sn-components-appraises', \App\Livewire\Components\Appraises::class);
+        Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
+        Livewire::component('sn-components-categories', \App\Livewire\Components\Categories::class);
+
+
+
 
         // 注册模型别名
         Relation::enforceMorphMap([
@@ -183,6 +190,14 @@ class AppServiceProvider extends ServiceProvider
                 ],
                 'components' => [
                     \App\Livewire\Components\Personnel::class
+                ]
+            ],
+            [
+                'type' => 'appraise-show',
+                'label' => '种质资源列表(带分类)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\AppraiseShow::class
                 ]
             ],
         ]);

@@ -7,7 +7,6 @@ use App\Enums\Teams\Status;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasCurrentTenantLabel;
 use Filament\Models\Contracts\HasName;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Team extends Model implements HasAvatar, HasName, HasCurrentTenantLabel
+class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;

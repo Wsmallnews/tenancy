@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Enums\ThesisTypes\Status;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class ThesisType extends Model
+class ThesisType extends Base
 {
     use LogsActivity;
 

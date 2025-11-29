@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Enums\PatentTypes\Status;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class PatentType extends Model
+class PatentType extends Base
 {
     use LogsActivity;
 

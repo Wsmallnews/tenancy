@@ -5,6 +5,7 @@ use App\Livewire\Index;
 use App\Livewire\Navigation;
 use App\Livewire\Posts;
 use App\Livewire\Post;
+use App\Livewire\Appraise;
 use App\Livewire\Personnels;
 use App\Livewire\Personnel;
 use App\Http\Middleware\IdentifyTenant;
@@ -23,6 +24,8 @@ Route::prefix("tenant/{tenant:slug}")
         Route::get('/posts/{id}', Post::class)->name('posts.show');
         Route::get('/personnels', Personnels::class)->name('personnels');
         Route::get('/personnels/{id}', Personnel::class)->name('personnels.show');
+
+        Route::get('/appraises/{id}', Appraise::class)->name('appraises.show');
     });
 
 

@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Enums\PostCategories\Status;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Kalnoy\Nestedset\NodeTrait;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class PostCategory extends Model
+class PostCategory extends Base
 {
     use NodeTrait;
     use LogsActivity;

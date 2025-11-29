@@ -4,13 +4,12 @@ namespace App\Models;
 
 use App\Enums\Shares\Status;
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Share extends Model
+class Share extends Base
 {
     use LogsActivity;
     use SoftDeletes;

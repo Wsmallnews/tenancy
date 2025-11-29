@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\AccurateIdentifies\Status;
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -12,7 +11,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class AccurateIdentify extends Model implements HasMedia
+class AccurateIdentify extends Base implements HasMedia
 {
     use InteractsWithMedia;
     use LogsActivity;

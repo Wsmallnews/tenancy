@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Enums\Categories\Status;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Kalnoy\Nestedset\NodeTrait;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Category extends Model
+class Category extends Base
 {
     use NodeTrait;
     use LogsActivity;
@@ -36,6 +35,15 @@ class Category extends Model
         return ['team_id'];
     }
 
+    public function scopeNormal($query)
+    {
+        return $query->where('status', Status::Normal);
+    }
+
+    public function scopeHidden($query)
+    {
+        return $query->where('status', Status::Hidden);
+    }
 
     public function team(): BelongsTo
     {

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\Navigations\Status as NavigationStatus;
 use App\Enums\Navigations\Type as NavigationTypeEnum;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 // use RalphJSmit\Laravel\SEO\Schema\ArticleSchema;
@@ -18,7 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Navigation extends Model implements HasMedia
+class Navigation extends Base implements HasMedia
 {
     use NodeTrait;
     use InteractsWithMedia;

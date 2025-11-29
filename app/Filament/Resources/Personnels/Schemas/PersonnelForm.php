@@ -36,7 +36,7 @@ class PersonnelForm
                                 ->placeholder('请输入研究方向'),
                             Forms\Components\TextInput::make('research_result')->label('研究成果')
                                 ->placeholder('请输入研究成果'),
-                            Forms\Components\TextArea::make('intro')->label('个人简介')
+                            Forms\Components\Textarea::make('intro')->label('个人简介')
                                 ->placeholder('请输入个人简介'),
                             Schemas\Components\Group::make()
                                 ->relationship('content')

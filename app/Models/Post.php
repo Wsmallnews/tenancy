@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\Posts\Status;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +15,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
 
-class Post extends Model implements HasMedia
+class Post extends Base implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
@@ -39,16 +38,6 @@ class Post extends Model implements HasMedia
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
-    }
-
-
-    public function scopeScopeTenant($query)
-    {
-        if (has_tenancy()) {
-            return $query->where('team_id', current_tenant()->id);
-        } else {
-            return $query->whereNull('team_id');
-        }
     }
 
 

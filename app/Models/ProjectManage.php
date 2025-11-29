@@ -4,13 +4,12 @@ namespace App\Models;
 
 use App\Enums\ProjectManages\Status;
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class ProjectManage extends Model
+class ProjectManage extends Base
 {
     use LogsActivity;
     use SoftDeletes;

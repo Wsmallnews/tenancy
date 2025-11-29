@@ -39,6 +39,8 @@ class Category extends NestedsetPage
 
     protected static ?int $navigationSort = 1;
 
+    protected static ?int $level = 2;
+
 
     public function createSchema($arguments): array
     {
