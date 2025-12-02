@@ -19,12 +19,12 @@
         <div class="h-96 flex flex-col flex-1 gap-4">
             @foreach($posts as $post)
                 @if ($loop->index >= ($limit / 2))
-                    <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('posts.show', $post->id) }}" class="flex items-center">
-                        <div class="w-[176px] h-[100px]">
-                            <img src="{{ $post->getFirstMediaUrl('main', 'thumb') }}" class="w-full h-full object-cover" />
+                    <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('posts.show', $post->id) }}" class="pb-4 flex items-center group border-b border-dashed border-[#E5E5E5] ">
+                        <div class="w-[100px] h-[100px] rounded-md overflow-hidden">
+                            <img src="{{ $post->getFirstMediaUrl('main', 'thumb') }}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
                         </div>
-                        <div class="h-[100px] bg-[#F3E8DB] box-border pl-[16px] pr-[20px] pt-[10px]">
-                            <div class="text-[#3C2F21] text-[18px] leading-[18px] line-clamp-1 text-left">
+                        <div class="h-[100px] box-border pl-[16px] pr-[20px] pt-[10px]">
+                            <div class="text-[#3C2F21] text-[18px] leading-[18px] line-clamp-1 text-left transition duration-300 group-hover:text-primary-500">
                                 {{ $post->title }}
                             </div>
                             <div class="mt-[14px] text-[#666666] text-[16px] leading-[16px] line-clamp-1 text-left">

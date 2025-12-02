@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class IndexPosts extends Component
 {
-    public int $limit = 10;
+    public int $limit = 6;
 
     public string $wrapperView = 'base.empty-block';
 
-    public string $itemWrapperView = 'base.block';
+    public string $itemWrapperView = 'base.empty-block';
 
     public function render()
     {
