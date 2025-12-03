@@ -25,6 +25,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rmsramos\Activitylog\ActivitylogPlugin;
+use Wsmallnews\Cms\CmsPlugin;
+use Wsmallnews\Cms\Filament\Pages\Navigation;
+use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -70,6 +73,17 @@ class AdminPanelProvider extends PanelProvider
                 //         return __('filament-shield::filament-shield.nav.group');
                 //     })
                 //     ->navigationSort(3),
+                CmsPlugin::make()
+                    ->forResource(Navigation::class)
+                        ->navigationGroup('网站管理')
+                        ->navigationLabel('导航管理')
+                        ->customProperties([
+                            'emptyLabel' => '呀，怎么没数据呀！',
+                            'level' => 3,
+                        ])
+                    ->forResource(PostResource::class)
+                        ->navigationGroup('网站管理')
+                        ->navigationLabel('图文管理'),
             ])
             ->navigationGroups([
                 '网站管理',
