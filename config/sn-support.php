@@ -21,6 +21,6 @@ return [
     | Secondly, The tenant model should be set as a panel model.
     |
     */
-    'tenant_model' => null,
+    'tenant_model' => \App\Models\Team::class,
 
 ];
