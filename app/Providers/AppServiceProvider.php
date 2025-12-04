@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -81,18 +82,18 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-post', \App\Livewire\Post::class);
 
         // components
-        Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
-        Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
+        // Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
+        // Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
         Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
-        Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
-        Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
+        // Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
+        // Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
         Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
         Livewire::component('sn-components-appraise-show', \App\Livewire\Components\AppraiseShow::class);
         Livewire::component('sn-components-appraises', \App\Livewire\Components\Appraises::class);
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
-        Livewire::component('sn-components-categories', \App\Livewire\Components\Categories::class);
+        // Livewire::component('sn-components-categories', \App\Livewire\Components\Categories::class);
 
 
 
@@ -127,46 +128,8 @@ class AppServiceProvider extends ServiceProvider
             'user' => \App\Models\User::class,
         ]);
 
-
-
-
-        NavigationType::make()->registers([
-            [
-                'type' => 'posts',
-                'label' => '图文列表',
-                'forms' => fn($fields) => [
-                    // @sn todo 这里需要优化， 明明选了，还是提示字段没填
-                    Forms\Components\Select::make('category_ids')->label('选择图文分类')
-                        ->options(\App\Models\PostCategory::normal()->whereNull('parent_id')->pluck('name', 'id'))
-                        ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
-                        // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-                        ->placeholder('请选择图文分类')
-                        ->multiple()
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                ],
-                'components' => [
-                    \App\Livewire\Components\Posts::class
-                ]
-            ],
-            [
-                'type' => 'post-detail',
-                'label' => '图文详情',
-                'forms' => fn($fields) => [
-                    Forms\Components\Select::make('id')->label('选择图文')
-                        ->options(\App\Models\Post::normal()->limit(30)->pluck('title', 'id'))
-                        ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
-                        // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-                        ->placeholder('请选择图文详情')
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                ],
-                'components' => [
-                    \App\Livewire\Components\Post::class
-                ]
-            ],
+        // 注册导航内容
+        ContentRegistryFacade::registers([
             [
                 'type' => 'personnels',
                 'label' => '人员列表',
@@ -201,6 +164,79 @@ class AppServiceProvider extends ServiceProvider
                 ]
             ],
         ]);
+
+
+        // NavigationType::make()->registers([
+        //     [
+        //         'type' => 'posts',
+        //         'label' => '图文列表',
+        //         'forms' => fn($fields) => [
+        //             // @sn todo 这里需要优化， 明明选了，还是提示字段没填
+        //             Forms\Components\Select::make('category_ids')->label('选择图文分类')
+        //                 ->options(\App\Models\PostCategory::normal()->whereNull('parent_id')->pluck('name', 'id'))
+        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+        //                 ->placeholder('请选择图文分类')
+        //                 ->multiple()
+        //                 ->searchable()
+        //                 ->preload()
+        //                 ->required(),
+        //         ],
+        //         'components' => [
+        //             \App\Livewire\Components\Posts::class
+        //         ]
+        //     ],
+        //     [
+        //         'type' => 'post-detail',
+        //         'label' => '图文详情',
+        //         'forms' => fn($fields) => [
+        //             Forms\Components\Select::make('id')->label('选择图文')
+        //                 ->options(\App\Models\Post::normal()->limit(30)->pluck('title', 'id'))
+        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
+        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+        //                 ->placeholder('请选择图文详情')
+        //                 ->searchable()
+        //                 ->preload()
+        //                 ->required(),
+        //         ],
+        //         'components' => [
+        //             \App\Livewire\Components\Post::class
+        //         ]
+        //     ],
+        //     [
+        //         'type' => 'personnels',
+        //         'label' => '人员列表',
+        //         'forms' => fn($fields) => [],
+        //         'components' => [
+        //             \App\Livewire\Components\Personnels::class
+        //         ]
+        //     ],
+        //     [
+        //         'type' => 'personnel-detail',
+        //         'label' => '人员详情',
+        //         'forms' => fn($fields) => [
+        //             Forms\Components\Select::make('id')->label('选择人员')
+        //                 ->options(\App\Models\Personnel::normal()->limit(30)->pluck('name', 'id'))
+        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
+        //                 ->placeholder('请选择人员详情')
+        //                 ->searchable()
+        //                 ->preload()
+        //                 ->required(),
+        //         ],
+        //         'components' => [
+        //             \App\Livewire\Components\Personnel::class
+        //         ]
+        //     ],
+        //     [
+        //         'type' => 'appraise-show',
+        //         'label' => '种质资源列表(带分类)',
+        //         'forms' => fn($fields) => [],
+        //         'components' => [
+        //             \App\Livewire\Components\AppraiseShow::class
+        //         ]
+        //     ],
+        // ]);
 
 
 
