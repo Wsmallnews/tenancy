@@ -27,6 +27,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rmsramos\Activitylog\ActivitylogPlugin;
 use Wsmallnews\Cms\CmsPlugin;
 use Wsmallnews\Cms\Filament\Pages\Navigation;
+use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 
 class AdminPanelProvider extends PanelProvider
@@ -83,7 +84,11 @@ class AdminPanelProvider extends PanelProvider
                         ])
                     ->forResource(PostResource::class)
                         ->navigationGroup('网站管理')
-                        ->navigationLabel('图文管理'),
+                        ->navigationLabel('图文管理')
+                    ->forResource(CategoryPage::class)
+                        ->navigationGroup('网站管理')
+                        ->navigationParentItem('图文管理')
+                        ->navigationLabel('图文分类'),
             ])
             ->navigationGroups([
                 '网站管理',

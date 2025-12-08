@@ -2,28 +2,38 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\Categories\Status;
+use App\Models\Category as CategoryModel;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
 use Filament\Forms;
+use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
 use UnitEnum;
-use Wsmallnews\Category\Enums\CategoryStatus;
-use Wsmallnews\Category\Filament\Pages\Category\Base as BaseCategoryPage;
-use Wsmallnews\Support\Concerns\Resource\HasCustomProperties;
+use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
-class Category extends BaseCategoryPage
+class CategoryBak extends NestedsetPage
 {
+    use HasPageShield;
+
+    protected static ?string $emptyLabel = '分类数据为空';
+
+    protected static ?string $model = CategoryModel::class;
+
     protected static ?string $modelLabel = '种质分类';
 
     protected static ?string $title = '种质分类';
 
-    protected static ?string $navigationLabel = '种质分类';
+    protected static ?string $navigationLabel = '种质分类-bak';
 
     protected static string | UnitEnum | null $navigationGroup = '属性选项';
 
-    protected static ?string $slug = 'appraise-categories';
+    protected static ?string $slug = 'categories-bak';
+
+    protected static string $recordTitleAttribute = 'name';
 
     protected static ?string $pluralModelLabel = '种质分类';
 
@@ -31,26 +41,30 @@ class Category extends BaseCategoryPage
 
     protected static ?int $level = 2;
 
+    protected static bool $shouldRegisterNavigation = false;
 
-    public static function getScopeType(): string
+    public function createSchema($arguments): array
     {
-        return 'appraise';
+        return $this->schema($arguments);
     }
 
-    public static function getScopeId(): int
+    public function editSchema($arguments): array
     {
-        return 0;
+        return $this->schema($arguments);
     }
 
-    public function getLevel(): ?int
+    public function infolistSchema(): array
     {
-        return 2;
+        return [
+            Infolists\Components\TextEntry::make('remark')
+                ->label('备注')
+                ->visible(fn($state): bool => $state ? true : false),
+            Infolists\Components\IconEntry::make('status')
+                ->label('状态'),
+        ];
     }
 
-    public function getEmptyLabel(): ?string
-    {
-        return '种质分类数据为空';
-    }
+
 
     protected function schema(array $arguments): array
     {
@@ -64,9 +78,9 @@ class Category extends BaseCategoryPage
                 ->schema([
                     Forms\Components\Radio::make('status')
                         ->label('状态')
-                        ->default(CategoryStatus::Normal)
+                        ->default(Status::Normal)
                         ->inline()
-                        ->options(CategoryStatus::class)
+                        ->options(Status::class)
                         ->columnSpan(1),
                 ])->columns(2),
             Forms\Components\Repeater::make('options.fields')
@@ -75,16 +89,16 @@ class Category extends BaseCategoryPage
                     Forms\Components\TextInput::make('name')
                         ->label('分组名称')
                         ->placeholder('请输入字段分组名称')
-                        ->helperText(fn(string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;font-weight: bold">编辑分组名称会导致 评价、编目 等该分组自定义字段值失效</span>') : null)
+                        ->helperText(fn (string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;font-weight: bold">编辑分组名称会导致 评价、编目 等该分组自定义字段值失效</span>') : null)
                         ->required()
                         ->live(onBlur: true)
                         ->rules([
-                            fn(Get $get, string $state): Closure => static::repeaterGroupNameUniqueRule($get, $state),
+                            fn (Get $get, string $state): Closure => static::repeaterGroupNameUniqueRule($get, $state),
                         ])
                         ->columnSpan(1),
                     Forms\Components\Builder::make('fields')
                         ->label('分组字段')
-                        ->hint(fn(string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;font-weight: bold">编辑字段名称会导致 评价、编目 等该自定义字段值失效</span>') : null)
+                        ->hint(fn (string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;font-weight: bold">编辑字段名称会导致 评价、编目 等该自定义字段值失效</span>') : null)
                         ->blocks([
                             Forms\Components\Builder\Block::make('textInput')
                                 ->label(function (?array $state): string {
@@ -98,7 +112,7 @@ class Category extends BaseCategoryPage
                                         ->required()
                                         ->live(onBlur: true)
                                         ->rules([
-                                            fn(Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
                                         ])
                                         ->columnSpan(1),
                                     Forms\Components\TextInput::make('unit')
@@ -126,7 +140,7 @@ class Category extends BaseCategoryPage
                                         ->required()
                                         ->live(onBlur: true)
                                         ->rules([
-                                            fn(Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
                                         ])
                                         ->columnSpan(1),
                                     Forms\Components\TextInput::make('unit')
@@ -161,7 +175,7 @@ class Category extends BaseCategoryPage
                                         ->required()
                                         ->live(onBlur: true)
                                         ->rules([
-                                            fn(Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
                                         ])
                                         ->columnSpan(1),
                                     Forms\Components\TextInput::make('unit')
@@ -213,7 +227,7 @@ class Category extends BaseCategoryPage
                                         ->required()
                                         ->live(onBlur: true)
                                         ->rules([
-                                            fn(Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
                                         ])
                                         ->columnSpan(1),
                                     Forms\Components\Toggle::make('is_required')
@@ -250,7 +264,7 @@ class Category extends BaseCategoryPage
                                         ->required()
                                         ->live(onBlur: true)
                                         ->rules([
-                                            fn(Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
+                                            fn (Get $get, string $state): Closure => static::builderFieldNameUniqueRule($get, $state),
                                         ])
                                         ->columnSpan(1),
                                     Forms\Components\Select::make('type')
@@ -293,17 +307,17 @@ class Category extends BaseCategoryPage
                         ->cloneable()
                         ->addActionAlignment(Alignment::Start)
                         ->columnSpanFull()
-                ])
-                // ->deleteAction(          // 需要研究下 modal 的层级，如何不关闭当前编辑的 modal
-                //     fn(Action $action) => $action->requiresConfirmation(),
-                // )
-                ->extraAttributes(['class' => 'category-custom-field-group'])
-                ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
-                ->addActionLabel('添加分组')
-                ->collapsible()
-                ->cloneable()
-                ->addActionAlignment(Alignment::Start)
-                ->columns(2)
+            ])
+            // ->deleteAction(          // 需要研究下 modal 的层级，如何不关闭当前编辑的 modal
+            //     fn(Action $action) => $action->requiresConfirmation(),
+            // )
+            ->extraAttributes(['class' => 'category-custom-field-group'])
+            ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+            ->addActionLabel('添加分组')
+            ->collapsible()
+            ->cloneable()
+            ->addActionAlignment(Alignment::Start)
+            ->columns(2)
         ];
     }
 
@@ -313,7 +327,7 @@ class Category extends BaseCategoryPage
         return function (string $attribute, $value, Closure $fail) use ($get, $state) {
             $duplicates = collect($get('../../'))
                 ->filter(fn($block) => isset($block['data']['name']) && !empty($block['data']['name']))     // 过滤空值
-                ->map(function ($block) {            // 取出 name
+                ->map(function($block) {            // 取出 name
                     return $block['data']['name'];
                 })
                 ->duplicates();
@@ -330,7 +344,7 @@ class Category extends BaseCategoryPage
         return function (string $attribute, $value, Closure $fail) use ($get, $state) {
             $duplicates = collect($get('../'))
                 ->filter(fn($repeater) => isset($repeater['name']) && !empty($repeater['name']))     // 过滤空值
-                ->map(function ($repeater) {            // 取出 name
+                ->map(function($repeater) {            // 取出 name
                     return $repeater['name'];
                 })
                 ->duplicates();

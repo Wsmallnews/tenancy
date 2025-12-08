@@ -11,7 +11,7 @@ use Filament\Schemas;
 use UnitEnum;
 use Wsmallnews\FilamentNestedset\Pages\NestedsetPage;
 
-class PostCategory extends NestedsetPage
+class PostCategoryBak extends NestedsetPage
 {
     use HasPageShield;
 
@@ -23,7 +23,7 @@ class PostCategory extends NestedsetPage
 
     protected static ?string $title = '图文分类';
 
-    protected static ?string $navigationLabel = '图文分类';
+    protected static ?string $navigationLabel = '图文分类-bak';
 
     protected static ?string $navigationParentItem = '图文管理';
 
@@ -36,6 +36,8 @@ class PostCategory extends NestedsetPage
     protected static ?string $pluralModelLabel = '图文分类';
 
     protected static ?int $navigationSort = 1;
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public function createSchema($arguments): array
     {
