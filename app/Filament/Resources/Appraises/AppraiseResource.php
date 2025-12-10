@@ -9,7 +9,6 @@ use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Models\Appraise;
-use App\Models\Category;
 use App\Settings\AppraiseSettings;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Actions;
@@ -308,10 +307,15 @@ class AppraiseResource extends Resource
     {
         return [
             Schemas\Components\Section::make('基础信息')->schema([
+                // 单选
                 SelectTree::make('category_id')->label('选择分类')
-                    ->relationship(relationship: 'category', titleAttribute: 'name', parentAttribute: 'parent_id')
+                    ->relationship(relationship: 'category', titleAttribute: 'name', parentAttribute: 'parent_id', modifyQueryUsing: function ($query) {
+                        return $query->scopeable('appraise', 0);
+                    }, modifyChildQueryUsing: function ($query) {
+                        return $query->scopeable('appraise', 0);
+                    })
                     ->searchable()
-                    // ->enableBranchNode()     // 可以选择非根节点
+                    ->enableBranchNode()
                     ->withCount()
                     ->live()
                     ->afterStateUpdated(function (Livewire $livewire) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
@@ -565,7 +569,7 @@ class AppraiseResource extends Resource
 
         $category_id = $get('category_id');
         if ($category_id) {
-            $category = Category::findOrFail($category_id);
+            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
 
             $fields = $category->options['fields'] ?? [];
             foreach ($fields as $key => $field) {
@@ -693,7 +697,7 @@ class AppraiseResource extends Resource
             return;
         }
 
-        $category = Category::findOrFail($category_id);
+        $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
         $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
 
         foreach ($fields as $key => $field) {
@@ -744,7 +748,7 @@ class AppraiseResource extends Resource
         $category_id = $data['category_id'];
 
         if ($category_id) {
-            $category = Category::findOrFail($category_id);
+            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
             $fields = $category->options['fields'] ?? [];
 
             foreach ($fields as $key => $field) {

@@ -8,15 +8,14 @@ use App\Livewire\Post;
 use App\Livewire\Appraise;
 use App\Livewire\Personnels;
 use App\Livewire\Personnel;
-use App\Http\Middleware\IdentifyTenant;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
-use Wsmallnews\Cms\Http\Middleware\IdentifyTenant as CmsIdentifyTenant;
 use Wsmallnews\Cms\Support\Utils;
+use Wsmallnews\Support\Http\Middleware\IdentifyTenant;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
 
 $middlewares = Utils::getConfig('routes.middleware') ?? [];
-SupportUtils::isTenancyEnabled() && array_unshift($middlewares, CmsIdentifyTenant::class);
+SupportUtils::isTenancyEnabled() && array_unshift($middlewares, IdentifyTenant::class);
 
 Route::domain(Utils::getConfig('routes.domain'))
     ->middleware($middlewares)
@@ -24,7 +23,10 @@ Route::domain(Utils::getConfig('routes.domain'))
     ->name(Utils::getConfig('routes.name'))
     ->group(function () {
         Route::get('appraises/{id}', Appraise::class)->name('appraises.show');
-    });
+
+        Route::get('personnels', Personnels::class)->name('personnels');
+        Route::get('personnels/{id}', Personnel::class)->name('personnels.show');
+});
 
 
 // Route::prefix("tenant/{tenant:slug}")

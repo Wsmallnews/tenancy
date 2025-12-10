@@ -11,7 +11,6 @@ use Livewire\WithoutUrlPagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Wsmallnews\Category\Livewire\Concerns\Categoryable;
-use Wsmallnews\Category\Models\Category as CategoryModel;
 
 class Appraises extends Component
 {
@@ -19,14 +18,12 @@ class Appraises extends Component
     use WithoutUrlPagination;
     use Categoryable;
 
-    #[Reactive]
+    // #[Reactive]
     public int | string | array $categoryIds = [];
 
     public Collection $appraises;
 
-    public string $wrapperView = 'base.empty-block';
-
-    public string $itemWrapperView = 'base.block';
+    public string $style = 'list';      // list=列表，card=卡片
 
     public function mount()
     {
@@ -69,7 +66,7 @@ class Appraises extends Component
         $allCategories = $allCategories->filter()->unique()->values();
 
         // 查询评价
-        $query = AppraiseModel::query()->scopeTenant()->normal()->with(['media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
+        $query = AppraiseModel::query()->scopeTenant()->normal()->with(['saveCompany', 'media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
             $query->whereIn('category_id', $allCategories);
         })->orderBy('order_column', 'desc');
 

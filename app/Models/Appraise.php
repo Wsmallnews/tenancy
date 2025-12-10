@@ -12,6 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
+use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
 class Appraise extends Base implements HasMedia
 {
@@ -49,7 +50,7 @@ class Appraise extends Base implements HasMedia
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(CategoryUtils::getCategoryModel(), 'category_id')->scopeable('appraise', 0);
     }
 
     public function saveCompany(): BelongsTo

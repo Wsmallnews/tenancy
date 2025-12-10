@@ -78,22 +78,15 @@ class AppServiceProvider extends ServiceProvider
         // pages
         Livewire::component('sn-index', \App\Livewire\Index::class);
         Livewire::component('sn-navigation', \App\Livewire\Navigation::class);
-        Livewire::component('sn-posts', \App\Livewire\Posts::class);
-        Livewire::component('sn-post', \App\Livewire\Post::class);
 
         // components
-        // Livewire::component('sn-components-navigation', \App\Livewire\Components\Navigation::class);
-        // Livewire::component('sn-components-footer', \App\Livewire\Components\Footer::class);
         Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
-        // Livewire::component('sn-components-posts', \App\Livewire\Components\Posts::class);
-        // Livewire::component('sn-components-post', \App\Livewire\Components\Post::class);
         Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
         Livewire::component('sn-components-appraise-show', \App\Livewire\Components\AppraiseShow::class);
         Livewire::component('sn-components-appraises', \App\Livewire\Components\Appraises::class);
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
-        // Livewire::component('sn-components-categories', \App\Livewire\Components\Categories::class);
 
 
 
@@ -107,17 +100,16 @@ class AppServiceProvider extends ServiceProvider
             'award' => \App\Models\Award::class,
             'award_type' => \App\Models\AwardType::class,
             'catalog' => \App\Models\Catalog::class,
-            'category' => \App\Models\Category::class,
             'company' => \App\Models\Company::class,
             'content' => \App\Models\Content::class,
-            'navigation' => \App\Models\Navigation::class,
+            // 'navigation' => \App\Models\Navigation::class,
             'new_variety' => \App\Models\NewVariety::class,
             'patent' => \App\Models\Patent::class,
             'patent_type' => \App\Models\PatentType::class,
             'personnel' => \App\Models\Personnel::class,
             'phenotype_identify' => \App\Models\PhenotypeIdentify::class,
-            'post' => \App\Models\Post::class,
-            'post_category' => \App\Models\PostCategory::class,
+            // 'post' => \App\Models\Post::class,
+            // 'post_category' => \App\Models\PostCategory::class,
             'preserve' => \App\Models\Preserve::class,
             'project_manage' => \App\Models\ProjectManage::class,
             'role' => \App\Models\Role::class,

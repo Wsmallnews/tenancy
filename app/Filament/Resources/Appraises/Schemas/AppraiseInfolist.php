@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Appraises\Schemas;
 
 use App\Features\Common;
-use App\Models\Category;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
@@ -189,7 +188,7 @@ class AppraiseInfolist
 
         $category_id = $record->category_id;
         if ($category_id) {
-            $category = Category::findOrFail($category_id);
+            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
 
             $fields = $category->options['fields'] ?? [];
             foreach ($fields as $key => $field) {
@@ -207,7 +206,7 @@ class AppraiseInfolist
 
         $category_id = $record->category_id;
         if ($category_id) {
-            $category = Category::findOrFail($category_id);
+            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
 
             $fields = $category->options['fields'] ?? [];
             foreach ($fields as $key => $field) {

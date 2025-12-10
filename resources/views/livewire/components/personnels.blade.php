@@ -2,7 +2,7 @@
     <x-paginators.container :page-type="$pageType" class="@container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
         <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @7xl:grid-cols-3 gap-4">
             @foreach ($personnels as $personnel)
-                <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('personnels.show', $personnel->id) }}" class="w-full flex flex-row gap-4 overflow-hidden group">
+                <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="w-full flex flex-row gap-4 overflow-hidden group">
                     @if ($personnel->getFirstMediaUrl('avatar'))
                         <div class="w-36 aspect-5/7 flex-shrink-0 rounded-md overflow-hidden">
                             <img class="object-cover transition duration-300 rounded-md group-hover:scale-105" src="{{ $personnel->getFirstMediaUrl('avatar') }}" />
