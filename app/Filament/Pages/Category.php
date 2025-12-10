@@ -58,7 +58,7 @@ class Category extends BaseCategoryPage
             Forms\Components\TextInput::make('name')->label('分类名称')
                 ->placeholder('请输入分类名称')
                 ->required(),
-            Forms\Components\Textarea::make('remark')->label('备注'),
+            Forms\Components\Textarea::make('description')->label('描述'),
 
             Schemas\Components\Group::make()
                 ->schema([

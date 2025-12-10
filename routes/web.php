@@ -11,6 +11,21 @@ use App\Livewire\Personnel;
 use App\Http\Middleware\IdentifyTenant;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
+use Wsmallnews\Cms\Http\Middleware\IdentifyTenant as CmsIdentifyTenant;
+use Wsmallnews\Cms\Support\Utils;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
+
+$middlewares = Utils::getConfig('routes.middleware') ?? [];
+SupportUtils::isTenancyEnabled() && array_unshift($middlewares, CmsIdentifyTenant::class);
+
+Route::domain(Utils::getConfig('routes.domain'))
+    ->middleware($middlewares)
+    ->prefix(Utils::getConfig('routes.prefix'))
+    ->name(Utils::getConfig('routes.name'))
+    ->group(function () {
+        Route::get('appraises/{id}', Appraise::class)->name('appraises.show');
+    });
+
 
 // Route::prefix("tenant/{tenant:slug}")
 //     ->name('tenant.')

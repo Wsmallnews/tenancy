@@ -2,7 +2,7 @@
     <x-paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
         <div class="w-full flex flex-col gap-4">
             @foreach ($appraises as $appraise)
-                <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ sn_route('appraises.show', $appraise->id) }}"  class="flex flex-row gap-4 overflow-hidden group">
+                <x-dynamic-component :component="$itemWrapperView" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}"  class="flex flex-row gap-4 overflow-hidden group">
                     @if ($appraise->getFirstMediaUrl('cover'))
                     <div class="w-44 h-44 flex-shrink-0 rounded-md overflow-hidden">
                         <img class="w-full h-full object-cover transition duration-300 group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
