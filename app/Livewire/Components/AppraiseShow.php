@@ -13,7 +13,7 @@ class AppraiseShow extends Component
 
     public string $wrapperView = 'base.empty-block';
     
-    #[On('sn-category-click')]
+    #[On('sn-filament-nestedset-leaf-click')]
     public function clickCategory($categoryId)
     {
         $this->categoryId = $categoryId;

@@ -3,6 +3,11 @@
 
 @import '../../vendor/filament/filament/resources/css/theme.css';
 
+/* 加载 CMS 样式 */
+@import '../../vendor/wsmallnews/cms/resources/css/index.css';
+
+@import './filament/sn-grid-table.css';
+
 /* @import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css'; */
 
 @source '../../app/Livewire/**/*';

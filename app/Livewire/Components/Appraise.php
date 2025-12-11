@@ -2,24 +2,36 @@
 
 namespace App\Livewire\Components;
 
+use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Models\Appraise as AppraiseModel;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
-class Appraise extends Component
+class Appraise extends Component implements HasSchemas
 {
+    use InteractsWithSchemas;
+
     public int $id;
 
-    public string $wrapperView = 'base.block';
+    public AppraiseModel $appraise;
+
+    public function mount()
+    {
+        $this->appraise = AppraiseModel::query()->scopeTenant()->normal()->with(['media'])->findOrFail($this->id);
+    }
+
+
+    public function appraiseInfolist(Schema $schema): Schema
+    {
+        return AppraiseInfolist::configure($schema)->record($this->appraise);
+    }
+
 
     public function render()
     {
-        $appraise = AppraiseModel::query()->scopeTenant()->normal()->with(['media', 'content'])->findOrFail($this->id);
-        
-        // Model::withoutTimestamps(fn() => $appraise->increment('views'));        // 增加浏览量,不更新 updated_at
-
-        return view('livewire.components.appraise', [
-            'appraise' => $appraise
-        ]);
+        return view('livewire.components.appraise');
     }
 }
