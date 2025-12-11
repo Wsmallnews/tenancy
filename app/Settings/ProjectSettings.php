@@ -25,6 +25,6 @@ class ProjectSettings extends Settings
 
     public static function cacheKey(): string
     {
-        return static::class . '_team_' . general_current_tenant()?->id;
+        return static::class . '_team_' . current_tenant()?->id;
     }
 }
