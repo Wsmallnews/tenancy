@@ -4,14 +4,19 @@ namespace App\Livewire\Components;
 
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Models\Appraise as AppraiseModel;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
-class Appraise extends Component implements HasSchemas
+class Appraise extends Component implements HasActions, HasSchemas
 {
+    use Concerns\ApplyAction;
+    use InteractsWithActions;
     use InteractsWithSchemas;
 
     public int $id;

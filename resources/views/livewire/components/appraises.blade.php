@@ -1,9 +1,9 @@
 <x-dynamic-component component="base.empty-block" class="w-full">
     @if ($style == 'list')
-        <x-paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
+        <x-sn-support::paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <div class="w-full flex flex-col gap-4">
                 @foreach ($appraises as $appraise)
-                    <x-dynamic-component component="base.empty-block" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="flex flex-row overflow-hidden group bg-white rounded-md">
+                    <x-dynamic-component component="base.empty-block" tag="div" class="flex flex-row overflow-hidden group bg-white rounded-md">
                         @if ($appraise->getFirstMediaUrl('cover'))
                         <div class="w-40 aspect-16/9 flex-shrink-0 overflow-hidden">
                             <img class="w-full h-full object-cover transition duration-300 group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
@@ -24,18 +24,19 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center">
-                                <x-filament::button size="sm" class="h-8 text-white" >
-                                    用种申请
+                            <div class="flex items-center gap-4">
+                                <x-filament::button tag="a" color="info" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}">
+                                    详情
                                 </x-filament::button>
+                                {{ ($this->applyAction)(['appraise_id' => $appraise->id]) }}
                             </div>
                         </div>
                     </x-dynamic-component>
                 @endforeach
             </div>
-        </x-paginators.container>
+        </x-sn-support::paginators.container>
     @else
-        <x-paginators.container :page-type="$pageType" class="@container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
+        <x-sn-support::paginators.container :page-type="$pageType" class="@container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @5xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
                 @foreach ($appraises as $appraise)
                     <x-dynamic-component component="base.empty-block" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="w-full flex flex-col overflow-hidden group bg-white rounded-md shadow-md">
@@ -51,6 +52,8 @@
                     </x-dynamic-component>
                 @endforeach
             </div>
-        </x-paginators.container>
+        </x-sn-support::paginators.container>
     @endif
+
+    <x-filament-actions::modals />
 </x-dynamic-component>

@@ -2,8 +2,12 @@
 
 namespace App\Livewire\Components;
 
-use App\Livewire\Traits\CanPagination;
+
 use App\Models\Appraise as AppraiseModel;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
@@ -11,19 +15,23 @@ use Livewire\WithoutUrlPagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Wsmallnews\Category\Livewire\Concerns\Categoryable;
+use Wsmallnews\Support\Livewire\Concerns\CanPagination;
 
-class Appraises extends Component
+class Appraises extends Component implements HasActions, HasSchemas
 {
     use CanPagination;
-    use WithoutUrlPagination;
     use Categoryable;
+    use Concerns\ApplyAction;
+    use InteractsWithActions;
+    use InteractsWithSchemas;
+    use WithoutUrlPagination;
 
     // #[Reactive]
     public int | string | array $categoryIds = [];
 
     public Collection $appraises;
 
-    public string $style = 'list';      // list=列表，card=卡片
+    public string $style = 'card';      // list=列表，card=卡片
 
     public function mount()
     {
@@ -38,16 +46,6 @@ class Appraises extends Component
     protected function getCurrents()
     {
         return $this->appraises;
-    }
-
-    public function updatedCategoryIds()
-    {
-        dd($this->categoryIds);
-    }
-
-    public function updating($property, $value)
-    {
-        dd($property);
     }
 
 

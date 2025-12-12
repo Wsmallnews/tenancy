@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Components;
 
-use App\Livewire\Traits\CanPagination;
 use App\Models\Personnel as PersonnelModel;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Wsmallnews\Support\Livewire\Concerns\CanPagination;
 
 class Personnels extends Component
 {
