@@ -77,7 +77,6 @@ class AppServiceProvider extends ServiceProvider
 
         // pages
         Livewire::component('sn-index', \App\Livewire\Index::class);
-        Livewire::component('sn-navigation', \App\Livewire\Navigation::class);
 
         // components
         Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
@@ -96,6 +95,7 @@ class AppServiceProvider extends ServiceProvider
             'accurate_identify' => \App\Models\AccurateIdentify::class,
             'activity' => \App\Models\Activity::class,
             'appraise' => \App\Models\Appraise::class,
+            'appraise_apply' => \App\Models\AppraiseApply::class,
             'assemble' => \App\Models\Assemble::class,
             'award' => \App\Models\Award::class,
             'award_type' => \App\Models\AwardType::class,
@@ -152,7 +152,19 @@ class AppServiceProvider extends ServiceProvider
                 'label' => '种质资源列表(带分类)',
                 'forms' => fn($fields) => [],
                 'components' => [
-                    \App\Livewire\Components\AppraiseShow::class
+                    \App\Livewire\Components\AppraiseShow::class => [
+                        'style' => 'card',
+                    ]
+                ]
+            ],
+            [
+                'type' => 'appraise-applies-show',
+                'label' => '用种申请列表(带分类)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\AppraiseShow::class => [
+                        'style' => 'list',
+                    ]
                 ]
             ],
         ]);

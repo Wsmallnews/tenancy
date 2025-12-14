@@ -12,11 +12,13 @@ class AppraiseShow extends Component
     public string $categoryId = '';
 
     public string $wrapperView = 'base.empty-block';
+
+    public string $style = 'card';
     
     #[On('sn-filament-nestedset-leaf-click')]
-    public function clickCategory($categoryId)
+    public function clickCategory($recordId)
     {
-        $this->categoryId = $categoryId;
+        $this->categoryId = $recordId;
     }
 
     public function render()

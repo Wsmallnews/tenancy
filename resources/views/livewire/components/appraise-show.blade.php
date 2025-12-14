@@ -3,5 +3,5 @@
         <livewire:sn-category-components-categories :category-id="$categoryId" scope-type="appraise" />
     </div>
 
-    <livewire:sn-components-appraises class="w-full" :category-ids="$categoryId" key="{{ 'appraises-' . $categoryId }}" />
+    <livewire:sn-components-appraises class="w-full" :style="$style" :category-ids="$categoryId" key="{{ 'appraises-' . $categoryId }}" />
 </x-dynamic-component>
