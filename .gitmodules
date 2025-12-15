@@ -7,3 +7,6 @@
 [submodule "addons/support"]
 	path = addons/support
 	url = git@github.com:Wsmallnews/support.git
+[submodule "addons/user"]
+	path = addons/user
+	url = git@github.com:Wsmallnews/user.git
