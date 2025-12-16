@@ -3,18 +3,13 @@
 namespace App\Filament\Resources\Preserves;
 
 use BackedEnum;
-use App\Enums\Preserves\Status;
 use App\Features\Common;
 use App\Filament\Resources\Preserves\Pages;
+use App\Filament\Resources\Preserves\Schemas\PreserveForm;
 use App\Filament\Resources\Preserves\Schemas\PreserveInfolist;
-use App\Models\Appraise;
 use App\Models\Preserve;
 use Filament\Actions;
-use Filament\Forms;
-use Filament\Infolists;
 use Filament\Resources\Resource;
-use Filament\Schemas;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
@@ -46,86 +41,7 @@ class PreserveResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Schemas\Components\Flex::make([
-                    Schemas\Components\Group::make()->schema([
-                        Schemas\Components\Section::make('种质信息')->schema([
-                            Forms\Components\Select::make('appraise_id')->label('选择种质')
-                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                    return $query->normal()->orderBy('order_column', 'asc');
-                                })
-                                ->placeholder('请选择种质')
-                                ->searchable()
-                                ->preload()
-                                ->live()
-                                ->required(),
-                            Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
-                                ->extraAttributes([
-                                    'class' => 'sn-grid-table',
-                                ])
-                                ->schema(function(Get $get) {
-                                    if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
-                                        $coverMedia = $appraise->getFirstMedia('cover');
-
-                                        return [
-                                            Infolists\Components\ImageEntry::make('appraise_cover')
-                                                ->label('种质封面图')
-                                                ->state($coverMedia?->getFullUrl())
-                                                ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
-                                                ]),
-                                            Infolists\Components\TextEntry::make('appraise_resource_no')
-                                                ->label('全国统一编号')
-                                                ->state($appraise->resource_no),
-                                            Infolists\Components\TextEntry::make('appraise_name')
-                                                ->label('种质中文名')
-                                                ->state($appraise->name),
-                                            Infolists\Components\TextEntry::make('appraise_en_name')
-                                                ->label('种质外文名')
-                                                ->state($appraise->en_name),
-                                            Infolists\Components\TextEntry::make('appraise_subject_name')
-                                                ->label('科名')
-                                                ->state($appraise->subject_name),
-                                            Infolists\Components\TextEntry::make('appraise_genus_name')
-                                                ->label('属名')
-                                                ->state($appraise->genus_name),
-                                            Infolists\Components\TextEntry::make('appraise_species_name')
-                                                ->label('学名')
-                                                ->state($appraise->species_name),
-                                        ];
-                                    }
-                                })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
-                                ->columnSpanFull(),
-                        ]),
-                        Schemas\Components\Section::make('保存信息')->schema([
-                            Forms\Components\TextInput::make('preserve_no')->label('保存编号')
-                                ->placeholder('请输入保存编号')
-                                ->required(),
-                            Forms\Components\TextInput::make('preserve_position')->label('保存位置')
-                                ->placeholder('请输入保存位置')
-                                ->required(),
-                        ])->columns(2),
-                    ])->columns(1),
-                    Schemas\Components\Section::make('状态')->schema([
-                        Forms\Components\TextInput::make('order_column')->label('排序')->integer()
-                            ->placeholder('正序排列')
-                            ->rules(['integer', 'min:0']),
-                        Forms\Components\Radio::make('status')
-                            ->label('状态')
-                            ->default(Status::Normal)
-                            ->inline()
-                            ->options(Status::class),
-                    ])->grow(false),
-                ])
-                ->columnSpanFull()
-                ->from('lg')
-            ]);
+        return PreserveForm::configure($schema);
     }
 
 
