@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components\Concerns;
 
+use App\Enums\AppraiseApplies\Status;
 use App\Features\Common;
 use App\Models\Appraise as AppraiseModel;
 use App\Models\AppraiseApply;
@@ -74,6 +75,7 @@ trait ApplyAction
                 // $data['user_id'] = auth()->id();                     // @sn todo 这里填充用户信息
                 $data['appraise_id'] = $arguments['appraise_id'];
                 $data['team_id'] = current_tenant()?->id;
+                $data['status'] = Status::Applying;
                 return $data;
             })
             ->model(AppraiseApply::class)       // 当前保存主表模型

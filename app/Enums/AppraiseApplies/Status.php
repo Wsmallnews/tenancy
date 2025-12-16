@@ -12,15 +12,18 @@ enum Status: string implements HasLabel, HasIcon, HasColor
 
     use EnumHelper;
 
-    case Normal = 'normal';
+    case Applying = 'applying';
 
-    case Hidden = 'hidden';
+    case Agree = 'agree';
+
+    case Refuse = 'refuse';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Normal => '正常',
-            self::Hidden => '隐藏',
+            self::Applying => '申请中',
+            self::Agree => '同意',
+            self::Refuse => '拒绝',
         };
     }
 
@@ -28,8 +31,9 @@ enum Status: string implements HasLabel, HasIcon, HasColor
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Normal => 'success',
-            self::Hidden => 'gary',
+            self::Applying => 'info',
+            self::Agree => 'success',
+            self::Refuse => 'danger',
         };
     }
 
@@ -37,8 +41,9 @@ enum Status: string implements HasLabel, HasIcon, HasColor
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Normal => 'heroicon-m-eye',
-            self::Hidden => 'heroicon-m-eye-slash',
+            self::Applying => 'heroicon-m-clipboard-list',
+            self::Agree => 'heroicon-m-check',
+            self::Refuse => 'heroicon-m-x',
         };
     }
 }
