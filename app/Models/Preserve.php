@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Preserves\PreserveType;
 use App\Enums\Preserves\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,7 @@ class Preserve extends Base implements HasMedia
     protected $table = 'preserves';
 
     protected $casts = [
+        'preserve_type' => PreserveType::class,
         'status' => Status::class,
     ];
 

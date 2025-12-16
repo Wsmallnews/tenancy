@@ -97,6 +97,8 @@ class PreserveForm
                             Forms\Components\ToggleButtons::make('preserve_type')
                                 ->label('保存类型')
                                 ->options(PreserveType::class)
+                                ->default(PreserveType::GermplasmNursery)
+                                ->live()
                                 ->inline(),
                             
                             // 种质圃保存
@@ -108,7 +110,8 @@ class PreserveForm
                                     Forms\Components\TextInput::make('germplasm_nursery_disease_pest_information')->label('病虫害信息')
                                         ->placeholder('请输入病虫害信息')
                                         ->required(),
-                                ]),
+                                ])->columns(2)
+                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::GermplasmNursery),
 
                             // 试管苗保存
                             Schemas\Components\Group::make()
@@ -119,7 +122,8 @@ class PreserveForm
                                     Forms\Components\TextInput::make('test_tube_seedling_culture_conditions')->label('培养条件')
                                         ->placeholder('请输入培养条件')
                                         ->required(),
-                                ]),
+                                ])->columns(2)
+                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::TestTubeSeedling),
 
                             // 超低温保存
                             Schemas\Components\Group::make()
@@ -153,7 +157,8 @@ class PreserveForm
                                     Forms\Components\TextInput::make('ultra_low_temperature_recovery_process')->label('复苏程序')
                                         ->placeholder('请输入复苏程序')
                                         ->required(),
-                                ]),
+                                ])->columns(2)
+                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::UltraLowTemperature),
 
                             // 原生境保存
                             Schemas\Components\Group::make()
@@ -197,7 +202,8 @@ class PreserveForm
                                     Forms\Components\TextInput::make('original_habitat_phenological_record')->label('物候记录')
                                         ->placeholder('请输入物候记录')
                                         ->required(),
-                                ])
+                                ])->columns(2)
+                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::OriginalHabitat),
                         ])
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([
