@@ -60,7 +60,7 @@ trait ApplyAction
                     Forms\Components\TextInput::make('company_name')
                         ->label('用种单位')
                         ->required(),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('申请单')
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('apply_file')->label('申请单')
                         ->helperText('上传申请单')
                         ->collection('apply_file')
                         ->required()
