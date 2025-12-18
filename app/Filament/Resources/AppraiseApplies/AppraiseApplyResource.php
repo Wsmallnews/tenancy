@@ -24,7 +24,7 @@ class AppraiseApplyResource extends Resource
 
     protected static ?string $navigationLabel = '用种申请';
 
-    protected static string | UnitEnum | null $navigationGroup = '评价管理';
+    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'appraise-applies';
 
@@ -34,7 +34,7 @@ class AppraiseApplyResource extends Resource
 
     protected static ?string $pluralModelLabel = '用种申请';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 9;
 
     public static function form(Schema $schema): Schema
     {

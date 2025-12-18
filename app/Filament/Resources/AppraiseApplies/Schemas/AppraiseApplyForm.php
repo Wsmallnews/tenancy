@@ -19,7 +19,7 @@ class AppraiseApplyForm
             ->components([
                 Schemas\Components\Flex::make([
                     Schemas\Components\Group::make()->schema([
-                        Schemas\Components\Section::make('项目信息')->schema([
+                        Schemas\Components\Section::make('种质信息')->schema([
                             Forms\Components\Select::make('appraise_id')->label('选择种质')
                                 ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
@@ -95,15 +95,19 @@ class AppraiseApplyForm
                                 ->acceptedFileTypes(['application/*'])
                                 ->imagePreviewHeight('100')
                                 ->uploadingMessage('申请单上传中...')
-                                ->columnSpanFull(1),
-                            Forms\Components\Select::make('status')
-                                ->options(Status::class)
-                                ->default(Status::Applying)
-                                ->label('状态')
-                                ->searchable(),
+                                ->columnSpanFull(1)
                         ]),
-                    ])
+                    ])->columns(1),
+                    Schemas\Components\Section::make('状态')->schema([
+                        Forms\Components\ToggleButtons::make('status')
+                            ->label('状态')
+                            ->options(Status::class)
+                            ->default(Status::Applying)
+                            ->inline(),
+                    ])->grow(false),
                 ])
+                ->columnSpanFull()
+                ->from('lg')
             ]);
     }
 }

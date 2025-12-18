@@ -2,9 +2,11 @@
 
 namespace App\Enums\AppraiseApplies;
 
+use BackedEnum;
 use Filament\Support\Contracts\HasLabel;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Icons\Heroicon;
 use App\Enums\Traits\EnumHelper;
 
 enum Status: string implements HasLabel, HasIcon, HasColor
@@ -38,12 +40,12 @@ enum Status: string implements HasLabel, HasIcon, HasColor
     }
 
 
-    public function getIcon(): ?string
+    public function getIcon(): string | BackedEnum | null
     {
         return match ($this) {
-            self::Applying => 'heroicon-m-clipboard-list',
-            self::Agree => 'heroicon-m-check',
-            self::Refuse => 'heroicon-m-x',
+            self::Applying => Heroicon::ClipboardDocumentCheck,
+            self::Agree => Heroicon::Check,
+            self::Refuse => Heroicon::XMark,
         };
     }
 }

@@ -58,7 +58,7 @@ class AppraiseAppliesTable
                     ->label('学名')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\SelectColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')

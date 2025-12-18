@@ -34,19 +34,29 @@ class AppraiseApply extends Base implements HasMedia
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
     }
 
-    public function scopeNormal($query)
+    public function scopeApplying($query)
     {
-        return $query->where('status', Status::Normal);
+        return $query->where('status', Status::Applying);
     }
 
-    public function scopeHidden($query)
+    public function scopeAgree($query)
     {
-        return $query->where('status', Status::Hidden);
+        return $query->where('status', Status::Agree);
+    }
+
+    public function scopeRefuse($query)
+    {
+        return $query->where('status', Status::Refuse);
     }
 
     public function appraise(): BelongsTo
     {
         return $this->belongsTo(Appraise::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function team(): BelongsTo
