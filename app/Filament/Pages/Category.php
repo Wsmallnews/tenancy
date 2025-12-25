@@ -29,9 +29,6 @@ class Category extends BaseCategoryPage
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?int $level = 2;
-
-
     public static function getScopeType(): string
     {
         return 'appraise';

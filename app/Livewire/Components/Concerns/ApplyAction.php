@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components\Concerns;
 
+use App\Enums\AppraiseApplies\Status;
 use App\Features\Common;
 use App\Models\Appraise as AppraiseModel;
 use App\Models\AppraiseApply;
@@ -59,7 +60,7 @@ trait ApplyAction
                     Forms\Components\TextInput::make('company_name')
                         ->label('用种单位')
                         ->required(),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('申请单')
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('apply_file')->label('申请单')
                         ->helperText('上传申请单')
                         ->collection('apply_file')
                         ->required()
@@ -74,6 +75,7 @@ trait ApplyAction
                 // $data['user_id'] = auth()->id();                     // @sn todo 这里填充用户信息
                 $data['appraise_id'] = $arguments['appraise_id'];
                 $data['team_id'] = current_tenant()?->id;
+                $data['status'] = Status::Applying;
                 return $data;
             })
             ->model(AppraiseApply::class)       // 当前保存主表模型
