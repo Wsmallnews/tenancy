@@ -26,7 +26,8 @@
         "wsmallnews/category": "v1.x-dev",
         "wsmallnews/cms": "v1.x-dev",
         "wsmallnews/filament-nestedset": "^2.0",
-        "wsmallnews/support": "v1.x-dev"
+        "wsmallnews/support": "v1.x-dev",
+        "wsmallnews/user": "v1.x-dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
