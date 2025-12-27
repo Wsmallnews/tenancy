@@ -107,6 +107,10 @@
         "support": {
             "type": "path",
             "url": "./addons/support"
+        },
+        "user": {
+            "type": "path",
+            "url": "./addons/user"
         }
     }
 }
