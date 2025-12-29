@@ -6818,6 +6818,76 @@
             "time": "2025-09-22T14:21:04+00:00"
         },
         {
+            "name": "ralphjsmit/livewire-urls",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ralphjsmit/livewire-urls.git",
+                "reference": "4770bc8d95a1e21248b046cd386e8b22be2ee38c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ralphjsmit/livewire-urls/zipball/4770bc8d95a1e21248b046cd386e8b22be2ee38c",
+                "reference": "4770bc8d95a1e21248b046cd386e8b22be2ee38c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.83|^9.0|^10.0|^11.0|^12.0",
+                "livewire/livewire": "^2.10|^3.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "nesbot/carbon": "^2.66|^3.0",
+                "nunomaduro/collision": "^5.0|^6.0|^7.0|^8.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "pestphp/pest": "^1.21|^2.34|^3.7",
+                "pestphp/pest-plugin-laravel": "^1.1|^2.3|^3.1",
+                "phpunit/phpunit": "^9.5|^10.0|^11.5",
+                "spatie/laravel-ray": "^1.39"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "LivewireUrls": "RalphJSmit\\Livewire\\Urls\\Facades\\Url"
+                    },
+                    "providers": [
+                        "RalphJSmit\\Livewire\\Urls\\LivewireUrlsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RalphJSmit\\Livewire\\Urls\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ralph J. Smit",
+                    "email": "rjs@ralphjsmit.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Get the previous and current url in Livewire.",
+            "homepage": "https://github.com/ralphjsmit/livewire-urls",
+            "keywords": [
+                "laravel",
+                "livewire-urls",
+                "ralphjsmit"
+            ],
+            "support": {
+                "issues": "https://github.com/ralphjsmit/livewire-urls/issues",
+                "source": "https://github.com/ralphjsmit/livewire-urls/tree/1.5.0"
+            },
+            "time": "2025-02-25T18:25:26+00:00"
+        },
+        {
             "name": "ramsey/collection",
             "version": "2.1.1",
             "source": {
@@ -11361,7 +11431,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/cms",
-                "reference": "d8b4927656a58412d8b69d5da07f18523d2d1b27"
+                "reference": "e406bc8bf4ac21e4b5feec5d4e2359035c926f3d"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -11536,7 +11606,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/support",
-                "reference": "d2d16841c76899f3645050c49c741aa663e147f4"
+                "reference": "a19c4e4f01b2be60e6ff74f41f37a46a14758585"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -11547,6 +11617,7 @@
                 "overtrue/easy-sms": "^3.0",
                 "php": "^8.2",
                 "postare/blade-mdi": "^1.1",
+                "ralphjsmit/livewire-urls": "^1.0",
                 "spatie/laravel-package-tools": "^1.15.0"
             },
             "require-dev": {
@@ -11635,7 +11706,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/user",
-                "reference": "c2ecbbedcc66013521fbc6c8129d59ec091334c9"
+                "reference": "56f851327ca13530f80dd8f7eceab7b7b3054516"
             },
             "require": {
                 "filament/filament": "^4.0",
@@ -15274,5 +15345,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
