@@ -58,10 +58,11 @@ return [
             'index' => '/',
             'navigation' => 'navigation/{slug}',
             'posts' => 'posts',
-            'posts_show' => 'posts/{id}',
+            'posts-show' => 'posts/{id}',
 
             'login' => 'login',
             'register' => 'register',
+            'user-index' => 'user',
         ],
     ],
 
