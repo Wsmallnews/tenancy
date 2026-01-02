@@ -23,6 +23,11 @@ return [
     ],
 
     /**
+     * auth guard
+     */
+    'guard' => 'web',
+
+    /**
      * 文件基础目录，会自动拼接当前年月日 (仅用于 filament 默认上传组件 (Forms\Components\FileUpload))
      */
     'file_directory' => 'sn/cms/',
@@ -62,9 +67,11 @@ return [
 
             'login' => 'login',
             'register' => 'register',
-            'user-index' => 'user',
+            'profile' => 'profile',
             'forgot-password' => 'forgot-password',
             'reset-password' => 'reset-password/{token}',
+            'verify-email' => 'verify-email',
+            'verify-email-verification' => 'verify-email/{id}/{hash}',
         ],
     ],
 
