@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Support\Enums\Width;
+use Wsmallnews\Cms\Support\Utils;
 
 trait ApplyAction
 {
@@ -72,7 +73,7 @@ trait ApplyAction
                 ];
             })
             ->mutateDataUsing(function (array $data, array $arguments): array {
-                // $data['user_id'] = auth()->id();                     // @sn todo 这里填充用户信息
+                $data['user_id'] = auth()->guard(Utils::getConfig('guard', 'web'))->id();
                 $data['appraise_id'] = $arguments['appraise_id'];
                 $data['team_id'] = current_tenant()?->id;
                 $data['status'] = Status::Applying;
