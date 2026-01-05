@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
 {
@@ -28,6 +29,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
     use HasFactory, Notifiable;
     use HasRoles;
     use LogsActivity;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
