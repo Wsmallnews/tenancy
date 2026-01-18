@@ -30,6 +30,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName, 
     use HasRoles;
     use LogsActivity;
     use TwoFactorAuthenticatable;
+    use \Wsmallnews\User\Userable;
 
     /**
      * The attributes that are mass assignable.
