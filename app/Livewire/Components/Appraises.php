@@ -66,7 +66,7 @@ class Appraises extends Component implements HasActions, HasSchemas
         // 查询评价
         $query = AppraiseModel::query()->scopeTenant()->normal()->with(['saveCompany', 'media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
             $query->whereIn('category_id', $allCategories);
-        })->orderBy('order_column', 'desc');
+        })->orderBy('order_column', 'desc')->orderBy('id', 'desc');
 
         // 分页
         $this->appraises = $this->withPagination($query);

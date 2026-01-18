@@ -20,6 +20,6 @@ class Personnel extends Base
 
         return view('livewire.personnel', [
             'breadcrumbs' => $breadcrumbs,
-        ]);
+        ])->layout(CmsUtils::getLayout());
     }
 }

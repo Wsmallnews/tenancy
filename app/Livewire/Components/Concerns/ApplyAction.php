@@ -80,6 +80,7 @@ trait ApplyAction
                 return $data;
             })
             ->model(AppraiseApply::class)       // 当前保存主表模型
+            ->visible(auth()->guard(Utils::getConfig('guard', 'web'))->check())
             ->stickyModalHeader()
             ->stickyModalFooter()
             ->modalWidth(Width::ThreeExtraLarge);

@@ -4,11 +4,11 @@
             <div class="w-full flex flex-col gap-4">
                 @foreach ($appraises as $appraise)
                     <x-dynamic-component component="base.empty-block" tag="div" class="flex flex-row overflow-hidden group bg-white rounded-md">
-                        @if ($appraise->getFirstMediaUrl('cover'))
                         <div class="w-40 aspect-16/9 flex-shrink-0 overflow-hidden">
-                            <img class="w-full h-full object-cover transition duration-300 group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
+                            @if ($appraise->getFirstMediaUrl('cover'))
+                                <img class="w-full h-full object-cover transition duration-300 group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
+                            @endif
                         </div>
-                        @endif
 
                         <div class="flex flex-row w-full justify-between px-4 py-2">
                             <div class="flex flex-col flex-grow gap-2">
@@ -28,7 +28,10 @@
                                 <x-filament::button tag="a" color="info" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}">
                                     详情
                                 </x-filament::button>
-                                {{ ($this->applyAction)(['appraise_id' => $appraise->id]) }}
+
+                                @if (($this->applyAction)(['appraise_id' => $appraise->id])->isVisible())
+                                    {{ ($this->applyAction)(['appraise_id' => $appraise->id]) }}
+                                @endif
                             </div>
                         </div>
                     </x-dynamic-component>
@@ -40,11 +43,11 @@
             <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @5xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
                 @foreach ($appraises as $appraise)
                     <x-dynamic-component component="base.empty-block" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="w-full flex flex-col overflow-hidden group bg-white rounded-md shadow-md">
-                        @if ($appraise->getFirstMediaUrl('cover'))
-                            <div class="aspect-16/9 flex-shrink-0 rounded-t-md overflow-hidden">
+                        <div class="aspect-16/9 flex-shrink-0 rounded-t-md overflow-hidden">
+                            @if ($appraise->getFirstMediaUrl('cover'))
                                 <img class="w-full h-full object-cover transition duration-300 rounded-t-md group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
-                            </div>
-                        @endif
+                            @endif
+                        </div>
 
                         <div class="text-xl font-bold line-clamp-1 p-4 transition duration-300 group-hover:text-primary-500">
                             {{ $appraise->name }}
