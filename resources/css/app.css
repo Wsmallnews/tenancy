@@ -6,7 +6,10 @@
 /* 加载 CMS 样式 */
 @import '../../vendor/wsmallnews/cms/resources/css/index.css';
 
+/* 自定义 infolist */
 @import './filament/sn-grid-table.css';
+/* 自定义 filament 组件样式 */
+@import './filament/sn-filament.css';
 
 /* @import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css'; */
 

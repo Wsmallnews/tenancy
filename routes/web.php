@@ -8,6 +8,8 @@ use App\Livewire\Post;
 use App\Livewire\Appraise;
 use App\Livewire\Personnels;
 use App\Livewire\Personnel;
+use App\Livewire\User\AppraiseApplies;
+use App\Livewire\User\AppraiseApply;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
 use Wsmallnews\Cms\Support\Utils;
@@ -26,7 +28,14 @@ Route::domain(Utils::getConfig('routes.domain'))
 
         Route::get('personnels', Personnels::class)->name('personnels');
         Route::get('personnels/{id}', Personnel::class)->name('personnels.show');
-});
+
+        // 需登录路由
+        Route::middleware('cms-auth:' . Utils::getConfig('guard'))->group(function () {
+            // 个人设置
+            Route::get('user/appraise-applies', AppraiseApplies::class)->name('user.appraise-applies');
+            Route::get('user/appraise-applies/{id}', AppraiseApply::class)->name('user.appraise-applies.show');
+        });
+    });
 
 
 // Route::prefix("tenant/{tenant:slug}")

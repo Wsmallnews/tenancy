@@ -87,6 +87,7 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-appraises', \App\Livewire\Components\Appraises::class);
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
 
+        Livewire::component('sn-components-user-appraise-apply', \App\Livewire\Components\User\AppraiseApply::class);
 
 
 

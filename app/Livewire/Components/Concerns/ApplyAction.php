@@ -17,6 +17,8 @@ trait ApplyAction
 {
     public function applyAction(): CreateAction
     {
+        $this->skipRender();        // 跳过渲染
+
         return CreateAction::make('apply')
             ->label('用种申请')
             ->modalHeading('用种申请')
