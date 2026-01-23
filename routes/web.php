@@ -38,6 +38,30 @@ Route::domain(Utils::getConfig('routes.domain'))
     });
 
 
+Route::get('test', function () {
+    $nhgrc = new \App\Features\Nhgrc\Nhgrc();
+
+    // $result = $nhgrc->getClassifications([
+    //     'parentId' => 1,
+    // ]);
+    // dd($result);
+
+    // $result = $nhgrc->getClassificationDetail([
+    //     'classId' => 1,
+    // ]);
+    // dd($result);
+
+
+    // $result = $nhgrc->getClassificationTree();
+    // dd($result);
+
+    $media = Spatie\MediaLibrary\MediaCollections\Models\Media::find(14);
+    // dd($media->getFullUrl(), $media->getUrl(), $media->getPath());
+    $result = $nhgrc->uploadImage($media);
+    dd($result);
+});
+
+
 // Route::prefix("tenant/{tenant:slug}")
 //     ->name('tenant.')
 //     ->middleware(IdentifyTenant::class)
