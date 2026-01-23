@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
 use BezhanSalleh\FilamentShield\Commands;
@@ -169,79 +168,6 @@ class AppServiceProvider extends ServiceProvider
                 ]
             ],
         ]);
-
-
-        // NavigationType::make()->registers([
-        //     [
-        //         'type' => 'posts',
-        //         'label' => '图文列表',
-        //         'forms' => fn($fields) => [
-        //             // @sn todo 这里需要优化， 明明选了，还是提示字段没填
-        //             Forms\Components\Select::make('category_ids')->label('选择图文分类')
-        //                 ->options(\App\Models\PostCategory::normal()->whereNull('parent_id')->pluck('name', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择图文分类')
-        //                 ->multiple()
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Posts::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'post-detail',
-        //         'label' => '图文详情',
-        //         'forms' => fn($fields) => [
-        //             Forms\Components\Select::make('id')->label('选择图文')
-        //                 ->options(\App\Models\Post::normal()->limit(30)->pluck('title', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择图文详情')
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Post::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'personnels',
-        //         'label' => '人员列表',
-        //         'forms' => fn($fields) => [],
-        //         'components' => [
-        //             \App\Livewire\Components\Personnels::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'personnel-detail',
-        //         'label' => '人员详情',
-        //         'forms' => fn($fields) => [
-        //             Forms\Components\Select::make('id')->label('选择人员')
-        //                 ->options(\App\Models\Personnel::normal()->limit(30)->pluck('name', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择人员详情')
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Personnel::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'appraise-show',
-        //         'label' => '种质资源列表(带分类)',
-        //         'forms' => fn($fields) => [],
-        //         'components' => [
-        //             \App\Livewire\Components\AppraiseShow::class
-        //         ]
-        //     ],
-        // ]);
 
 
 
