@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Appraises;
 use BackedEnum;
 use App\Enums\Appraises\Status;
 use App\Features\Common;
+use App\Features\Nhgrc\Nhgrc;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
@@ -23,6 +24,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
@@ -264,11 +266,23 @@ class AppraiseResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
+                Actions\Action::make('submit')
+                    ->label('提交园艺库')
+                    ->action(function (Model $record) {
+                        $nhgrc = new Nhgrc();
+                        $nhgrc->submitGermplasm($record);
+                    }),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
+                Actions\BulkAction::make('submit')
+                    ->label('提交园艺库')
+                    ->action(function (Collection $records) {
+                        $nhgrc = new Nhgrc();
+                        $nhgrc->batchSubmitGermplasm($records);
+                    }),
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),

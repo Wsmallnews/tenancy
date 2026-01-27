@@ -52,7 +52,7 @@ class Client
             $options['body'] = $body ? json_encode($body, JSON_UNESCAPED_UNICODE) : '{}';
             $options['form_params'] = $form_params;
             $options['query'] = $query;
-            $options['headers'] = array_merge(['Content-Type' => 'application/json'], $defaultHeaders, $headers);
+            $options['headers'] = array_merge($defaultHeaders, $headers);
         }
 
         //发送请求
