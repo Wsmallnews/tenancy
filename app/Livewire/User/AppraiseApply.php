@@ -13,7 +13,7 @@ class AppraiseApply extends Base
     public function render()
     {
         $breadcrumbs = [
-            ['label' => '个人中心', 'url' => CmsUtils::route('index')],
+            ['label' => '个人中心', 'url' => CmsUtils::route('profile')],
             ['label' => '种质申请', 'url' => CmsUtils::route('user.appraise-applies')],
             ['label' => '用种申请详情', 'url' => CmsUtils::route('user.appraise-applies.show', $this->id)],
         ];
