@@ -8,7 +8,7 @@ return [
      */
     'settings' => [
         \App\Settings\AppraiseSettings::class,
-        \App\Settings\GeneralSettings::class,
+        \Wsmallnews\Cms\Settings\GeneralSettings::class,
         \App\Settings\ProjectSettings::class,
     ],
 
@@ -43,9 +43,9 @@ return [
             'connection' => null,
         ],
         'team_database' => [
-            'type' => App\Features\SettingsRepositories\DatabaseSettingsRepository::class,
+            'type' => Wsmallnews\Support\Tenant\Settings\Repositories\DatabaseSettingsRepository::class,
             'model' => null,
-            'table' => 'team_settings',
+            'table' => 'sn_team_settings',
             'connection' => null,
         ],
         'redis' => [
