@@ -87,6 +87,9 @@ class AdminPanelProvider extends PanelProvider
                     ->forResource(PostResource::class)
                         ->navigationGroup('网站管理')
                         ->navigationLabel('图文管理')
+                        ->customProperties([
+                            'table' => fn($table) => \App\Filament\Tables\PostsTable::configure($table)
+                        ])
                     ->forResource(CategoryPage::class)
                         ->navigationGroup('网站管理')
                         ->navigationParentItem('图文管理')
