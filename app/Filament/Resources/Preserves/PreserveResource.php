@@ -20,7 +20,9 @@ class PreserveResource extends Resource
 {
     protected static ?string $model = Preserve::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedArchiveBoxArrowDown;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::ArchiveBoxArrowDown;
 
     protected static ?string $navigationLabel = '保存';
 

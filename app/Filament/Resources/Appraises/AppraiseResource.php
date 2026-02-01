@@ -36,7 +36,9 @@ class AppraiseResource extends Resource
 {
     protected static ?string $model = Appraise::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCircleStack;
+    
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::CircleStack;
 
     protected static ?string $navigationLabel = '评价';
 
