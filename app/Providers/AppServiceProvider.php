@@ -78,7 +78,6 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-index', \App\Livewire\Index::class);
 
         // components
-        Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
         Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
@@ -87,10 +86,12 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
 
         Livewire::component('sn-components-user-appraise-apply', \App\Livewire\Components\User\AppraiseApply::class);
-        
-        Livewire::component('sn-components-index-overview', \App\Livewire\Components\Index\Overview::class);
 
+        // 首页组件
+        Livewire::component('sn-components-index-overview', \App\Livewire\Components\Index\Overview::class);
         Livewire::component('sn-components-index-personnels', \App\Livewire\Components\Index\Personnels::class);
+        Livewire::component('sn-components-index-posts', \App\Livewire\Components\Index\Posts::class);
+        Livewire::component('sn-components-index-scientific-research', \App\Livewire\Components\Index\ScientificResearch::class);
 
 
         // 注册模型别名
