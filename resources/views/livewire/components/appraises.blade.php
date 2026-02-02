@@ -6,7 +6,7 @@
                     <x-dynamic-component component="base.empty-block" tag="div" class="flex flex-row overflow-hidden group bg-white rounded-md">
                         <div class="w-40 aspect-16/9 flex-shrink-0 overflow-hidden">
                             @if ($appraise->getFirstMediaUrl('cover'))
-                                <img class="w-full h-full object-cover transition duration-300 group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
+                                <img class="w-full h-full object-cover transition duration-300 group-hover:scale-110" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
                             @endif
                         </div>
 
@@ -45,7 +45,7 @@
                     <x-dynamic-component component="base.empty-block" tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="w-full flex flex-col overflow-hidden group bg-white rounded-md shadow-md">
                         <div class="aspect-16/9 flex-shrink-0 rounded-t-md overflow-hidden">
                             @if ($appraise->getFirstMediaUrl('cover'))
-                                <img class="w-full h-full object-cover transition duration-300 rounded-t-md group-hover:scale-105" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
+                                <img class="w-full h-full object-cover transition duration-300 rounded-t-md group-hover:scale-110" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
                             @endif
                         </div>
 

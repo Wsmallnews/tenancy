@@ -2,10 +2,15 @@
     use Filament\Support\Icons\Heroicon;
 @endphp
 
-<section class="w-full py-10">
-    <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-slate-900 mb-2">人才储备</h2>
-        <p class="text-slate-600">汇聚行业顶尖人才，打造高水平科研创新团队</p>
+<section class="py-10">
+    <div class="flex flex-col items-center justify-center mb-12">
+        <h2 class="shrink-0 text-3xl md:text-4xl font-bold text-slate-900 relative mb-4">
+            人才储备
+            <span class="absolute bottom-0 left-0 w-full h-1 bg-primary-500 rounded-full transform translate-y-2"></span>
+        </h2>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            汇聚行业顶尖人才，打造高水平科研创新团队
+        </p>
     </div>
 
     <div class="bg-white rounded-md shadow-sm border border-slate-100 overflow-hidden">
@@ -66,12 +71,12 @@
         @endforeach
     </div>
 
-    {{-- <div class="mt-12 text-center">
-        <p class="text-slate-500 mb-6">
+    <div class="mt-8 text-center">
+        {{-- <p class="text-slate-500 mb-6">
             研究所现有高级职称专家45人，博士生导师12人。我们长期诚聘海内外优秀青年学者加入。
-        </p>
-        <a href="#" class="inline-flex items-center text-primary-500 font-bold hover:underline">
-            查看人才招聘计划 &rarr;
+        </p> --}}
+        <a href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels') }}" class="inline-flex items-center text-primary-500 font-medium">
+            查看更多人才信息 &rarr;
         </a>
-    </div> --}}
+    </div>
 </section>
