@@ -15,7 +15,7 @@ return new class extends Migration
             'users',
             'user_type',
             function (Blueprint $table) {
-                $table->string('user_type')->nullable()->after('avatar_url')->comment('用户类型');
+                $table->string('user_type')->nullable()->default('user')->after('avatar_url')->comment('用户类型');
             }
         );
     }

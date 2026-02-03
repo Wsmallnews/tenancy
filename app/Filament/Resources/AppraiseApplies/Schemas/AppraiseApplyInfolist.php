@@ -34,7 +34,7 @@ class AppraiseApplyInfolist
                             ->label('用种单位'),
                         Infolists\Components\TextEntry::make('created_at')
                             ->dateTime()
-                            ->label('创建时间'),
+                            ->label('申请时间'),
                         Infolists\Components\TextEntry::make('updated_at')
                             ->dateTime()
                             ->label('更新时间'),

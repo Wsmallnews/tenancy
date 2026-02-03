@@ -18,6 +18,6 @@ class Appraise extends Base
             ['label' => '种质详情', 'url' => CmsUtils::route('appraises.show', $this->id)],
         ];
 
-        return view('livewire.appraise', compact('breadcrumbs'));
+        return view('livewire.appraise', compact('breadcrumbs'))->layout(CmsUtils::getLayout());
     }
 }

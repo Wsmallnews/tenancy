@@ -12,7 +12,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\IconEntry;
 use App\Enums\Navigations\Status;
 use App\Enums\Navigations\Type as NavigationTypeEnum;
-use App\Features\NavigationType;
 use App\Models\Navigation as NavigationModel;
 use Filament\Facades\Filament;
 use Filament\Forms;

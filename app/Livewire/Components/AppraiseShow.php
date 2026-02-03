@@ -5,8 +5,9 @@ namespace App\Livewire\Components;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Wsmallnews\Cms\Livewire\Components\Base;
 
-class AppraiseShow extends Component
+class AppraiseShow extends Base
 {
     #[Url]
     public string $categoryId = '';

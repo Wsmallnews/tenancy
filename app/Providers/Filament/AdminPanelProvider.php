@@ -28,6 +28,7 @@ use Rmsramos\Activitylog\ActivitylogPlugin;
 use Wsmallnews\Cms\CmsPlugin;
 use Wsmallnews\Cms\Filament\Pages\Navigation;
 use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
+use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 
 class AdminPanelProvider extends PanelProvider
@@ -39,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->authGuard('admin')
             ->colors([
                 // 'primary' => Color::Blue,
                 'primary' => Color::Amber,
@@ -85,10 +87,16 @@ class AdminPanelProvider extends PanelProvider
                     ->forResource(PostResource::class)
                         ->navigationGroup('网站管理')
                         ->navigationLabel('图文管理')
+                        ->customProperties([
+                            'table' => fn($table) => \App\Filament\Tables\PostsTable::configure($table)
+                        ])
                     ->forResource(CategoryPage::class)
                         ->navigationGroup('网站管理')
                         ->navigationParentItem('图文管理')
-                        ->navigationLabel('图文分类'),
+                        ->navigationLabel('图文分类')
+                    ->forResource(GeneralSettingPage::class)
+                        ->navigationGroup('网站管理')
+                        ->navigationLabel('网站设置'),
             ])
             ->navigationGroups([
                 '网站管理',

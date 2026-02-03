@@ -48,10 +48,7 @@
             @endif
         </div>
     @else
-        <x-swiper
-            :images="$images"
-            :hasThumb="false"
-        />
+        <x-sn-support::swiper class="w-full aspect-[16/9]" :slides="$images" :hasThumb="false" />
     @endif
 
 

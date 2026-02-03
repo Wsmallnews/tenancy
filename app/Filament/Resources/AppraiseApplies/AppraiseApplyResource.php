@@ -20,7 +20,9 @@ class AppraiseApplyResource extends Resource
 {
     protected static ?string $model = AppraiseApply::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::DocumentCheck;
 
     protected static ?string $navigationLabel = '用种申请';
 

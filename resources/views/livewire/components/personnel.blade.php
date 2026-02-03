@@ -7,7 +7,7 @@
         <div class="flex flex-col md:flex-row gap-4 bg-gray-100 p-4 rounded-md">
             @if ($personnel->getFirstMediaUrl('avatar'))
                 <div class="w-full md:w-48 flex-shrink-0 rounded-md overflow-hidden">
-                    <img class="w-full h-auto object-cover transition rounded-md duration-300 group-hover:scale-105" src="{{ $personnel->getFirstMediaUrl('avatar') }}" />
+                    <img class="w-full h-auto object-cover transition rounded-md duration-300 hover:scale-110" src="{{ $personnel->getFirstMediaUrl('avatar') }}" />
                 </div>
             @endif
             <div class="flex flex-col gap-2">
