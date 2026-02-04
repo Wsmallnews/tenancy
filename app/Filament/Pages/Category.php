@@ -72,7 +72,7 @@ class Category extends BaseCategoryPage
                     Forms\Components\TextInput::make('name')
                         ->label('分组名称')
                         ->placeholder('请输入字段分组名称')
-                        ->helperText(fn(string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;font-weight: bold">编辑分组名称会导致 评价、编目 等该分组自定义字段值失效</span>') : null)
+                        ->helperText(fn(string $operation): ?HtmlString => $operation == 'edit' ? new HtmlString('<span style="color: #F59E0B;">编辑分组名称会导致 评价、编目 等该分组自定义字段值失效</span>') : null)
                         ->required()
                         ->live(onBlur: true)
                         ->rules([

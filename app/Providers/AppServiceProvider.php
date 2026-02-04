@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
+use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -125,13 +126,60 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         // 注册导航内容
-        ContentRegistryFacade::registers([
+        ContentRegistryFacade::registers(CmsUtils::getScopeType(), [
+            [
+                'type' => 'index-overview',
+                'label' => '统计信息(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Overview::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-personnels',
+                'label' => '人员列表(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Personnels::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-posts',
+                'label' => '动态资讯(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Posts::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-scientific-research',
+                'label' => '科学研究(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\ScientificResearch::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
             [
                 'type' => 'personnels',
                 'label' => '人员列表',
                 'forms' => fn($fields) => [],
                 'components' => [
-                    \App\Livewire\Components\Personnels::class
+                    \App\Livewire\Components\Personnels::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
                 ]
             ],
             [
@@ -148,7 +196,10 @@ class AppServiceProvider extends ServiceProvider
                         ->required(),
                 ],
                 'components' => [
-                    \App\Livewire\Components\Personnel::class
+                    \App\Livewire\Components\Personnel::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
                 ]
             ],
             [
@@ -157,6 +208,8 @@ class AppServiceProvider extends ServiceProvider
                 'forms' => fn($fields) => [],
                 'components' => [
                     \App\Livewire\Components\AppraiseShow::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
                         'style' => 'card',
                     ]
                 ]
@@ -167,6 +220,8 @@ class AppServiceProvider extends ServiceProvider
                 'forms' => fn($fields) => [],
                 'components' => [
                     \App\Livewire\Components\AppraiseShow::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
                         'style' => 'list',
                     ]
                 ]
