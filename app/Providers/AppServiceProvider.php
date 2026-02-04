@@ -150,7 +150,7 @@ class AppServiceProvider extends ServiceProvider
                 ]
             ],
             [
-                'type' => 'index-posts',
+                'type' => 'index-card-posts',
                 'label' => '动态资讯(首页)',
                 'forms' => fn($fields) => [],
                 'components' => [
