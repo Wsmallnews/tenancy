@@ -452,16 +452,16 @@
         },
         {
             "name": "brick/math",
-            "version": "0.14.4",
+            "version": "0.14.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "a8b53e6cc4d3a336543f042a4dfa0e3f2f2356a4"
+                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/a8b53e6cc4d3a336543f042a4dfa0e3f2f2356a4",
-                "reference": "a8b53e6cc4d3a336543f042a4dfa0e3f2f2356a4",
+                "url": "https://api.github.com/repos/brick/math/zipball/618a8077b3c326045e10d5788ed713b341fcfe40",
+                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40",
                 "shasum": ""
             },
             "require": {
@@ -500,7 +500,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.4"
+                "source": "https://github.com/brick/math/tree/0.14.5"
             },
             "funding": [
                 {
@@ -508,7 +508,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-02T16:57:31+00:00"
+            "time": "2026-02-03T18:06:51+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5057,16 +5057,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.1.1",
+            "version": "v4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "c99059c0315591f1a0db7ad6002000288ab8dc72"
+                "reference": "f76b5dc3d6c6d3043c8d937df2698515b99cbaf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/c99059c0315591f1a0db7ad6002000288ab8dc72",
-                "reference": "c99059c0315591f1a0db7ad6002000288ab8dc72",
+                "url": "https://api.github.com/repos/nette/utils/zipball/f76b5dc3d6c6d3043c8d937df2698515b99cbaf5",
+                "reference": "f76b5dc3d6c6d3043c8d937df2698515b99cbaf5",
                 "shasum": ""
             },
             "require": {
@@ -5079,7 +5079,7 @@
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "nette/tester": "^2.5",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "phpstan/phpstan": "^2.0@stable",
                 "tracy/tracy": "^2.9"
             },
             "suggest": {
@@ -5140,9 +5140,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.1.1"
+                "source": "https://github.com/nette/utils/tree/v4.1.2"
             },
-            "time": "2025-12-22T12:14:32+00:00"
+            "time": "2026-02-03T17:21:09+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -11421,16 +11421,16 @@
         },
         {
             "name": "wsmallnews/category",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/category.git",
-                "reference": "3ec8f17e89163be2babb49d3f2fa78089e743d77"
+                "reference": "856f95d9468c4d7de21c258a3e6f1f1c235a3b8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/category/zipball/3ec8f17e89163be2babb49d3f2fa78089e743d77",
-                "reference": "3ec8f17e89163be2babb49d3f2fa78089e743d77",
+                "url": "https://api.github.com/repos/Wsmallnews/category/zipball/856f95d9468c4d7de21c258a3e6f1f1c235a3b8d",
+                "reference": "856f95d9468c4d7de21c258a3e6f1f1c235a3b8d",
                 "shasum": ""
             },
             "require": {
@@ -11496,20 +11496,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-18T15:00:42+00:00"
+            "time": "2026-02-04T15:16:11+00:00"
         },
         {
             "name": "wsmallnews/cms",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/cms.git",
-                "reference": "bc375484117bcad90b0dd9efb2d79ec297deee92"
+                "reference": "ea75763807a5766d51c363c82402317a772355cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/cms/zipball/bc375484117bcad90b0dd9efb2d79ec297deee92",
-                "reference": "bc375484117bcad90b0dd9efb2d79ec297deee92",
+                "url": "https://api.github.com/repos/Wsmallnews/cms/zipball/ea75763807a5766d51c363c82402317a772355cd",
+                "reference": "ea75763807a5766d51c363c82402317a772355cd",
                 "shasum": ""
             },
             "require": {
@@ -11576,7 +11576,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-03T07:21:12+00:00"
+            "time": "2026-02-04T15:15:33+00:00"
         },
         {
             "name": "wsmallnews/filament-nestedset",
@@ -11664,16 +11664,16 @@
         },
         {
             "name": "wsmallnews/support",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/support.git",
-                "reference": "0a186b835f62c0e795313dbc78aed1b3b044f8ac"
+                "reference": "1418a580f20344bb1ab8193927b5aac240442275"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/support/zipball/0a186b835f62c0e795313dbc78aed1b3b044f8ac",
-                "reference": "0a186b835f62c0e795313dbc78aed1b3b044f8ac",
+                "url": "https://api.github.com/repos/Wsmallnews/support/zipball/1418a580f20344bb1ab8193927b5aac240442275",
+                "reference": "1418a580f20344bb1ab8193927b5aac240442275",
                 "shasum": ""
             },
             "require": {
@@ -11750,7 +11750,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-03T08:12:10+00:00"
+            "time": "2026-02-04T10:40:46+00:00"
         },
         {
             "name": "wsmallnews/user",
