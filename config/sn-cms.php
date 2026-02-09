@@ -119,7 +119,8 @@ return [
         'theme' => 'tradition',
 
         // 页面容器
-        'page-container' => 'sn-cms::page-container',
+        'page-container' => 'sn-cms::container.page',
+        
     ],
 
     // 'enums' => [
