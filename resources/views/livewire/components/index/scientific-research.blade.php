@@ -30,17 +30,15 @@
                     @endif
                 </div>
                 <div class="p-6 md:w-3/5 flex flex-col justify-center">
-                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-primary-500 line-clamp-1 transition-colors mb-3">
-                        <x-sn-cms::base.empty tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}">
-                            {{ $post->title }}
-                        </x-sn-cms::base.empty>
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 transition-colors mb-3">
+                        {{ $post->title }}
                     </h3>
                     <p class="text-slate-500 text-sm mb-4 leading-relaxed line-clamp-2">
                         {{ $post->description ?? '暂无描述' }}
                     </p>
-                    <x-sn-cms::base.empty tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="text-sm font-semibold text-primary-400 hover:text-primary-500 uppercase tracking-wide">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="text-sm font-semibold text-primary-400 hover:text-primary-500 uppercase tracking-wide">
                         了解详情 &rarr;
-                    </x-sn-cms::base.empty>
+                    </x-sn-cms::container.block-link>
                 </div>
             </div>
         @endforeach

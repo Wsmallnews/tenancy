@@ -52,20 +52,18 @@
                         @endif
                     </div>
                     
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-primary-500 transition-colors">
-                        <x-sn-cms::base.empty tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}">
-                            {{ $post->title }}  
-                        </x-sn-cms::base.empty>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 line-clamp-2">
+                        {{ $post->title }}  
                     </h3>
                     
                     <p class="text-slate-500 text-sm line-clamp-3 mb-4">
                         {{ $post->description ?? '暂无描述' }}
                     </p>
                     
-                    <x-sn-cms::base.empty tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="inline-flex items-center text-sm font-medium text-primary-400 group-hover:text-primary-500">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="inline-flex items-center text-sm font-medium text-primary-400 hover:text-primary-500">
                         阅读全文 
                         <x-filament::icon :icon="Heroicon::OutlinedChevronRight" class="w-4 h-4 ml-1" />
-                    </x-sn-cms::base.empty>
+                    </x-sn-cms::container.block-link>
                 </div>
             </article>
         @endforeach

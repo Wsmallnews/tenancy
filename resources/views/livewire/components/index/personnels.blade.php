@@ -63,9 +63,9 @@
 
                 <!-- Action -->
                 <div class="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
-                    <x-sn-cms::base.empty tag="a" href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="inline-block px-6 py-2 border border-primary-500 text-primary-600 rounded-full hover:bg-primary-500 hover:text-white transition-all font-medium text-sm">
-                        查看详情    
-                    </x-sn-cms::base.empty>
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="inline-block px-6 py-2 border border-primary-500 text-primary-600 rounded-full hover:bg-primary-500 hover:text-white transition-all font-medium text-sm">
+                        查看详情
+                    </x-sn-cms::container.block-link>
                 </div>
             </div>
         @endforeach

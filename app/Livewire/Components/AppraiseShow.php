@@ -12,10 +12,8 @@ class AppraiseShow extends Base
     #[Url]
     public string $categoryId = '';
 
-    public string $wrapperView = 'base.empty-block';
-
     public string $style = 'card';
-    
+
     #[On('sn-filament-nestedset-leaf-click')]
     public function clickCategory($recordId)
     {

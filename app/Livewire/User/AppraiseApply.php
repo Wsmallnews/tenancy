@@ -2,8 +2,7 @@
 
 namespace App\Livewire\User;
 
-use App\Livewire\Base;
-use App\Models\AppraiseApply as AppraiseApplyModel;
+use Wsmallnews\Cms\Livewire\Base;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class AppraiseApply extends Base

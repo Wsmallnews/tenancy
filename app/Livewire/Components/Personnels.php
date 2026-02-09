@@ -16,10 +16,6 @@ class Personnels extends Component
 
     public Collection $personnels;
 
-    public string $wrapperView = 'base.empty-block';
-
-    public string $itemWrapperView = 'base.block';
-
     public function mount()
     {
         $this->personnels = $this->personnels ?? collect([]);

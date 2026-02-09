@@ -6,4 +6,6 @@
     </div>
 
     {{ $this->appraiseInfolist }}
+
+    <x-filament-actions::modals />
 </div>

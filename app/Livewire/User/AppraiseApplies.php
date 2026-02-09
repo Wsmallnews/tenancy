@@ -2,7 +2,6 @@
 
 namespace App\Livewire\User;
 
-use App\Livewire\Base;
 use App\Enums\AppraiseApplies\Status;
 use App\Models\AppraiseApply as AppraiseApplyModel;
 use Filament\Actions;
@@ -14,8 +13,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Tables\Columns;
-use Illuminate\Http\Request;
 use Livewire\Attributes\Title;
+use Wsmallnews\Cms\Livewire\Base;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class AppraiseApplies extends Base implements HasActions, HasSchemas, HasTable
