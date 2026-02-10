@@ -15,7 +15,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         @foreach($posts as $post)
-            <div class="flex flex-col md:flex-row bg-white rounded-md overflow-hidden group hover:shadow-lg transition-all duration-300 border border-slate-100">
+            <div class="sn-container flex flex-col md:flex-row overflow-hidden group">
                 <div class="md:w-2/5 h-48 md:h-42 overflow-hidden">
                     @if ($post->getFirstMediaUrl('post_image'))
                         <img 

@@ -1,4 +1,4 @@
-<div class="sn-block w-full flex flex-col gap-4 p-4">
+<div class="sn-container w-full flex flex-col gap-4 p-4">
     <div class="text-xl font-bold">
         {{ $personnel->name }}
     </div>

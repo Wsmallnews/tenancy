@@ -13,7 +13,7 @@
         </p>
     </div>
 
-    <div class="bg-white rounded-md shadow-sm border border-slate-100 overflow-hidden">
+    <div class="sn-container overflow-hidden">
         @foreach ($personnels as $index => $personnel)
             <div class="flex flex-col md:flex-row items-center p-6 md:p-8 hover:bg-primary-100/30 transition-colors duration-300 {{ $index !== $personnels->count() - 1 ? 'border-b border-slate-100' : '' }}">
                 <!-- Avatar -->

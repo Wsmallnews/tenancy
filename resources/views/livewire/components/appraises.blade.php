@@ -3,7 +3,7 @@
         <x-sn-support::paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <div class="w-full flex flex-col gap-4">
                 @foreach ($appraises as $appraise)
-                    <div class="sn-block flex flex-row overflow-hidden group">
+                    <div class="sn-container flex flex-row overflow-hidden group">
                         <div class="w-40 aspect-video shrink-0 overflow-hidden">
                             @if ($appraise->getFirstMediaUrl('cover'))
                                 <img class="w-full h-full object-cover transition duration-300 group-hover:scale-110" src="{{ $appraise->getFirstMediaUrl('cover') }}" />
@@ -42,7 +42,7 @@
         <x-sn-support::paginators.container :page-type="$pageType" class="@container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @5xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
                 @foreach ($appraises as $appraise)
-                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="sn-block w-full flex flex-col overflow-hidden group">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}" class="sn-container w-full flex flex-col overflow-hidden group">
                         <div class="aspect-video shrink-0 rounded-t-md overflow-hidden">
                             @if ($appraise->getFirstMediaUrl('cover'))
                                 <img class="w-full h-full object-cover transition duration-300 rounded-t-md group-hover:scale-110" src="{{ $appraise->getFirstMediaUrl('cover') }}" />

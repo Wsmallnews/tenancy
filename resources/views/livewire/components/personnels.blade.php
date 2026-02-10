@@ -1,14 +1,14 @@
 <x-sn-support::paginators.container :page-type="$pageType" class="w-full @container" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
     <div class="w-full grid grid-cols-1 @3xl:grid-cols-2 @7xl:grid-cols-3 gap-4">
         @foreach ($personnels as $personnel)
-            <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="sn-block w-full flex flex-row gap-4 p-4 overflow-hidden group">
+            <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="sn-container w-full flex flex-row gap-4 p-4 overflow-hidden group">
                 @if ($personnel->getFirstMediaUrl('avatar'))
-                    <div class="w-36 aspect-5/7 flex-shrink-0 rounded-md overflow-hidden">
+                    <div class="w-36 aspect-5/7 shrink-0 rounded-md overflow-hidden">
                         <img class="object-cover transition duration-300 rounded-md group-hover:scale-110" src="{{ $personnel->getFirstMediaUrl('avatar') }}" />
                     </div>
                 @endif
 
-                <div class="flex flex-col flex-grow py-4 pr-4 gap-4">
+                <div class="flex flex-col grow py-4 pr-4 gap-4">
                     <div class="text-xl font-bold line-clamp-1 transition duration-300 group-hover:text-primary-500">
                         {{ $personnel->name }}
                     </div>
