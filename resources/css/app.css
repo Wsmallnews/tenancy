@@ -22,7 +22,7 @@
 /* @import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css'; */
 
 /* 支持 暗黑变体 (类似 hover:) */
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:is(.dark *));
 
 @source '../../app/Livewire/**/*';
 @source '../../app/Features/**/*';
