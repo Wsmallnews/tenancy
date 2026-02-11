@@ -14,11 +14,11 @@
         @endif
 
         <div class="w-full flex flex-col md:flex-row items-start gap-4">
-            <div class="w-full md:w-72" >
+            <div class="w-full md:w-72">
                 <livewire:sn-cms-components-user-profile-menu />
             </div>
 
-            <div class="w-full">
+            <div class="sn-container w-full grow-0 overflow-hidden">
                 {{ $this->table }}
             </div>
         </div>

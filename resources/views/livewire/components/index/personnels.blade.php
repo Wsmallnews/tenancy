@@ -13,14 +13,14 @@
         </p>
     </div>
 
-    <div class="sn-container overflow-hidden">
+    <div class="sn-container sn-hover overflow-hidden">
         @foreach ($personnels as $index => $personnel)
-            <div class="flex flex-col md:flex-row items-center p-6 md:p-8 hover:bg-primary-100/30 transition-colors duration-300 {{ $index !== $personnels->count() - 1 ? 'border-b border-slate-100' : '' }}">
+            <div class="sn-link flex flex-col md:flex-row items-center p-6 md:p-8 {{ $index !== $personnels->count() - 1 ? 'border-b border-slate-100' : '' }}">
                 <!-- Avatar -->
                 <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-8">
                     <div class="relative">
                         <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-slate-50">
-                            @if (!$personnel->getFirstMediaUrl('avatar'))
+                            @if ($personnel->getFirstMediaUrl('avatar'))
                                 <img src="{{ $personnel->getFirstMediaUrl('avatar') }}" alt="{{ $personnel->name }}" class="w-full h-full object-cover" />
                             @else
                                 <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">

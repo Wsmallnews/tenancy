@@ -15,7 +15,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach($posts as $post)
-            <article class="sn-container overflow-hidden group">
+            <article class="sn-container sn-hover sn-link overflow-hidden group">
                 <div class="relative h-48 overflow-hidden">
                     @if ($post->getFirstMediaUrl('post_image'))
                         <img 
