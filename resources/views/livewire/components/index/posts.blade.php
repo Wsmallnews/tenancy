@@ -4,11 +4,11 @@
 
 <section class="py-10">
     <div class="flex flex-col items-center justify-center mb-12">
-        <h2 class="shrink-0 text-3xl md:text-4xl font-bold text-slate-900 relative mb-4">
+        <h1 class="sn-h1-text shrink-0 relative mb-4">
             动态资讯
-            <span class="absolute bottom-0 left-0 w-full h-1 bg-primary-500 rounded-full transform translate-y-2"></span>
-        </h2>
-        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            <span class="sn-primary-bg absolute bottom-0 left-0 w-full h-1 rounded-full transform translate-y-2"></span>
+        </h1>
+        <p class="sn-content-text max-w-3xl mx-auto">
             种质资源库启动，为农业发展注入核心“芯片”，守护生物多样性
         </p>
     </div>
@@ -31,7 +31,7 @@
                     
                     @if($post->categories->count() > 0)
                         <div class="absolute top-4 left-4">
-                            <span class="px-3 py-1 bg-primary-500 text-white text-xs font-bold rounded-full">
+                            <span class="sn-primary-bg px-3 py-1 text-white text-xs font-bold rounded-full">
                                 {{ $post->categories->first()->name }}
                             </span>
                         </div>
@@ -39,28 +39,28 @@
                 </div>
                 
                 <div class="p-6">
-                    <div class="flex items-center gap-4 text-xs text-slate-400 mb-3">
+                    <div class="sn-tip-text flex items-center gap-4 mb-3">
                         <div class="flex items-center gap-1">
-                            <x-filament::icon :icon="Heroicon::OutlinedCalendarDays" class="w-4 h-4 text-gray-400" />
+                            <x-filament::icon :icon="Heroicon::OutlinedCalendarDays" class="w-4 h-4" />
                             {{ $post->published_at ? $post->published_at->format('Y-m-d') : $post->created_at->format('Y-m-d') }}
                         </div>
                         @if($post->categories->count() > 0)
                             <div class="flex items-center gap-1">
-                                <x-filament::icon :icon="Heroicon::OutlinedTag" class="w-4 h-4 text-gray-400" />
+                                <x-filament::icon :icon="Heroicon::OutlinedTag" class="w-4 h-4" />
                                 {{ $post->categories->first()->name }}
                             </div>
                         @endif
                     </div>
-                    
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 line-clamp-2">
-                        {{ $post->title }}  
+
+                    <h3 class="sn-h3-text sn-hover mb-3 line-clamp-2">
+                        {{ $post->title }}
                     </h3>
-                    
-                    <p class="text-slate-500 text-sm line-clamp-3 mb-4">
+
+                    <p class="sn-descript-text line-clamp-3 mb-4">
                         {{ $post->description ?? '暂无描述' }}
                     </p>
                     
-                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="inline-flex items-center text-sm font-medium text-primary-400 hover:text-primary-500">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="sn-primary-text inline-flex items-center text-sm font-medium">
                         阅读全文 
                         <x-filament::icon :icon="Heroicon::OutlinedChevronRight" class="w-4 h-4 ml-1" />
                     </x-sn-cms::container.block-link>

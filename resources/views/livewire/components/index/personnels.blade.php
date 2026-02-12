@@ -4,20 +4,20 @@
 
 <section class="py-10">
     <div class="flex flex-col items-center justify-center mb-12">
-        <h2 class="shrink-0 text-3xl md:text-4xl font-bold text-slate-900 relative mb-4">
+        <h1 class="sn-h1-text shrink-0 relative mb-4">
             人才储备
-            <span class="absolute bottom-0 left-0 w-full h-1 bg-primary-500 rounded-full transform translate-y-2"></span>
-        </h2>
-        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            <span class="sn-primary-bg absolute bottom-0 left-0 w-full h-1 rounded-full transform translate-y-2"></span>
+        </h1>
+        <p class="sn-content-text max-w-3xl mx-auto">
             汇聚行业顶尖人才，打造高水平科研创新团队
         </p>
     </div>
 
-    <div class="sn-container sn-hover overflow-hidden">
+    <div class="sn-container sn-hover sn-divide-y overflow-hidden">
         @foreach ($personnels as $index => $personnel)
-            <div class="sn-link flex flex-col md:flex-row items-center p-6 md:p-8 {{ $index !== $personnels->count() - 1 ? 'border-b border-slate-100' : '' }}">
+            <div class="sn-link flex flex-col md:flex-row items-center p-6 md:p-8">
                 <!-- Avatar -->
-                <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-8">
+                <div class="shrink-0 mb-4 md:mb-0 md:mr-8">
                     <div class="relative">
                         <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-slate-50">
                             @if ($personnel->getFirstMediaUrl('avatar'))
@@ -28,18 +28,18 @@
                                 </div>
                             @endif
                         </div>
-                        <div class="absolute bottom-1 right-1 bg-primary-500 text-white p-1.5 rounded-full shadow-md">
+                        <div class="sn-primary-bg absolute bottom-1 right-1 text-white p-1.5 rounded-full shadow-md">
                             <x-filament::icon :icon="Heroicon::OutlinedCheckCircle" class="w-4 h-4" />
                         </div>
                     </div>
                 </div>
 
                 <!-- Info -->
-                <div class="flex-grow text-center md:text-left space-y-3">
+                <div class="grow text-center md:text-left space-y-3">
                     <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 mb-2">
-                        <h3 class="text-2xl font-bold text-slate-900">{{ $personnel->name }}</h3>
+                        <h2 class="sn-h2-text">{{ $personnel->name }}</h2>
                         @if ($personnel->professional_title)
-                            <span class="px-3 py-1 bg-primary-100 text-primary-500 text-sm font-semibold rounded-full">
+                            <span class="sn-primary-text px-3 py-1 bg-primary-100 text-sm rounded-full">
                                 {{ $personnel->professional_title }}
                             </span>
                         @endif
@@ -49,20 +49,20 @@
                         @if ($personnel->qualification)
                             <div class="flex items-center justify-center md:justify-start gap-2">
                                 <x-filament::icon :icon="Heroicon::OutlinedBookOpen" class="w-5 h-5 shrink-0 text-primary-500" />
-                                <span class="text-sm font-medium">学历：{{ $personnel->qualification }}</span>
+                                <span class="sn-descript-text">学历：{{ $personnel->qualification }}</span>
                             </div>
                         @endif
                         @if ($personnel->research_focus)
                             <div class="flex items-center justify-center md:justify-start gap-2">
                                 <x-filament::icon :icon="Heroicon::OutlinedAcademicCap" class="w-5 h-5 shrink-0 text-primary-500" />
-                                <span class="text-sm font-medium">研究方向：{{ $personnel->research_focus }}</span>
+                                <span class="sn-descript-text">研究方向：{{ $personnel->research_focus }}</span>
                             </div>
                         @endif
                     </div>
                 </div>
 
                 <!-- Action -->
-                <div class="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
+                <div class="mt-4 md:mt-0 md:ml-6 shrink-0">
                     <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('personnels.show', $personnel->id) }}" class="inline-block px-6 py-2 border border-primary-500 text-primary-600 rounded-full hover:bg-primary-500 hover:text-white transition-all font-medium text-sm">
                         查看详情
                     </x-sn-cms::container.block-link>
