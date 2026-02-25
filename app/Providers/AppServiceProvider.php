@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -21,6 +22,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\User\Facades\SidebarMenuRegistry as SidebarMenuRegistryFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -225,6 +227,20 @@ class AppServiceProvider extends ServiceProvider
             ],
         ]);
 
+        // 注册用户侧边栏菜单
+        $pluginId = app(\Wsmallnews\Cms\CmsPlugin::class)->getId();
+        SidebarMenuRegistryFacade::register($pluginId, fn() => [
+            'key' => 'appraise-applies',
+            'label' => '种质申请',
+            'url' => \Wsmallnews\Cms\Support\Utils::route('user.appraise-applies'),
+            'icon' => Heroicon::OutlinedUserGroup,
+        ])->registerSortBy($pluginId, [
+            '个人中心',
+            '种质申请',
+            '修改资料',
+            '修改密码',
+            '双因素认证',
+        ]);
 
 
         Table::configureUsing(fn(Table $table) => $table->defaultCurrency('CNY'));
