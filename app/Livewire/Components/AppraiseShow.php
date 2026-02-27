@@ -14,12 +14,6 @@ class AppraiseShow extends Base
 
     public string $style = 'card';
 
-    #[On('sn-filament-nestedset-leaf-click')]
-    public function clickCategory($recordId)
-    {
-        $this->categoryId = $recordId;
-    }
-
     public function render()
     {
         return view('livewire.components.appraise-show', []);
