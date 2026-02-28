@@ -6,6 +6,8 @@ use App\Http\Middleware\CheckTenant;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -41,6 +43,16 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->authGuard('admin')
+            ->profile()
+            // ->multiFactorAuthentication([        // 设置双因素认证
+            //         AppAuthentication::make()
+            //             ->recoverable()
+            //             ->recoveryCodeCount(10),
+            //         EmailAuthentication::make()
+            //             ->codeExpiryMinutes(2),
+            //     ],
+            //     isRequired: false
+            // )
             ->colors([
                 // 'primary' => Color::Blue,
                 'primary' => Color::Amber,
@@ -118,14 +130,14 @@ class AdminPanelProvider extends PanelProvider
             // ->tenantDomain('{tenant:slug}.tenancy.test')
             ->tenantRoutePrefix('tenant')
             // ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
-            ->tenantMenuItems([
-                'profile' => MenuItem::make()->label('Edit 团队 profile')->url(fn(): string => 'https://www.taobao.com'),
-                MenuItem::make()
-                    ->label('Settings')
-                    ->url(fn(): string => 'https://www.baidu.com')
-                    ->icon('heroicon-m-cog-8-tooth'),
-                // ...
-            ])
+            // ->tenantMenuItems([
+            //     'profile' => MenuItem::make()->label('Edit 团队 profile')->url(fn(): string => 'https://www.taobao.com'),
+            //     MenuItem::make()
+            //         ->label('Settings')
+            //         ->url(fn(): string => 'https://www.baidu.com')
+            //         ->icon('heroicon-m-cog-8-tooth'),
+            //     // ...
+            // ])
             ->tenantMiddleware([
                 SyncShieldTenant::class,
                 CheckTenant::class,
