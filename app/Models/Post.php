@@ -28,6 +28,7 @@ class Post extends Base implements HasMedia
         // 'category_ids' => 'array',
         'status' => Status::class,
         'options' => 'array',
+        'published_at' => 'datetime',
     ];
 
 

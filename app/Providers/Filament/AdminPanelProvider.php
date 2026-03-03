@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\AdminLogin;
 use App\Http\Middleware\CheckTenant;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -39,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(AdminLogin::class)
             ->authGuard('admin')
             ->colors([
                 // 'primary' => Color::Blue,
@@ -131,6 +132,10 @@ class AdminPanelProvider extends PanelProvider
                 CheckTenant::class,
             ], isPersistent: true)
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->spa();
+            ->spa()
+            ->spaUrlExceptions([
+                '/sso/redirect',
+                '/sso/callback',
+            ]);
     }
 }

@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'sso' => [
+        'base_url' => env('SSO_BASE_URL', 'http://10.0.0.40:8091'),
+        'client_id' => env('SSO_CLIENT_ID', 'resourcedb'),
+        'client_secret' => env('SSO_CLIENT_SECRET', ''),
+        'redirect' => env('SSO_REDIRECT_URI', env('APP_URL') . '/sso/callback'),
+        'api_key' => env('SSO_API_KEY', ''),
+    ],
+
 ];

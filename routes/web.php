@@ -12,9 +12,16 @@ use App\Livewire\User\AppraiseApplies;
 use App\Livewire\User\AppraiseApply;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
+use App\Http\Controllers\SsoCallbackController;
 use Wsmallnews\Cms\Support\Utils;
 use Wsmallnews\Support\Http\Middleware\IdentifyTenant;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
+
+// SSO routes (T042) - need session middleware for OAuth state verification
+Route::middleware(['web'])->group(function () {
+    Route::get('/sso/redirect', [SsoCallbackController::class, 'redirect'])->name('sso.redirect');
+    Route::get('/sso/callback', [SsoCallbackController::class, 'callback'])->name('sso.callback');
+});
 
 $middlewares = Utils::getConfig('routes.middleware') ?? [];
 SupportUtils::isTenancyEnabled() && array_unshift($middlewares, IdentifyTenant::class);

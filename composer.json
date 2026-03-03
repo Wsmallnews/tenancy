@@ -16,6 +16,7 @@
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^12.0",
         "laravel/nightwatch": "^1.11",
+        "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.10.1",
         "malzariey/filament-daterangepicker-filter": "^4.0",
         "overtrue/laravel-pinyin": "^5.2",

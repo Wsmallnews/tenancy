@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 use Livewire\Livewire;
 use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
@@ -37,6 +38,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register custom SSO Socialite provider
+        $socialite = $this->app->make(SocialiteFactory::class);
+        $socialite->extend('sso', function ($app) use ($socialite) {
+            $config = $app['config']['services.sso'];
+            return $socialite->buildProvider(
+                \App\Services\SsoProvider::class,
+                $config
+            );
+        });
+
         app(\Spatie\Permission\PermissionRegistrar::class)
             ->setPermissionClass(Permission::class)
             ->setRoleClass(Role::class);
