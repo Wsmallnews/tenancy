@@ -19,7 +19,7 @@ return [
         'content' => Models\Content::class,
         'navigation' => Models\Navigation::class,
         'navigation_type' => Models\NavigationType::class,
-        'post' => Models\Post::class,
+        'post' => \App\Models\Cms\Post::class,
     ],
 
     /**

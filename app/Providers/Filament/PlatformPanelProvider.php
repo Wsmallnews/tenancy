@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\PlatformLogin;
 use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use App\Filament\Platform\Pages\Backup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -35,7 +36,7 @@ class PlatformPanelProvider extends PanelProvider
         return $panel
             ->id('platform')
             ->path('platform')
-            ->login()
+            ->login(PlatformLogin::class)
             ->authGuard('platform')
             ->profile()
             // ->multiFactorAuthentication([        // 设置双因素认证
@@ -97,6 +98,10 @@ class PlatformPanelProvider extends PanelProvider
             ->collapsedSidebarWidth('8rem')     // 折叠侧边栏时的宽度（这个没效果啊）
             ->databaseTransactions()
             ->viteTheme('resources/css/filament/platform/theme.css')
-            ->spa();
+            ->spa()
+            ->spaUrlExceptions([
+                '/sso/redirect',
+                '/sso/callback',
+            ]);
     }
 }
