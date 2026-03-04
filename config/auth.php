@@ -36,7 +36,11 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'web' => [          // 用户登录
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'admin' => [        // 租户登录
             'driver' => 'session',
             'provider' => 'users',
         ],

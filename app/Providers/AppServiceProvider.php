@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Features\NavigationType;
 use App\Models\Permission;
 use App\Models\Role;
 use BezhanSalleh\FilamentShield\Commands;
@@ -14,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
+use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\User\Facades\SidebarMenuRegistry as SidebarMenuRegistryFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -79,7 +81,6 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-index', \App\Livewire\Index::class);
 
         // components
-        Livewire::component('sn-components-index-posts', \App\Livewire\Components\IndexPosts::class);
         Livewire::component('sn-components-personnels', \App\Livewire\Components\Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
@@ -87,7 +88,13 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-appraises', \App\Livewire\Components\Appraises::class);
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
 
+        Livewire::component('sn-components-user-appraise-apply', \App\Livewire\Components\User\AppraiseApply::class);
 
+        // 首页组件
+        Livewire::component('sn-components-index-overview', \App\Livewire\Components\Index\Overview::class);
+        Livewire::component('sn-components-index-personnels', \App\Livewire\Components\Index\Personnels::class);
+        Livewire::component('sn-components-index-posts', \App\Livewire\Components\Index\Posts::class);
+        Livewire::component('sn-components-index-scientific-research', \App\Livewire\Components\Index\ScientificResearch::class);
 
 
         // 注册模型别名
@@ -102,14 +109,11 @@ class AppServiceProvider extends ServiceProvider
             'catalog' => \App\Models\Catalog::class,
             'company' => \App\Models\Company::class,
             'content' => \App\Models\Content::class,
-            // 'navigation' => \App\Models\Navigation::class,
             'new_variety' => \App\Models\NewVariety::class,
             'patent' => \App\Models\Patent::class,
             'patent_type' => \App\Models\PatentType::class,
             'personnel' => \App\Models\Personnel::class,
             'phenotype_identify' => \App\Models\PhenotypeIdentify::class,
-            // 'post' => \App\Models\Post::class,
-            // 'post_category' => \App\Models\PostCategory::class,
             'preserve' => \App\Models\Preserve::class,
             'project_manage' => \App\Models\ProjectManage::class,
             'role' => \App\Models\Role::class,
@@ -121,13 +125,60 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         // 注册导航内容
-        ContentRegistryFacade::registers([
+        ContentRegistryFacade::registers(CmsUtils::getScopeType(), [
+            [
+                'type' => 'index-overview',
+                'label' => '统计信息(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Overview::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-personnels',
+                'label' => '人员列表(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Personnels::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-card-posts',
+                'label' => '动态资讯(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\Posts::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'index-scientific-research',
+                'label' => '科学研究(首页)',
+                'forms' => fn($fields) => [],
+                'components' => [
+                    \App\Livewire\Components\Index\ScientificResearch::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
+                ]
+            ],
             [
                 'type' => 'personnels',
                 'label' => '人员列表',
                 'forms' => fn($fields) => [],
                 'components' => [
-                    \App\Livewire\Components\Personnels::class
+                    \App\Livewire\Components\Personnels::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
                 ]
             ],
             [
@@ -144,7 +195,10 @@ class AppServiceProvider extends ServiceProvider
                         ->required(),
                 ],
                 'components' => [
-                    \App\Livewire\Components\Personnel::class
+                    \App\Livewire\Components\Personnel::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
+                    ],
                 ]
             ],
             [
@@ -153,6 +207,8 @@ class AppServiceProvider extends ServiceProvider
                 'forms' => fn($fields) => [],
                 'components' => [
                     \App\Livewire\Components\AppraiseShow::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
                         'style' => 'card',
                     ]
                 ]
@@ -163,85 +219,28 @@ class AppServiceProvider extends ServiceProvider
                 'forms' => fn($fields) => [],
                 'components' => [
                     \App\Livewire\Components\AppraiseShow::class => [
+                        'scopeType' => CmsUtils::getScopeType(),
+                        'scopeId' => CmsUtils::getScopeId(),
                         'style' => 'list',
                     ]
                 ]
             ],
         ]);
 
-
-        // NavigationType::make()->registers([
-        //     [
-        //         'type' => 'posts',
-        //         'label' => '图文列表',
-        //         'forms' => fn($fields) => [
-        //             // @sn todo 这里需要优化， 明明选了，还是提示字段没填
-        //             Forms\Components\Select::make('category_ids')->label('选择图文分类')
-        //                 ->options(\App\Models\PostCategory::normal()->whereNull('parent_id')->pluck('name', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\PostCategory::whereNull('parent_id')->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择图文分类')
-        //                 ->multiple()
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Posts::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'post-detail',
-        //         'label' => '图文详情',
-        //         'forms' => fn($fields) => [
-        //             Forms\Components\Select::make('id')->label('选择图文')
-        //                 ->options(\App\Models\Post::normal()->limit(30)->pluck('title', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Post::where('title', 'like', "%{$search}%")->limit(30)->pluck('title', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择图文详情')
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Post::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'personnels',
-        //         'label' => '人员列表',
-        //         'forms' => fn($fields) => [],
-        //         'components' => [
-        //             \App\Livewire\Components\Personnels::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'personnel-detail',
-        //         'label' => '人员详情',
-        //         'forms' => fn($fields) => [
-        //             Forms\Components\Select::make('id')->label('选择人员')
-        //                 ->options(\App\Models\Personnel::normal()->limit(30)->pluck('name', 'id'))
-        //                 ->getSearchResultsUsing(fn(string $search): array => \App\Models\Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
-        //                 // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
-        //                 ->placeholder('请选择人员详情')
-        //                 ->searchable()
-        //                 ->preload()
-        //                 ->required(),
-        //         ],
-        //         'components' => [
-        //             \App\Livewire\Components\Personnel::class
-        //         ]
-        //     ],
-        //     [
-        //         'type' => 'appraise-show',
-        //         'label' => '种质资源列表(带分类)',
-        //         'forms' => fn($fields) => [],
-        //         'components' => [
-        //             \App\Livewire\Components\AppraiseShow::class
-        //         ]
-        //     ],
-        // ]);
-
+        // 注册用户侧边栏菜单
+        $pluginId = app(\Wsmallnews\Cms\CmsPlugin::class)->getId();
+        SidebarMenuRegistryFacade::register($pluginId, fn() => [
+            'key' => 'appraise-applies',
+            'label' => '种质申请',
+            'url' => \Wsmallnews\Cms\Support\Utils::route('user.appraise-applies'),
+            'icon' => Heroicon::OutlinedUserGroup,
+        ])->registerSortBy($pluginId, [
+            '个人中心',
+            '种质申请',
+            '修改资料',
+            '修改密码',
+            '双因素认证',
+        ]);
 
 
         Table::configureUsing(fn(Table $table) => $table->defaultCurrency('CNY'));

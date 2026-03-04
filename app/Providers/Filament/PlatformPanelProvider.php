@@ -6,6 +6,8 @@ use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use App\Filament\Platform\Pages\Backup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -35,6 +37,16 @@ class PlatformPanelProvider extends PanelProvider
             ->path('platform')
             ->login()
             ->authGuard('platform')
+            ->profile()
+            // ->multiFactorAuthentication([        // 设置双因素认证
+            //         AppAuthentication::make()
+            //             ->recoverable()
+            //             ->recoveryCodeCount(10),
+            //         EmailAuthentication::make()
+            //             ->codeExpiryMinutes(2),
+            //     ],
+            //     isRequired: false
+            // )
             ->colors([
                 'primary' => Color::Amber,
             ])

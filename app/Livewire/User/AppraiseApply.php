@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Livewire\User;
+
+use Wsmallnews\Cms\Livewire\Base;
+use Wsmallnews\Cms\Support\Utils as CmsUtils;
+
+class AppraiseApply extends Base
+{
+    public int $id;
+    
+    public function render()
+    {
+        $breadcrumbs = [
+            ['label' => '个人中心', 'url' => CmsUtils::route('profile')],
+            ['label' => '种质申请', 'url' => CmsUtils::route('user.appraise-applies')],
+            ['label' => '用种申请详情', 'url' => CmsUtils::route('user.appraise-applies.show', $this->id)],
+        ];
+
+        return view('livewire.user.appraise-apply', compact('breadcrumbs'))->layout(CmsUtils::getLayout());
+    }
+}

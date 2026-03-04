@@ -10,8 +10,6 @@ class Personnel extends Component
 {
     public int $id;
 
-    public string $wrapperView = 'base.block';
-
     public function render()
     {
         $personnel = PersonnelModel::query()->scopeTenant()->normal()->with(['media', 'content'])->findOrFail($this->id);

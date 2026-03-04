@@ -2,8 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Personnel as PersonnelModel;
-use Livewire\Attributes\Url;
+use Wsmallnews\Cms\Livewire\Base;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class Personnel extends Base
@@ -20,6 +19,6 @@ class Personnel extends Base
 
         return view('livewire.personnel', [
             'breadcrumbs' => $breadcrumbs,
-        ]);
+        ])->layout(CmsUtils::getLayout());
     }
 }

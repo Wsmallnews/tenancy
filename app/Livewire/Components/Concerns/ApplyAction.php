@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components\Concerns;
 
+use App\Enums\AppraiseApplies\Status;
 use App\Features\Common;
 use App\Models\Appraise as AppraiseModel;
 use App\Models\AppraiseApply;
@@ -10,11 +11,14 @@ use Filament\Forms;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Support\Enums\Width;
+use Wsmallnews\Cms\Support\Utils;
 
 trait ApplyAction
 {
     public function applyAction(): CreateAction
     {
+        $this->skipRender();        // 跳过渲染
+
         return CreateAction::make('apply')
             ->label('用种申请')
             ->modalHeading('用种申请')
@@ -59,7 +63,7 @@ trait ApplyAction
                     Forms\Components\TextInput::make('company_name')
                         ->label('用种单位')
                         ->required(),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('申请单')
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('apply_file')->label('申请单')
                         ->helperText('上传申请单')
                         ->collection('apply_file')
                         ->required()
@@ -71,12 +75,14 @@ trait ApplyAction
                 ];
             })
             ->mutateDataUsing(function (array $data, array $arguments): array {
-                // $data['user_id'] = auth()->id();                     // @sn todo 这里填充用户信息
+                $data['user_id'] = auth()->guard(Utils::getConfig('guard', 'web'))->id();
                 $data['appraise_id'] = $arguments['appraise_id'];
                 $data['team_id'] = current_tenant()?->id;
+                $data['status'] = Status::Applying;
                 return $data;
             })
             ->model(AppraiseApply::class)       // 当前保存主表模型
+            ->visible(auth()->guard(Utils::getConfig('guard', 'web'))->check())
             ->stickyModalHeader()
             ->stickyModalFooter()
             ->modalWidth(Width::ThreeExtraLarge);
