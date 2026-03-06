@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3395ca94b9b06d54dfa0535f938f75d",
+    "content-hash": "a5d9931dde37bed456447a33038e59db",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3827,16 +3827,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.8.0",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "4efa10c1e56488e658d10adf7b7b7dcd19940bfb"
+                "reference": "84b1ca48347efdbe775426f108622a42735a6579"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/4efa10c1e56488e658d10adf7b7b7dcd19940bfb",
-                "reference": "4efa10c1e56488e658d10adf7b7b7dcd19940bfb",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/84b1ca48347efdbe775426f108622a42735a6579",
+                "reference": "84b1ca48347efdbe775426f108622a42735a6579",
                 "shasum": ""
             },
             "require": {
@@ -3861,9 +3861,9 @@
                 "phpstan/phpstan": "^1.8.2",
                 "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0",
                 "scrutinizer/ocular": "^1.8.1",
-                "symfony/finder": "^5.3 | ^6.0 | ^7.0",
-                "symfony/process": "^5.4 | ^6.0 | ^7.0",
-                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0 | ^7.0",
+                "symfony/finder": "^5.3 | ^6.0 | ^7.0 || ^8.0",
+                "symfony/process": "^5.4 | ^6.0 | ^7.0 || ^8.0",
+                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0 | ^7.0 || ^8.0",
                 "unleashedtech/php-coding-standard": "^3.1.1",
                 "vimeo/psalm": "^4.24.0 || ^5.0.0 || ^6.0.0"
             },
@@ -3930,7 +3930,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-26T21:48:24+00:00"
+            "time": "2026-03-05T21:37:03+00:00"
         },
         {
             "name": "league/config",
@@ -11798,17 +11798,11 @@
         },
         {
             "name": "wsmallnews/category",
-            "version": "v1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wsmallnews/category.git",
-                "reference": "da8c8d75c04286c0e24475fb155f2ab20c5578d2"
-            },
+            "version": "1.x-dev",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/category/zipball/da8c8d75c04286c0e24475fb155f2ab20c5578d2",
-                "reference": "da8c8d75c04286c0e24475fb155f2ab20c5578d2",
-                "shasum": ""
+                "type": "path",
+                "url": "./addons/category",
+                "reference": "da8c8d75c04286c0e24475fb155f2ab20c5578d2"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -11831,12 +11825,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "aliases": {
-                        "Category": "Wsmallnews\\Category\\Facades\\Category"
-                    },
                     "providers": [
                         "Wsmallnews\\Category\\CategoryServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "Category": "Wsmallnews\\Category\\Facades\\Category"
+                    }
                 }
             },
             "autoload": {
@@ -11845,7 +11839,25 @@
                     "Wsmallnews\\Category\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsmallnews\\Category\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -11867,27 +11879,17 @@
                 "issues": "https://github.com/wsmallnews/category/issues",
                 "source": "https://github.com/wsmallnews/category"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/Wsmallnews",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-27T02:51:31+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "wsmallnews/cms",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wsmallnews/cms.git",
-                "reference": "168cbb1f3db931ffcdf29d0f911b745c1e84743e"
-            },
+            "version": "1.x-dev",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/cms/zipball/168cbb1f3db931ffcdf29d0f911b745c1e84743e",
-                "reference": "168cbb1f3db931ffcdf29d0f911b745c1e84743e",
-                "shasum": ""
+                "type": "path",
+                "url": "./addons/cms",
+                "reference": "168cbb1f3db931ffcdf29d0f911b745c1e84743e"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -11911,12 +11913,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "aliases": {
-                        "Cms": "Wsmallnews\\Cms\\Facades\\Cms"
-                    },
                     "providers": [
                         "Wsmallnews\\Cms\\CmsServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "Cms": "Wsmallnews\\Cms\\Facades\\Cms"
+                    }
                 }
             },
             "autoload": {
@@ -11925,7 +11927,28 @@
                     "Wsmallnews\\Cms\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsmallnews\\Cms\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -11947,13 +11970,9 @@
                 "issues": "https://github.com/wsmallnews/cms/issues",
                 "source": "https://github.com/wsmallnews/cms"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/Wsmallnews",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-03-03T10:54:34+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "wsmallnews/filament-nestedset",
@@ -12041,17 +12060,11 @@
         },
         {
             "name": "wsmallnews/support",
-            "version": "v1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wsmallnews/support.git",
-                "reference": "7b8aaef27d4f1a28cf7d4549464044ed004bc1ee"
-            },
+            "version": "1.x-dev",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/support/zipball/7b8aaef27d4f1a28cf7d4549464044ed004bc1ee",
-                "reference": "7b8aaef27d4f1a28cf7d4549464044ed004bc1ee",
-                "shasum": ""
+                "type": "path",
+                "url": "./addons/support",
+                "reference": "7b8aaef27d4f1a28cf7d4549464044ed004bc1ee"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -12082,24 +12095,45 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "aliases": {
-                        "Support": "Wsmallnews\\Support\\Facades\\Support"
-                    },
                     "providers": [
                         "Wsmallnews\\Support\\SupportServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "Support": "Wsmallnews\\Support\\Facades\\Support"
+                    }
                 }
             },
             "autoload": {
-                "files": [
-                    "./src/Helpers/helper.php"
-                ],
                 "psr-4": {
                     "Wsmallnews\\Support\\": "src/",
                     "Wsmallnews\\Support\\Database\\Factories\\": "database/factories/"
+                },
+                "files": [
+                    "./src/Helpers/helper.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsmallnews\\Support\\Tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -12121,27 +12155,17 @@
                 "issues": "https://github.com/wsmallnews/support/issues",
                 "source": "https://github.com/wsmallnews/support"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/Wsmallnews",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-25T14:35:40+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "wsmallnews/user",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wsmallnews/user.git",
-                "reference": "c11c1523418ee4d4ae76249af2cf26279b920ad3"
-            },
+            "version": "1.x-dev",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/user/zipball/c11c1523418ee4d4ae76249af2cf26279b920ad3",
-                "reference": "c11c1523418ee4d4ae76249af2cf26279b920ad3",
-                "shasum": ""
+                "type": "path",
+                "url": "./addons/user",
+                "reference": "fd36e3117b0c18c1ba421acb2c0bef18c05eaa6a"
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
@@ -12164,12 +12188,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "aliases": {
-                        "User": "Wsmallnews\\User\\Facades\\User"
-                    },
                     "providers": [
                         "Wsmallnews\\User\\UserServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "User": "Wsmallnews\\User\\Facades\\User"
+                    }
                 }
             },
             "autoload": {
@@ -12178,7 +12202,28 @@
                     "Wsmallnews\\User\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsmallnews\\User\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -12200,13 +12245,9 @@
                 "issues": "https://github.com/wsmallnews/user/issues",
                 "source": "https://github.com/wsmallnews/user"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/Wsmallnews",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-03-04T03:31:39+00:00"
+            "transport-options": {
+                "relative": true
+            }
         }
     ],
     "packages-dev": [
@@ -15764,7 +15805,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "wsmallnews/category": 20,
+        "wsmallnews/cms": 20,
+        "wsmallnews/support": 20,
+        "wsmallnews/user": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
