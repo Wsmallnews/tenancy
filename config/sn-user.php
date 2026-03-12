@@ -36,14 +36,6 @@ return [
         'window' => 1,
     ],
 
-    // 'actions' => [
-    //     'create_new_user' => Wsmallnews\User\Actions\Fortify\CreateNewUser::class,
-    //     'reset_user_password' => Wsmallnews\User\Actions\Fortify\ResetUserPassword::class,
-    //     'update_user_password' => Wsmallnews\User\Actions\Fortify\UpdateUserPassword::class,
-    //     'update_user_profile_information' => Wsmallnews\User\Actions\Fortify\UpdateUserProfileInformation::class,
-    //     'redirect_if_two_factor_authenticatable' => Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable::class,
-    // ],
-
     /**
      * 文件基础目录，会自动拼接当前年月日 (仅用于 filament 默认上传组件 (Forms\Components\FileUpload))
      */
@@ -99,20 +91,20 @@ return [
 
     'themes' => [
         // 是否启用暗黑模式
-        'dark-mode' => true,
+        'dark_mode' => true,
 
         // 默认主题模式
-        'default-dark-mode' => 'system',
+        'default_dark_mode' => 'system',
 
         // 强制暗黑主题
-        'dark-mode-forced' => false,
+        'dark_mode_forced' => false,
 
         'layout' => 'sn-user::components.layouts.app',
 
         // 页面容器
-        'page-container' => 'sn-user::container.page',
+        'page_container' => 'sn-user::container.page',
 
         // 视图命名空间
-        'view-namespace' => 'sn-user::livewire.',
+        'view_namespace' => 'sn-user::livewire.',
     ],
 ];

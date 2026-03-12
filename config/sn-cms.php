@@ -16,7 +16,6 @@ return [
      * Custom models
      */
     'models' => [
-        'content' => Models\Content::class,
         'navigation' => Models\Navigation::class,
         'navigation_type' => Models\NavigationType::class,
         'post' => Models\Post::class,
@@ -106,21 +105,20 @@ return [
 
     'themes' => [
         // 是否启用暗黑模式
-        'dark-mode' => true,
+        'dark_mode' => true,
 
         // 默认主题模式
-        'default-dark-mode' => 'system',
+        'default_dark_mode' => 'system',
 
         // 强制暗黑主题
-        'dark-mode-forced' => false,
+        'dark_mode_forced' => false,
 
         'layout' => 'sn-cms::components.layouts.app',
 
         'theme' => 'tradition',
 
         // 页面容器
-        'page-container' => 'sn-cms::container.page',
-        
+        'page_container' => 'sn-cms::container.page',
     ],
 
     // 'enums' => [
