@@ -11,7 +11,7 @@ class Posts extends Base
 
     public function render()
     {
-        $posts = Utils::getPostModel()::snScope(...$this->getScopeable())->normal()
+        $posts = Utils::getPostModel()::snScope(...$this->getScopeable())->published()
             ->with(['media', 'categories'])
             ->orderBy('order_column', 'desc')
             ->orderBy('id', 'desc')
