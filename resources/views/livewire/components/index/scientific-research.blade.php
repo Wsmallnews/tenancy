@@ -36,7 +36,7 @@
                     <p class="sn-descript-text line-clamp-2">
                         {{ $post->description ?? '暂无描述' }}
                     </p>
-                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="sn-primary-text text-sm uppercase tracking-wide">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post) }}" class="sn-primary-text text-sm uppercase tracking-wide">
                         了解详情 &rarr;
                     </x-sn-cms::container.block-link>
                 </div>

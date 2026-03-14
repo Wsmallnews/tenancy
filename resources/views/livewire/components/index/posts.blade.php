@@ -60,7 +60,7 @@
                         {{ $post->description ?? '暂无描述' }}
                     </p>
                     
-                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post->id) }}" class="sn-primary-text inline-flex items-center text-sm font-medium">
+                    <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post) }}" class="sn-primary-text inline-flex items-center text-sm font-medium">
                         阅读全文 
                         <x-filament::icon :icon="Heroicon::OutlinedChevronRight" class="w-4 h-4 ml-1" />
                     </x-sn-cms::container.block-link>
