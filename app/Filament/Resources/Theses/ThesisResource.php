@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Theses;
 
 use BackedEnum;
 use App\Enums\Theses\Status;
-use App\Features\Common;
 use App\Filament\Resources\Theses\Pages;
 use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
 use App\Models\Thesis;
@@ -20,6 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class ThesisResource extends Resource
@@ -205,8 +205,8 @@ class ThesisResource extends Resource
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('published_at', '发布'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('published_at', '发布'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

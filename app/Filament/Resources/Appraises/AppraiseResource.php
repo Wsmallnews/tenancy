@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Appraises;
 
 use BackedEnum;
 use App\Enums\Appraises\Status;
-use App\Features\Common;
 use App\Features\Nhgrc\Nhgrc;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
@@ -30,6 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class AppraiseResource extends Resource
@@ -263,8 +263,8 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('cultivationd_at', '育成'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('cultivationd_at', '育成'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Preserves\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class PreservesTable
 {
@@ -68,7 +68,7 @@ class PreservesTable
             ->searchPlaceholder('搜索保存编号、保存位置等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

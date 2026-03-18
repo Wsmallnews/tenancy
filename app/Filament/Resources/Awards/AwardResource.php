@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Awards;
 
 use BackedEnum;
 use App\Enums\Awards\Status;
-use App\Features\Common;
 use App\Filament\Resources\Awards\Pages;
 use App\Filament\Resources\Awards\Schemas\AwardInfolist;
 use App\Models\Award;
@@ -19,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class AwardResource extends Resource
@@ -169,8 +169,8 @@ class AwardResource extends Resource
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('award_at', '获奖'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('award_at', '获奖'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

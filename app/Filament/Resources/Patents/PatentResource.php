@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Patents;
 
 use BackedEnum;
 use App\Enums\Patents\Status;
-use App\Features\Common;
 use App\Filament\Resources\Patents\Pages;
 use App\Filament\Resources\Patents\Schemas\PatentInfolist;
 use App\Models\Patent;
@@ -19,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class PatentResource extends Resource
@@ -180,9 +180,9 @@ class PatentResource extends Resource
             ->searchPlaceholder('搜索专利名称、专利号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('applied_at', '申请'),
-                Common::dateTimeRangeFilter('authd_at', '授权'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('applied_at', '申请'),
+                FilamentHelper::dateTimeRangeFilter('authd_at', '授权'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

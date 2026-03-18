@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Shares\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class SharesTable
 {
@@ -35,7 +35,7 @@ class SharesTable
             ->searchPlaceholder('搜索 @sn todo 等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

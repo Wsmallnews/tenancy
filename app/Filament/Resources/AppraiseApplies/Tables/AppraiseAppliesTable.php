@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\AppraiseApplies\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Support\Enums\Width;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class AppraiseAppliesTable
 {
@@ -74,7 +74,7 @@ class AppraiseAppliesTable
             ->searchPlaceholder('搜索申请人、用种单位等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

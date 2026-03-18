@@ -4,7 +4,6 @@ namespace App\Filament\Resources\NewVarieties;
 
 use BackedEnum;
 use App\Enums\NewVarieties\Status;
-use App\Features\Common;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\NewVarieties\Pages;
 use App\Filament\Resources\NewVarieties\Schemas\NewVarietyInfolist;
@@ -24,6 +23,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class NewVarietyResource extends Resource
@@ -231,7 +231,7 @@ class NewVarietyResource extends Resource
             ->searchPlaceholder('搜索品种权号、品种权人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Catalogs;
 
 use BackedEnum;
 use App\Enums\Catalogs\Status;
-use App\Features\Common;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Catalogs\Pages;
 use App\Filament\Resources\Catalogs\Schemas\CatalogInfolist;
@@ -26,6 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class CatalogResource extends Resource
@@ -382,7 +382,7 @@ class CatalogResource extends Resource
             ->searchPlaceholder('搜索保存编号、保存位置等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

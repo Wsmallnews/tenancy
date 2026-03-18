@@ -4,7 +4,6 @@ namespace App\Filament\Platform\Resources\Teams;
 
 use BackedEnum;
 use App\Enums\Teams\Status;
-use App\Features\Common;
 use App\Filament\Platform\Resources\Teams\Pages;
 use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
@@ -26,6 +25,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class TeamResource extends Resource
@@ -120,7 +120,7 @@ class TeamResource extends Resource
             ->searchPlaceholder('搜索租户名称')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

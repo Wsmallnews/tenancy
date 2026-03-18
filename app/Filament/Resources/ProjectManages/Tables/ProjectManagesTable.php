@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\ProjectManages\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class ProjectManagesTable
 {
@@ -78,7 +78,7 @@ class ProjectManagesTable
             ->searchPlaceholder('搜索项目编号、项目名称等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
