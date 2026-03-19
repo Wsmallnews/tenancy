@@ -10,7 +10,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
 
 class Personnel extends Base implements HasMedia
 {
@@ -45,7 +45,7 @@ class Personnel extends Base implements HasMedia
 
     public function content(): MorphOne
     {
-        return $this->morphOne(CmsUtils::getContentModel(), 'contentable');
+        return $this->morphOne(SupportUtils::getContentModel(), 'contentable');
     }
 
     public function team(): BelongsTo
