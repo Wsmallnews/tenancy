@@ -32,7 +32,9 @@ class AssembleResource extends Resource
 {
     protected static ?string $model = Assemble::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedArchiveBox;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::ArchiveBox;
 
     protected static ?string $navigationLabel = '收集';
 

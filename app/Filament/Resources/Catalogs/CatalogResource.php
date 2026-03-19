@@ -32,7 +32,9 @@ class CatalogResource extends Resource
 {
     protected static ?string $model = Catalog::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedNewspaper;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Newspaper;
 
     protected static ?string $navigationLabel = '编目';
 

@@ -20,7 +20,9 @@ class ProjectManageResource extends Resource
 {
     protected static ?string $model = ProjectManage::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::ClipboardDocumentList;
 
     protected static ?string $navigationLabel = '项目管理';
 

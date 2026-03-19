@@ -10,6 +10,7 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Icons\Heroicon;
 use UnitEnum;
 
 class AppraiseSetting extends SettingsPage
@@ -24,7 +25,9 @@ class AppraiseSetting extends SettingsPage
 
     protected static ?string $slug = 'appraise-settings';
 
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Cog6Tooth;
 
     protected static ?int $navigationSort = 2;
 

@@ -20,7 +20,9 @@ class ShareResource extends Resource
 {
     protected static ?string $model = Share::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedShare;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Share;
 
     protected static ?string $navigationLabel = '共享';
 

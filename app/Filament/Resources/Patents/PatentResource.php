@@ -13,7 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +24,9 @@ class PatentResource extends Resource
 {
     protected static ?string $model = Patent::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = 'eos-book-o';
+
+    protected static string | BackedEnum | null $activeNavigationIcon = 'eos-book';
 
     protected static ?string $navigationLabel = '专利';
 
