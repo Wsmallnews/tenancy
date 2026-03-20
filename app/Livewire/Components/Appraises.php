@@ -10,10 +10,12 @@ use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Reactive;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\In;
 use Wsmallnews\Category\Livewire\Concerns\Categoryable;
 use Wsmallnews\Support\Livewire\Concerns\CanPagination;
 
@@ -25,6 +27,9 @@ class Appraises extends Component implements HasActions, HasSchemas
     use InteractsWithActions;
     use InteractsWithSchemas;
     use WithoutUrlPagination;
+
+    #[Url(except: '')]
+    public string $search = '';
 
     // #[Reactive]
     public int | string | array $categoryIds = [];
@@ -42,6 +47,18 @@ class Appraises extends Component implements HasActions, HasSchemas
     {
         return ['scope_type' => 'appraise', 'scope_id' => 0];
     }
+
+    // 监听搜索变化
+    public function updatedSearch()
+    {
+        $this->resetPage(); // 搜索时重置页码
+
+        if (in_array($this->pageType, ['scroll', 'manual'])) {
+            // 滚动分页或手动分页时，清空列表
+            $this->appraises = collect([]);
+        }
+    }
+
 
     protected function getCurrents()
     {
@@ -64,9 +81,14 @@ class Appraises extends Component implements HasActions, HasSchemas
         $allCategories = $allCategories->filter()->unique()->values();
 
         // 查询评价
-        $query = AppraiseModel::query()->scopeTenant()->normal()->with(['saveCompany', 'media'])->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
+        $query = AppraiseModel::query()->scopeTenant()->normal()->with(['saveCompany', 'media'])
+        ->when($allCategories->isNotEmpty(), function ($query) use ($allCategories) {
             $query->whereIn('category_id', $allCategories);
-        })->orderBy('order_column', 'desc')->orderBy('id', 'desc');
+        })
+        ->when($this->search, function ($query) {
+            $query->search($this->search);
+        })
+        ->orderBy('order_column', 'desc')->orderBy('id', 'desc');
 
         // 分页
         $this->appraises = $this->withPagination($query);

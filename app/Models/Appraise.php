@@ -48,6 +48,17 @@ class Appraise extends Base implements HasMedia
         return $query->where('status', Status::Hidden);
     }
 
+    public function scopeSearch($query, $search)
+    {
+        $query->where(function ($query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('en_name', 'like', "%{$search}%")
+                ->orWhere('resource_no', 'like', "%{$search}%")
+                ->orWhere('germplasm_no', 'like', "%{$search}%")
+                ->orWhere('original_no', 'like', "%{$search}%");
+        });
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(CategoryUtils::getCategoryModel(), 'category_id')->scopeable('appraise', 0);

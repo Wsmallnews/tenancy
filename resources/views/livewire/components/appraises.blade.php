@@ -1,4 +1,19 @@
-<div class="w-full">
+<div class="w-full flex flex-col gap-4">
+    <div class="w-full flex flex-row-reverse items-center gap-4">
+
+        <x-filament::input.wrapper
+            class="w-full md:w-80"
+            inline-prefix
+            :prefix-icon="\Filament\Support\Icons\Heroicon::MagnifyingGlass"
+        >
+            <x-filament::input
+                type="text"
+                placeholder="搜索种质名称、种质编号"
+                wire:model.live.debounce.250ms="search"
+            />
+        </x-filament::input.wrapper>
+    </div>
+
     @if ($style == 'list')
         <x-sn-support::paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <div class="w-full flex flex-col gap-4">
