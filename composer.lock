@@ -4,8 +4,83 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5d9931dde37bed456447a33038e59db",
+    "content-hash": "1c59a48525f1dd449ae57f3864f81809",
     "packages": [
+        {
+            "name": "alizharb/filament-activity-log",
+            "version": "v1.3.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/alizharb/filament-activity-log/v1.3.1/alizharb-filament-activity-log-v1.3.1.zip",
+                "reference": "d194f9d2c2d2d105a6377280a462c5705bb30cdd",
+                "shasum": ""
+            },
+            "require": {
+                "filament/actions": "^4.2|^5.0",
+                "filament/filament": "^4.0|^5.0",
+                "filament/tables": "^4.0|^5.0",
+                "phiki/phiki": "^1.1|^2.0",
+                "php": "^8.3",
+                "spatie/laravel-activitylog": "^4.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^10.0|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0|^4.0",
+                "phpstan/phpstan": "^2.0"
+            },
+            "type": "filament-plugin",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AlizHarb\\ActivityLog\\ActivityLogServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AlizHarb\\ActivityLog\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ali Harb",
+                    "email": "harbzali@gmail.com",
+                    "homepage": "https://github.com/alizharb",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A powerful, feature-rich activity logging solution for FilamentPHP v4 & v5 with timeline views, dashboard widgets, and revert actions.",
+            "homepage": "https://github.com/alizharb/filament-activity-log",
+            "keywords": [
+                "activity-log",
+                "activity-tracking",
+                "audit-log",
+                "audit-trail",
+                "dashboard-widget",
+                "filament",
+                "filament-plugin",
+                "filament-v4",
+                "filament-v5",
+                "laravel",
+                "laravel-12",
+                "php",
+                "spatie",
+                "timeline"
+            ],
+            "support": {
+                "docs": "https://github.com/alizharb/filament-activity-log#readme",
+                "issues": "https://github.com/alizharb/filament-activity-log/issues",
+                "source": "https://github.com/alizharb/filament-activity-log"
+            },
+            "time": "2026-02-07T01:00:28+00:00"
+        },
         {
             "name": "anourvalar/eloquent-serialize",
             "version": "1.3.5",
@@ -2573,69 +2648,6 @@
             "time": "2026-02-28T06:49:50+00:00"
         },
         {
-            "name": "jaocero/radio-deck",
-            "version": "v3.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/jaocero/radio-deck/v3.0/jaocero-radio-deck-v3.0.zip",
-                "reference": "d38aa42f7794cd25d605b43a0fe18bd1e2933430",
-                "shasum": ""
-            },
-            "require": {
-                "filament/forms": "^4.0|^5.0",
-                "illuminate/contracts": "^11.0|^12.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.24",
-                "nunomaduro/collision": "^8.1",
-                "orchestra/testbench": "^9.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "JaOcero\\RadioDeck\\RadioDeckServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JaOcero\\RadioDeck\\": "src/",
-                    "JaOcero\\RadioDeck\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jay-Are Ocero",
-                    "email": "199ocero@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Turn filament default radio button into a selectable card with icons, title and description.",
-            "homepage": "https://github.com/jaocero/radio-deck",
-            "keywords": [
-                "filament-form",
-                "filament-plugin",
-                "filamentphp",
-                "jaocero",
-                "laravel",
-                "radio-deck"
-            ],
-            "support": {
-                "issues": "https://github.com/jaocero/radio-deck/issues",
-                "source": "https://github.com/jaocero/radio-deck"
-            },
-            "time": "2026-02-02T00:05:32+00:00"
-        },
-        {
             "name": "kalnoy/nestedset",
             "version": "v6.0.6",
             "dist": {
@@ -5123,6 +5135,61 @@
                 "source": "https://github.com/parfaitementweb/filament-country-field"
             },
             "time": "2026-01-26T12:25:55+00:00"
+        },
+        {
+            "name": "phiki/phiki",
+            "version": "v2.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/phiki/phiki/v2.1.1/phiki-phiki-v2.1.1.zip",
+                "reference": "546c7d6fca490c6597fbeb2381de28a79c76643d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "league/commonmark": "^2.5.3",
+                "php": "^8.2",
+                "psr/simple-cache": "^3.0"
+            },
+            "require-dev": {
+                "illuminate/support": "^11.45",
+                "laravel/pint": "^1.18.1",
+                "orchestra/testbench": "^9.15",
+                "pestphp/pest": "^3.5.1",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.0",
+                "symfony/var-dumper": "^7.1.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Phiki\\Adapters\\Laravel\\PhikiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Phiki\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Chandler",
+                    "email": "support@ryangjchandler.co.uk",
+                    "homepage": "https://ryangjchandler.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Syntax highlighting using TextMate grammars in PHP.",
+            "support": {
+                "issues": "https://github.com/phikiphp/phiki/issues",
+                "source": "https://github.com/phikiphp/phiki/tree/v2.1.1"
+            },
+            "time": "2026-03-18T20:23:32+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -9706,7 +9773,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/category",
-                "reference": "eb65eff2f6ad070eee4d53a472c91ff06ad9edcc"
+                "reference": "9102c7b46a648e91b6630e6a65e3cc7a04b77d67"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -9793,7 +9860,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/cms",
-                "reference": "6c20ba323140a120896b72415fe617fb6ec135a3"
+                "reference": "3188861c6f8d1b38f0d42d4676e1bb1ec6dfaccc"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -9956,7 +10023,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/support",
-                "reference": "b4cbd99dbdace83fa0b9df135b9344b4bd90661d"
+                "reference": "95f9a764603a98edd4a88258e7cee15ce18cca2b"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -9965,7 +10032,6 @@
                 "filament/spatie-laravel-media-library-plugin": "^4.0",
                 "filament/spatie-laravel-tags-plugin": "^4.0",
                 "intervention/image-laravel": "^1.0",
-                "jaocero/radio-deck": "^3.0",
                 "overtrue/easy-sms": "^3.0",
                 "php": "^8.2",
                 "postare/blade-mdi": "^1.1",

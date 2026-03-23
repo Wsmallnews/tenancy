@@ -14,4 +14,14 @@ class Base extends Model
             return $query->whereNull('team_id');
         }
     }
+
+
+
+    public function tapActivity(Activity $activity, string $eventName): void
+    {
+        $activity->properties = $activity->properties->merge(array_filter([
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]));
+    }
 }

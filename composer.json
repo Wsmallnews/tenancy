@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "alizharb/filament-activity-log": "^1.3",
         "bezhansalleh/filament-shield": "^4.0",
         "codewithdennis/filament-select-tree": "^4.0",
         "filament/filament": "^4.0",
