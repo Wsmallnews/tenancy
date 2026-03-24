@@ -215,7 +215,7 @@ class Nhgrc
      */
     public function checkStatus($appraiseId)
     {
-        $externalRef = 'resourcedb-' . $appraiseId;
+        $externalRef = 'resourcedb-germplasm-' . $appraiseId;
 
         $endpoint = 'agricultural/external/api/checkStatus';
 
@@ -238,13 +238,18 @@ class Nhgrc
      */
     public function getWebcolumns($params)
     {
-        $endpoint = 'agricultural/external/api/getWebcolumns';
+        $key = md5(json_encode($params));
+        $result = through_cache($key, function () use ($params) {
+            $endpoint = 'agricultural/external/api/getWebcolumns';
 
-        $client = $this->getClient();
+            $client = $this->getClient();
 
-        $result = $client->request($endpoint, [
-            'form_params' => $params
-        ]);
+            $result = $client->request($endpoint, [
+                'form_params' => $params
+            ]);
+            
+            return $result;
+        }, ttl: 100);
 
         return $result;
     }
@@ -289,14 +294,46 @@ class Nhgrc
     {
         $items = [];
         foreach ($articles as $article) {
-            $items[] = $this->getArticleData($article);
+            $currentParams = $this->getArticleData($article);
+            $items[] = $currentParams;
+            $article->nhgrc_external_ref = $currentParams['externalRef'] ?? null;
         }
 
         $endpoint = 'agricultural/external/api/batchSubmitArticle';
         $client = $this->getClient();
         $result = $client->request($endpoint, [
             'form_params' => [
-                'items' => $items
+                'items' => json_encode($items)
+            ]
+        ]);
+
+        $pendingIds = $result['pendingIds'] ?? [];
+
+        foreach ($articles as $article) {
+            // @sn todo 这里没办法匹配对应的 pending_id
+            $article->nhgrc_pending_id = $pendingIds[$article->id] ?? null;
+            $article->save();
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * 查询提交状态
+     *
+     * @return void
+     */
+    public function checkArticleStatus($articleId)
+    {
+        $externalRef = 'resourcedb-article-' . $articleId;
+
+        $endpoint = 'agricultural/external/api/checkArticleStatus';
+
+        $client = $this->getClient();
+        $result = $client->request($endpoint, [
+            'form_params' => [
+                'externalRef' => $externalRef
             ]
         ]);
 
@@ -307,7 +344,7 @@ class Nhgrc
     /**
      * 组装 要提交的数据
      *
-     * @param Model $appraise
+     * @param Model $article
      * @return void
      */
     protected function getArticleData($article)
@@ -325,7 +362,7 @@ class Nhgrc
             'title' => $article->title,            // 文章标题
             'content' => $article->content?->content,       // 文章内容（支持HTML格式） 
             'briefintroduction' => $article->description,     // 文章简介
-            // 'webcolumnid' => 0,     // 栏目ID
+            'webcolumnid' => $this->getWebcolumnId($article),     // 栏目ID
             'photo' => $imageUrl ?? null,          // 封面图（先调用uploadImage获取）
             'newstype' => 0,     // 类型：0-普通新闻, 1-轮播图, 2-缩略图
             'startdate' => isset($article->published_at) ? $article->published_at?->format('Y-m-d') : $article->created_at?->format('Y-m-d'),     // 发布日期（格式：YYYY-MM-DD）
@@ -335,6 +372,25 @@ class Nhgrc
         return $params;
     }
 
+
+    /**
+     * 根据分类信息，匹配 栏目 id
+     */
+    protected function getWebcolumnId($article)
+    {
+        $webcolumnResult = $this->getWebcolumns([]);
+        $webcolumns = $webcolumnResult['data'] ?? [];
+
+        $webcolumns = collect($webcolumns);
+
+        $categories = $article->categories;
+
+        $matchWebcolumn = $webcolumns->firstWhere(function ($item) use ($categories) {
+            return $categories->where('name', $item['name'])->first();
+        });
+        $webcolumnId = $matchWebcolumn['id'] ?? null;
+        return $webcolumnId;
+    }
 
 
     /**
