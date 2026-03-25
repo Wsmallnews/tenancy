@@ -106,8 +106,20 @@ class PostsTable
                 Action::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->submitArticle($record);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->submitArticle($record);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 EditAction::make(),
                 DeleteAction::make(),
@@ -117,8 +129,20 @@ class PostsTable
                 BulkAction::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->batchSubmitArticle($records);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result =$nhgrc->batchSubmitArticle($records);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

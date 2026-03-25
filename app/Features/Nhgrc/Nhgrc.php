@@ -32,6 +32,13 @@ class Nhgrc
      */
     public function getClassifications($params = [])
     {
+        // "id": "1",
+        // "name": "蔬菜",
+        // "parentId": "0",
+        // "parentPath": "0",
+        // "depth": 1,
+        // "hasCustomFields": false
+
         $endpoint = 'agricultural/external/api/getClassifications';
 
         $client = $this->getClient();
@@ -71,13 +78,23 @@ class Nhgrc
      * @param array $params
      * @return void
      */
-    public function getClassificationTree()
+    public function getClassificationTree($params = [])
     {
-        $endpoint = 'agricultural/external/api/getClassificationTree';
+        // "id": "1357549223804960",
+        // "pId": "1",
+        // "title": "甜瓜",
+        // "paramsjson": "[{\"key\":\"a1\",\"val\":\"全国统一编号\"},...]"
 
-        $client = $this->getClient();
+        $key = 'getClassificationTree-' . md5(json_encode($params));
+        $result = through_cache($key, function () use ($params) {
+            $endpoint = 'agricultural/external/api/getClassificationTree';
 
-        $result = $client->request($endpoint);
+            $client = $this->getClient();
+
+            $result = $client->request($endpoint);
+
+            return $result;
+        }, ttl: 100);
 
         return $result;
     }
@@ -147,16 +164,25 @@ class Nhgrc
     {
         $items = [];
         foreach ($appraises as $appraise) {
-            $items[] = $this->getAppraiseData($appraise);
+            $currentParams = $this->getAppraiseData($appraise);
+            $items[] = $currentParams;
+            $appraise->nhgrc_external_ref = $currentParams['externalRef'] ?? null;
         }
 
         $endpoint = 'agricultural/external/api/batchSubmitGermplasm';
         $client = $this->getClient();
         $result = $client->request($endpoint, [
             'form_params' => [
-                'items' => $items
+                'items' => json_encode($items)
             ]
         ]);
+
+        $pendingIds = $result['pendingIds'] ?? [];
+        foreach ($appraises as $appraise) {
+            // @sn todo 这里没办法匹配对应的 pending_id
+            $appraise->nhgrc_pending_id = $pendingIds[$appraise->id] ?? null;
+            $appraise->save();
+        }
 
         return $result;
     }
@@ -179,6 +205,8 @@ class Nhgrc
             }
         }
 
+        $paramsData = $this->getParamsData($appraise);
+
         $params = [
             'zzname' => $appraise->name,            // 种质名称
             'zzwwname' => $appraise->en_name,       // 种质外文名
@@ -190,9 +218,9 @@ class Nhgrc
             'bcdwcode' => $appraise->saveCompany ? "{$appraise->saveCompany->name} (编号：{$appraise->saveCompany->code})" : '',          // 
             'oldarea' => $appraise->country_name . ' ' . ($appraise->country_code == 'CN' ? ($appraise->province_name . ' ' . $appraise->city_name . ' ') : '') . $appraise->address,
             'zztype' => $appraise->germplasm_type,  // 种质类型
-            // 'classid' => $appraise->aaaa,        // 类别 id
+            'classid' => $this->getClassid($appraise),        // 类别 id
             // 'memo' => $appraise->aaaa,           // 没有备注
-            // 'paramsdata' => $appraise->aaaa,     // 扩展参数（JSON格式）
+            'paramsdata' => $paramsData['paramsData'],     // 扩展参数（JSON格式）
             'imgurl' => $imageUrl ?? null,          // 种质封面图
             // 'resourceCategory' => $appraise->aaaa,  // 资源类别 
             'mainUse' => $appraise->germplasm_use,      // 主要用途
@@ -200,12 +228,67 @@ class Nhgrc
             'lxr' => $appraise->saveCompany?->contact,
             'lxdh' => $appraise->saveCompany?->contact_phone,
             'externalRef' => 'resourcedb-germplasm-' . $appraise->id,
-            // 'customParamsJson' => $appraise->aaaa,
+            'customParamsJson' => $paramsData['customParamsJson'],
         ];
 
         return $params;
     }
 
+
+    /**
+     * 获取自定义数据
+     */
+    protected function getParamsData($appraise)
+    {
+        $groupFields = $appraise->options['fields'];
+
+        $customParamsJson = [];
+        $paramsData = [];
+        foreach ($groupFields as $groupField) {
+            $fields = $groupField['fields'];
+
+            foreach ($fields as $field) {
+                $data = $field['data'] ?? [];
+                $dataKey = $data['name'] ?? null;
+                if ($data && filled($data['name'])) {
+                    $customParamsJson[] = [
+                        "key" => $dataKey,
+                        "val" => $data['value'] ?? null,
+                    ];
+    
+                    $paramsData[$dataKey] = $data['value'] ?? null;
+                }
+            }
+        }
+
+        return compact('customParamsJson', 'paramsData');
+    }
+
+
+    /**
+     * 根据分类信息，匹配 种质分类
+     */
+    protected function getClassid($appraise)
+    {
+        // $classificationResult = $this->getClassificationDetail([
+        //     'classId' => "1357549223804960"
+        // ]);
+        // $classificationTree = $classificationResult['data'] ?? [];
+        // dd($classificationTree);
+
+        $classificationResult = $this->getClassificationTree();
+        $classificationTree = $classificationResult['data'] ?? [];
+
+        $classificationTree = collect($classificationTree);
+
+        $category = $appraise->category;        // 种质分类是单选
+
+        $matchClassification = $classificationTree->firstWhere(function ($item) use ($category) {
+            return $category->name == $item['title'];
+        });
+        $classid = $matchClassification['id'] ?? null;
+        return $classid;
+    }
 
 
     /**
@@ -238,7 +321,7 @@ class Nhgrc
      */
     public function getWebcolumns($params)
     {
-        $key = md5(json_encode($params));
+        $key = 'getWebcolumns-' . md5(json_encode($params));
         $result = through_cache($key, function () use ($params) {
             $endpoint = 'agricultural/external/api/getWebcolumns';
 

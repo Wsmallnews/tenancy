@@ -271,8 +271,20 @@ class AppraiseResource extends Resource
                 Actions\Action::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->submitGermplasm($record);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->submitGermplasm($record);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -282,8 +294,20 @@ class AppraiseResource extends Resource
                 Actions\BulkAction::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->batchSubmitGermplasm($records);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->batchSubmitGermplasm($records);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
