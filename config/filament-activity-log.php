@@ -12,7 +12,7 @@ return [
     |
     */
     'resource' => [
-        'class' => \App\Filament\Resources\ActivityLogs\ActivitylogResource::class,
+        'class' => \App\Filament\Resources\AlizharbActivitylogs\AlizharbActivitylogResource::class,
         'group' => null,
         'sort' => null,
         'default_sort_column' => 'created_at',
@@ -233,7 +233,7 @@ return [
     */
     'pages' => [
         'user_activities' => [
-            'enabled' => true,
+            'enabled' => false,
             'class' => \AlizHarb\ActivityLog\Pages\UserActivitiesPage::class,
             'navigation_label' => null, // null uses translation key
             'navigation_group' => null, // null uses resource group
@@ -325,7 +325,7 @@ return [
     |
     */
     'dashboard' => [
-        'enabled' => false,
+        'enabled' => true,
         'title' => null, // null uses translation key
         'navigation_group' => null, // null uses resource group
         'navigation_sort' => 0,

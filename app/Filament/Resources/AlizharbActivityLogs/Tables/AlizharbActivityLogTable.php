@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\ActivityLogs\Tables;
+namespace App\Filament\Resources\AlizharbActivityLogs\Tables;
 
 use AlizHarb\ActivityLog\Actions\ActivityLogTimelineTableAction;
 use AlizHarb\ActivityLog\Enums\ActivityLogEvent;
@@ -26,15 +26,16 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class ActivityLogTable
+ * Class AlizharbActivityLogTable
  *
  * Defines the table schema for the Activity Log resource.
  * Includes columns for log name, event, subject, causer, description, and creation date.
  * Also includes filters for log name, event, and date range.
  */
-class ActivityLogTable
+class AlizharbActivityLogTable
 {
     /**
      * Configure the table.
@@ -83,7 +84,7 @@ class ActivityLogTable
                             return $customUrl;
                         }
 
-                        $resource = Filament::getModelResource($record->subject_type);
+                        $resource = Filament::getModelResource(get_class($record->subject));
 
                         if ($resource && $resource::hasPage('view')) {
                             return $resource::getUrl('view', ['record' => $record->subject]);
