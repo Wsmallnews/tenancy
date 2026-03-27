@@ -11,8 +11,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Patent extends Base implements HasMedia
+class Patent extends SupportModel implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
@@ -24,6 +25,18 @@ class Patent extends Base implements HasMedia
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '专利';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

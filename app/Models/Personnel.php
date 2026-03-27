@@ -11,8 +11,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Personnel extends Base implements HasMedia
+class Personnel extends SupportModel implements HasMedia
 {
     use InteractsWithMedia;
     use LogsActivity;
@@ -23,6 +24,18 @@ class Personnel extends Base implements HasMedia
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '人员管理';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

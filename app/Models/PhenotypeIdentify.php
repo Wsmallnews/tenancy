@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Wsmallnews\Support\Models\SupportModel;
 
-class PhenotypeIdentify extends Base
+class PhenotypeIdentify extends SupportModel
 {
     use LogsActivity;
     use SoftDeletes;
@@ -19,6 +20,18 @@ class PhenotypeIdentify extends Base
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '表型鉴定';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

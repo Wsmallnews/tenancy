@@ -13,8 +13,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Appraise extends Base implements HasMedia
+class Appraise extends SupportModel implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
@@ -28,6 +29,16 @@ class Appraise extends Base implements HasMedia
         'status' => Status::class,
     ];
 
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '种质评价';
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

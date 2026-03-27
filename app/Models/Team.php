@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
+class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantLabel
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -25,6 +26,18 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '团队';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {
