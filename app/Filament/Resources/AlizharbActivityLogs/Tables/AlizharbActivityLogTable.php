@@ -14,7 +14,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportAction as FilamentExportAction;
 use Filament\Actions\ViewAction;
-use App\Models\Activity;
 use AlizHarb\ActivityLog\Support\ActivityLogCauser;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;

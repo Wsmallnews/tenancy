@@ -13,7 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Wsmallnews\Category\Support\Utils as CategoryUtils;
+use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
 use Wsmallnews\Support\Models\SupportModel;
 
 class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantLabel
@@ -70,7 +74,7 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function activities(): HasMany
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany(ActivitylogServiceProvider::determineActivityModel());
     }
 
     public function appraises(): HasMany
@@ -100,7 +104,7 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(CategoryUtils::getCategoryModel());
     }
 
     public function companies(): HasMany
@@ -110,12 +114,17 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function contents(): HasMany
     {
-        return $this->hasMany(Content::class);
+        return $this->hasMany(SupportUtils::getContentModel());
     }
 
     public function navigations(): HasMany
     {
-        return $this->hasMany(Navigation::class);
+        return $this->hasMany(CmsUtils::getNavigationModel());
+    }
+
+    public function navigationTypes(): HasMany
+    {
+        return $this->hasMany(CmsUtils::getNavigationTypeModel());
     }
 
     public function newVarieties(): HasMany
@@ -145,12 +154,7 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class);
-    }
-
-    public function postCategories(): HasMany
-    {
-        return $this->hasMany(PostCategory::class);
+        return $this->hasMany(CmsUtils::getPostModel());
     }
 
     public function preserves(): HasMany

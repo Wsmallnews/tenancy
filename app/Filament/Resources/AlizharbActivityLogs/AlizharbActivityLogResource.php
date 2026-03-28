@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\AlizharbActivityLogs;
 
-use App\Models\Activity;
 use App\Filament\Resources\AlizharbActivityLogs\Pages;
 use App\Filament\Resources\AlizharbActivityLogs\Tables\AlizharbActivityLogTable;
 use Filament\Tables\Table;
 use AlizHarb\ActivityLog\Resources\ActivityLogs\ActivityLogResource as BaseActivitylogResource;
+use Spatie\Activitylog\ActivitylogServiceProvider;
 
 class AlizharbActivityLogResource extends BaseActivitylogResource
 {
@@ -14,7 +14,7 @@ class AlizharbActivityLogResource extends BaseActivitylogResource
 
     public static function getModel(): string
     {
-        return Activity::class;
+        return ActivitylogServiceProvider::determineActivityModel();
     }
 
     /**
