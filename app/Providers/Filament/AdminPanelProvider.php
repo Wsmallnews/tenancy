@@ -124,6 +124,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->maxContentWidth(Width::Full)
             ->sidebarWidth('16rem')             // 侧边栏的宽度
             ->sidebarCollapsibleOnDesktop()

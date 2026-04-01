@@ -26,12 +26,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery,HasAvatar, HasEmailAuthentication, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
+    use CausesActivity;
     use HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithAppAuthentication;
