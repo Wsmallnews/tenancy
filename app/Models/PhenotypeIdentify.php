@@ -6,8 +6,8 @@ use App\Enums\PhenotypeIdentifies\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Wsmallnews\Support\Models\SupportModel;
 
 class PhenotypeIdentify extends SupportModel

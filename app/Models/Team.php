@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\ActivitylogServiceProvider;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Support\Config as ActivitylogConfig;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
@@ -74,7 +74,7 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function activities(): HasMany
     {
-        return $this->hasMany(ActivitylogServiceProvider::determineActivityModel());
+        return $this->hasMany(ActivitylogConfig::activityModel());
     }
 
     public function appraises(): HasMany
