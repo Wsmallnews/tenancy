@@ -89,6 +89,7 @@ class PlatformPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 '资源库管理',
+                '设置管理',
                 __('filament-shield::filament-shield.nav.group'),       // 权限管理
             ])
             ->authMiddleware([
