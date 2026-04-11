@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Support\Config as ActivitylogConfig;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -54,7 +53,7 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+        return $this->avatar_url;
     }
 
     public function getFilamentName(): string

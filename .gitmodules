@@ -4,6 +4,9 @@
 [submodule "addons/cms"]
 	path = addons/cms
 	url = git@github.com:Wsmallnews/cms.git
+[submodule "addons/comment"]
+	path = addons/comment
+	url = git@github.com:Wsmallnews/comment.git
 [submodule "addons/support"]
 	path = addons/support
 	url = git@github.com:Wsmallnews/support.git

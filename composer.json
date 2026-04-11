@@ -26,6 +26,7 @@
         "shuvroroy/filament-spatie-laravel-backup": "^3.1",
         "wsmallnews/category": "v1.x-dev",
         "wsmallnews/cms": "v1.x-dev",
+        "wsmallnews/comment": "v1.x-dev",
         "wsmallnews/filament-nestedset": "^2.0",
         "wsmallnews/support": "v1.x-dev",
         "wsmallnews/user": "v1.x-dev"
@@ -104,6 +105,10 @@
         "cms": {
             "type": "path",
             "url": "./addons/cms"
+        },
+        "comment": {
+            "type": "path",
+            "url": "./addons/comment"
         },
         "support": {
             "type": "path",
