@@ -7,6 +7,9 @@
 [submodule "addons/comment"]
 	path = addons/comment
 	url = git@github.com:Wsmallnews/comment.git
+[submodule "addons/preference"]
+	path = addons/preference
+	url = git@github.com:Wsmallnews/preference.git
 [submodule "addons/support"]
 	path = addons/support
 	url = git@github.com:Wsmallnews/support.git

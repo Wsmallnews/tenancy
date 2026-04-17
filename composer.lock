@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc82d64d5c67be657477737c1176bf68",
+    "content-hash": "f70a2e48500b55de3561b121e44746dc",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4782,6 +4782,113 @@
             "time": "2025-11-28T03:13:05+00:00"
         },
         {
+            "name": "overtrue/laravel-follow",
+            "version": "5.3.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/overtrue/laravel-follow/5.3.0/overtrue-laravel-follow-5.3.0.zip",
+                "reference": "54062b0d218e07ee3d370e36c2bdb32d9d057af9",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "laravel/pint": "^1.5",
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-push": [
+                        "composer test",
+                        "composer check-style"
+                    ],
+                    "pre-commit": [
+                        "composer fix-style",
+                        "composer test"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelFollow\\FollowServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelFollow\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "User follow unfollow system for Laravel.",
+            "support": {
+                "issues": "https://github.com/overtrue/laravel-follow/issues",
+                "source": "https://github.com/overtrue/laravel-follow/tree/5.3.0"
+            },
+            "time": "2025-02-25T01:24:38+00:00"
+        },
+        {
+            "name": "overtrue/laravel-like",
+            "version": "5.4.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/overtrue/laravel-like/5.4.1/overtrue-laravel-like-5.4.1.zip",
+                "reference": "318ca3403b96c35abb03173231f84b904d588a95",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0.0",
+                "laravel/pint": "^1.2",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^10.0",
+                "phpunit/phpunit": "^11|^12"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelLike\\LikeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelLike\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "👍 User-like features for Laravel Application.",
+            "support": {
+                "issues": "https://github.com/overtrue/laravel-like/issues",
+                "source": "https://github.com/overtrue/laravel-like/tree/5.4.1"
+            },
+            "time": "2025-09-13T02:52:20+00:00"
+        },
+        {
             "name": "overtrue/laravel-pinyin",
             "version": "5.2.0",
             "dist": {
@@ -4838,6 +4945,61 @@
                 "source": "https://github.com/overtrue/laravel-pinyin/tree/5.2.0"
             },
             "time": "2025-02-25T14:24:47+00:00"
+        },
+        {
+            "name": "overtrue/laravel-subscribe",
+            "version": "4.4.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/overtrue/laravel-subscribe/4.4.1/overtrue-laravel-subscribe-4.4.1.zip",
+                "reference": "4bf68b2fb8813b925d813d1a48e6c4b6dbbb4f06",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "laravel/pint": "^1.5",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer test",
+                        "composer fix-style"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelSubscribe\\SubscribeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelSubscribe\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "User Subscribe/Unsubscribe features for Laravel Application.",
+            "support": {
+                "issues": "https://github.com/overtrue/laravel-subscribe/issues",
+                "source": "https://github.com/overtrue/laravel-subscribe/tree/4.4.1"
+            },
+            "time": "2025-07-22T03:25:45+00:00"
         },
         {
             "name": "overtrue/pinyin",
@@ -9789,7 +9951,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/cms",
-                "reference": "3188861c6f8d1b38f0d42d4676e1bb1ec6dfaccc"
+                "reference": "107a9c4f6988dc8e4dd5f1bbb9a0425c0465a57b"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -9798,6 +9960,7 @@
                 "guava/filament-icon-picker": "^3.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.15.0",
+                "wsmallnews/comment": "^1.0",
                 "wsmallnews/filament-nestedset": "^2.0",
                 "wsmallnews/support": "^1.0"
             },
@@ -9880,7 +10043,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/comment",
-                "reference": "1b47e83a911f5ccaadfc54bd1c8d1f74422e701f"
+                "reference": "82cefd7b30e6d1a0e7ba5477071e746ef3d4f9d4"
             },
             "require": {
                 "filament/filament": "^4.0",
@@ -10031,12 +10194,110 @@
             "time": "2026-01-31T10:50:54+00:00"
         },
         {
+            "name": "wsmallnews/preference",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "./addons/preference",
+                "reference": "25de4a323c2af7aa53ca81e10debf6babd9b4dd7"
+            },
+            "require": {
+                "filament/filament": "^4.0 || ^5.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^3.7|^4.0",
+                "pestphp/pest-plugin-arch": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0|^4.0",
+                "rector/rector": "^2.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wsmallnews\\Preference\\PreferenceServiceProvider"
+                    ],
+                    "aliases": {
+                        "Preference": "Wsmallnews\\Preference\\Facades\\Preference"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wsmallnews\\Preference\\": "src/",
+                    "Wsmallnews\\Preference\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsmallnews\\Preference\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "phpstan analyse"
+                ],
+                "lint": [
+                    "pint"
+                ],
+                "refactor": [
+                    "rector"
+                ],
+                "test": [
+                    "pest"
+                ],
+                "test:lint": [
+                    "pint --test"
+                ],
+                "test:refactor": [
+                    "rector --dry-run"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "smallnews",
+                    "email": "1371606921@qq.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Wsmallnews system preference modules",
+            "homepage": "https://github.com/wsmallnews/preference",
+            "keywords": [
+                "Wsmallnews",
+                "filament",
+                "filament-plugin",
+                "filamentphp",
+                "laravel",
+                "preference"
+            ],
+            "support": {
+                "issues": "https://github.com/wsmallnews/preference/issues",
+                "source": "https://github.com/wsmallnews/preference"
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "wsmallnews/support",
             "version": "1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./addons/support",
-                "reference": "5350020d82617051d121357b98228afedaed615a"
+                "reference": "badaa07676ae80f6520b7432522266c3060b1229"
             },
             "require": {
                 "bezhansalleh/filament-plugin-essentials": "^1.0",
@@ -10139,7 +10400,7 @@
             "dist": {
                 "type": "path",
                 "url": "./addons/user",
-                "reference": "49d5f22406f2a28c8c16972d635a15b904034285"
+                "reference": "80828df7cecd31c1eef6c763cf044458145bd13e"
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
@@ -13089,6 +13350,7 @@
         "wsmallnews/category": 20,
         "wsmallnews/cms": 20,
         "wsmallnews/comment": 20,
+        "wsmallnews/preference": 20,
         "wsmallnews/support": 20,
         "wsmallnews/user": 20
     },

@@ -42,6 +42,8 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     use InteractsWithEmailAuthentication;
     use TwoFactorAuthenticatable;
     use \Wsmallnews\User\Userable;
+    use \Wsmallnews\Preference\Models\Concerns\Preferencer;
+    use \Wsmallnews\Preference\Models\Concerns\Preferencer\Liker;
 
     /**
      * The attributes that are mass assignable.
