@@ -147,7 +147,7 @@ class TeamResource extends Resource
                             $action->failure();
                             return;
                         }
-                        
+
                         // 租户与用户绑定
                         $team->users()->attach($data['user_id']);
 
@@ -156,13 +156,13 @@ class TeamResource extends Resource
 
                         $exitCode = User::withoutEvents(function () use ($panelId, $team, $data) {
                             // 创建角色时，creating 会覆盖 传入的 tenant_id, 这里使用 withoutEvents 暂时屏蔽 creating 事件 (platform 面板可以不要 withoutEvents 了)
-                            // 创建 超级管理角色，并且绑定管理员到该角色 
+                            // 创建 超级管理角色，并且绑定管理员到该角色
                             $exitCode = Artisan::call('shield:super-admin', [
                                 '--panel' => $panelId,
                                 '--tenant' => $team->id,
                                 '--user' => $data['user_id']
                             ]);
-                            
+
                             return $exitCode;
                         });
 

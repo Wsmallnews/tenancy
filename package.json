@@ -15,6 +15,7 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
+        "shiki": "^4.0.2",
         "swiper": "^11.2.8"
     }
 }
