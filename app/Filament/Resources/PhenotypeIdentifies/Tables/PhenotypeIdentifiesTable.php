@@ -14,6 +14,12 @@ class PhenotypeIdentifiesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->alignCenter()

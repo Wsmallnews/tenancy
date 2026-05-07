@@ -16,6 +16,7 @@ class ActivityLogTable extends WsmallnewsActivityLogTable
     {
         return $table
             ->columns([
+                static::IDColumn(),
                 static::eventColumn(),
                 static::subjectTypeColumn(),
                 static::causerColumn(),

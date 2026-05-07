@@ -14,6 +14,12 @@ class ProjectManagesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('project_no')
                     ->label('项目编号')
                     ->searchable()

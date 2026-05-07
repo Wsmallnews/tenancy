@@ -14,6 +14,12 @@ class AppraiseAppliesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('申请用户')
                     ->searchable()

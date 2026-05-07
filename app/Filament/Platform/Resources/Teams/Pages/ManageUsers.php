@@ -49,6 +49,12 @@ class ManageUsers extends ManageRelatedRecords
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('user_type', 'admin'))
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('管理员名称'),

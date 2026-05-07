@@ -14,6 +14,12 @@ class PreservesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('preserve_no')
                     ->label('保存编号')
                     ->searchable()

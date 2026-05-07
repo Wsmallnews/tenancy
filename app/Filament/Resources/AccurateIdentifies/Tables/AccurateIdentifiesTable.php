@@ -15,6 +15,12 @@ class AccurateIdentifiesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('gene_identify_method')
                     ->label('基因鉴定方法')
                     ->searchable()
