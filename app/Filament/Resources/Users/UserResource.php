@@ -18,6 +18,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
@@ -174,11 +175,10 @@ class UserResource extends Resource
             Forms\Components\TextInput::make('name')->label('管理员名称')
                 ->placeholder('请输入管理员名称')
                 ->required(),
-            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+            FormComponents::localImageUpload('avatar_url')->label('头像')
                 ->avatar()
                 ->required()
                 ->directory('users/avatars')
-                ->openable()
                 ->uploadingMessage('头像上传中...'),
             Forms\Components\TextInput::make('email')->label('邮箱')
                 ->placeholder('请输入登录邮箱')

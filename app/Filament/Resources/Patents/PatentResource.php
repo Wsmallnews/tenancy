@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
 class PatentResource extends Resource
@@ -75,18 +76,13 @@ class PatentResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
                         Schemas\Components\Section::make('附件管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
+                            FormComponents::mediaFileUpload('patents', 'patents')->label('上传附件')
                                 ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
-                                ->collection('patents')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('专利文件上传中...')
                                 ->columns(1),
                         ])->columns(1),

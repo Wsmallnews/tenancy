@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
 use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
 class TeamResource extends Resource
@@ -58,11 +59,10 @@ class TeamResource extends Resource
                             Forms\Components\TextInput::make('name')->label('租户名称')
                                 ->placeholder('请输入租户名称')
                                 ->required(),
-                            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+                            FormComponents::localImageUpload('avatar_url')->label('头像')
                                 ->avatar()
                                 ->required()
                                 ->directory('users/avatars')
-                                ->openable()
                                 ->uploadingMessage('头像上传中...'),
                         ]),
                     ])->columns(1),

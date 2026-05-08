@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
@@ -575,27 +576,18 @@ class AppraiseResource extends Resource
                     ->required(),
             ])->columns(2),
             Schemas\Components\Section::make('图集管理')->schema([
-                Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('封面图')
+                FormComponents::mediaImageUpload('cover', 'cover')->label('封面图')
                     ->helperText('支持上传图片')
-                    ->collection('cover')
                     ->required()
-                    ->downloadable()
-                    ->image()
-                    ->imagePreviewHeight('200')
+
                     ->uploadingMessage('封面上传中...')
                     ->columns(1),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('galleries')->label('详情图')
+                FormComponents::mediaImageUpload('galleries', 'galleries')->label('详情图')
                     ->helperText('支持上传多张图片')
-                    ->collection('galleries')
                     ->required()
                     ->multiple()
-                    ->downloadable()
-                    ->reorderable()
-                    ->appendFiles()
                     ->minFiles(1)
                     ->maxFiles(20)
-                    ->image()
-                    ->imagePreviewHeight('200')
                     ->uploadingMessage('详情图上传中...')
                     ->columns(1),
             ])->columns(2),
@@ -683,19 +675,13 @@ class AppraiseResource extends Resource
                 ->required($data['is_required'] ?? false)
                 ->options($options);
         } elseif ($type == 'upload_image') {
-            $field = Forms\Components\SpatieMediaLibraryFileUpload::make($fieldKey)
+            $field = FormComponents::mediaImageUpload($fieldKey, $data['collection_name'] ?? null)
                 ->label($data['name'] ?? null)
                 ->helperText('支持上传图片')
-                ->collection($data['collection_name'] ?? null)
                 ->required($data['is_required'] ?? false)
                 ->multiple($data['is_multiple'] ?? false)
-                ->downloadable()
-                ->reorderable()
-                ->appendFiles()
                 ->minFiles($data['min_files'] ?? 1)
                 ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
-                ->image()
-                ->imagePreviewHeight('200')
                 ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
                 ->columns(1);
         } elseif ($type == 'dateTimePicker') {

@@ -18,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
@@ -91,13 +92,9 @@ class ThesisResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ]),
                         Schemas\Components\Section::make('附件管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
-                                ->collection('theses')
+                            FormComponents::mediaFileUpload('theses', 'theses')->label('附件')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf'])

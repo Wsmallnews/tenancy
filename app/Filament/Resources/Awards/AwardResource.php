@@ -18,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
@@ -74,18 +75,13 @@ class AwardResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
                         Schemas\Components\Section::make('证书管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
+                            FormComponents::mediaFileUpload('certs', 'certs')->label('上传证书')
                                 ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
-                                ->collection('certs')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('证书上传中...')
                                 ->columns(1),
                         ])->columns(1),

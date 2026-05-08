@@ -6,6 +6,7 @@ use App\Enums\Personnels\Status;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Forms;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class PersonnelForm
 {
@@ -16,13 +17,9 @@ class PersonnelForm
                 Schemas\Components\Flex::make([
                     Schemas\Components\Group::make()->schema([
                         Schemas\Components\Section::make('人员信息')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')->label('头像')
+                            FormComponents::mediaImageUpload('avatar', 'avatar')->label('头像')
                                 ->helperText('支持上传图片')
-                                ->collection('avatar')
                                 ->required()
-                                ->downloadable()
-                                ->image()
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('头像上传中...')
                                 ->columns(1),
                             Forms\Components\TextInput::make('name')->label('姓名')
@@ -41,7 +38,7 @@ class PersonnelForm
                             Schemas\Components\Group::make()
                                 ->relationship('content')
                                 ->schema([
-                                    Forms\Components\RichEditor::make('content')
+                                    FormComponents::richEditor('content')
                                         ->fileAttachmentsDirectory('contents/' . date('Ymd'))
                                         ->label('履历'),
                                 ])->columns(1)

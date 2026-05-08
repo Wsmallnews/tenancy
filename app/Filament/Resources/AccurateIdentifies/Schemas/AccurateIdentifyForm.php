@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Infolists;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Support\Arr;
 
 class AccurateIdentifyForm
@@ -138,18 +139,12 @@ class AccurateIdentifyForm
                                 ->required(),
                         ])->columns(2),
                         Schemas\Components\Section::make('样本图片')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('sample_galleries')->label('样本图片')
+                            FormComponents::mediaImageUpload('sample_galleries', 'sample_galleries')->label('样本图片')
                                 ->helperText('支持上传多张图片')
-                                ->collection('sample_galleries')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
-                                ->image()
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('样本图片上传中...')
                                 ->columns(1),
                         ])->columns(2),
