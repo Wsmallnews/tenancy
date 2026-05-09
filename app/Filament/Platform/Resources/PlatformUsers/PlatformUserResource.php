@@ -3,7 +3,6 @@
 namespace App\Filament\Platform\Resources\PlatformUsers;
 
 use BackedEnum;
-use App\Enums\Activities\LogEvent;
 use App\Filament\Platform\Resources\PlatformUsers\Pages;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
 use App\Models\User;

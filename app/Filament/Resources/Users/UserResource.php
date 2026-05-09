@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Users;
 
 use BackedEnum;
-use App\Enums\Activities\LogEvent;
 use App\Filament\Resources\Users\Pages;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
@@ -70,11 +69,11 @@ class UserResource extends Resource
                         //     ->inline()
                         //     ->options(Status::class),
                     ])
-                    ->extraAttributes(['style' => 'min-width: 300px;'])
-                    ->grow(false),
+                        ->extraAttributes(['style' => 'min-width: 300px;'])
+                        ->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
