@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Enums\PatentTypes\Status;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Wsmallnews\Support\Models\SupportModel;
 
-class PatentType extends Base
+class PatentType extends SupportModel
 {
     use LogsActivity;
 
@@ -17,6 +18,18 @@ class PatentType extends Base
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '专利类型';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

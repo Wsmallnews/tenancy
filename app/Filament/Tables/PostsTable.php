@@ -18,6 +18,9 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
+use Wsmallnews\Cms\Facades\FlagRegistry;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class PostsTable
 {
@@ -25,21 +28,16 @@ class PostsTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('标题')
                     ->searchable()
-                    ->description(fn ($record) => $record->description)
-                    ->limit(50)
-                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
-                        $state = $column->getState();
-
-                        if (strlen($state) <= $column->getCharacterLimit()) {
-                            return null;
-                        }
-
-                        // Only render the tooltip if the column content exceeds the length limit.
-                        return $state;
-                    }),
+                    ->view('sn-cms::filament.tables.columns.post-title'),
                 // Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
                 //     ->label('主图')
                 //     ->collection('main')
@@ -49,12 +47,23 @@ class PostsTable
                     ->searchable()
                     ->toggleable()
                     ->badge(),
+                Tables\Columns\ViewColumn::make('publisher')
+                    ->label('发布者')
+                    ->toggleable()
+                    ->view('sn-cms::filament.tables.columns.publisher'),
+                Tables\Columns\ViewColumn::make('flags')
+                    ->label('标志')
+                    ->toggleable()
+                    ->view('sn-cms::filament.tables.columns.flags-text', function (Component $livewire) {
+                        return ['scopeType' => $livewire::getScopeType()];
+                    }),
                 // Tables\Columns\SpatieTagsColumn::make('tags')
                 //     ->label('标签')
                 //     ->type('post_tags')
                 //     ->toggleable(),
-                Tables\Columns\TextColumn::make('views')
+                Tables\Columns\TextColumn::make('counter')
                     ->label('浏览量')
+                    ->formatStateUsing(fn ($state) => $state->view_num)
                     ->alignCenter()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
@@ -64,6 +73,10 @@ class PostsTable
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->label('发布时间')
+                    ->toggleable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()
@@ -78,15 +91,35 @@ class PostsTable
             ->searchPlaceholder('搜索标题、描述等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                // ...Common::createUpdateRangeFilter(),
+                Tables\Filters\SelectFilter::make('flag')
+                    ->label('标志')
+                    ->options(fn(Component $livewire) => FlagRegistry::getTypesOptions($livewire::getScopeType()))
+                    ->query(function ($query, $data) {
+                        if ($data['value']) {
+                            $query->hasFlag($data['value']);
+                        }
+                    }),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 TrashedFilter::make(),
             ])
             ->recordActions([
                 Action::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->submitArticle($record);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->submitArticle($record);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 EditAction::make(),
                 DeleteAction::make(),
@@ -96,8 +129,20 @@ class PostsTable
                 BulkAction::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->batchSubmitArticle($records);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result =$nhgrc->batchSubmitArticle($records);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

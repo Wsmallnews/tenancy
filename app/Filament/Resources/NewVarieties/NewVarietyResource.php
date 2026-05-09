@@ -4,7 +4,6 @@ namespace App\Filament\Resources\NewVarieties;
 
 use BackedEnum;
 use App\Enums\NewVarieties\Status;
-use App\Features\Common;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\NewVarieties\Pages;
 use App\Filament\Resources\NewVarieties\Schemas\NewVarietyInfolist;
@@ -24,13 +23,16 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class NewVarietyResource extends Resource
 {
     protected static ?string $model = NewVariety::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedQueueList;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::QueueList;
 
     protected static ?string $navigationLabel = '新品种';
 
@@ -161,6 +163,12 @@ class NewVarietyResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('variety_no')
                     ->label('品种权号')
                     ->searchable()
@@ -231,7 +239,7 @@ class NewVarietyResource extends Resource
             ->searchPlaceholder('搜索品种权号、品种权人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

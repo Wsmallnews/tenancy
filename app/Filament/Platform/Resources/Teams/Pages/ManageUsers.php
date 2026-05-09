@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\CauserTimelineAction;
 
 class ManageUsers extends ManageRelatedRecords
 {
@@ -48,6 +49,12 @@ class ManageUsers extends ManageRelatedRecords
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('user_type', 'admin'))
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('管理员名称'),
@@ -115,35 +122,13 @@ class ManageUsers extends ManageRelatedRecords
                     ->preloadRecordSelect(),
             ])
             ->recordActions([
-                // ActivityLogTimelineTableAction::make('Activities')
-                //     ->label('操作记录')
-                //     ->activitiesUsing(function (?Model $record, ActivityLogTimelineTableAction $component) {
-                //         return \App\Models\Activity::query()
-                //             ->with(['subject', 'causer'])
-                //             ->where(function (Builder $query) use ($record, $component) {
-                //                 $query->where(function (Builder $q) use ($record) {
-                //                     $q->where('causer_type', $record->getMorphClass())
-                //                         ->where('causer_id', $record->getKey());
-                //                 })->when($component->getWithRelations(), function (Builder $query, array $relations) use ($record) {
-                //                     foreach ($relations as $relation) {
-                //                         $model = get_class($record->{$relation}()->getRelated());
-                //                         $query->orWhere(function (Builder $q) use ($record, $model, $relation) {
-                //                             $q->where('subject_type', (new $model)->getMorphClass())
-                //                                 ->whereIn('subject_id', $record->{$relation}()->pluck('id'));
-                //                         });
-                //                     }
-                //                 });
-                //             })
-                //             ->latest()
-                //             ->limit($component->getLimit())
-                //             ->get();
-                //     })
-                //     ->modifyTitleUsing(function ($state) {
-                //         return $state['description'];
-                //     })
-                //     ->timelineIcons(LogEvent::getIcons(true))
-                //     ->timelineIconColors(LogEvent::getColors(true))
-                //     ->limit(10),
+                CauserTimelineAction::make()
+                    ->label('操作日志')
+                    ->modifyQueryUsing(function ($query) {
+                        $recordTenant = $this->getOwnerRecord();        // 关系所属租户
+                        $query->where('team_id', $recordTenant->id);
+                    })
+                    ->color('info'),
                 Actions\EditAction::make(),
                 Actions\DetachAction::make()
                     ->using(function (Model $record, Table $table) {

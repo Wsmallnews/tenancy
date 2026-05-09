@@ -20,7 +20,9 @@ class AccurateIdentifyResource extends Resource
 {
     protected static ?string $model = AccurateIdentify::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedDocumentMagnifyingGlass;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::DocumentMagnifyingGlass;
 
     protected static ?string $navigationLabel = '精准鉴定';
 

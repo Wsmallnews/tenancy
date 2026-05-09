@@ -10,6 +10,7 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Icons\Heroicon;
 use UnitEnum;
 
 class ProjectSetting extends SettingsPage
@@ -24,7 +25,9 @@ class ProjectSetting extends SettingsPage
 
     protected static ?string $slug = 'project-settings';
 
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCog8Tooth;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Cog8Tooth;
 
     protected static ?int $navigationSort = 3;
 

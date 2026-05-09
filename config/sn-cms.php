@@ -1,5 +1,6 @@
 <?php
 
+use Filament\Support\Icons\Heroicon;
 use Wsmallnews\Cms\Enums;
 use Wsmallnews\Cms\Models;
 
@@ -16,7 +17,6 @@ return [
      * Custom models
      */
     'models' => [
-        'content' => Models\Content::class,
         'navigation' => Models\Navigation::class,
         'navigation_type' => Models\NavigationType::class,
         'post' => Models\Post::class,
@@ -78,13 +78,20 @@ return [
          */
         'name' => 'sn-cms.',
         /**
+         * Default route key name for the cms models.
+         */
+        'route_key_name' => [
+            'navigation' => 'slug',
+            'post' => 'slug',
+        ],
+        /**
          * default uri for the cms routes
          */
         'uri' => [
             'index' => '/',
-            'navigation' => 'navigation/{slug}',
+            'navigation-show' => 'navigation/{slug}',
             'posts' => 'posts',
-            'posts-show' => 'posts/{id}',
+            'posts-show' => 'posts/{slug}',
 
             'login' => 'login',
             'register' => 'register',
@@ -104,23 +111,63 @@ return [
         ],
     ],
 
+    /**
+     * 是否支持评论
+     */
+    'can_comment' => [
+        /**
+         * post 默认不支持评论
+         */
+        'post' => true,
+    ],
+
     'themes' => [
         // 是否启用暗黑模式
-        'dark-mode' => true,
+        'dark_mode' => true,
 
         // 默认主题模式
-        'default-dark-mode' => 'system',
+        'default_dark_mode' => 'system',
 
         // 强制暗黑主题
-        'dark-mode-forced' => false,
+        'dark_mode_forced' => false,
 
         'layout' => 'sn-cms::components.layouts.app',
 
         'theme' => 'tradition',
 
         // 页面容器
-        'page-container' => 'sn-cms::container.page',
-        
+        'page_container' => 'sn-cms::container.page',
+    ],
+
+    /**
+     * 推荐标签配置
+     * 用户可以自定义追加，比如精品、必看等
+     */
+    'flags' => [
+        [
+            'type' => 'hot',
+            'label' => '热门',
+            'color' => 'danger',
+            'icon' => Heroicon::OutlinedFire,
+        ],
+        [
+            'type' => 'new',
+            'label' => '新',
+            'color' => 'danger',
+            'icon' => Heroicon::OutlinedSparkles,
+        ],
+        [
+            'type' => 'recommend',
+            'label' => '推荐',
+            'color' => 'primary',
+            'icon' => Heroicon::OutlinedStar,
+        ],
+        [
+            'type' => 'top',
+            'label' => '置顶',
+            'color' => 'warning',
+            'icon' => Heroicon::OutlinedArrowUp,
+        ],
     ],
 
     // 'enums' => [

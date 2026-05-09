@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\PhenotypeIdentifies\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class PhenotypeIdentifiesTable
 {
@@ -14,6 +14,12 @@ class PhenotypeIdentifiesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
                     ->label('排序')
                     ->alignCenter()
@@ -35,7 +41,7 @@ class PhenotypeIdentifiesTable
             ->searchPlaceholder('搜索 @sn todo 等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

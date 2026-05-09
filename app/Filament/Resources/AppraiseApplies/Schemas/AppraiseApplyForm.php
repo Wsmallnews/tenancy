@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms;
 use Filament\Infolists;
 use Illuminate\Database\Eloquent\Builder;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class AppraiseApplyForm
 {
@@ -87,13 +88,10 @@ class AppraiseApplyForm
                             Forms\Components\TextInput::make('company_name')->label('用种单位名称')
                                 ->placeholder('请输入用种单位名称')
                                 ->required(),
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('apply_file')->label('申请单')
+                            FormComponents::mediaFileUpload('apply_file', 'apply_file')->label('申请单')
                                 ->helperText('上传申请单')
-                                ->collection('apply_file')
                                 ->required()
-                                ->downloadable()
                                 ->acceptedFileTypes(['application/*'])
-                                ->imagePreviewHeight('100')
                                 ->uploadingMessage('申请单上传中...')
                                 ->columnSpanFull(1)
                         ]),

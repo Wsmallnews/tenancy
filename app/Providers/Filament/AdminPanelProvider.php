@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\AdminLogin;
+use App\Filament\Widgets as AppWidgets;
 use App\Http\Middleware\CheckTenant;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -27,7 +28,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Rmsramos\Activitylog\ActivitylogPlugin;
 use Wsmallnews\Cms\CmsPlugin;
 use Wsmallnews\Cms\Filament\Pages\Navigation;
 use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
@@ -66,7 +66,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                AppWidgets\AppraiseStat::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -81,14 +82,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                // ActivitylogPlugin::make()
-                //     ->resource(\App\Filament\Resources\ActivityLogResource::class)
-                //     ->label('操作日志')
-                //     ->pluralLabel('操作日志')
-                //     ->navigationGroup(function () {
-                //         return __('filament-shield::filament-shield.nav.group');
-                //     })
-                //     ->navigationSort(3),
                 CmsPlugin::make()
                     ->forResource(Navigation::class)
                         ->navigationGroup('网站管理')
@@ -122,6 +115,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->maxContentWidth(Width::Full)
             ->sidebarWidth('16rem')             // 侧边栏的宽度
             ->sidebarCollapsibleOnDesktop()

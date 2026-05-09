@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Theses;
 
 use BackedEnum;
 use App\Enums\Theses\Status;
-use App\Features\Common;
 use App\Filament\Resources\Theses\Pages;
 use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
 use App\Models\Thesis;
@@ -19,14 +18,18 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class ThesisResource extends Resource
 {
     protected static ?string $model = Thesis::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedAcademicCap;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::AcademicCap;
 
     protected static ?string $navigationLabel = '论文';
 
@@ -89,13 +92,9 @@ class ThesisResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ]),
                         Schemas\Components\Section::make('附件管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('theses')->label('附件')
-                                ->collection('theses')
+                            FormComponents::mediaFileUpload('theses', 'theses')->label('附件')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf'])
@@ -141,6 +140,12 @@ class ThesisResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('论文标题')
                     ->searchable()
@@ -205,8 +210,8 @@ class ThesisResource extends Resource
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('published_at', '发布'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('published_at', '发布'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Appraises;
 
 use BackedEnum;
 use App\Enums\Appraises\Status;
-use App\Features\Common;
 use App\Features\Nhgrc\Nhgrc;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Pages;
@@ -29,7 +28,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class AppraiseResource extends Resource
@@ -101,6 +102,12 @@ class AppraiseResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('分类')
                     ->searchable()
@@ -263,16 +270,28 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('cultivationd_at', '育成'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('cultivationd_at', '育成'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
                 Actions\Action::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->submitGermplasm($record);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->submitGermplasm($record);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -282,8 +301,20 @@ class AppraiseResource extends Resource
                 Actions\BulkAction::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
-                        $nhgrc = new Nhgrc();
-                        $nhgrc->batchSubmitGermplasm($records);
+                        try {
+                            $nhgrc = new Nhgrc();
+                            $result = $nhgrc->batchSubmitGermplasm($records);
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交成功')
+                                ->body($result['msg'])
+                                ->success()->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('提交失败')
+                                ->body($e->getMessage())
+                                ->danger()->send();
+                        }
                     }),
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
@@ -545,27 +576,18 @@ class AppraiseResource extends Resource
                     ->required(),
             ])->columns(2),
             Schemas\Components\Section::make('图集管理')->schema([
-                Forms\Components\SpatieMediaLibraryFileUpload::make('cover')->label('封面图')
+                FormComponents::mediaImageUpload('cover', 'cover')->label('封面图')
                     ->helperText('支持上传图片')
-                    ->collection('cover')
                     ->required()
-                    ->downloadable()
-                    ->image()
-                    ->imagePreviewHeight('200')
+
                     ->uploadingMessage('封面上传中...')
                     ->columns(1),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('galleries')->label('详情图')
+                FormComponents::mediaImageUpload('galleries', 'galleries')->label('详情图')
                     ->helperText('支持上传多张图片')
-                    ->collection('galleries')
                     ->required()
                     ->multiple()
-                    ->downloadable()
-                    ->reorderable()
-                    ->appendFiles()
                     ->minFiles(1)
                     ->maxFiles(20)
-                    ->image()
-                    ->imagePreviewHeight('200')
                     ->uploadingMessage('详情图上传中...')
                     ->columns(1),
             ])->columns(2),
@@ -653,19 +675,13 @@ class AppraiseResource extends Resource
                 ->required($data['is_required'] ?? false)
                 ->options($options);
         } elseif ($type == 'upload_image') {
-            $field = Forms\Components\SpatieMediaLibraryFileUpload::make($fieldKey)
+            $field = FormComponents::mediaImageUpload($fieldKey, $data['collection_name'] ?? null)
                 ->label($data['name'] ?? null)
                 ->helperText('支持上传图片')
-                ->collection($data['collection_name'] ?? null)
                 ->required($data['is_required'] ?? false)
                 ->multiple($data['is_multiple'] ?? false)
-                ->downloadable()
-                ->reorderable()
-                ->appendFiles()
                 ->minFiles($data['min_files'] ?? 1)
                 ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
-                ->image()
-                ->imagePreviewHeight('200')
                 ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
                 ->columns(1);
         } elseif ($type == 'dateTimePicker') {

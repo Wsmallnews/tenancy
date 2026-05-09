@@ -6,10 +6,11 @@ use App\Enums\ProjectManages\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Wsmallnews\Support\Models\SupportModel;
 
-class ProjectManage extends Base
+class ProjectManage extends SupportModel
 {
     use LogsActivity;
     use SoftDeletes;
@@ -19,6 +20,18 @@ class ProjectManage extends Base
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '项目管理';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\AccurateIdentifies\Tables;
 
-use App\Features\Common;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 
 class AccurateIdentifiesTable
 {
@@ -15,6 +15,12 @@ class AccurateIdentifiesTable
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('gene_identify_method')
                     ->label('基因鉴定方法')
                     ->searchable()
@@ -121,7 +127,7 @@ class AccurateIdentifiesTable
             ->searchPlaceholder('搜索鉴定方法、样本编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

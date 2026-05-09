@@ -20,7 +20,9 @@ class PhenotypeIdentifyResource extends Resource
 {
     protected static ?string $model = PhenotypeIdentify::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedDocumentMinus;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::DocumentMinus;
 
     protected static ?string $navigationLabel = '表型鉴定';
 

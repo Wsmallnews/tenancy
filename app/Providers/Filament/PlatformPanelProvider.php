@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\PlatformLogin;
+use App\Filament\Widgets as AppWidgets;
 use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use App\Filament\Platform\Pages\Backup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -59,7 +60,8 @@ class PlatformPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Platform/Widgets'), for: 'App\Filament\Platform\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                // FilamentInfoWidget::class,
+                AppWidgets\AppraiseStat::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -87,6 +89,7 @@ class PlatformPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 '资源库管理',
+                '设置管理',
                 __('filament-shield::filament-shield.nav.group'),       // 权限管理
             ])
             ->authMiddleware([

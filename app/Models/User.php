@@ -20,26 +20,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\HasActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Wsmallnews\Comment\Support\Utils as CommentUtils;
 use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery,HasAvatar, HasEmailAuthentication, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
+    use HasActivity;
     use HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithAppAuthentication;
     use InteractsWithAppAuthenticationRecovery;
     use InteractsWithEmailAuthentication;
-    use LogsActivity;
     use TwoFactorAuthenticatable;
     use \Wsmallnews\User\Userable;
+    use \Wsmallnews\Preference\Models\Concerns\Preferencer;
+    use \Wsmallnews\Preference\Models\Concerns\Preferencer\Liker;
 
     /**
      * The attributes that are mass assignable.
@@ -90,7 +94,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+        return $this->avatar_url;
     }
 
     public function getFilamentName(): string
@@ -108,6 +112,11 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         };
         // return true;        // @sn todo 这里不限制登录判断
         // return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
+    }
+    
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(CommentUtils::getCommentModel(), 'commenter');
     }
 
     public function teams(): BelongsToMany

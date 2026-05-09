@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Assembles;
 
 use BackedEnum;
 use App\Enums\Assembles\Status;
-use App\Features\Common;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Assembles\Pages;
 use App\Filament\Resources\Assembles\Schemas\AssembleInfolist;
@@ -26,13 +25,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class AssembleResource extends Resource
 {
     protected static ?string $model = Assemble::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedArchiveBox;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::ArchiveBox;
 
     protected static ?string $navigationLabel = '收集';
 
@@ -200,6 +202,12 @@ class AssembleResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('收集人')
                     ->searchable()
@@ -294,7 +302,7 @@ class AssembleResource extends Resource
             ->searchPlaceholder('搜索收集编号、收集人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

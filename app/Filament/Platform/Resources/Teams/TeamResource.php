@@ -4,7 +4,6 @@ namespace App\Filament\Platform\Resources\Teams;
 
 use BackedEnum;
 use App\Enums\Teams\Status;
-use App\Features\Common;
 use App\Filament\Platform\Resources\Teams\Pages;
 use App\Filament\Platform\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
@@ -26,6 +25,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
+use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
 class TeamResource extends Resource
@@ -58,11 +59,10 @@ class TeamResource extends Resource
                             Forms\Components\TextInput::make('name')->label('租户名称')
                                 ->placeholder('请输入租户名称')
                                 ->required(),
-                            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+                            FormComponents::localImageUpload('avatar_url')->label('头像')
                                 ->avatar()
                                 ->required()
                                 ->directory('users/avatars')
-                                ->openable()
                                 ->uploadingMessage('头像上传中...'),
                         ]),
                     ])->columns(1),
@@ -93,6 +93,12 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('租户名称')
                     ->searchable(),
@@ -120,7 +126,7 @@ class TeamResource extends Resource
             ->searchPlaceholder('搜索租户名称')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...Common::createUpdateRangeFilter(),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
@@ -147,7 +153,7 @@ class TeamResource extends Resource
                             $action->failure();
                             return;
                         }
-                        
+
                         // 租户与用户绑定
                         $team->users()->attach($data['user_id']);
 
@@ -156,13 +162,13 @@ class TeamResource extends Resource
 
                         $exitCode = User::withoutEvents(function () use ($panelId, $team, $data) {
                             // 创建角色时，creating 会覆盖 传入的 tenant_id, 这里使用 withoutEvents 暂时屏蔽 creating 事件 (platform 面板可以不要 withoutEvents 了)
-                            // 创建 超级管理角色，并且绑定管理员到该角色 
+                            // 创建 超级管理角色，并且绑定管理员到该角色
                             $exitCode = Artisan::call('shield:super-admin', [
                                 '--panel' => $panelId,
                                 '--tenant' => $team->id,
                                 '--user' => $data['user_id']
                             ]);
-                            
+
                             return $exitCode;
                         });
 

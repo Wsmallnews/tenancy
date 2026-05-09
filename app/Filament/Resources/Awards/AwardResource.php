@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Awards;
 
 use BackedEnum;
 use App\Enums\Awards\Status;
-use App\Features\Common;
 use App\Filament\Resources\Awards\Pages;
 use App\Filament\Resources\Awards\Schemas\AwardInfolist;
 use App\Models\Award;
@@ -19,13 +18,17 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
+use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
 
 class AwardResource extends Resource
 {
     protected static ?string $model = Award::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedTrophy;
+
+    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Trophy;
 
     protected static ?string $navigationLabel = '奖项';
 
@@ -72,18 +75,13 @@ class AwardResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
                         Schemas\Components\Section::make('证书管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('certs')->label('上传证书')
+                            FormComponents::mediaFileUpload('certs', 'certs')->label('上传证书')
                                 ->helperText('支持上传证书图片或者 PDF 格式的证书文件')
-                                ->collection('certs')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('证书上传中...')
                                 ->columns(1),
                         ])->columns(1),
@@ -117,6 +115,12 @@ class AwardResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('奖项名称')
                     ->searchable()
@@ -169,8 +173,8 @@ class AwardResource extends Resource
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('award_at', '获奖'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('award_at', '获奖'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

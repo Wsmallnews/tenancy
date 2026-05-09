@@ -11,11 +11,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Support\Config as ActivitylogConfig;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Wsmallnews\Category\Support\Utils as CategoryUtils;
+use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
+class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantLabel
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -25,6 +29,18 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '团队';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -37,7 +53,7 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+        return $this->avatar_url;
     }
 
     public function getFilamentName(): string
@@ -57,7 +73,7 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 
     public function activities(): HasMany
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany(ActivitylogConfig::activityModel());
     }
 
     public function appraises(): HasMany
@@ -87,7 +103,7 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(CategoryUtils::getCategoryModel());
     }
 
     public function companies(): HasMany
@@ -97,12 +113,17 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 
     public function contents(): HasMany
     {
-        return $this->hasMany(Content::class);
+        return $this->hasMany(SupportUtils::getContentModel());
     }
 
     public function navigations(): HasMany
     {
-        return $this->hasMany(Navigation::class);
+        return $this->hasMany(CmsUtils::getNavigationModel());
+    }
+
+    public function navigationTypes(): HasMany
+    {
+        return $this->hasMany(CmsUtils::getNavigationTypeModel());
     }
 
     public function newVarieties(): HasMany
@@ -132,12 +153,7 @@ class Team extends Base implements HasAvatar, HasName, HasCurrentTenantLabel
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class);
-    }
-
-    public function postCategories(): HasMany
-    {
-        return $this->hasMany(PostCategory::class);
+        return $this->hasMany(CmsUtils::getPostModel());
     }
 
     public function preserves(): HasMany

@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Patents;
 
 use BackedEnum;
 use App\Enums\Patents\Status;
-use App\Features\Common;
 use App\Filament\Resources\Patents\Pages;
 use App\Filament\Resources\Patents\Schemas\PatentInfolist;
 use App\Models\Patent;
@@ -14,18 +13,21 @@ use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
 class PatentResource extends Resource
 {
     protected static ?string $model = Patent::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = 'eos-book-o';
+
+    protected static string | BackedEnum | null $activeNavigationIcon = 'eos-book';
 
     protected static ?string $navigationLabel = '专利';
 
@@ -74,18 +76,13 @@ class PatentResource extends Resource
                             Forms\Components\Textarea::make('remark')->label('备注'),
                         ])->columns(2),
                         Schemas\Components\Section::make('附件管理')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('patents')->label('上传附件')
+                            FormComponents::mediaFileUpload('patents', 'patents')->label('上传附件')
                                 ->helperText('支持上传专利图片或者 PDF 格式的专利文件')
-                                ->collection('patents')
                                 ->required()
                                 ->multiple()
-                                ->downloadable()
-                                ->reorderable()
-                                ->appendFiles()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
-                                ->imagePreviewHeight('200')
                                 ->uploadingMessage('专利文件上传中...')
                                 ->columns(1),
                         ])->columns(1),
@@ -123,6 +120,12 @@ class PatentResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('专利名称')
                     ->searchable()
@@ -180,9 +183,9 @@ class PatentResource extends Resource
             ->searchPlaceholder('搜索专利名称、专利号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                Common::dateTimeRangeFilter('applied_at', '申请'),
-                Common::dateTimeRangeFilter('authd_at', '授权'),
-                ...Common::createUpdateRangeFilter(),
+                FilamentHelper::dateTimeRangeFilter('applied_at', '申请'),
+                FilamentHelper::dateTimeRangeFilter('authd_at', '授权'),
+                ...FilamentHelper::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

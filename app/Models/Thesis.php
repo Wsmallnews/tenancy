@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Enums\Theses\Status;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Thesis extends Base implements HasMedia
+class Thesis extends SupportModel implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
@@ -23,6 +24,18 @@ class Thesis extends Base implements HasMedia
     protected $casts = [
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '论文';
+    }
+
+
 
     public function getActivitylogOptions(): LogOptions
     {

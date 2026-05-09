@@ -7,13 +7,14 @@ use App\Enums\Preserves\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
+use Wsmallnews\Support\Models\SupportModel;
 
-class Preserve extends Base implements HasMedia
+class Preserve extends SupportModel implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
@@ -26,6 +27,17 @@ class Preserve extends Base implements HasMedia
         'preserve_type' => PreserveType::class,
         'status' => Status::class,
     ];
+
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '保存';
+    }
 
 
     public function getActivitylogOptions(): LogOptions

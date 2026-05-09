@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Users;
 
 use BackedEnum;
-use App\Enums\Activities\LogEvent;
 use App\Filament\Resources\Users\Pages;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
@@ -18,11 +17,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
+use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\CauserTimelineAction;
 
 class UserResource extends Resource
 {
@@ -30,7 +30,9 @@ class UserResource extends Resource
 
     protected static ?string $model = User::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = 'eos-admin-o';
+
+    protected static string | BackedEnum | null $activeNavigationIcon = 'eos-admin';
 
     protected static ?string $navigationLabel = '管理员';
 
@@ -67,11 +69,11 @@ class UserResource extends Resource
                         //     ->inline()
                         //     ->options(Status::class),
                     ])
-                    ->extraAttributes(['style' => 'min-width: 300px;'])
-                    ->grow(false),
+                        ->extraAttributes(['style' => 'min-width: 300px;'])
+                        ->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -79,6 +81,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->alignCenter()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('管理员名称'),
@@ -110,35 +118,9 @@ class UserResource extends Resource
                 //
             ])
             ->recordActions([
-                // ActivityLogTimelineTableAction::make('Activities')
-                //     ->label('操作记录')
-                //     ->activitiesUsing(function (?Model $record, ActivityLogTimelineTableAction $component) {
-                //         return \App\Models\Activity::query()
-                //             ->with(['subject', 'causer'])
-                //             ->where(function (Builder $query) use ($record, $component) {
-                //                 $query->where(function (Builder $q) use ($record) {
-                //                     $q->where('causer_type', $record->getMorphClass())
-                //                         ->where('causer_id', $record->getKey());
-                //                 })->when($component->getWithRelations(), function (Builder $query, array $relations) use ($record) {
-                //                     foreach ($relations as $relation) {
-                //                         $model = get_class($record->{$relation}()->getRelated());
-                //                         $query->orWhere(function (Builder $q) use ($record, $model, $relation) {
-                //                             $q->where('subject_type', (new $model)->getMorphClass())
-                //                                 ->whereIn('subject_id', $record->{$relation}()->pluck('id'));
-                //                         });
-                //                     }
-                //                 });
-                //             })
-                //             ->latest()
-                //             ->limit($component->getLimit())
-                //             ->get();
-                //     })
-                //     ->modifyTitleUsing(function ($state) {
-                //         return $state['description'];
-                //     })
-                //     ->timelineIcons(LogEvent::getIcons(true))
-                //     ->timelineIconColors(LogEvent::getColors(true))
-                //     ->limit(10),
+                CauserTimelineAction::make()
+                    ->label('操作日志')
+                    ->color('info'),
                 Actions\EditAction::make(),
             ])
             ->toolbarActions([
@@ -192,11 +174,10 @@ class UserResource extends Resource
             Forms\Components\TextInput::make('name')->label('管理员名称')
                 ->placeholder('请输入管理员名称')
                 ->required(),
-            Forms\Components\FileUpload::make('avatar_url')->label('头像')
+            FormComponents::localImageUpload('avatar_url')->label('头像')
                 ->avatar()
                 ->required()
                 ->directory('users/avatars')
-                ->openable()
                 ->uploadingMessage('头像上传中...'),
             Forms\Components\TextInput::make('email')->label('邮箱')
                 ->placeholder('请输入登录邮箱')

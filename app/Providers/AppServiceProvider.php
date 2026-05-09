@@ -111,7 +111,6 @@ class AppServiceProvider extends ServiceProvider
         // 注册模型别名
         Relation::enforceMorphMap([
             'accurate_identify' => \App\Models\AccurateIdentify::class,
-            'activity' => \App\Models\Activity::class,
             'appraise' => \App\Models\Appraise::class,
             'appraise_apply' => \App\Models\AppraiseApply::class,
             'assemble' => \App\Models\Assemble::class,
@@ -119,7 +118,6 @@ class AppServiceProvider extends ServiceProvider
             'award_type' => \App\Models\AwardType::class,
             'catalog' => \App\Models\Catalog::class,
             'company' => \App\Models\Company::class,
-            'content' => \App\Models\Content::class,
             'new_variety' => \App\Models\NewVariety::class,
             'patent' => \App\Models\Patent::class,
             'patent_type' => \App\Models\PatentType::class,

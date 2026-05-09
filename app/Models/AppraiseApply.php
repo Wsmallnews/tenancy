@@ -6,12 +6,13 @@ use App\Enums\AppraiseApplies\Status;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Wsmallnews\Support\Models\SupportModel;
 
-class AppraiseApply extends Base implements HasMedia
+class AppraiseApply extends SupportModel implements HasMedia
 {
     use InteractsWithMedia;
     use LogsActivity;
@@ -23,6 +24,16 @@ class AppraiseApply extends Base implements HasMedia
         'options' => 'array',
         'status' => Status::class,
     ];
+
+    /**
+     * 默认模型名称
+     *
+     * @return string
+     */
+    public static function getModelLabel(): string
+    {
+        return '种质申请';
+    }
 
 
     public function getActivitylogOptions(): LogOptions
