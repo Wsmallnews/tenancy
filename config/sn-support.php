@@ -22,7 +22,6 @@ return [
         'sms_log' => Models\SmsLog::class,
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | Multi-Tenancy
@@ -34,4 +33,124 @@ return [
     */
     'tenant_model' => \App\Models\Team::class,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Filament Form Components
+    |--------------------------------------------------------------------------
+    |
+    | 统一管理 Filament 表单组件的默认配置
+    |
+    */
+    'form_components' => [
+        /**
+         * 上传组件默认配置
+         */
+        'upload' => [
+            /**
+             * 可见性
+             */
+            'visibility' => 'public',
+            /**
+             * 可下载
+             */
+            'downloadable' => true,
+            /**
+             * 可打开
+             */
+            'openable' => true,
+            /**
+             * 可排序 (多文件上传有效)
+             */
+            'reorderable' => true,
+            /**
+             * 追加文件模式 (多文件上传有效)
+             */
+            'append_files' => true,
+            /**
+             * 最大文件数 (多文件上传有效)
+             */
+            'max_files' => 10,
+            /**
+             * 最大文件大小 默认 120MB
+             */
+            'max_size' => 122880,
+            /**
+             * 图片预览高度, 默认 200px
+             */
+            'image_preview_height' => '200',
+        ],
+
+        'editor' => [
+            /**
+             * 内容字符最大长度，默认 null 不限制
+             */
+            'max_length' => null,
+            /**
+             * 文件上传配置
+             */
+            'file_attachment' => [
+                /**
+                 * 可见性 (仅 richtext 有效)
+                 */
+                'visibility' => 'public',
+                /**
+                 * 最大文件大小 默认 120MB
+                 */
+                'max_size' => 122880,
+            ],
+            /**
+             * markdown 编辑器配置
+             */
+            'markdown' => [
+                /**
+                 * 工具栏按钮
+                 */
+                'toolbar_buttons' => [
+                    ['bold', 'italic', 'strike', 'link'],
+                    ['heading'],
+                    ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                    ['table', 'attachFiles'],
+                    ['undo', 'redo'],
+                ],
+            ],
+            /**
+             * 富文本编辑器配置
+             */
+            'richtext' => [
+                /**
+                 * 工具栏按钮
+                 */
+                'toolbar_buttons' => [
+                    ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link', 'textColor'],
+                    ['h2', 'h3'],
+                    ['alignStart', 'alignCenter', 'alignEnd'],
+                    ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                    ['table', 'attachFiles'], // The `customBlocks` and `mergeTags` tools are also added here if those features are used.
+                    ['undo', 'redo'],
+                ],
+                /**
+                 * 浮动工具栏按钮
+                 */
+                'floating_toolbars' => [
+                    'paragraph' => [
+                        'bold', 'italic', 'underline', 'strike', 'subscript', 'superscript',
+                    ],
+                    'heading' => [
+                        'h1', 'h2', 'h3',
+                    ],
+                    'table' => [
+                        'tableAddColumnBefore', 'tableAddColumnAfter', 'tableDeleteColumn',
+                        'tableAddRowBefore', 'tableAddRowAfter', 'tableDeleteRow',
+                        'tableMergeCells', 'tableSplitCell',
+                        'tableToggleHeaderRow', 'tableToggleHeaderCell',
+                        'tableDelete',
+                    ],
+                ],
+                /**
+                 * 文本颜色列表, 工具栏中包含 textColor 时生效
+                 */
+                'text_colors' => null,
+            ],
+        ],
+    ],
 ];
