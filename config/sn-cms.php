@@ -118,7 +118,7 @@ return [
         /**
          * post 默认不支持评论
          */
-        'post' => true,
+        'post' => false,
     ],
 
     'themes' => [
