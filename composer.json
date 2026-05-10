@@ -27,13 +27,13 @@
         "phiki/phiki": "^2.2",
         "ralphjsmit/laravel-filament-seo": "^2.0",
         "shuvroroy/filament-spatie-laravel-backup": "^3.1",
-        "wsmallnews/category": "^1.0",
-        "wsmallnews/cms": "^1.0",
-        "wsmallnews/comment": "^1.0",
+        "wsmallnews/category": "v1.x-dev",
+        "wsmallnews/cms": "v1.x-dev",
+        "wsmallnews/comment": "v1.x-dev",
         "wsmallnews/filament-nestedset": "^2.0",
-        "wsmallnews/preference": "^1.0",
-        "wsmallnews/support": "^1.0",
-        "wsmallnews/user": "^1.0"
+        "wsmallnews/preference": "v1.x-dev",
+        "wsmallnews/support": "v1.x-dev",
+        "wsmallnews/user": "v1.x-dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
@@ -100,5 +100,31 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": {
+        "category": {
+            "type": "path",
+            "url": "./addons/category"
+        },
+        "cms": {
+            "type": "path",
+            "url": "./addons/cms"
+        },
+        "comment": {
+            "type": "path",
+            "url": "./addons/comment"
+        },
+        "preference": {
+            "type": "path",
+            "url": "./addons/preference"
+        },
+        "support": {
+            "type": "path",
+            "url": "./addons/support"
+        },
+        "user": {
+            "type": "path",
+            "url": "./addons/user"
+        }
+    }
 }
