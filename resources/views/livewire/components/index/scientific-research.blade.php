@@ -15,9 +15,9 @@
             <article class="sn-container sn-hover overflow-hidden group">
                 <x-sn-cms::container.block-link
                     href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post) }}"
-                    class="sn-link flex flex-col md:flex-row focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 rounded-md"
+                    class="sn-link flex flex-row focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 rounded-md"
                 >
-                    <div class="md:w-2/5 h-48 md:h-auto md:min-h-[12rem] overflow-hidden shrink-0">
+                    <div class="w-1/3 md:w-2/5 h-42 md:h-44 overflow-hidden shrink-0">
                         @if ($post->getFirstMediaUrl('post_image'))
                             <img
                                 src="{{ $post->getFirstMediaUrl('post_image') }}"
@@ -26,7 +26,7 @@
                                 class="w-full h-full object-cover sn-motion-scale"
                             />
                         @else
-                            <div class="sn-image-placeholder min-h-[12rem]">
+                            <div class="sn-image-placeholder">
                                 <x-filament::icon :icon="Heroicon::OutlinedPhoto" class="w-12 h-12" aria-hidden="true" />
                             </div>
                         @endif

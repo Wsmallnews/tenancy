@@ -27,14 +27,14 @@
 {{-- 安装依赖 --}}
 @task('install-dependencies', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    /www/server/php/83/bin/php composer.phar install
+    /www/server/php/84/bin/php composer.phar install
     chown -R www:www {{ $appDir }}
 @endtask
 
 {{-- 执行迁移 --}}
 @task('run-migrate', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    /www/server/php/83/bin/php artisan migrate --force
+    /www/server/php/84/bin/php artisan migrate --force
 @endtask
 
 
@@ -54,20 +54,20 @@
 
 @task('cache-reload', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    /www/server/php/83/bin/php artisan optimize:clear
-    /www/server/php/83/bin/php artisan filament:optimize-clear
+    /www/server/php/84/bin/php artisan optimize:clear
+    /www/server/php/84/bin/php artisan filament:optimize-clear
     
     @if ($env === 'production')
-        /www/server/php/83/bin/php artisan optimize
-        /www/server/php/83/bin/php artisan filament:optimize
+        /www/server/php/84/bin/php artisan optimize
+        /www/server/php/84/bin/php artisan filament:optimize
     @endif
-    /www/server/php/83/bin/php artisan icons:cache
+    /www/server/php/84/bin/php artisan icons:cache
 @endtask
 
 
 @task('app-init', ['on' => ['test'], 'parallel' => true])
     cd {{ $appDir }}
-    /www/server/php/83/bin/php artisan storage:link
+    /www/server/php/84/bin/php artisan storage:link
 @endtask
 
 
@@ -92,11 +92,11 @@
 
 
 
-
-/www/server/php/83/bin/php artisan migrate --force
+{{-- 
+/www/server/php/84/bin/php artisan migrate --force
 
 
 @task('restart-queues', ['on' => 'test'])
 cd /home/user/example.com
-/www/server/php/83/bin/php artisan queue:restart
-@endtask
+/www/server/php/84/bin/php artisan queue:restart
+@endtask --}}
