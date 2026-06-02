@@ -29,7 +29,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Wsmallnews\Cms\CmsPlugin;
-use Wsmallnews\Cms\Filament\Pages\Navigation;
+use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
 use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
 use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
@@ -83,26 +83,26 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
                 CmsPlugin::make()
-                    ->forResource(Navigation::class)
-                        ->navigationGroup('网站管理')
-                        ->navigationLabel('导航管理')
-                        ->customProperties([
-                            'emptyLabel' => '呀，怎么没数据呀！',
-                            'level' => 3,
-                        ])
+                    ->forResource(NavigationPage::class)
+                    ->navigationGroup('网站管理')
+                    ->navigationLabel('导航管理')
+                    ->customProperties([
+                        'emptyLabel' => '呀，怎么没数据呀！',
+                        'level' => 3,
+                    ])
                     ->forResource(PostResource::class)
-                        ->navigationGroup('网站管理')
-                        ->navigationLabel('图文管理')
-                        ->customProperties([
-                            'table' => fn($table) => \App\Filament\Tables\PostsTable::configure($table)
-                        ])
+                    ->navigationGroup('网站管理')
+                    ->navigationLabel('图文管理')
+                    ->customProperties([
+                        'table' => fn($table) => \App\Filament\Tables\PostsTable::configure($table)
+                    ])
                     ->forResource(CategoryPage::class)
-                        ->navigationGroup('网站管理')
-                        ->navigationParentItem('图文管理')
-                        ->navigationLabel('图文分类')
+                    ->navigationGroup('网站管理')
+                    ->navigationParentItem('图文管理')
+                    ->navigationLabel('图文分类')
                     ->forResource(GeneralSettingPage::class)
-                        ->navigationGroup('网站管理')
-                        ->navigationLabel('网站设置'),
+                    ->navigationGroup('网站管理')
+                    ->navigationLabel('网站设置'),
             ])
             ->navigationGroups([
                 '网站管理',
