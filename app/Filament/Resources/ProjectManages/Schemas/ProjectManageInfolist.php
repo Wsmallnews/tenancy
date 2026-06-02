@@ -15,10 +15,10 @@ class ProjectManageInfolist
             ->components([
                 Schemas\Components\Text::make(Common::title('项目信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -46,7 +46,8 @@ class ProjectManageInfolist
                             ->label('结束时间')
                             ->date('Y-m-d'),
                         Infolists\Components\TextEntry::make('budget')
-                            ->label('总预算'),
+                            ->label('总预算(元)')
+                            ->suffix('元'),
                         Infolists\Components\TextEntry::make('created_at')
                             ->label('创建时间')
                             ->dateTime(),

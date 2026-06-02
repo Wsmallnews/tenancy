@@ -10,7 +10,9 @@
       "Bash(node -e \"const m=require\\('./public/build/manifest.json'\\); console.log\\(JSON.stringify\\(m['resources/js/filament/admin/app.js'], null, 2\\)\\)\")",
       "mcp__laravel-boost__search-docs",
       "Bash(php artisan *)",
-      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" artisan *)"
+      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" artisan *)",
+      "Bash(php.bat artisan *)",
+      "Bash(php.bat vendor/bin/pint --dirty --format agent)"
     ]
   }
 }

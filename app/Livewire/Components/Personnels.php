@@ -3,10 +3,9 @@
 namespace App\Livewire\Components;
 
 use App\Models\Personnel as PersonnelModel;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Wsmallnews\Support\Livewire\Concerns\CanPagination;
 
 class Personnels extends Component
@@ -26,17 +25,16 @@ class Personnels extends Component
         return $this->personnels;
     }
 
-
     public function render()
     {
         // 查询人员
-        $query = PersonnelModel::query()->scopeTenant()->normal()->with(['media'])->orderBy('order_column', 'desc');
+        $query = PersonnelModel::query()->scopeTenant()->normal()->display()->with(['media'])->orderBy('order_column', 'desc');
 
         // 分页
         $this->personnels = $this->withPagination($query);
 
         return view('livewire.components.personnels', [
-            'paginatorLink' => $this->links
+            'paginatorLink' => $this->links,
         ]);
     }
 }

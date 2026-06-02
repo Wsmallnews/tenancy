@@ -3,19 +3,17 @@
 namespace App\Filament\Resources\Personnels\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 class PersonnelsTable
 {
-
     public static function configure(Table $table): Table
     {
         return $table
@@ -60,6 +58,10 @@ class PersonnelsTable
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
+                    ->toggleable(),
+                Tables\Columns\IconColumn::make('is_display')
+                    ->label('对外展示')
+                    ->boolean()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')

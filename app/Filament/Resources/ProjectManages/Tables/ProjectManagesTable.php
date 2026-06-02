@@ -59,7 +59,8 @@ class ProjectManagesTable
                     ->label('结束时间')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('budget')
-                    ->label('总预算')
+                    ->label('总预算(元)')
+                    ->suffix('元')
                     ->searchable()
                     ->toggleable(),
 

@@ -12,12 +12,12 @@ class Personnel extends Component
 
     public function render()
     {
-        $personnel = PersonnelModel::query()->scopeTenant()->normal()->with(['media', 'content'])->findOrFail($this->id);
+        $personnel = PersonnelModel::query()->scopeTenant()->normal()->display()->with(['media', 'content'])->findOrFail($this->id);
 
-        Model::withoutTimestamps(fn() => $personnel->increment('views'));        // 增加浏览量,不更新 updated_at
+        Model::withoutTimestamps(fn () => $personnel->increment('views'));        // 增加浏览量,不更新 updated_at
 
         return view('livewire.components.personnel', [
-            'personnel' => $personnel
+            'personnel' => $personnel,
         ]);
     }
 }
