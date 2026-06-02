@@ -1,0 +1,26 @@
+{
+    "agents": [
+        "claude_code"
+    ],
+    "cloud": false,
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch": false,
+    "packages": [
+        "filament/filament",
+        "wsmallnews/category",
+        "wsmallnews/cms",
+        "wsmallnews/comment",
+        "wsmallnews/filament-nestedset",
+        "wsmallnews/preference",
+        "wsmallnews/support"
+    ],
+    "sail": false,
+    "skills": [
+        "laravel-best-practices",
+        "configure-nightwatch",
+        "socialite-development",
+        "pest-testing",
+        "tailwindcss-development"
+    ]
+}
