@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class ThesisResource extends Resource
@@ -56,7 +56,7 @@ class ThesisResource extends Resource
                                 ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm::configure($schema))
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm::configure($schema))
                                 ->placeholder('请选择论文类型')
                                 ->searchable()
                                 ->preload()
@@ -72,8 +72,8 @@ class ThesisResource extends Resource
                                 ->relationship(name: 'company', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -124,8 +124,8 @@ class ThesisResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -169,7 +169,7 @@ class ThesisResource extends Resource
                     ->label('作者')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('company.name')
-                    ->formatStateUsing(fn ($record) => $record?->company ? "{$record->company->name} (编号：{$record->company->code})" : null)
+                    ->formatStateUsing(fn($record) => $record?->company ? "{$record->company->name} (编号：{$record->company->code})" : null)
                     ->searchable()
                     ->label('所属单位')
                     ->toggleable(),
@@ -210,8 +210,8 @@ class ThesisResource extends Resource
             ->searchPlaceholder('搜索论文标题、作者等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                FilamentHelper::dateTimeRangeFilter('published_at', '发布'),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                FilterComponents::dateTimeRangeFilter('published_at', '发布'),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

@@ -17,7 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
@@ -57,7 +57,7 @@ class PatentResource extends Resource
                                 ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm::configure($schema))
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm::configure($schema))
                                 ->placeholder('请选择专利类型')
                                 ->searchable()
                                 ->preload()
@@ -106,8 +106,8 @@ class PatentResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -183,9 +183,9 @@ class PatentResource extends Resource
             ->searchPlaceholder('搜索专利名称、专利号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                FilamentHelper::dateTimeRangeFilter('applied_at', '申请'),
-                FilamentHelper::dateTimeRangeFilter('authd_at', '授权'),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                FilterComponents::dateTimeRangeFilter('applied_at', '申请'),
+                FilterComponents::dateTimeRangeFilter('authd_at', '授权'),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

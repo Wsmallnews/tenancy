@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class CatalogResource extends Resource
@@ -67,14 +67,14 @@ class CatalogResource extends Resource
                                 ->live()
                                 ->required(),
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
-                                ->schema(function(Get $get) {
+                                ->schema(function (Get $get) {
                                     if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
@@ -198,7 +198,7 @@ class CatalogResource extends Resource
                                     ]);
                                 })
                                 ->required()
-                                ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
+                                ->visible(fn(Get $get): bool => $get('source_country_code') == 'CN'),
                             Forms\Components\TextInput::make('source_address')->label('来源地址')
                                 ->placeholder('请输入来源地址')
                                 ->required(),
@@ -224,8 +224,8 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -256,8 +256,8 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'tempSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -275,8 +275,8 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'originalSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -306,8 +306,8 @@ class CatalogResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -390,7 +390,7 @@ class CatalogResource extends Resource
             ->searchPlaceholder('搜索保存编号、保存位置等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

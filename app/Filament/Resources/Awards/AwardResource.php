@@ -19,7 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class AwardResource extends Resource
@@ -58,7 +58,7 @@ class AwardResource extends Resource
                                 ->relationship(name: 'awardType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm::configure($schema))
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm::configure($schema))
                                 ->placeholder('请选择奖项类型')
                                 ->searchable()
                                 ->preload()
@@ -101,8 +101,8 @@ class AwardResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -173,8 +173,8 @@ class AwardResource extends Resource
             ->searchPlaceholder('搜索奖项名称、授权机构等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                FilamentHelper::dateTimeRangeFilter('award_at', '获奖'),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                FilterComponents::dateTimeRangeFilter('award_at', '获奖'),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

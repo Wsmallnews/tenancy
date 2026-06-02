@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class AssembleResource extends Resource
@@ -68,14 +68,14 @@ class AssembleResource extends Resource
                                 ->required()
                                 ->columnSpanFull(),
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
-                                ->schema(function(Get $get) {
+                                ->schema(function (Get $get) {
                                     if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
@@ -121,8 +121,8 @@ class AssembleResource extends Resource
                                 ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn ($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -186,8 +186,8 @@ class AssembleResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -213,7 +213,7 @@ class AssembleResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('assembleCompany.name')
-                    ->formatStateUsing(fn ($record) => $record?->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : null)
+                    ->formatStateUsing(fn($record) => $record?->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : null)
                     ->searchable()
                     ->label('收集单位')
                     ->toggleable(),
@@ -302,7 +302,7 @@ class AssembleResource extends Resource
             ->searchPlaceholder('搜索收集编号、收集人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

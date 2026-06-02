@@ -30,7 +30,7 @@ use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class AppraiseResource extends Resource
@@ -38,7 +38,7 @@ class AppraiseResource extends Resource
     protected static ?string $model = Appraise::class;
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCircleStack;
-    
+
     protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::CircleStack;
 
     protected static ?string $navigationLabel = '评价';
@@ -88,8 +88,8 @@ class AppraiseResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -270,8 +270,8 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                FilamentHelper::dateTimeRangeFilter('cultivationd_at', '育成'),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                FilterComponents::dateTimeRangeFilter('cultivationd_at', '育成'),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
@@ -477,7 +477,7 @@ class AppraiseResource extends Resource
                         ]);
                     })
                     ->required()
-                    ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
+                    ->visible(fn(Get $get): bool => $get('source_country_code') == 'CN'),
                 Forms\Components\TextInput::make('source_address')->label('来源地')
                     ->placeholder('请输入来源地址')
                     ->required(),
@@ -538,7 +538,7 @@ class AppraiseResource extends Resource
                 Forms\Components\Select::make('germplasm_type')->label('种质类型')
                     ->placeholder('请选择种质类型')
                     ->required()
-                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_type, function ($item) {
+                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_type, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\Select::make('germplasm_use')->label('用途')
@@ -658,7 +658,7 @@ class AppraiseResource extends Resource
             $field = Forms\Components\TextInput::make($fieldKey)
                 ->label($data['name'] ?? null)
                 ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit']?? null)
+                ->suffix($data['unit'] ?? null)
                 ->required($data['is_required'] ?? false)
                 ->regex($data['regex'] ?? null)
                 ->validationMessages($validationMessages);
@@ -686,7 +686,7 @@ class AppraiseResource extends Resource
                 ->columns(1);
         } elseif ($type == 'dateTimePicker') {
             $field_type = $data['type'];
-            match($field_type) {
+            match ($field_type) {
                 'date' => $field = Forms\Components\DatePicker::make($fieldKey),
                 'time' => $field = Forms\Components\TimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
                 'datetime' => $field = Forms\Components\DateTimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('Y-m-d H:i' . (($data['has_second'] ?? true) ? ':s' : '')),

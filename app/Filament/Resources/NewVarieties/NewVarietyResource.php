@@ -23,7 +23,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
 
 class NewVarietyResource extends Resource
@@ -67,14 +67,14 @@ class NewVarietyResource extends Resource
                                 ->columnSpanFull(),
 
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
-                                ->schema(function(Get $get) {
+                                ->schema(function (Get $get) {
                                     if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
@@ -147,8 +147,8 @@ class NewVarietyResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -239,7 +239,7 @@ class NewVarietyResource extends Resource
             ->searchPlaceholder('搜索品种权号、品种权人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

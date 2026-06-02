@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class PhenotypeIdentifiesTable
 {
@@ -41,7 +41,7 @@ class PhenotypeIdentifiesTable
             ->searchPlaceholder('搜索 @sn todo 等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

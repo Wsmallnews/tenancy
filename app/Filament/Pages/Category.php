@@ -39,17 +39,17 @@ class Category extends BaseCategoryPage
         return 0;
     }
 
-    public function getLevel(): ?int
+    public static function getLevel(): ?int
     {
         return 2;
     }
 
-    public function getEmptyLabel(): ?string
+    public static function getEmptyLabel(): ?string
     {
         return '种质分类数据为空';
     }
 
-    protected function schema(array $arguments): array
+    public static function schema(array $arguments): array
     {
         return [
             Forms\Components\TextInput::make('name')->label('分类名称')
@@ -305,7 +305,7 @@ class Category extends BaseCategoryPage
     }
 
 
-    private static function builderFieldNameUniqueRule($get, $state)
+    protected static function builderFieldNameUniqueRule($get, $state)
     {
         return function (string $attribute, $value, Closure $fail) use ($get, $state) {
             $duplicates = collect($get('../../'))
@@ -322,7 +322,7 @@ class Category extends BaseCategoryPage
     }
 
 
-    private static function repeaterGroupNameUniqueRule($get, $state)
+    protected static function repeaterGroupNameUniqueRule($get, $state)
     {
         return function (string $attribute, $value, Closure $fail) use ($get, $state) {
             $duplicates = collect($get('../'))

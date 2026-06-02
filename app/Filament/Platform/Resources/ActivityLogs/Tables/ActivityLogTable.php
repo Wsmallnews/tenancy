@@ -8,7 +8,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\SubjectTimelineAction;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Tables\ActivityLogTable as WsmallnewsActivityLogTable;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class ActivityLogTable extends WsmallnewsActivityLogTable
 {
@@ -30,7 +30,7 @@ class ActivityLogTable extends WsmallnewsActivityLogTable
                 static::eventFilter(),
                 static::causerFilter(),
                 static::subjectTypeFilter(),
-                FilamentHelper::dateTimeRangeFilter('created_at', '发生'),
+                FilterComponents::dateTimeRangeFilter('created_at', '发生'),
             ])
             ->headerActions([
                 static::exportHeaderAction(),

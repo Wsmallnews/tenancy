@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class PreservesTable
 {
@@ -74,7 +74,7 @@ class PreservesTable
             ->searchPlaceholder('搜索保存编号、保存位置等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

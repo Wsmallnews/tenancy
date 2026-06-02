@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class ProjectManagesTable
 {
@@ -84,7 +84,7 @@ class ProjectManagesTable
             ->searchPlaceholder('搜索项目编号、项目名称等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([
