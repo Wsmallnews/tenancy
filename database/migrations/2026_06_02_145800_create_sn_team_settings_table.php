@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
-        Schema::create(config('settings.repositories.database.table') ?? 'settings', function (Blueprint $table): void {
+        Schema::create('sn_team_settings', function (Blueprint $table): void {
             $table->id();
-
+            $table->unsignedBigInteger('team_id')->nullable()->comment('团队ID');
             $table->string('group');
             $table->string('name');
             $table->boolean('locked')->default(false);
@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['group', 'name']);
+            $table->unique(['team_id', 'group', 'name']);
         });
     }
 };
