@@ -2,15 +2,14 @@
 
 namespace App\Filament\Resources\AwardTypes;
 
-use BackedEnum;
-use App\Enums\AwardTypes\Status;
-use App\Filament\Resources\AwardTypes\Pages;
+use App\Filament\Resources\AwardTypes\Exports\AwardTypeExporter;
 use App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm;
 use App\Models\AwardType;
+use BackedEnum;
 use Filament\Actions;
-use Filament\Forms;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Resources\Resource;
-use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
@@ -21,11 +20,11 @@ class AwardTypeResource extends Resource
 {
     protected static ?string $model = AwardType::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '奖项类型';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $navigationParentItem = '奖项';
 
@@ -79,12 +78,22 @@ class AwardTypeResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AwardTypeExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(AwardTypeExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                 ]),
             ]);

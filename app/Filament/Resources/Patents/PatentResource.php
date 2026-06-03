@@ -2,36 +2,40 @@
 
 namespace App\Filament\Resources\Patents;
 
-use BackedEnum;
 use App\Enums\Patents\Status;
-use App\Filament\Resources\Patents\Pages;
+use App\Filament\Resources\Patents\Exports\PatentExporter;
 use App\Filament\Resources\Patents\Schemas\PatentInfolist;
+use App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm;
 use App\Models\Patent;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
-use UnitEnum;
 
 class PatentResource extends Resource
 {
     protected static ?string $model = Patent::class;
 
-    protected static string | BackedEnum | null $navigationIcon = 'eos-book-o';
+    protected static string|BackedEnum|null $navigationIcon = 'eos-book-o';
 
-    protected static string | BackedEnum | null $activeNavigationIcon = 'eos-book';
+    protected static string|BackedEnum|null $activeNavigationIcon = 'eos-book';
 
     protected static ?string $navigationLabel = '专利';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'patents';
 
@@ -57,7 +61,7 @@ class PatentResource extends Resource
                                 ->relationship(name: 'patentType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm::configure($schema))
+                                ->createOptionForm(fn ($schema) => PatentTypeForm::configure($schema))
                                 ->placeholder('请选择专利类型')
                                 ->searchable()
                                 ->preload()
@@ -107,7 +111,7 @@ class PatentResource extends Resource
                     ])->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
 
@@ -188,6 +192,12 @@ class PatentResource extends Resource
                 ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(PatentExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -195,6 +205,10 @@ class PatentResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(PatentExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

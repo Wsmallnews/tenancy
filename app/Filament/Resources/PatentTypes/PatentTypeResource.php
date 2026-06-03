@@ -2,15 +2,14 @@
 
 namespace App\Filament\Resources\PatentTypes;
 
-use BackedEnum;
-use App\Enums\PatentTypes\Status;
-use App\Filament\Resources\PatentTypes\Pages;
+use App\Filament\Resources\PatentTypes\Exports\PatentTypeExporter;
 use App\Filament\Resources\PatentTypes\Schemas\PatentTypeForm;
 use App\Models\PatentType;
+use BackedEnum;
 use Filament\Actions;
-use Filament\Forms;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Resources\Resource;
-use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
@@ -21,11 +20,11 @@ class PatentTypeResource extends Resource
 {
     protected static ?string $model = PatentType::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '专利类型';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $navigationParentItem = '专利';
 
@@ -79,12 +78,22 @@ class PatentTypeResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(PatentTypeExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(PatentTypeExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                 ]),
             ]);

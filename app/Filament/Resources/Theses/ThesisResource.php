@@ -2,12 +2,17 @@
 
 namespace App\Filament\Resources\Theses;
 
-use BackedEnum;
 use App\Enums\Theses\Status;
-use App\Filament\Resources\Theses\Pages;
+use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Companies\Schemas\CompanyForm;
+use App\Filament\Resources\Theses\Exports\ThesisExporter;
 use App\Filament\Resources\Theses\Schemas\ThesisInfolist;
+use App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm;
 use App\Models\Thesis;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
@@ -18,22 +23,22 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class ThesisResource extends Resource
 {
     protected static ?string $model = Thesis::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedAcademicCap;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::AcademicCap;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::AcademicCap;
 
     protected static ?string $navigationLabel = '论文';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'theses';
 
@@ -56,7 +61,7 @@ class ThesisResource extends Resource
                                 ->relationship(name: 'thesisType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm::configure($schema))
+                                ->createOptionForm(fn ($schema) => ThesisTypeForm::configure($schema))
                                 ->placeholder('请选择论文类型')
                                 ->searchable()
                                 ->preload()
@@ -72,15 +77,16 @@ class ThesisResource extends Resource
                                 ->relationship(name: 'company', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                                    $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                                     $record = $component->getRelationship()->getRelated();
                                     $record->fill($data);
                                     $record->save();
                                     $schema->model($record)->saveRelationships();
+
                                     return $record->getKey();
                                 })
                                 ->placeholder('请选择论文所属单位')
@@ -125,16 +131,14 @@ class ThesisResource extends Resource
                     ])->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
-
 
     public static function infolist(Schema $schema): Schema
     {
         return ThesisInfolist::configure($schema);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -149,7 +153,7 @@ class ThesisResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('论文标题')
                     ->searchable()
-                    ->description(fn($record) => $record->description)
+                    ->description(fn ($record) => $record->description)
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
@@ -169,7 +173,7 @@ class ThesisResource extends Resource
                     ->label('作者')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('company.name')
-                    ->formatStateUsing(fn($record) => $record?->company ? "{$record->company->name} (编号：{$record->company->code})" : null)
+                    ->formatStateUsing(fn ($record) => $record?->company ? "{$record->company->name} (编号：{$record->company->code})" : null)
                     ->searchable()
                     ->label('所属单位')
                     ->toggleable(),
@@ -214,6 +218,12 @@ class ThesisResource extends Resource
                 ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(ThesisExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -221,6 +231,10 @@ class ThesisResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(ThesisExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),
