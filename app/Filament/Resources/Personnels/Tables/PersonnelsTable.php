@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\Personnels\Tables;
 
+use App\Filament\Resources\Personnels\Exports\PersonnelExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -78,12 +82,22 @@ class PersonnelsTable
             ->filters([
                 TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(PersonnelExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(PersonnelExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),

@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\Awards;
 
-use BackedEnum;
 use App\Enums\Awards\Status;
-use App\Filament\Resources\Awards\Pages;
+use App\Filament\Resources\Awards\Exports\AwardExporter;
 use App\Filament\Resources\Awards\Schemas\AwardInfolist;
+use App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm;
 use App\Models\Award;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas;
@@ -18,21 +21,21 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Filament\Forms\FormComponents;
-use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class AwardResource extends Resource
 {
     protected static ?string $model = Award::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedTrophy;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTrophy;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Trophy;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Trophy;
 
     protected static ?string $navigationLabel = '奖项';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'awards';
 
@@ -58,7 +61,7 @@ class AwardResource extends Resource
                                 ->relationship(name: 'awardType', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\AwardTypes\Schemas\AwardTypeForm::configure($schema))
+                                ->createOptionForm(fn ($schema) => AwardTypeForm::configure($schema))
                                 ->placeholder('请选择奖项类型')
                                 ->searchable()
                                 ->preload()
@@ -102,7 +105,7 @@ class AwardResource extends Resource
                     ])->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
 
@@ -177,6 +180,12 @@ class AwardResource extends Resource
                 ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AwardExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -184,6 +193,10 @@ class AwardResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(AwardExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

@@ -2,14 +2,18 @@
 
 namespace App\Filament\Resources\Companies\Tables;
 
+use App\Filament\Resources\Companies\Exports\CompanyExporter;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,7 +53,7 @@ class CompaniesTable
                     ->label('所在地区')
                     ->searchable()
                     ->state(function (Model $record): string {
-                        return $record->province_name . ' / ' . $record->city_name . ' / ' . $record->district_name;
+                        return $record->province_name.' / '.$record->city_name.' / '.$record->district_name;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
@@ -78,12 +82,22 @@ class CompaniesTable
             ->filters([
                 TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(CompanyExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(CompanyExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),

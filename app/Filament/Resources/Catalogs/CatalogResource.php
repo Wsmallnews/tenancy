@@ -2,14 +2,18 @@
 
 namespace App\Filament\Resources\Catalogs;
 
-use BackedEnum;
 use App\Enums\Catalogs\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
-use App\Filament\Resources\Catalogs\Pages;
+use App\Filament\Resources\Catalogs\Exports\CatalogExporter;
 use App\Filament\Resources\Catalogs\Schemas\CatalogInfolist;
+use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Companies\Schemas\CompanyForm;
 use App\Models\Appraise;
 use App\Models\Catalog;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Resources\Resource;
@@ -25,20 +29,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class CatalogResource extends Resource
 {
     protected static ?string $model = Catalog::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedNewspaper;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Newspaper;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Newspaper;
 
     protected static ?string $navigationLabel = '编目';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'catalogs';
 
@@ -83,7 +87,7 @@ class CatalogResource extends Resource
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -112,7 +116,7 @@ class CatalogResource extends Resource
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ]),
                         Schemas\Components\Section::make('编目信息')->schema([
@@ -163,7 +167,7 @@ class CatalogResource extends Resource
                                 ->placeholder('选择原产省市')
                                 ->district(false)
                                 ->required()
-                                ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                                ->visible(fn (Get $get): bool => $get('country_code') == 'CN'),
                             Forms\Components\TextInput::make('address')->label('原产地')
                                 ->placeholder('请输入原产地址')
                                 ->required(),
@@ -188,6 +192,7 @@ class CatalogResource extends Resource
                                     $record = $component->getRecord();
                                     if (! $record) {
                                         $component->state($state);
+
                                         return;
                                     }
                                     $component->state([
@@ -198,7 +203,7 @@ class CatalogResource extends Resource
                                     ]);
                                 })
                                 ->required()
-                                ->visible(fn(Get $get): bool => $get('source_country_code') == 'CN'),
+                                ->visible(fn (Get $get): bool => $get('source_country_code') == 'CN'),
                             Forms\Components\TextInput::make('source_address')->label('来源地址')
                                 ->placeholder('请输入来源地址')
                                 ->required(),
@@ -224,15 +229,16 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                                    $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                                     $record = $component->getRelationship()->getRelated();
                                     $record->fill($data);
                                     $record->save();
                                     $schema->model($record)->saveRelationships();
+
                                     return $record->getKey();
                                 })
                                 ->placeholder('请选择收集单位')
@@ -256,15 +262,16 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'tempSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                                    $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                                     $record = $component->getRelationship()->getRelated();
                                     $record->fill($data);
                                     $record->save();
                                     $schema->model($record)->saveRelationships();
+
                                     return $record->getKey();
                                 })
                                 ->placeholder('请选择临时保存单位')
@@ -275,15 +282,16 @@ class CatalogResource extends Resource
                                 ->relationship(name: 'originalSaveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                                    $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                                     $record = $component->getRelationship()->getRelated();
                                     $record->fill($data);
                                     $record->save();
                                     $schema->model($record)->saveRelationships();
+
                                     return $record->getKey();
                                 })
                                 ->placeholder('请选择原保存单位')
@@ -293,7 +301,7 @@ class CatalogResource extends Resource
                             Forms\Components\TextInput::make('inspect_assemble_project')->label('考察收集项目')
                                 ->placeholder('请输入考察收集项目')
                                 ->required(),
-                        ])->columns(2)
+                        ])->columns(2),
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
@@ -307,16 +315,14 @@ class CatalogResource extends Resource
                     ])->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
-
 
     public static function infolist(Schema $schema): Schema
     {
         return CatalogInfolist::configure($schema);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -393,6 +399,12 @@ class CatalogResource extends Resource
                 ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(CatalogExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -400,6 +412,10 @@ class CatalogResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(CatalogExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),
@@ -431,7 +447,6 @@ class CatalogResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
-
 
     public static function operDistrictInfo($data): array
     {

@@ -2,14 +2,18 @@
 
 namespace App\Filament\Resources\Assembles;
 
-use BackedEnum;
 use App\Enums\Assembles\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
-use App\Filament\Resources\Assembles\Pages;
+use App\Filament\Resources\Assembles\Exports\AssembleExporter;
 use App\Filament\Resources\Assembles\Schemas\AssembleInfolist;
+use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Companies\Schemas\CompanyForm;
 use App\Models\Appraise;
 use App\Models\Assemble;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Resources\Resource;
@@ -25,20 +29,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class AssembleResource extends Resource
 {
     protected static ?string $model = Assemble::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedArchiveBox;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::ArchiveBox;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::ArchiveBox;
 
     protected static ?string $navigationLabel = '收集';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'assembles';
 
@@ -84,7 +88,7 @@ class AssembleResource extends Resource
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -122,14 +126,15 @@ class AssembleResource extends Resource
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
                                 ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                                ->createOptionForm(fn($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                                    $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                                    $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                                     $record = $component->getRelationship()->getRelated();
                                     $record->fill($data);
                                     $record->save();
                                     $schema->model($record)->saveRelationships();
+
                                     return $record->getKey();
                                 })
                                 ->placeholder('请选择收集单位')
@@ -187,16 +192,14 @@ class AssembleResource extends Resource
                     ])->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
-
 
     public static function infolist(Schema $schema): Schema
     {
         return AssembleInfolist::configure($schema);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -268,6 +271,7 @@ class AssembleResource extends Resource
                         if ($record->country_code == 'CN') {
                             return $record->province_name . ' / ' . $record->city_name;
                         }
+
                         return '/';
                     })
                     ->toggleable(),
@@ -305,6 +309,12 @@ class AssembleResource extends Resource
                 ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AssembleExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -312,6 +322,10 @@ class AssembleResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(AssembleExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

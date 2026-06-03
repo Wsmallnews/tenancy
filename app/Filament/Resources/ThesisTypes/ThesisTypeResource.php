@@ -2,15 +2,15 @@
 
 namespace App\Filament\Resources\ThesisTypes;
 
-use BackedEnum;
+use App\Filament\Resources\ThesisTypes\Exports\ThesisTypeExporter;
 use App\Filament\Resources\ThesisTypes\Pages\ManageThesisTypes;
 use App\Filament\Resources\ThesisTypes\Schemas\ThesisTypeForm;
-use App\Enums\ThesisTypes\Status;
 use App\Models\ThesisType;
+use BackedEnum;
 use Filament\Actions;
-use Filament\Forms;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Resources\Resource;
-use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
@@ -21,11 +21,11 @@ class ThesisTypeResource extends Resource
 {
     protected static ?string $model = ThesisType::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = '论文类型';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $navigationParentItem = '论文';
 
@@ -79,12 +79,22 @@ class ThesisTypeResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(ThesisTypeExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(ThesisTypeExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                 ]),
             ]);
