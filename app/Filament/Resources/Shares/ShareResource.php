@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Shares;
 
-use App\Filament\Resources\Shares\Pages;
 use App\Filament\Resources\Shares\Schemas\ShareForm;
 use App\Filament\Resources\Shares\Schemas\ShareInfolist;
 use App\Filament\Resources\Shares\Tables\SharesTable;
@@ -20,13 +19,13 @@ class ShareResource extends Resource
 {
     protected static ?string $model = Share::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedShare;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShare;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::Share;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Share;
 
     protected static ?string $navigationLabel = '共享';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'shares';
 
@@ -37,6 +36,8 @@ class ShareResource extends Resource
     protected static ?string $pluralModelLabel = '共享';
 
     protected static ?int $navigationSort = 7;
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Schema $schema): Schema
     {
