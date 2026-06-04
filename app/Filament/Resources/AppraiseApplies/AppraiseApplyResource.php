@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\AppraiseApplies;
 
-use App\Filament\Resources\AppraiseApplies\Pages;
 use App\Filament\Resources\AppraiseApplies\Schemas\AppraiseApplyForm;
 use App\Filament\Resources\AppraiseApplies\Schemas\AppraiseApplyInfolist;
 use App\Filament\Resources\AppraiseApplies\Tables\AppraiseAppliesTable;
@@ -22,11 +21,11 @@ class AppraiseApplyResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::DocumentCheck;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::DocumentCheck;
 
     protected static ?string $navigationLabel = '用种申请';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'appraise-applies';
 
@@ -64,7 +63,6 @@ class AppraiseApplyResource extends Resource
     {
         return [
             'index' => Pages\ListAppraiseApplies::route('/'),
-            'create' => Pages\CreateAppraiseApply::route('/create'),
             'view' => Pages\ViewAppraiseApply::route('/{record}'),
             'edit' => Pages\EditAppraiseApply::route('/{record}/edit'),
         ];

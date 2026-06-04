@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Wsmallnews\Support\Models;
 
 return [
@@ -31,7 +32,7 @@ return [
     | Secondly, The tenant model should be set as a panel model.
     |
     */
-    'tenant_model' => \App\Models\Team::class,
+    'tenant_model' => Team::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -78,6 +79,13 @@ return [
              * Image preview height, default 200px
              */
             'image_preview_height' => '200',
+            /**
+             * Panel layout: 'compact', 'grid', 'compact circle'
+             * - compact: Default layout, images in a single row
+             * - grid: Grid layout, images in multiple rows
+             * - compact circle: Circle avatar layout
+             */
+            'panel_layout' => 'grid',
         ],
 
         'editor' => [
