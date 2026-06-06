@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ThesisYearTrend extends ChartWidget
 {
-    protected static ?string $heading = '论文发表年度趋势';
+    protected ?string $heading = '论文发表年度趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class ThesisYearTrend extends ChartWidget
     protected function getData(): array
     {
         $data = Thesis::select(
-                DB::raw('YEAR(published_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(published_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->whereNotNull('published_at')
             ->groupBy('year')
             ->orderBy('year')

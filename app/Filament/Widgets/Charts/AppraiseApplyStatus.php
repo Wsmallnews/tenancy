@@ -10,9 +10,9 @@ use Filament\Widgets\ChartWidget;
  */
 class AppraiseApplyStatus extends ChartWidget
 {
-    protected static ?string $heading = '用种申请状态分布';
+    protected ?string $heading = '用种申请状态分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

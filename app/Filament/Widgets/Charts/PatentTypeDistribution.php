@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class PatentTypeDistribution extends ChartWidget
 {
-    protected static ?string $heading = '专利类型分布';
+    protected ?string $heading = '专利类型分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

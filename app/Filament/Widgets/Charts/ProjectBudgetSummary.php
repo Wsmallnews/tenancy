@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ProjectBudgetSummary extends ChartWidget
 {
-    protected static ?string $heading = '年度项目经费汇总';
+    protected ?string $heading = '年度项目经费汇总';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class ProjectBudgetSummary extends ChartWidget
     protected function getData(): array
     {
         $data = ProjectManage::select(
-                DB::raw('YEAR(created_at) as year'),
-                DB::raw('SUM(CAST(budget AS DECIMAL(15,2))) as total_budget')
-            )
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('SUM(CAST(budget AS DECIMAL(15,2))) as total_budget')
+        )
             ->whereNotNull('budget')
             ->where('budget', '!=', '')
             ->groupBy('year')
@@ -36,7 +36,7 @@ class ProjectBudgetSummary extends ChartWidget
             'datasets' => [
                 [
                     'label' => '经费总额（元）',
-                    'data' => $data->pluck('total_budget')->map(fn($v) => round((float) $v, 2))->toArray(),
+                    'data' => $data->pluck('total_budget')->map(fn ($v) => round((float) $v, 2))->toArray(),
                     'backgroundColor' => '#10b981',
                 ],
             ],

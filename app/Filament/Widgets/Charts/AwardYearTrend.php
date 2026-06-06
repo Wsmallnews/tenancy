@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class AwardYearTrend extends ChartWidget
 {
-    protected static ?string $heading = '获奖年度趋势';
+    protected ?string $heading = '获奖年度趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class AwardYearTrend extends ChartWidget
     protected function getData(): array
     {
         $data = Award::select(
-                DB::raw('YEAR(award_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(award_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->whereNotNull('award_at')
             ->groupBy('year')
             ->orderBy('year')

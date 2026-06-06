@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class AppraiseOriginDistribution extends ChartWidget
 {
-    protected static ?string $heading = '种质原产地来源分布（Top 10）';
+    protected ?string $heading = '种质原产地来源分布（Top 10）';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

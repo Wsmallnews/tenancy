@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class PatentYearTrend extends ChartWidget
 {
-    protected static ?string $heading = '专利申请/授权年度趋势';
+    protected ?string $heading = '专利申请/授权年度趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -24,9 +24,9 @@ class PatentYearTrend extends ChartWidget
     {
         // 获取所有年份范围
         $applyData = Patent::select(
-                DB::raw('YEAR(applied_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(applied_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->whereNotNull('applied_at')
             ->groupBy('year')
             ->orderBy('year')
@@ -34,9 +34,9 @@ class PatentYearTrend extends ChartWidget
             ->keyBy('year');
 
         $authData = Patent::select(
-                DB::raw('YEAR(authd_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(authd_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->whereNotNull('authd_at')
             ->groupBy('year')
             ->orderBy('year')
@@ -50,7 +50,7 @@ class PatentYearTrend extends ChartWidget
             'datasets' => [
                 [
                     'label' => '申请量',
-                    'data' => $years->map(fn($year) => $applyData->get($year)?->total ?? 0)->toArray(),
+                    'data' => $years->map(fn ($year) => $applyData->get($year)?->total ?? 0)->toArray(),
                     'borderColor' => '#3b82f6',
                     'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
                     'fill' => 'start',
@@ -58,7 +58,7 @@ class PatentYearTrend extends ChartWidget
                 ],
                 [
                     'label' => '授权量',
-                    'data' => $years->map(fn($year) => $authData->get($year)?->total ?? 0)->toArray(),
+                    'data' => $years->map(fn ($year) => $authData->get($year)?->total ?? 0)->toArray(),
                     'borderColor' => '#10b981',
                     'backgroundColor' => 'rgba(16, 185, 129, 0.1)',
                     'fill' => 'start',

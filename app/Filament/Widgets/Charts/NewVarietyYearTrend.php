@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class NewVarietyYearTrend extends ChartWidget
 {
-    protected static ?string $heading = '新品种审定年度趋势';
+    protected ?string $heading = '新品种审定年度趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class NewVarietyYearTrend extends ChartWidget
     protected function getData(): array
     {
         $data = NewVariety::select(
-                DB::raw('YEAR(variety_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(variety_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->whereNotNull('variety_at')
             ->groupBy('year')
             ->orderBy('year')

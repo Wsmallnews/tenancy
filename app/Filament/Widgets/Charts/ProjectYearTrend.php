@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ProjectYearTrend extends ChartWidget
 {
-    protected static ?string $heading = '项目立项年度趋势';
+    protected ?string $heading = '项目立项年度趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class ProjectYearTrend extends ChartWidget
     protected function getData(): array
     {
         $data = ProjectManage::select(
-                DB::raw('YEAR(created_at) as year'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('count(*) as total')
+        )
             ->groupBy('year')
             ->orderBy('year')
             ->get();

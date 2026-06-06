@@ -49,7 +49,7 @@ class Category extends BaseCategoryPage
         return '种质分类数据为空';
     }
 
-    public static function schema(array $arguments): array
+    protected function schema(array $arguments): array
     {
         return [
             Forms\Components\TextInput::make('name')->label('分类名称')

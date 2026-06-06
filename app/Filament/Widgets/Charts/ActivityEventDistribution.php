@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ActivityEventDistribution extends ChartWidget
 {
-    protected static ?string $heading = '操作事件类型分布';
+    protected ?string $heading = '操作事件类型分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

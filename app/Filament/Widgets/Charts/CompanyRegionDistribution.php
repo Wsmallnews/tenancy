@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class CompanyRegionDistribution extends ChartWidget
 {
-    protected static ?string $heading = '合作单位地区分布（Top 10）';
+    protected ?string $heading = '合作单位地区分布（Top 10）';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

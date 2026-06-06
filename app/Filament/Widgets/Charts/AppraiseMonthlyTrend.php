@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class AppraiseMonthlyTrend extends ChartWidget
 {
-    protected static ?string $heading = '种质评价月度新增趋势';
+    protected ?string $heading = '种质评价月度新增趋势';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class AppraiseMonthlyTrend extends ChartWidget
     protected function getData(): array
     {
         $data = Appraise::select(
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
-                DB::raw('count(*) as total')
-            )
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
+            DB::raw('count(*) as total')
+        )
             ->where('created_at', '>=', now()->subMonths(11)->startOfMonth())
             ->groupBy('month')
             ->orderBy('month')

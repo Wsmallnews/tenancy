@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class PersonnelEducationStats extends ChartWidget
 {
-    protected static ?string $heading = '人员学历分布';
+    protected ?string $heading = '人员学历分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

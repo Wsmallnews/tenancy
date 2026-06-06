@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class AppraiseTypeDistribution extends ChartWidget
 {
-    protected static ?string $heading = '种质类型分布';
+    protected ?string $heading = '种质类型分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {

@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ActivityTrend extends ChartWidget
 {
-    protected static ?string $heading = '系统操作活跃度趋势（近30天）';
+    protected ?string $heading = '系统操作活跃度趋势（近30天）';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
@@ -23,9 +23,9 @@ class ActivityTrend extends ChartWidget
     protected function getData(): array
     {
         $data = ActivityLog::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('count(*) as total')
-            )
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('count(*) as total')
+        )
             ->where('created_at', '>=', now()->subDays(29)->startOfDay())
             ->groupBy('date')
             ->orderBy('date')

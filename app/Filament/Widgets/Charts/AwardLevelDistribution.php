@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
  */
 class AwardLevelDistribution extends ChartWidget
 {
-    protected static ?string $heading = '奖项级别分布';
+    protected ?string $heading = '奖项级别分布';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
