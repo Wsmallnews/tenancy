@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Appraises\Pages;
 
 use App\Filament\Resources\Appraises\AppraiseResource;
+use App\Filament\Resources\Appraises\Widgets\PhenotypeIdentifyWidget;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -14,6 +15,13 @@ class ViewAppraise extends ViewRecord
     {
         return [
             EditAction::make(),
+        ];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            PhenotypeIdentifyWidget::class,
         ];
     }
 }

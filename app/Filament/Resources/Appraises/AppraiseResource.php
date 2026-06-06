@@ -9,6 +9,7 @@ use App\Filament\Resources\Appraises\Exports\AppraiseExporter;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Filament\Resources\Companies\CompanyResource;
 use App\Filament\Resources\Companies\Schemas\CompanyForm;
+use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Models\Appraise;
 use App\Settings\AppraiseSettings;
 use BackedEnum;
@@ -35,12 +36,13 @@ use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use UnitEnum;
-use Wsmallnews\Category\Support\Utils;
 use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class AppraiseResource extends Resource
 {
+    use HasCategoryFields;
+
     protected static ?string $model = Appraise::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
@@ -395,6 +397,7 @@ class AppraiseResource extends Resource
                         }
                     })
                     ->required()
+                    ->disabled(fn (string $operation) => $operation == 'edit')
                     ->placeholder('请选择分类')
                     ->emptyLabel('未搜索到分类')
                     ->treeKey('AppraiseCategoryId'),
@@ -612,201 +615,6 @@ class AppraiseResource extends Resource
                     ->columns(1),
             ])->columns(2),
         ];
-    }
-
-    /**
-     * 获取分类的自定义字段
-     *
-     * @param  Get  $get
-     */
-    private static function getCategoryTabs($get): array
-    {
-        $tabs = [];
-
-        $category_id = $get('category_id');
-        if ($category_id) {
-            $category = Utils::getCategoryModel()::findOrFail($category_id);
-
-            $fields = $category->options['fields'] ?? [];
-            foreach ($fields as $key => $field) {
-                $tabs[] = Schemas\Components\Tabs\Tab::make($field['name'])
-                    ->schema(function () use ($key, $field) {
-                        $schemas = [];
-                        foreach ($field['fields'] as $subKey => $subField) {
-                            $fieldKey = 'options.fields.'.$key.'.fields.'.$subKey.'.data.value';
-                            if ($field = static::getFormFields($fieldKey, $subField)) {     // 根据参数获取对应的表单
-                                $schemas[] = $field;
-                            }
-
-                            // $schemas[] = Forms\Components\TextInput::make('options.fields.' . $key . '.fields.' . $subKey .  '.value')
-                            //     ->label($subField['name'])
-                            //     ->placeholder($subField['placeholder'] ?? null)
-                            //     ->suffix($subField['unit']?? null);
-                        }
-
-                        return $schemas;
-                    })
-                    ->columns(2);
-            }
-        }
-
-        return $tabs;
-    }
-
-    /**
-     * 根据类型获取特定的字段
-     *
-     * @param  string  $fieldKey
-     * @param  array  $subField
-     */
-    private static function getFormFields($fieldKey, $subField): ?Forms\Components\Field
-    {
-        $type = $subField['type'] ?? null;
-        $data = $subField['data'] ?? [];
-
-        if ($type == 'textInput' || $type == 'number') {
-            $regex_message = $data['regex_message'] ?? null;
-            $validationMessages = [];
-            if ($regex_message) {
-                $validationMessages['regex'] = $regex_message;
-            }
-
-            $field = Forms\Components\TextInput::make($fieldKey)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit'] ?? null)
-                ->required($data['is_required'] ?? false)
-                ->regex($data['regex'] ?? null)
-                ->validationMessages($validationMessages);
-        } elseif ($type == 'select') {
-            $options = $data['options'] ?? [];
-            $options = Arr::mapWithKeys($options, function ($item) {
-                return [$item => $item];
-            });
-
-            $field = Forms\Components\Select::make($fieldKey)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit'] ?? null)
-                ->required($data['is_required'] ?? false)
-                ->options($options);
-        } elseif ($type == 'upload_image') {
-            $field = FormComponents::mediaImageUpload($fieldKey, $data['collection_name'] ?? null)
-                ->label($data['name'] ?? null)
-                ->helperText('支持上传图片')
-                ->required($data['is_required'] ?? false)
-                ->multiple($data['is_multiple'] ?? false)
-                ->minFiles($data['min_files'] ?? 1)
-                ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
-                ->uploadingMessage(($data['name'] ?? '图片').'上传中...')
-                ->columns(1);
-        } elseif ($type == 'dateTimePicker') {
-            $field_type = $data['type'];
-            match ($field_type) {
-                'date' => $field = Forms\Components\DatePicker::make($fieldKey),
-                'time' => $field = Forms\Components\TimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('H:i'.(($data['has_second'] ?? true) ? ':s' : '')),
-                'datetime' => $field = Forms\Components\DateTimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('Y-m-d H:i'.(($data['has_second'] ?? true) ? ':s' : '')),
-                default => $field = Forms\Components\TextInput::make($fieldKey),
-            };
-
-            $field = $field
-                ->native(false)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit'] ?? null)
-                ->required($data['is_required'] ?? false);
-        }
-
-        return $field ?? null;
-    }
-
-    /**
-     * tab 字段水化，保证分类中自定义字段，改变顺序时，数据库中保存的值也能正确显示
-     *
-     * @return void
-     */
-    public static function hydratedFields(Schemas\Components\Tabs $component, ?array $state)
-    {
-        $record = $component->getRecord();
-        if (! $record) {
-            $component->state($state);
-
-            return;
-        }
-
-        // 这里一定要使用 state 中的值 (不可使用 $record 数据库中的值，没有 media 数据),里面已经包括了关联查的数据,比如  laravel-medialibrary 关联的 media 资源标识
-        $recordOptions = $state['options'] ?? [];
-        $recordFields = $recordOptions['fields'] ?? [];
-
-        $category_id = $state['category_id'];
-        if (! $category_id) {
-            $component->state($state);
-
-            return;
-        }
-
-        $category = Utils::getCategoryModel()::findOrFail($category_id);
-        $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
-
-        foreach ($fields as $key => $field) {
-            $name = $field['name'] ?? null;
-            $currentRecordFields = Arr::where($recordFields, function (array $value, int $key) use ($name) {
-                $valueName = $value['name'] ?? null;
-
-                return $valueName == $name && ! is_null($valueName);
-            });
-
-            $recordField = Arr::first($currentRecordFields);
-            if (empty($recordField)) {      // 没有找到数据库中对应的值，说明分类中添加了新的分组，或者老的分组改名了（分组旧值全部无效）
-                continue;
-            }
-
-            foreach ($field['fields'] as $subKey => $subField) {
-                // 首先找到数据库中是否有当前字段信息
-                $currentRecordSubFields = Arr::where($recordField['fields'] ?? [], function (array $value, int $key) use ($subField) {
-                    $valueName = $value['data']['name'] ?? null;
-                    $subFieldName = $subField['data']['name'] ?? null;
-
-                    return $valueName == $subFieldName && ! is_null($valueName);
-                });
-
-                $recordSubField = Arr::first($currentRecordSubFields);
-
-                if (empty($recordSubField)) {
-                    continue;
-                }
-
-                $fields[$key]['fields'][$subKey]['data']['value'] = $recordSubField['data']['value'] ?? null;
-            }
-        }
-
-        $state['options']['fields'] = $fields;
-
-        $component->state($state);
-    }
-
-    /**
-     * 保存前处理数据,然后处理结果保存到数据库，CreateAppraise & EditAppraise 中调用
-     */
-    public static function getFieldsInfo($data): array
-    {
-        $currentOptions = $data['options'] ?? [];
-        $currentFields = $currentOptions['fields'] ?? [];
-        $category_id = $data['category_id'];
-
-        if ($category_id) {
-            $category = Utils::getCategoryModel()::findOrFail($category_id);
-            $fields = $category->options['fields'] ?? [];
-
-            foreach ($fields as $key => $field) {
-                foreach ($field['fields'] as $subKey => $subField) {
-                    $fields[$key]['fields'][$subKey]['data']['value'] = $currentFields[$key]['fields'][$subKey]['data']['value'] ?? null;
-                }
-            }
-            $currentOptions['fields'] = $fields;
-        }
-
-        return $currentOptions;
     }
 
     /**

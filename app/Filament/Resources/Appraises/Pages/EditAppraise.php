@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Appraises\Pages;
 
 use App\Filament\Resources\Appraises\AppraiseResource;
+use App\Filament\Resources\Appraises\Widgets\PhenotypeIdentifyWidget;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -20,6 +21,12 @@ class EditAppraise extends EditRecord
         ];
     }
 
+    protected function getFooterWidgets(): array
+    {
+        return [
+            PhenotypeIdentifyWidget::class,
+        ];
+    }
 
     /**
      * 保存前，重新组装 options 字段,填充对应的 省市区字段

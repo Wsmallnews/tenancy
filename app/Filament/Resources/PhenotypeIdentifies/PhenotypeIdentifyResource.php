@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\PhenotypeIdentifies;
 
-use App\Filament\Resources\PhenotypeIdentifies\Pages;
 use App\Filament\Resources\PhenotypeIdentifies\Schemas\PhenotypeIdentifyForm;
 use App\Filament\Resources\PhenotypeIdentifies\Schemas\PhenotypeIdentifyInfolist;
 use App\Filament\Resources\PhenotypeIdentifies\Tables\PhenotypeIdentifiesTable;
@@ -20,13 +19,13 @@ class PhenotypeIdentifyResource extends Resource
 {
     protected static ?string $model = PhenotypeIdentify::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedDocumentMinus;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentMinus;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::DocumentMinus;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::DocumentMinus;
 
     protected static ?string $navigationLabel = '表型鉴定';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'phenotype-identifies';
 
@@ -64,6 +63,7 @@ class PhenotypeIdentifyResource extends Resource
     {
         return [
             'index' => Pages\ListPhenotypeIdentifies::route('/'),
+            'category' => Pages\CategoryPhenotypeIdentifies::route('/category/{categoryId}'),
             'create' => Pages\CreatePhenotypeIdentify::route('/create'),
             'view' => Pages\ViewPhenotypeIdentify::route('/{record}'),
             'edit' => Pages\EditPhenotypeIdentify::route('/{record}/edit'),
