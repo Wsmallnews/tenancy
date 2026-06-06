@@ -12,7 +12,11 @@
       "Bash(php artisan *)",
       "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" artisan *)",
       "Bash(php.bat artisan *)",
-      "Bash(php.bat vendor/bin/pint --dirty --format agent)"
+      "Bash(php.bat vendor/bin/pint --dirty --format agent)",
+      "Bash(./vendor/bin/pint --dirty --format agent)",
+      "Bash(php vendor/bin/pint --dirty --format agent)",
+      "Bash(where php *)",
+      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" vendor/bin/pint --dirty --format agent)"
     ]
   }
 }

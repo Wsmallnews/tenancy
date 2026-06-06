@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Wsmallnews\Support\Models;
 
 return [
@@ -31,7 +32,7 @@ return [
     | Secondly, The tenant model should be set as a panel model.
     |
     */
-    'tenant_model' => \App\Models\Team::class,
+    'tenant_model' => Team::class,
 
     /*
     |--------------------------------------------------------------------------
