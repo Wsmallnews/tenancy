@@ -1,18 +1,21 @@
 <?php
 
-use App\Enums\Navigations\Type as NavigationTypeEnum;
+use App\Features\Nhgrc\Nhgrc;
+use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\SsoCallbackController;
+use App\Livewire\Appraise;
 use App\Livewire\Index;
 use App\Livewire\Navigation;
-use App\Livewire\Posts;
-use App\Livewire\Post;
-use App\Livewire\Appraise;
-use App\Livewire\Personnels;
 use App\Livewire\Personnel;
+use App\Livewire\Personnels;
+use App\Livewire\Post;
+use App\Livewire\Posts;
+use App\Livewire\Test;
 use App\Livewire\User\AppraiseApplies;
 use App\Livewire\User\AppraiseApply;
-use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
-use App\Http\Controllers\SsoCallbackController;
+use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Wsmallnews\Cms\Support\Utils;
 use Wsmallnews\Support\Http\Middleware\IdentifyTenant;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
@@ -37,16 +40,15 @@ Route::domain(Utils::getConfig('routes.domain'))
         Route::get('personnels/{id}', Personnel::class)->name('personnels.show');
 
         // 需登录路由
-        Route::middleware('cms-auth:' . Utils::getConfig('guard'))->group(function () {
+        Route::middleware('cms-auth:'.Utils::getConfig('guard'))->group(function () {
             // 个人设置
             Route::get('user/appraise-applies', AppraiseApplies::class)->name('user.appraise-applies');
             Route::get('user/appraise-applies/{id}', AppraiseApply::class)->name('user.appraise-applies.show');
         });
     });
 
-
 Route::get('test', function () {
-    $nhgrc = new \App\Features\Nhgrc\Nhgrc();
+    $nhgrc = new Nhgrc;
 
     // $result = $nhgrc->getClassifications([
     //     'parentId' => 1,
@@ -58,16 +60,14 @@ Route::get('test', function () {
     // ]);
     // dd($result);
 
-
     // $result = $nhgrc->getClassificationTree();
     // dd($result);
 
-    $media = Spatie\MediaLibrary\MediaCollections\Models\Media::find(14);
+    $media = Media::find(14);
     // dd($media->getFullUrl(), $media->getUrl(), $media->getPath());
     $result = $nhgrc->uploadImage($media);
     dd($result);
 });
-
 
 // Route::prefix("tenant/{tenant:slug}")
 //     ->name('tenant.')
@@ -85,7 +85,6 @@ Route::get('test', function () {
 //         Route::get('/appraises/{id}', Appraise::class)->name('appraises.show');
 //     });
 
-
 // Route::get('test', function () {
 //     // $panel = Filament::getCurrentPanel();
 //     // $user = auth()->user();
@@ -94,4 +93,14 @@ Route::get('test', function () {
 //     // return 'test';
 // });
 
-Route::get('/test-livewire', \App\Livewire\Test::class);
+Route::get('/test-livewire', Test::class);
+
+// Admin QR Code 下载路由
+Route::prefix('admin')
+    ->middleware(['web', 'auth:admin'])
+    ->group(function () {
+        Route::get('appraises/{appraise}/download-qrcode', [QrCodeController::class, 'download'])
+            ->name('admin.appraises.download-qrcode');
+        Route::get('appraises/batch-download-qrcode', [QrCodeController::class, 'batchDownload'])
+            ->name('admin.appraises.batch-download-qrcode');
+    });

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Appraises;
 use App\Enums\Appraises\Status;
 use App\Features\Nhgrc\Nhgrc;
 use App\Filament\Forms\Fields\DistrictSelect;
+use App\Filament\Resources\Appraises\Actions\QrCodeAction;
 use App\Filament\Resources\Appraises\Exports\AppraiseExporter;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Filament\Resources\Companies\CompanyResource;
@@ -309,6 +310,7 @@ class AppraiseResource extends Resource
                                 ->danger()->send();
                         }
                     }),
+                QrCodeAction::make(),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
@@ -333,6 +335,26 @@ class AppraiseResource extends Resource
                         }
                     }),
                 Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('downloadQrCodes')
+                        ->label('下载二维码')
+                        ->icon(Heroicon::QrCode)
+                        ->action(function (Collection $records) {
+                            $this->redirect(route('admin.appraises.batch-download-qrcode', ['ids' => $records->pluck('id')->toArray()]));
+                        }),
+
+                    // Actions\BulkAction::make('downloadQrCodesaa')
+                    //     ->label('下载二维码aa')
+                    //     ->icon(Heroicon::QrCode)
+                    //     ->action(function (Collection $records) {
+                    //         $zipPath = QrCodeService::generateAppraiseQrZip($records);
+                    //         $zipFilename = '种质评价二维码_'.now()->format('YmdHis').'.zip';
+
+                    //         return response()->streamDownload(function () use ($zipPath) {
+                    //             readfile($zipPath);
+                    //         }, $zipFilename, [
+                    //             'Content-Type' => 'application/zip',
+                    //         ])->deleteFileAfterSend(true);
+                    //     }),
                     FilamentExportBulkAction::make()
                         ->exporter(AppraiseExporter::class)
                         ->icon(Heroicon::ArrowDownTray)

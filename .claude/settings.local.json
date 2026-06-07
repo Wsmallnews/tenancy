@@ -16,7 +16,9 @@
       "Bash(./vendor/bin/pint --dirty --format agent)",
       "Bash(php vendor/bin/pint --dirty --format agent)",
       "Bash(where php *)",
-      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" vendor/bin/pint --dirty --format agent)"
+      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" vendor/bin/pint --dirty --format agent)",
+      "Bash(vendor/bin/pint --dirty --format agent)",
+      "Bash(\"C:/Users/smallnews/.config/herd/bin/php.bat\" c:/work/www/tenancyv4/vendor/bin/pint --dirty --format agent)"
     ]
   }
 }
