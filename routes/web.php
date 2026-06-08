@@ -10,6 +10,7 @@ use App\Livewire\Personnel;
 use App\Livewire\Personnels;
 use App\Livewire\Post;
 use App\Livewire\Posts;
+use App\Livewire\QrCode;
 use App\Livewire\Test;
 use App\Livewire\User\AppraiseApplies;
 use App\Livewire\User\AppraiseApply;
@@ -35,6 +36,7 @@ Route::domain(Utils::getConfig('routes.domain'))
     ->name(Utils::getConfig('routes.name'))
     ->group(function () {
         Route::get('appraises/{id}', Appraise::class)->name('appraises.show');
+        Route::get('appraises/qrcode/{token}', QrCode::class)->name('appraises.qrcode');
 
         Route::get('personnels', Personnels::class)->name('personnels');
         Route::get('personnels/{id}', Personnel::class)->name('personnels.show');

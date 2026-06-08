@@ -3,6 +3,8 @@
 namespace App\Features;
 
 use App\Models\Appraise;
+use chillerlan\QRCode\Common\EccLevel;
+use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,11 +15,42 @@ use ZipArchive;
 class QrCodeService
 {
     /**
-     * 生成前端评价详情页 URL
+     * 生成前端评价详情页 URL（二维码扫描专用）
      */
     public static function getAppraiseUrl(Appraise $appraise): string
     {
-        return CmsUtils::route('appraises.show', ['id' => $appraise->id]);
+        $token = self::encodeToken($appraise->resource_no, $appraise->germplasm_no);
+
+        return CmsUtils::route('appraises.qrcode', [
+            'token' => $token,
+            'tenant' => $appraise->team,
+        ]);
+    }
+
+    /**
+     * 编码：resource_no + germplasm_no → URL-safe token
+     */
+    public static function encodeToken(string $resourceNo, string $germplasmNo): string
+    {
+        $raw = $resourceNo . '|' . $germplasmNo;
+
+        return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+    }
+
+    /**
+     * 解码：token → ['resource_no' => ..., 'germplasm_no' => ...]
+     *
+     * @return array{resource_no: string, germplasm_no: string}
+     */
+    public static function decodeToken(string $token): array
+    {
+        $raw = base64_decode(strtr($token, '-_', '+/'));
+        [$resourceNo, $germplasmNo] = explode('|', $raw, 2);
+
+        return [
+            'resource_no' => $resourceNo,
+            'germplasm_no' => $germplasmNo,
+        ];
     }
 
     /**
@@ -26,18 +59,13 @@ class QrCodeService
     public static function getAppraiseQrSvg(Appraise $appraise): string
     {
         $options = new QROptions([
-            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-            'eccLevel' => QRCode::ECC_L,
+            'outputType' => QROutputInterface::MARKUP_SVG,
+            'eccLevel' => EccLevel::L,
             'scale' => 8,
             'imageBase64' => false,
             'svgConnects' => true,
             'drawCircularModules' => false,
             'quietzoneSize' => 2,
-            'svgAttributes' => [
-                'width' => '192',
-                'height' => '192',
-                'style' => 'display:block;',
-            ],
         ]);
 
         $qrCode = new QRCode($options);
@@ -50,8 +78,8 @@ class QrCodeService
      */
     public static function generateAppraiseQrImage(Appraise $appraise): string
     {
-        $qrSize = 300;
-        $padding = 20;
+        $qrSize = 328;
+        $padding = 10;
         $textAreaHeight = 100;
         $totalWidth = $qrSize + $padding * 2;
         $totalHeight = $qrSize + $padding * 2 + $textAreaHeight;
@@ -75,13 +103,13 @@ class QrCodeService
 
         // 绘制文字
         $fontPath = self::getFontPath();
-        $fontSize = 14;
-        $lineHeight = 22;
-        $textX = $padding;
+        $fontSize = 12;
+        $lineHeight = 26;
+        $textX = $padding + 10;
         $textY = $qrSize + $padding + 25;
 
         // 全国统一编号
-        $resourceNo = '全国统一编号：'.($appraise->resource_no ?? '-');
+        $resourceNo = '全国统一编号：' . ($appraise->resource_no ?? '-');
         if ($fontPath) {
             imagettftext($image, $fontSize, 0, $textX, $textY, $black, $fontPath, $resourceNo);
         } else {
@@ -90,7 +118,7 @@ class QrCodeService
 
         // 种质圃编号
         $textY += $lineHeight;
-        $germplasmNo = '种质圃编号：'.($appraise->germplasm_no ?? '-');
+        $germplasmNo = '种质圃编号：' . ($appraise->germplasm_no ?? '-');
         if ($fontPath) {
             imagettftext($image, $fontSize, 0, $textX, $textY, $black, $fontPath, $germplasmNo);
         } else {
@@ -99,11 +127,11 @@ class QrCodeService
 
         // 种质名称
         $textY += $lineHeight;
-        $name = '种质名称：'.($appraise->name ?? '-');
+        $name = '种质名称：' . ($appraise->name ?? '-');
         if ($fontPath) {
-            imagettftext($image, $fontSize, 0, $textX, $textY, $gray, $fontPath, $name);
+            imagettftext($image, $fontSize, 0, $textX, $textY, $black, $fontPath, $name);
         } else {
-            imagestring($image, 5, $textX, $textY - 12, $name, $gray);
+            imagestring($image, 5, $textX, $textY - 12, $name, $black);
         }
 
         // 输出 PNG
@@ -120,7 +148,7 @@ class QrCodeService
      */
     public static function generateAppraiseQrZip(Collection $appraises): string
     {
-        $tempPath = storage_path('app/temp/appraise-qrcodes-'.time().'.zip');
+        $tempPath = storage_path('app/temp/appraise-qrcodes-' . time() . '.zip');
         File::ensureDirectoryExists(dirname($tempPath));
 
         $zip = new ZipArchive;
@@ -136,7 +164,7 @@ class QrCodeService
             $germplasmNo = preg_replace('/[^a-zA-Z0-9\-_]/', '_', $appraise->germplasm_no ?? 'unknown');
             $name = preg_replace('/[^a-zA-Z0-9\-_\x{4e00}-\x{9fa5}]/u', '_', $appraise->name ?? '');
             $name = mb_substr($name, 0, 30); // 限制文件名长度
-            $filename = ($index + 1).'_'.$resourceNo.'_'.$germplasmNo.'_'.$name.'.png';
+            $filename = ($index + 1) . '_' . $resourceNo . '_' . $germplasmNo . '_' . $name . '.png';
 
             $zip->addFromString($filename, $pngData);
         }
@@ -154,7 +182,7 @@ class QrCodeService
         $resourceNo = preg_replace('/[^a-zA-Z0-9\-_]/', '_', $appraise->resource_no ?? 'unknown');
         $germplasmNo = preg_replace('/[^a-zA-Z0-9\-_]/', '_', $appraise->germplasm_no ?? 'unknown');
 
-        return $resourceNo.'_'.$germplasmNo.'.png';
+        return $resourceNo . '_' . $germplasmNo . '.png';
     }
 
     /**
@@ -163,10 +191,12 @@ class QrCodeService
     private static function generateQrPng(string $data, int $size): string
     {
         $options = new QROptions([
-            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-            'eccLevel' => QRCode::ECC_L,
-            'scale' => 10,
+            'outputType' => QROutputInterface::GDIMAGE_PNG,
+            'eccLevel' => EccLevel::L,
+            'scale' => 8,
             'imageBase64' => false,
+            'drawCircularModules' => false,
+            'quietzoneSize' => 2,
         ]);
 
         $qrCode = new QRCode($options);

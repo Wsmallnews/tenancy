@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Appraises\Pages;
 
+use App\Filament\Resources\Appraises\Actions\QrCodeAction;
 use App\Filament\Resources\Appraises\AppraiseResource;
 use App\Filament\Resources\Appraises\Widgets\PhenotypeIdentifyWidget;
 use Filament\Actions\EditAction;
@@ -14,6 +15,7 @@ class ViewAppraise extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            QrCodeAction::make(),
             EditAction::make(),
         ];
     }

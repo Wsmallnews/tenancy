@@ -3,13 +3,11 @@
 namespace App\Filament\Resources\Appraises\Schemas;
 
 use App\Features\Common;
-use App\Features\QrCodeService;
 use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Wsmallnews\Category\Support\Utils;
 
@@ -45,15 +43,6 @@ class AppraiseInfolist
                                     Infolists\Components\SpatieMediaLibraryImageEntry::make('firstMedia')
                                         ->label('种质封面图')
                                         ->collection('cover')
-                                        ->extraAttributes([
-                                            'class' => 'sn-two-rows',
-                                        ]),
-                                    Schemas\Components\Text::make(fn (Model $record) => new HtmlString(
-                                        '<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md text-center">'.
-                                        '<div class="mb-2">'.QrCodeService::getAppraiseQrSvg($record).'</div>'.
-                                        '<a href="'.route('admin.appraises.download-qrcode', $record).'" target="_blank" class="text-sm text-primary-600 hover:text-primary-500">下载二维码</a>'.
-                                        '</div>'
-                                    ))
                                         ->extraAttributes([
                                             'class' => 'sn-two-rows',
                                         ]),

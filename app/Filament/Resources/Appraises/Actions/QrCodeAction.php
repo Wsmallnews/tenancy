@@ -4,11 +4,12 @@ namespace App\Filament\Resources\Appraises\Actions;
 
 use App\Features\QrCodeService;
 use Filament\Actions\Action;
-use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Text;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 
 class QrCodeAction extends Action
@@ -34,8 +35,8 @@ class QrCodeAction extends Action
                 // QR SVG 展示
                 Text::make(new HtmlString(
                     '<div class="w-56 h-56 mt-4 border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden">'.
-                    QrCodeService::getAppraiseQrSvg($record).
-                    '</div>'
+                        QrCodeService::getAppraiseQrSvg($record).
+                        '</div>'
                 ))->extraAttributes([
                     'class' => 'w-full flex justify-center items-center',
                 ]),
@@ -44,29 +45,32 @@ class QrCodeAction extends Action
                 Text::make(new HtmlString('种质圃编号：'.$record->germplasm_no)),
                 Text::make(new HtmlString('种质名称：'.$record->name)),
 
-                Flex::make([
-                    // 下载按钮
-                    Action::make('downloadQr')
-                        ->label('下载二维码')
-                        ->extraAttributes(['class' => 'w-full'])
-                        ->icon(Heroicon::ArrowDownTray)
-                        ->url(fn ($record) => route('admin.appraises.download-qrcode', $record))
-                        ->openUrlInNewTab()
-                        ->button(),
-
+                Actions::make([
                     // 前端详情链接
                     Action::make('viewFrontend')
                         ->label('查看前端详情')
-                        ->extraAttributes(['class' => 'w-full'])
                         ->icon(Heroicon::ArrowTopRightOnSquare)
                         ->url(fn ($record) => QrCodeService::getAppraiseUrl($record))
                         ->openUrlInNewTab()
                         ->color('gray')
                         ->button(),
-                ])
-                    ->extraAttributes(['class' => 'w-full'])
-                    ->grow()
-                    ->columns(2),
+                    // 下载按钮
+                    Action::make('downloadQr')
+                        ->label('下载二维码')
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->action(function (Model $record) {
+                            $pngData = QrCodeService::generateAppraiseQrImage($record);
+                            $filename = QrCodeService::getSafeFilename($record);
+
+                            return response()->streamDownload(function () use ($pngData) {
+                                echo $pngData;
+                            }, $filename, [
+                                'Content-Type' => 'image/png',
+                            ]);
+                        })
+                        ->button(),
+
+                ])->fullWidth(),
             ]);
     }
 }
