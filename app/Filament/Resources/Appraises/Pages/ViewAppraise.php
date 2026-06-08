@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Appraises\Pages;
 
 use App\Filament\Resources\Appraises\Actions\QrCodeAction;
 use App\Filament\Resources\Appraises\AppraiseResource;
-use App\Filament\Resources\Appraises\Widgets\PhenotypeIdentifyWidget;
+use App\Filament\Resources\PhenotypeIdentifies\Widgets\PhenotypeIdentifyTableWidget;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -23,7 +23,7 @@ class ViewAppraise extends ViewRecord
     protected function getFooterWidgets(): array
     {
         return [
-            PhenotypeIdentifyWidget::class,
+            PhenotypeIdentifyTableWidget::class,
         ];
     }
 }

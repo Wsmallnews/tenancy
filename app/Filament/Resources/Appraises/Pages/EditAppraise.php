@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Appraises\Pages;
 
 use App\Filament\Resources\Appraises\AppraiseResource;
-use App\Filament\Resources\Appraises\Widgets\PhenotypeIdentifyWidget;
+use App\Filament\Resources\PhenotypeIdentifies\Widgets\PhenotypeIdentifyTableWidget;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -24,7 +24,7 @@ class EditAppraise extends EditRecord
     protected function getFooterWidgets(): array
     {
         return [
-            PhenotypeIdentifyWidget::class,
+            PhenotypeIdentifyTableWidget::class,
         ];
     }
 

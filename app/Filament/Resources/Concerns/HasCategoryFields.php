@@ -8,12 +8,13 @@ use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Component as Livewire;
-use Wsmallnews\Category\Support\Utils;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
+use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
 /**
  * 种质分类自定义字段公共 trait
@@ -36,7 +37,7 @@ trait HasCategoryFields
 
         $category_id = $get($categoryFieldName);
         if ($category_id) {
-            $category = Utils::getCategoryModel()::findOrFail($category_id);
+            $category = CategoryUtils::getCategoryModel()::findOrFail($category_id);
 
             $fields = $category->options['fields'] ?? [];
             foreach ($fields as $key => $field) {
@@ -152,7 +153,7 @@ trait HasCategoryFields
             return;
         }
 
-        $category = Utils::getCategoryModel()::findOrFail($category_id);
+        $category = CategoryUtils::getCategoryModel()::findOrFail($category_id);
         $fields = $category->options['fields'] ?? [];
 
         foreach ($fields as $key => $field) {
@@ -205,7 +206,7 @@ trait HasCategoryFields
         $category_id = $data[$categoryFieldName];
 
         if ($category_id) {
-            $category = Utils::getCategoryModel()::findOrFail($category_id);
+            $category = CategoryUtils::getCategoryModel()::findOrFail($category_id);
             $fields = $category->options['fields'] ?? [];
 
             foreach ($fields as $key => $field) {
@@ -343,5 +344,45 @@ trait HasCategoryFields
         }
 
         return $column ?? null;
+    }
+
+
+    /**
+     * 根据分类的自定义字段动态添加列
+     */
+    protected function applyDynamicCategoryColumns(Table $table, int $categoryId): Table
+    {
+        $category = CategoryUtils::getCategoryModel()::find($categoryId);
+        if (! $category) {
+            return $table;
+        }
+
+        $dynamicColumns = [];
+        $fields = $category->options['fields'] ?? [];
+
+        foreach ($fields as $key => $field) {
+            $groupName = $field['name'] ?? '';
+
+            foreach ($field['fields'] as $subKey => $subField) {
+                $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
+                $subFieldType = $subField['type'] ?? null;
+
+                if ($subFieldType === 'upload_image') {
+                    $column = static::getTableColumnOnlyMedia($fieldKey, $subField, $groupName);
+                } else {
+                    $column = static::getTableColumnWithoutMedia($fieldKey, $subField, $groupName);
+                }
+
+                if ($column) {
+                    $dynamicColumns[] = $column;
+                }
+            }
+        }
+
+        if (! empty($dynamicColumns)) {
+            $table->pushColumns($dynamicColumns);
+        }
+
+        return $table;
     }
 }

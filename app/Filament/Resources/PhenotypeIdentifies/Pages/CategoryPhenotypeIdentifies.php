@@ -52,32 +52,8 @@ class CategoryPhenotypeIdentifies extends ListRecords
     {
         $table = parent::table($table);
 
-        // 根据分类的自定义字段动态添加列
-        $category = CategoryUtils::getCategoryModel()::find($this->categoryId);
-        if ($category) {
-            $dynamicColumns = [];
-            $fields = $category->options['fields'] ?? [];
-            foreach ($fields as $key => $field) {
-                $groupName = $field['name'] ?? '';
-                foreach ($field['fields'] as $subKey => $subField) {
-                    $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
-                    $subFieldType = $subField['type'] ?? null;
-
-                    if ($subFieldType === 'upload_image') {
-                        $column = static::getTableColumnOnlyMedia($fieldKey, $subField, $groupName);
-                    } else {
-                        $column = static::getTableColumnWithoutMedia($fieldKey, $subField, $groupName);
-                    }
-
-                    if ($column) {
-                        $dynamicColumns[] = $column;
-                    }
-                }
-            }
-
-            if (! empty($dynamicColumns)) {
-                $table->pushColumns($dynamicColumns);
-            }
+        if ($this->categoryId) {
+            $this->applyDynamicCategoryColumns($table, $this->categoryId);
         }
 
         return $table;
