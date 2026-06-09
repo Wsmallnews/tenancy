@@ -2,9 +2,9 @@
 
 namespace App\Filament\Widgets\Charts;
 
-use App\Models\ActivityLog;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Support\Config as ActivitylogConfig;
 
 /**
  * 系统操作活跃度趋势折线图
@@ -15,6 +15,8 @@ class ActivityTrend extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    protected ?string $pollingInterval = null;
+
     protected function getType(): string
     {
         return 'line';
@@ -22,7 +24,7 @@ class ActivityTrend extends ChartWidget
 
     protected function getData(): array
     {
-        $data = ActivityLog::select(
+        $data = ActivitylogConfig::activityModel()::select(
             DB::raw('DATE(created_at) as date'),
             DB::raw('count(*) as total')
         )

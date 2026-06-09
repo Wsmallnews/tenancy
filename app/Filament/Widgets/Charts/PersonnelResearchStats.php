@@ -15,6 +15,8 @@ class PersonnelResearchStats extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    protected ?string $pollingInterval = null;
+
     protected function getType(): string
     {
         return 'bar';

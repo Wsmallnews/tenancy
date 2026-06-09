@@ -2,9 +2,9 @@
 
 namespace App\Filament\Widgets\Charts;
 
-use App\Models\ActivityLog;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Support\Config as ActivitylogConfig;
 
 /**
  * 操作事件类型分布柱状图
@@ -15,6 +15,8 @@ class ActivityEventDistribution extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    protected ?string $pollingInterval = null;
+
     protected function getType(): string
     {
         return 'bar';
@@ -22,7 +24,7 @@ class ActivityEventDistribution extends ChartWidget
 
     protected function getData(): array
     {
-        $data = ActivityLog::select('event', DB::raw('count(*) as total'))
+        $data = ActivitylogConfig::activityModel()::select('event', DB::raw('count(*) as total'))
             ->whereNotNull('event')
             ->where('event', '!=', '')
             ->groupBy('event')
