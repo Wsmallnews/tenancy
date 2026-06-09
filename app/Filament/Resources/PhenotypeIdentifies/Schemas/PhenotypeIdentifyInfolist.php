@@ -72,12 +72,11 @@ class PhenotypeIdentifyInfolist
                                     'class' => 'sn-grid-table',
                                 ])
                                 ->schema([
-                                    Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise_cover')
+                                    Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
                                         ->label('种质封面图')
                                         ->collection('cover')
-                                        ->state(fn (Model $record) => $record->appraise?->getFirstMediaUrl('cover'))
                                         ->extraAttributes([
-                                            'class' => 'sn-two-rows',
+                                            'class' => 'sn-two-rows'
                                         ]),
                                     Infolists\Components\TextEntry::make('appraise.resource_no')
                                         ->label('全国统一编号'),
@@ -153,7 +152,7 @@ class PhenotypeIdentifyInfolist
                         ->schema(function () use ($key, $field) {
                             $schemas = [];
                             foreach ($field['fields'] as $subKey => $subField) {
-                                $fieldKey = 'options.fields.'.$key.'.fields.'.$subKey.'.data.value';
+                                $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
                                 if ($entryField = static::getEntryFieldsWithoutMedia($fieldKey, $subField)) {
                                     $schemas[] = $entryField;
                                 }
@@ -164,7 +163,7 @@ class PhenotypeIdentifyInfolist
 
                     // media 字段
                     foreach ($field['fields'] as $subKey => $subField) {
-                        $fieldKey = 'options.fields.'.$key.'.fields.'.$subKey.'.data.value';
+                        $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
                         if ($entryField = static::getEntryFieldsOnlyMedia($fieldKey, $subField)) {
                             $sidebarContents[] = $entryField;
                         }
@@ -178,6 +177,6 @@ class PhenotypeIdentifyInfolist
 
     private static function getSidebarId(string $name): string
     {
-        return 'pi'.Str::Studly(pinyin_permalink($name));
+        return 'pi' . Str::Studly(pinyin_permalink($name));
     }
 }

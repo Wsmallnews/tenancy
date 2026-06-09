@@ -350,11 +350,11 @@ trait HasCategoryFields
     /**
      * 根据分类的自定义字段动态添加列
      */
-    protected function applyDynamicCategoryColumns(Table $table, int $categoryId): Table
+    protected static function getDynamicCategoryColumns(int $categoryId): array
     {
         $category = CategoryUtils::getCategoryModel()::find($categoryId);
         if (! $category) {
-            return $table;
+            return [];
         }
 
         $dynamicColumns = [];
@@ -379,10 +379,6 @@ trait HasCategoryFields
             }
         }
 
-        if (! empty($dynamicColumns)) {
-            $table->pushColumns($dynamicColumns);
-        }
-
-        return $table;
+        return $dynamicColumns;
     }
 }

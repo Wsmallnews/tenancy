@@ -8,6 +8,7 @@ use App\Models\Appraise;
 use App\Models\PhenotypeIdentify;
 use Filament\Actions;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 
@@ -16,6 +17,8 @@ class PhenotypeIdentifyTableWidget extends TableWidget
     use HasCategoryFields;
 
     protected int|string|array $columnSpan = 'full';
+
+    protected static ?string $heading = '表型鉴定';
 
     public ?Appraise $record = null;
 
@@ -40,6 +43,14 @@ class PhenotypeIdentifyTableWidget extends TableWidget
                     ->label('名称')
                     ->searchable()
                     ->toggleable(),
+                TextColumn::make('description')
+                    ->label('描述')
+                    ->searchable()
+                    ->toggleable(),
+                ColumnGroup::make(
+                    '种质信息',
+                    static::getDynamicCategoryColumns($this->record->category_id)
+                ),
                 TextColumn::make('order_column')
                     ->label('排序')
                     ->alignCenter()
@@ -60,11 +71,6 @@ class PhenotypeIdentifyTableWidget extends TableWidget
                     ->icon('heroicon-o-eye')
                     ->url(fn(PhenotypeIdentify $record): string => PhenotypeIdentifyResource::getUrl('view', ['record' => $record])),
             ]);
-
-        // 动态追加分类自定义字段列
-        if ($this->record?->category_id) {
-            $this->applyDynamicCategoryColumns($table, $this->record->category_id);
-        }
 
         return $table;
     }

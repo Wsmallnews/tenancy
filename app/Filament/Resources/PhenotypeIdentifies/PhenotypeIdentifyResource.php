@@ -62,8 +62,8 @@ class PhenotypeIdentifyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPhenotypeIdentifies::route('/'),
-            'category' => Pages\CategoryPhenotypeIdentifies::route('/category/{categoryId}'),
+            'index' => Pages\CategoryPhenotypeIdentify::route('/'),
+            'table' => Pages\ListPhenotypeIdentifies::route('/category/{categoryId}'),
             'create' => Pages\CreatePhenotypeIdentify::route('/create'),
             'view' => Pages\ViewPhenotypeIdentify::route('/{record}'),
             'edit' => Pages\EditPhenotypeIdentify::route('/{record}/edit'),

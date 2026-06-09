@@ -51,7 +51,7 @@
                             <div class="flex flex-wrap gap-2">
                                 @foreach($children as $child)
                                     <a
-                                        href="{{ PhenotypeIdentifyResource::getUrl('category', ['categoryId' => $child->id]) }}"
+                                        href="{{ PhenotypeIdentifyResource::getUrl('table', ['categoryId' => $child->id]) }}"
                                         class="sn-btn sn-btn-sm sn-btn-outline"
                                     >
                                         {{ $child->name }}

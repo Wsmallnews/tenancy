@@ -2,45 +2,49 @@
 
 namespace App\Filament\Resources\PhenotypeIdentifies\Pages;
 
+use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
-use Filament\Resources\Pages\Page;
-use Livewire\Attributes\Locked;
-use Wsmallnews\Category\Livewire\Concerns\Categoryable;
+use Filament\Actions;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Url;
+use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
-class ListPhenotypeIdentifies extends Page
+class ListPhenotypeIdentifies extends ListRecords
 {
-    use Categoryable;
-
-    #[Locked]
-    public string $scopeType = 'appraise';
-
-    #[Locked]
-    public int $scopeId = 0;
+    use HasCategoryFields;
 
     protected static string $resource = PhenotypeIdentifyResource::class;
 
-    protected string $view = 'filament.resources.phenotype-identifies.list';
+    #[Url]
+    public ?int $categoryId = null;
 
-    protected static ?string $title = '表型鉴定';
+    public function getTitle(): string
+    {
+        $category = $this->getCategory();
 
-    protected static ?string $navigationLabel = '表型鉴定';
+        return $category ? "表型鉴定 - {$category->name}" : '表型鉴定';
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
 
     public function getBreadcrumbs(): array
     {
-        return [];
+        return [
+            PhenotypeIdentifyResource::getUrl('index') => '表型鉴定',
+            '#' => $this->getTitle(),
+        ];
     }
 
-    public function getScopeable(): array
-    {
-        return ['scope_type' => $this->scopeType, 'scope_id' => $this->scopeId];
-    }
 
-    public function getCategories()
+    protected function getCategory()
     {
-        $categories = $this->getScopedQuery()->normal()
-            ->defaultOrder()
-            ->get()->toTree();
-
-        return $categories;
+        return CategoryUtils::getCategoryModel()::scopeable('appraise', 0)->where('team_id', current_tenant()?->id)->find($this->categoryId);
     }
 }
