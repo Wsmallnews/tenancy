@@ -40,8 +40,6 @@ class GermplasmDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
-    protected string $view = 'filament::pages.page';
-
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */
