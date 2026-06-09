@@ -25,7 +25,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Artisan;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 use UnitEnum;
 
@@ -68,10 +68,10 @@ class TeamResource extends Resource
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('slug')->label('标识')
-                                ->placeholder('请输入租户标识')
-                                ->regex('/^[A-Za-z0-9_]+$/')
-                                ->unique()
-                                ->required(),
+                            ->placeholder('请输入租户标识')
+                            ->regex('/^[A-Za-z0-9_]+$/')
+                            ->unique()
+                            ->required(),
                         Forms\Components\Radio::make('status')
                             ->label('状态')
                             ->default(Status::Enable)
@@ -79,8 +79,8 @@ class TeamResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg')
             ]);
     }
 
@@ -126,7 +126,7 @@ class TeamResource extends Resource
             ->searchPlaceholder('搜索租户名称')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->recordActions([

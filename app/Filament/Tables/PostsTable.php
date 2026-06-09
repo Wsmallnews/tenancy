@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Wsmallnews\Cms\Facades\FlagRegistry;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class PostsTable
 {
@@ -63,7 +63,7 @@ class PostsTable
                 //     ->toggleable(),
                 Tables\Columns\TextColumn::make('counter')
                     ->label('浏览量')
-                    ->formatStateUsing(fn ($state) => $state->view_num)
+                    ->formatStateUsing(fn($state) => $state->view_num)
                     ->alignCenter()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
@@ -99,7 +99,7 @@ class PostsTable
                             $query->hasFlag($data['value']);
                         }
                     }),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 TrashedFilter::make(),
             ])
             ->recordActions([
@@ -131,7 +131,7 @@ class PostsTable
                     ->action(function (Collection $records) {
                         try {
                             $nhgrc = new Nhgrc();
-                            $result =$nhgrc->batchSubmitArticle($records);
+                            $result = $nhgrc->batchSubmitArticle($records);
 
                             \Filament\Notifications\Notification::make()
                                 ->title('提交成功')

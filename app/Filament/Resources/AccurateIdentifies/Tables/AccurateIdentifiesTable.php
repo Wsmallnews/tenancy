@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\AccurateIdentifies\Tables;
 
+use App\Filament\Resources\AccurateIdentifies\Exports\AccurateIdentifyExporter;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class AccurateIdentifiesTable
 {
@@ -97,8 +101,9 @@ class AccurateIdentifiesTable
                     ->searchable()
                     ->state(function (Model $record): string {
                         if ($record->appraise?->country_code == 'CN') {
-                            return $record->appraise->province_name . ' / ' . $record->appraise->city_name;
+                            return $record->appraise->province_name.' / '.$record->appraise->city_name;
                         }
+
                         return '/';
                     })
                     ->toggleable(),
@@ -127,8 +132,14 @@ class AccurateIdentifiesTable
             ->searchPlaceholder('搜索鉴定方法、样本编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AccurateIdentifyExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
@@ -137,6 +148,10 @@ class AccurateIdentifiesTable
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(AccurateIdentifyExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

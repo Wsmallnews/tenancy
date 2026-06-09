@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\AppraiseApplies\Tables;
 
+use App\Filament\Resources\AppraiseApplies\Exports\AppraiseApplyExporter;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Support\Enums\Width;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class AppraiseAppliesTable
 {
@@ -80,8 +84,14 @@ class AppraiseAppliesTable
             ->searchPlaceholder('搜索申请人、用种单位等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AppraiseApplyExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
@@ -90,6 +100,10 @@ class AppraiseAppliesTable
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(AppraiseApplyExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

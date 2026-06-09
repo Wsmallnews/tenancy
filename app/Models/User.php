@@ -31,7 +31,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Wsmallnews\Comment\Support\Utils as CommentUtils;
 use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
 
-class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery,HasAvatar, HasEmailAuthentication, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasAvatar, HasEmailAuthentication, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasActivity;
@@ -94,7 +94,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url;
+        return $this->avatar_url ? files_url($this->avatar_url) : null;
     }
 
     public function getFilamentName(): string
@@ -113,7 +113,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         // return true;        // @sn todo 这里不限制登录判断
         // return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
     }
-    
+
     public function comments(): MorphMany
     {
         return $this->morphMany(CommentUtils::getCommentModel(), 'commenter');

@@ -4,11 +4,10 @@ namespace App\Models;
 
 use App\Enums\Preserves\PreserveType;
 use App\Enums\Preserves\Status;
-use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
@@ -28,17 +27,13 @@ class Preserve extends SupportModel implements HasMedia
         'status' => Status::class,
     ];
 
-
     /**
      * 默认模型名称
-     *
-     * @return string
      */
     public static function getModelLabel(): string
     {
         return '保存';
     }
-
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -46,7 +41,7 @@ class Preserve extends SupportModel implements HasMedia
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
 
     public function scopeNormal($query)

@@ -2,20 +2,22 @@
 
 namespace App\Filament\Resources\Personnels\Tables;
 
+use App\Filament\Resources\Personnels\Exports\PersonnelExporter;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 class PersonnelsTable
 {
-
     public static function configure(Table $table): Table
     {
         return $table
@@ -61,6 +63,10 @@ class PersonnelsTable
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->toggleable(),
+                Tables\Columns\IconColumn::make('is_display')
+                    ->label('对外展示')
+                    ->boolean()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->toggleable()
@@ -76,12 +82,22 @@ class PersonnelsTable
             ->filters([
                 TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(PersonnelExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
+            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(PersonnelExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),

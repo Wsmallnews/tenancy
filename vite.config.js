@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/filament/admin/theme.css',
                 'resources/js/filament/admin/app.js',
+                'resources/js/filament/table-scrollable.js',
                 'resources/css/filament/platform/theme.css',
                 'resources/js/filament/platform/app.js'
             ],

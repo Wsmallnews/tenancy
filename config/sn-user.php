@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Wsmallnews\User\Models;
 
 return [
@@ -7,7 +8,7 @@ return [
      * Custom models
      */
     'models' => [
-        'user' => \App\Models\User::class,
+        'user' => User::class,
     ],
 
     /**
@@ -45,7 +46,7 @@ return [
         /**
          * Whether to enable the cms routes.
          */
-        'enabled' => true,
+        'enabled' => false,
         /**
          * The domain where the cms routes should be registered.
          * If you differentiate tenants by domain, you should set it like this: {tenant:slug}.example.com

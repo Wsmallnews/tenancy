@@ -1,7 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git checkout *)",
+      "Bash(\"/c/Users/XPKJ-003/.config/herd/bin/php.bat\" \"/c/ProgramData/ComposerSetup/bin/composer.phar\" update --with-all-dependencies --no-scripts)",
+      "Bash(npm run *)",
+      "mcp__laravel-boost__browser-logs",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(k,v.get\\('file',''\\)\\) for k,v in d.items\\(\\) if 'admin' in k.lower\\(\\) and k.endswith\\('.js'\\)]\")",
+      "Bash(node -e \"const m=require\\('./public/build/manifest.json'\\); console.log\\(JSON.stringify\\(m['resources/js/filament/admin/app.js'], null, 2\\)\\)\")",
+      "mcp__laravel-boost__search-docs",
+      "Bash(php artisan *)",
+      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" artisan *)",
+      "Bash(php.bat artisan *)",
+      "Bash(php.bat vendor/bin/pint --dirty --format agent)",
+      "Bash(./vendor/bin/pint --dirty --format agent)",
+      "Bash(php vendor/bin/pint --dirty --format agent)",
+      "Bash(where php *)",
+      "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" vendor/bin/pint --dirty --format agent)",
+      "Bash(vendor/bin/pint --dirty --format agent)",
+      "Bash(\"C:/Users/smallnews/.config/herd/bin/php.bat\" c:/work/www/tenancyv4/vendor/bin/pint --dirty --format agent)"
     ]
   }
 }

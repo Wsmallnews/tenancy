@@ -4,9 +4,9 @@ namespace App\Filament\Resources\ProjectManages\Schemas;
 
 use App\Enums\ProjectManages\Status;
 use App\Settings\ProjectSettings;
+use Filament\Forms;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
-use Filament\Forms;
 use Illuminate\Support\Arr;
 
 class ProjectManageForm
@@ -63,6 +63,7 @@ class ProjectManageForm
                                 ->required(),
                             Forms\Components\TextInput::make('budget')->label('总预算')
                                 ->placeholder('请输入总预算')
+                                ->suffix('元')
                                 ->required(),
                         ])->columns(2),
                     ])->columns(1),
@@ -77,8 +78,8 @@ class ProjectManageForm
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 }

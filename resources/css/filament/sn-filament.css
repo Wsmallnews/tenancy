@@ -11,10 +11,14 @@
 .fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item {
     @apply overflow-hidden;
 }
-.fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item .fi-fo-repeater-item-header {
+.fi-fo-repeater.category-custom-field-group
+    .fi-fo-repeater-item
+    .fi-fo-repeater-item-header {
     @apply bg-gray-400 dark:bg-gray-700;
 }
-.fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item .fi-fo-repeater-item-content{
+.fi-fo-repeater.category-custom-field-group
+    .fi-fo-repeater-item
+    .fi-fo-repeater-item-content {
     @apply bg-gray-200 dark:bg-gray-800;
 }
 /** 分类 repeater 下的 builder 区域样式设置 **/
@@ -22,10 +26,14 @@
     @apply overflow-hidden;
 }
 
-.fi-fo-builder.category-custom-field .fi-fo-builder-item .fi-fo-builder-item-header {
+.fi-fo-builder.category-custom-field
+    .fi-fo-builder-item
+    .fi-fo-builder-item-header {
     @apply bg-gray-400 dark:bg-gray-700;
 }
-.fi-fo-builder.category-custom-field .fi-fo-builder-item .fi-fo-builder-item-content {
+.fi-fo-builder.category-custom-field
+    .fi-fo-builder-item
+    .fi-fo-builder-item-content {
     @apply bg-gray-300 dark:bg-gray-900;
 }
 
@@ -76,7 +84,6 @@
     @apply p-4;
 }
 
-
 /** 表单 page 标题，按钮，表单 区域 间距 */
 .fi-page-header-main-ctn {
     @apply gap-y-4 py-4;
@@ -117,7 +124,6 @@
 }
 /** --------------------------------页面紧凑处理结束------------------------------ **/
 
-
 /** --------------------------------更改部分区域样式开始------------------------------ **/
 /** 部分 section 移除了内边距，内容会超出section 的圆角 **/
 .fi-section {
@@ -126,19 +132,19 @@
 
 /** 页面标题 **/
 .fi-header {
-    @apply bg-white p-4 rounded-md shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
+    @apply rounded-md bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
 }
 .fi-header-heading {
     @apply text-xl;
 }
-
 
 /** tabs 样式 **/
 
 .fi-tabs-item.fi-active {
     @apply bg-primary-600 dark:bg-primary-700;
 }
-.fi-tabs-item.fi-active .fi-tabs-item-label, .fi-tabs-item.fi-active svg {
+.fi-tabs-item.fi-active .fi-tabs-item-label,
+.fi-tabs-item.fi-active svg {
     @apply text-white dark:text-white;
 }
 .fi-tabs {
@@ -147,7 +153,6 @@
     }
 }
 /** --------------------------------更改部分区域样式结束------------------------------ **/
-
 
 /** -------------------------------- 内容圆角开始------------------------------ **/
 /** 左侧菜单 按钮 圆角改小 **/
@@ -201,7 +206,7 @@
 
 /** tabs 圆角改小 **/
 .fi-tabs {
-    @apply px-4 rounded-md;
+    @apply rounded-md px-4;
 }
 
 /** tabs 里面的 item 圆角改小 **/
@@ -215,3 +220,22 @@
 }
 
 /** -------------------------------- 内容圆角结束------------------------------ **/
+
+/** --------------------------------表格操作栏固定右侧开始------------------------------ **/
+
+/* 表头操作列 sticky */
+thead > tr > th.fi-ta-actions-header-cell {
+    @apply sticky right-0 z-10 bg-gray-50 dark:bg-white/5;
+}
+
+/* 表体操作列 sticky */
+.fi-ta-table > tbody > tr > .fi-ta-cell:has(.fi-ta-actions) {
+    @apply sticky right-0 z-10 bg-white dark:bg-gray-900;
+}
+
+/* 表格可滚动时，操作列悬浮背景色 */
+.fi-ta-table.is-scrollable > thead > tr > th.fi-ta-actions-header-cell,
+.fi-ta-table.is-scrollable > tbody > tr > .fi-ta-cell:has(.fi-ta-actions) {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+/** --------------------------------表格操作栏固定右侧结束------------------------------ **/

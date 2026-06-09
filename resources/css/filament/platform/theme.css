@@ -1,18 +1,28 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
 
-@import '../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css';
+/* wsmallnews/support */
+@import "../../../../vendor/wsmallnews/support/resources/css/index.css";
 
-/* 加载 CMS 样式 */
-@import '../../../../vendor/wsmallnews/cms/resources/css/index.css';
+/* wsmallnews/preference */
+@import "../../../../vendor/wsmallnews/preference/resources/css/index.css";
+
+/* wsmallnews/comment */
+@import "../../../../vendor/wsmallnews/comment/resources/css/index.css";
+
+/* wsmallnews/cms */
+@import "../../../../vendor/wsmallnews/cms/resources/css/index.css";
+
+/* wsmallnews/filament-nestedset */
+@import "../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css";
 
 /* 自定义 infolist */
-@import '../sn-grid-table.css';
+@import "../sn-grid-table.css";
 /* 自定义 filament 组件样式 */
-@import '../sn-filament.css';
+@import "../sn-filament.css";
 
-@source '../../../../app/Filament/**/*';
-@source '../../../../app/Features/**/*';
-@source '../../../../resources/views/**/*';
+@source "../../../../app/Filament/**/*";
+@source "../../../../app/Features/**/*";
+@source "../../../../resources/views/**/*";
 
 html {
     @apply scroll-smooth;
@@ -33,12 +43,23 @@ html {
     @apply text-white dark:text-white;
 }
 
-.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-prefix .fi-icon,
-.fi-topbar .fi-topbar-end .fi-global-search-ctn .fi-global-search .fi-input-wrp .fi-input-wrp-content-ctn .fi-input {
-    @apply dark:placeholder:text-gray-300 dark:text-gray-300;
+.fi-topbar
+    .fi-topbar-end
+    .fi-global-search-ctn
+    .fi-global-search
+    .fi-input-wrp
+    .fi-input-wrp-prefix
+    .fi-icon,
+.fi-topbar
+    .fi-topbar-end
+    .fi-global-search-ctn
+    .fi-global-search
+    .fi-input-wrp
+    .fi-input-wrp-content-ctn
+    .fi-input {
+    @apply dark:text-gray-300 dark:placeholder:text-gray-300;
 }
 /** 头部 fi-topbar 样式结束 **/
-
 
 /** --------------------------------左侧菜单栏开始------------------------------ **/
 
@@ -56,9 +77,9 @@ html {
 }
 /** 隐藏左侧菜单栏滚动条 结束 **/
 
-
 /** 左边头部 和 左边菜单栏 背景色 **/
-.fi-sidebar-header, .fi-sidebar-nav {
+.fi-sidebar-header,
+.fi-sidebar-nav {
     @apply bg-primary-600 dark:bg-primary-700;
 }
 
@@ -72,14 +93,20 @@ html {
 .fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-label,                     /** 左侧菜单栏分组的文字 **/
 .fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-btn .fi-sidebar-group-collapse-btn .fi-icon,      /** 左侧菜单栏分组的折叠图标 **/
 .fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-icon,        /** 左侧菜单栏分组的图标 **/
-.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-label {      /** 左侧菜单栏分组的文字 **/
-    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-label {
+    /** 左侧菜单栏分组的文字 **/
+    @apply text-white group-hover:text-white hover:text-white dark:text-white dark:group-hover:text-white dark:hover:text-white;
 }
 
 /** 左边菜单栏，租户菜单 | 左边菜单栏，未选中鼠标经过 **/
 .fi-sidebar-nav .fi-tenant-menu-trigger,
-.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items .fi-sidebar-item .fi-sidebar-item-btn {
-    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800
+.fi-sidebar-nav
+    .fi-sidebar-nav-groups
+    .fi-sidebar-group
+    .fi-sidebar-group-items
+    .fi-sidebar-item
+    .fi-sidebar-item-btn {
+    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800;
 }
 
 /** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
@@ -88,9 +115,13 @@ html {
 }
 
 /** 集群菜单文字 和 菜单图标，选中颜色 @sn todo 待测试 **/
-.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-label,
-.fi-page-sub-navigation-sidebar-ctn .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
-    @apply text-white dark:text-white hover:text-white dark:hover:text-white group-hover:text-white dark:group-hover:text-white;
+.fi-page-sub-navigation-sidebar-ctn
+    .fi-sidebar-item.fi-active
+    .fi-sidebar-item-label,
+.fi-page-sub-navigation-sidebar-ctn
+    .fi-sidebar-item.fi-active
+    .fi-sidebar-item-icon {
+    @apply text-white group-hover:text-white hover:text-white dark:text-white dark:group-hover:text-white dark:hover:text-white;
 }
 
 /** --------------------------------左侧菜单栏结束------------------------------ **/

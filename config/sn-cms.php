@@ -1,8 +1,14 @@
 <?php
 
 use Filament\Support\Icons\Heroicon;
-use Wsmallnews\Cms\Enums;
+use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
+use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
+use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
+use Wsmallnews\Cms\Filament\Resources\NavigationTypes\NavigationTypeResource;
+use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 use Wsmallnews\Cms\Models;
+use Wsmallnews\Comment\Enums\CommentStatus;
+use Wsmallnews\Support\Enums\ContentType;
 
 return [
     /**
@@ -20,6 +26,21 @@ return [
         'navigation' => Models\Navigation::class,
         'navigation_type' => Models\NavigationType::class,
         'post' => Models\Post::class,
+    ],
+
+    /**
+     * Panel register
+     */
+    'panel_register' => [
+        'pages' => [
+            CategoryPage::class,
+            GeneralSettingPage::class,
+            NavigationPage::class,
+        ],
+        'resources' => [
+            // NavigationTypeResource::class,
+            PostResource::class,
+        ],
     ],
 
     /**
@@ -96,6 +117,7 @@ return [
             'login' => 'login',
             'register' => 'register',
             'profile' => 'profile',
+            'profile-views' => 'profile/views',
             'forgot-password' => 'forgot-password',
             'reset-password' => 'reset-password/{token}',
             'verify-email' => 'verify-email',
@@ -114,11 +136,28 @@ return [
     /**
      * 是否支持评论
      */
-    'can_comment' => [
+    'comments' => [
         /**
-         * post 默认不支持评论
+         * post comment
          */
-        'post' => false,
+        'post' => [
+            /**
+             * 是否启用评论
+             */
+            'enable' => false,
+            /**
+             * 是否启用添加评论
+             */
+            'can_add_comment' => true,
+            /**
+             * 评论内容类型
+             */
+            'content_type' => ContentType::Textarea,
+            /**
+             * 默认评论状态
+             */
+            'comment_status' => CommentStatus::Normal,
+        ],
     ],
 
     'themes' => [

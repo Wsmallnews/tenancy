@@ -6,12 +6,12 @@ use App\Enums\Personnels\Status;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Wsmallnews\Support\Support\Utils as SupportUtils;
 use Wsmallnews\Support\Models\SupportModel;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
 
 class Personnel extends SupportModel implements HasMedia
 {
@@ -23,19 +23,16 @@ class Personnel extends SupportModel implements HasMedia
 
     protected $casts = [
         'status' => Status::class,
+        'is_display' => 'boolean',
     ];
 
     /**
      * 默认模型名称
-     *
-     * @return string
      */
     public static function getModelLabel(): string
     {
         return '人员管理';
     }
-
-
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -43,7 +40,7 @@ class Personnel extends SupportModel implements HasMedia
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
 
     public function scopeNormal($query)
@@ -54,6 +51,11 @@ class Personnel extends SupportModel implements HasMedia
     public function scopeHidden($query)
     {
         return $query->where('status', Status::Hidden);
+    }
+
+    public function scopeDisplay($query)
+    {
+        return $query->where('is_display', true);
     }
 
     public function content(): MorphOne

@@ -17,6 +17,9 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
@@ -40,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // 注册自定义 JS 资源
+        FilamentAsset::register([
+            Js::make('table-scrollable', Vite::asset('resources/js/filament/table-scrollable.js')),
+        ]);
+
         // Register custom SSO Socialite provider
         $socialite = $this->app->make(SocialiteFactory::class);
         $socialite->extend('sso', function ($app) use ($socialite) {

@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\ProjectManages\Tables;
 
+use App\Filament\Resources\ProjectManages\Exports\ProjectManageExporter;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Wsmallnews\Support\Helpers\FilamentHelper;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class ProjectManagesTable
 {
@@ -59,7 +63,8 @@ class ProjectManagesTable
                     ->label('结束时间')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('budget')
-                    ->label('总预算')
+                    ->label('总预算(元)')
+                    ->suffix('元')
                     ->searchable()
                     ->toggleable(),
 
@@ -84,8 +89,14 @@ class ProjectManagesTable
             ->searchPlaceholder('搜索项目编号、项目名称等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(ProjectManageExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
@@ -94,6 +105,10 @@ class ProjectManagesTable
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(ProjectManageExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

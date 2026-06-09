@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Filament\Widgets\Charts;
+
+use App\Models\ProjectManage;
+use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * 项目类型分布柱状图
+ */
+class ProjectTypeDistribution extends ChartWidget
+{
+    protected ?string $heading = '项目类型分布';
+
+    protected int|string|array $columnSpan = 'full';
+
+    protected ?string $pollingInterval = null;
+
+    protected function getType(): string
+    {
+        return 'bar';
+    }
+
+    protected function getData(): array
+    {
+        $data = ProjectManage::select('type', DB::raw('count(*) as total'))
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
+            ->groupBy('type')
+            ->orderByDesc('total')
+            ->get();
+
+        return [
+            'datasets' => [
+                [
+                    'label' => '项目数量',
+                    'data' => $data->pluck('total')->toArray(),
+                    'backgroundColor' => '#8b5cf6',
+                ],
+            ],
+            'labels' => $data->pluck('type')->toArray(),
+        ];
+    }
+}

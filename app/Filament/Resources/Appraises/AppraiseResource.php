@@ -2,48 +2,58 @@
 
 namespace App\Filament\Resources\Appraises;
 
-use BackedEnum;
 use App\Enums\Appraises\Status;
 use App\Features\Nhgrc\Nhgrc;
+use App\Features\QrCodeService;
 use App\Filament\Forms\Fields\DistrictSelect;
-use App\Filament\Resources\Appraises\Pages;
+use App\Filament\Resources\Appraises\Actions\QrCodeAction;
+use App\Filament\Resources\Appraises\Exports\AppraiseExporter;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
+use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Companies\Schemas\CompanyForm;
+use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Models\Appraise;
 use App\Settings\AppraiseSettings;
+use BackedEnum;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
 use Livewire\Component as Livewire;
-use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
-use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class AppraiseResource extends Resource
 {
+    use HasCategoryFields;
+
     protected static ?string $model = Appraise::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCircleStack;
-    
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::CircleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
+
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::CircleStack;
 
     protected static ?string $navigationLabel = '评价';
 
-    protected static string | UnitEnum | null $navigationGroup = '种质资源库(圃)';
+    protected static string|UnitEnum|null $navigationGroup = '种质资源库(圃)';
 
     protected static ?string $slug = 'appraises';
 
@@ -66,7 +76,7 @@ class AppraiseResource extends Resource
                                 return [
                                     Schemas\Components\Tabs\Tab::make('基础信息')
                                         ->schema([
-                                            ...self::getBaseSchema($get)
+                                            ...self::getBaseSchema($get),
                                         ]),
                                     ...self::getCategoryTabs($get),
                                 ];
@@ -88,8 +98,8 @@ class AppraiseResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 
@@ -161,8 +171,9 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->state(function (Model $record): string {
                         if ($record->country_code == 'CN') {
-                            return $record->province_name . ' / ' . $record->city_name;
+                            return $record->province_name.' / '.$record->city_name;
                         }
+
                         return '/';
                     })
                     ->toggleable(),
@@ -178,7 +189,7 @@ class AppraiseResource extends Resource
                 Tables\Columns\TextColumn::make('lng_lat')
                     ->label('经纬度')
                     ->state(function (Model $record): string {
-                        return $record->longitude . ', ' . $record->latitude;
+                        return $record->longitude.', '.$record->latitude;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('source_country_name')
@@ -191,8 +202,9 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->state(function (Model $record): string {
                         if ($record->source_country_code == 'CN') {
-                            return $record->source_province_name . ' / ' . $record->source_city_name;
+                            return $record->source_province_name.' / '.$record->source_city_name;
                         }
+
                         return '/';
                     })
                     ->toggleable(),
@@ -201,7 +213,7 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('saveCompany.name')
-                    ->formatStateUsing(fn($record) => $record?->saveCompany ? "{$record->saveCompany->name} (编号：{$record->saveCompany->code})" : null)
+                    ->formatStateUsing(fn ($record) => $record?->saveCompany ? "{$record->saveCompany->name} (编号：{$record->saveCompany->code})" : null)
                     ->searchable()
                     ->label('保存单位')
                     ->toggleable(),
@@ -210,7 +222,7 @@ class AppraiseResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('breedingCompany.name')
-                    ->formatStateUsing(fn($record) => $record?->breedingCompany ? "{$record->breedingCompany->name} (编号：{$record->breedingCompany->code})" : null)
+                    ->formatStateUsing(fn ($record) => $record?->breedingCompany ? "{$record->breedingCompany->name} (编号：{$record->breedingCompany->code})" : null)
                     ->searchable()
                     ->label('选育单位')
                     ->toggleable(),
@@ -270,29 +282,36 @@ class AppraiseResource extends Resource
             ->searchPlaceholder('搜索种质名称、种质圃编号等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                FilamentHelper::dateTimeRangeFilter('cultivationd_at', '育成'),
-                ...FilamentHelper::createUpdateRangeFilter(),
+                FilterComponents::dateTimeRangeFilter('cultivationd_at', '育成'),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(AppraiseExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
             ])
             ->recordActions([
                 Actions\Action::make('submit')
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
                         try {
-                            $nhgrc = new Nhgrc();
+                            $nhgrc = new Nhgrc;
                             $result = $nhgrc->submitGermplasm($record);
 
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交成功')
                                 ->body($result['msg'])
                                 ->success()->send();
                         } catch (\Exception $e) {
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交失败')
                                 ->body($e->getMessage())
                                 ->danger()->send();
                         }
                     }),
+                QrCodeAction::make(),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
@@ -302,21 +321,39 @@ class AppraiseResource extends Resource
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
                         try {
-                            $nhgrc = new Nhgrc();
+                            $nhgrc = new Nhgrc;
                             $result = $nhgrc->batchSubmitGermplasm($records);
 
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交成功')
                                 ->body($result['msg'])
                                 ->success()->send();
                         } catch (\Exception $e) {
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交失败')
                                 ->body($e->getMessage())
                                 ->danger()->send();
                         }
                     }),
                 Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('downloadQrCodes')
+                        ->label('下载二维码')
+                        ->icon(Heroicon::QrCode)
+                        ->action(function (Collection $records) {
+                            $zipPath = QrCodeService::generateAppraiseQrZip($records);
+                            $zipFilename = '种质评价二维码_'.now()->format('YmdHis').'.zip';
+
+                            return response()->streamDownload(function () use ($zipPath) {
+                                readfile($zipPath);
+                                @unlink($zipPath);
+                            }, $zipFilename, [
+                                'Content-Type' => 'application/zip',
+                            ]);
+                        }),
+                    FilamentExportBulkAction::make()
+                        ->exporter(AppraiseExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),
@@ -349,7 +386,6 @@ class AppraiseResource extends Resource
             ]);
     }
 
-
     private static function getBaseSchema(): array
     {
         return [
@@ -378,6 +414,7 @@ class AppraiseResource extends Resource
                         }
                     })
                     ->required()
+                    ->disabled(fn (string $operation) => $operation == 'edit')
                     ->placeholder('请选择分类')
                     ->emptyLabel('未搜索到分类')
                     ->treeKey('AppraiseCategoryId'),
@@ -429,7 +466,7 @@ class AppraiseResource extends Resource
                     ->placeholder('选择原产省市')
                     ->district(false)
                     ->required()
-                    ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                    ->visible(fn (Get $get): bool => $get('country_code') == 'CN'),
                 Forms\Components\TextInput::make('address')->label('原产地')
                     ->placeholder('请输入原产地址')
                     ->required(),
@@ -467,6 +504,7 @@ class AppraiseResource extends Resource
                         $record = $component->getRecord();
                         if (! $record) {
                             $component->state($state);
+
                             return;
                         }
                         $component->state([
@@ -487,15 +525,16 @@ class AppraiseResource extends Resource
                     ->relationship(name: 'saveCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                         return $query->normal()->orderBy('order_column', 'asc');
                     })
-                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                    ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                    ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                     ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                        $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                        $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                         $record = $component->getRelationship()->getRelated();
                         $record->fill($data);
                         $record->save();
                         $schema->model($record)->saveRelationships();
+
                         return $record->getKey();
                     })
                     ->placeholder('请选择保存单位')
@@ -509,15 +548,16 @@ class AppraiseResource extends Resource
                     ->relationship(name: 'breedingCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                         return $query->normal()->orderBy('order_column', 'asc');
                     })
-                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                    ->createOptionForm(fn($schema) => \App\Filament\Resources\Companies\Schemas\CompanyForm::configure($schema))
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                    ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                     ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
-                        $data = \App\Filament\Resources\Companies\CompanyResource::operDistrictInfo($data);     // 处理省市区数据
+                        $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
                         $record = $component->getRelationship()->getRelated();
                         $record->fill($data);
                         $record->save();
                         $schema->model($record)->saveRelationships();
+
                         return $record->getKey();
                     })
                     ->placeholder('请选择选育单位')
@@ -544,31 +584,31 @@ class AppraiseResource extends Resource
                 Forms\Components\Select::make('germplasm_use')->label('用途')
                     ->placeholder('请选择用途')
                     ->required()
-                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_use, function ($item) {
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->germplasm_use, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\Select::make('fruit_use')->label('果实用途')
                     ->placeholder('请选择果实用途')
                     ->required()
-                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->fruit_use, function ($item) {
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->fruit_use, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\Select::make('plant_use')->label('植株用途')
                     ->placeholder('请选择植株用途')
                     ->required()
-                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->plant_use, function ($item) {
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->plant_use, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\Select::make('assemble_resource')->label('种植收集源')
                     ->placeholder('请选择种植收集源')
                     ->required()
-                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_resource, function ($item) {
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_resource, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\Select::make('assemble_material_type')->label('收集材料类型')
                     ->placeholder('请选择收集材料类型')
                     ->required()
-                    ->options(fn(AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_material_type, function ($item) {
+                    ->options(fn (AppraiseSettings $settings) => Arr::mapWithKeys($settings->assemble_material_type, function ($item) {
                         return [$item => $item];
                     })),
                 Forms\Components\TextInput::make('observe_place')->label('观测地点')
@@ -593,207 +633,6 @@ class AppraiseResource extends Resource
             ])->columns(2),
         ];
     }
-
-
-    /**
-     * 获取分类的自定义字段
-     *
-     * @param Get $get
-     * @return array
-     */
-    private static function getCategoryTabs($get): array
-    {
-        $tabs = [];
-
-        $category_id = $get('category_id');
-        if ($category_id) {
-            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
-
-            $fields = $category->options['fields'] ?? [];
-            foreach ($fields as $key => $field) {
-                $tabs[] = Schemas\Components\Tabs\Tab::make($field['name'])
-                    ->schema(function () use ($key, $field) {
-                        $schemas = [];
-                        foreach ($field['fields'] as $subKey => $subField) {
-                            $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey .  '.data.value';
-                            if ($field = static::getFormFields($fieldKey, $subField)) {     // 根据参数获取对应的表单
-                                $schemas[] = $field;
-                            }
-
-                            // $schemas[] = Forms\Components\TextInput::make('options.fields.' . $key . '.fields.' . $subKey .  '.value')
-                            //     ->label($subField['name'])
-                            //     ->placeholder($subField['placeholder'] ?? null)
-                            //     ->suffix($subField['unit']?? null);
-                        }
-
-                        return $schemas;
-                    })
-                    ->columns(2);
-            }
-        }
-
-        return $tabs;
-    }
-
-
-    /**
-     * 根据类型获取特定的字段
-     *
-     * @param string $fieldKey
-     * @param array $subField
-     * @return Forms\Components\Field|null
-     */
-    private static function getFormFields($fieldKey, $subField): ?Forms\Components\Field
-    {
-        $type = $subField['type'] ?? null;
-        $data = $subField['data'] ?? [];
-
-        if ($type == 'textInput' || $type == 'number') {
-            $regex_message = $data['regex_message'] ?? null;
-            $validationMessages = [];
-            if ($regex_message) {
-                $validationMessages['regex'] = $regex_message;
-            }
-
-            $field = Forms\Components\TextInput::make($fieldKey)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit']?? null)
-                ->required($data['is_required'] ?? false)
-                ->regex($data['regex'] ?? null)
-                ->validationMessages($validationMessages);
-        } elseif ($type == 'select') {
-            $options = $data['options'] ?? [];
-            $options = Arr::mapWithKeys($options, function ($item) {
-                return [$item => $item];
-            });
-
-            $field = Forms\Components\Select::make($fieldKey)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit'] ?? null)
-                ->required($data['is_required'] ?? false)
-                ->options($options);
-        } elseif ($type == 'upload_image') {
-            $field = FormComponents::mediaImageUpload($fieldKey, $data['collection_name'] ?? null)
-                ->label($data['name'] ?? null)
-                ->helperText('支持上传图片')
-                ->required($data['is_required'] ?? false)
-                ->multiple($data['is_multiple'] ?? false)
-                ->minFiles($data['min_files'] ?? 1)
-                ->maxFiles((isset($data['max_files_num']) && $data['max_files_num'] > 0) ? $data['max_files_num'] : 20)
-                ->uploadingMessage(($data['name'] ?? '图片') . '上传中...')
-                ->columns(1);
-        } elseif ($type == 'dateTimePicker') {
-            $field_type = $data['type'];
-            match($field_type) {
-                'date' => $field = Forms\Components\DatePicker::make($fieldKey),
-                'time' => $field = Forms\Components\TimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
-                'datetime' => $field = Forms\Components\DateTimePicker::make($fieldKey)->seconds($data['has_second'] ?? true)->displayFormat('Y-m-d H:i' . (($data['has_second'] ?? true) ? ':s' : '')),
-                default => $field = Forms\Components\TextInput::make($fieldKey),
-            };
-
-            $field = $field
-                ->native(false)
-                ->label($data['name'] ?? null)
-                ->placeholder($data['placeholder'] ?? null)
-                ->suffix($data['unit'] ?? null)
-                ->required($data['is_required'] ?? false);
-        }
-
-        return $field ?? null;
-    }
-
-    /**
-     * tab 字段水化，保证分类中自定义字段，改变顺序时，数据库中保存的值也能正确显示
-     *
-     * @param Schemas\Components\Tabs $component
-     * @param array|null $state
-     * @return void
-     */
-    public static function hydratedFields(Schemas\Components\Tabs $component, ?array $state)
-    {
-        $record = $component->getRecord();
-        if (! $record) {
-            $component->state($state);
-            return;
-        }
-
-        // 这里一定要使用 state 中的值 (不可使用 $record 数据库中的值，没有 media 数据),里面已经包括了关联查的数据,比如  laravel-medialibrary 关联的 media 资源标识
-        $recordOptions = $state['options'] ?? [];
-        $recordFields = $recordOptions['fields'] ?? [];
-
-        $category_id = $state['category_id'];
-        if (!$category_id) {
-            $component->state($state);
-            return;
-        }
-
-        $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
-        $fields = $category->options['fields'] ?? [];       // 分类中的字段，可能更新了
-
-        foreach ($fields as $key => $field) {
-            $name = $field['name'] ?? null;
-            $currentRecordFields = Arr::where($recordFields, function (array $value, int $key) use ($name) {
-                $valueName = $value['name'] ?? null;
-                return $valueName == $name && !is_null($valueName);
-            });
-
-            $recordField = Arr::first($currentRecordFields);
-            if (empty($recordField)) {      // 没有找到数据库中对应的值，说明分类中添加了新的分组，或者老的分组改名了（分组旧值全部无效）
-                continue;
-            }
-
-            foreach ($field['fields'] as $subKey => $subField) {
-                // 首先找到数据库中是否有当前字段信息
-                $currentRecordSubFields = Arr::where($recordField['fields'] ?? [], function (array $value, int $key) use ($subField) {
-                    $valueName = $value['data']['name'] ?? null;
-                    $subFieldName = $subField['data']['name'] ?? null;
-
-                    return $valueName == $subFieldName && !is_null($valueName);
-                });
-
-                $recordSubField = Arr::first($currentRecordSubFields);
-
-                if (empty($recordSubField)) {
-                    continue;
-                }
-
-                $fields[$key]['fields'][$subKey]['data']['value'] = $recordSubField['data']['value'] ?? null;
-            }
-        }
-
-        $state['options']['fields'] = $fields;
-
-        $component->state($state);
-    }
-
-
-
-    /**
-     * 保存前处理数据,然后处理结果保存到数据库，CreateAppraise & EditAppraise 中调用
-     */
-    public static function getFieldsInfo($data): array
-    {
-        $currentOptions = $data['options'] ?? [];
-        $currentFields = $currentOptions['fields'] ?? [];
-        $category_id = $data['category_id'];
-
-        if ($category_id) {
-            $category = \Wsmallnews\Category\Support\Utils::getCategoryModel()::findOrFail($category_id);
-            $fields = $category->options['fields'] ?? [];
-
-            foreach ($fields as $key => $field) {
-                foreach ($field['fields'] as $subKey => $subField) {
-                    $fields[$key]['fields'][$subKey]['data']['value'] = $currentFields[$key]['fields'][$subKey]['data']['value'] ?? null;
-                }
-            }
-            $currentOptions['fields'] = $fields;
-        }
-
-        return $currentOptions;
-    }
-
 
     /**
      * 保存前处理数据,然后处理结果保存到数据库，CreateAppraise & EditAppraise 中调用

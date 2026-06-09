@@ -2,14 +2,15 @@
 
 namespace App\Filament\Resources\NewVarieties;
 
-use BackedEnum;
 use App\Enums\NewVarieties\Status;
-use App\Filament\Forms\Fields\DistrictSelect;
-use App\Filament\Resources\NewVarieties\Pages;
+use App\Filament\Resources\NewVarieties\Exports\NewVarietyExporter;
 use App\Filament\Resources\NewVarieties\Schemas\NewVarietyInfolist;
 use App\Models\Appraise;
 use App\Models\NewVariety;
+use BackedEnum;
 use Filament\Actions;
+use Filament\Actions\ExportAction as FilamentExportAction;
+use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Resources\Resource;
@@ -23,20 +24,20 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Wsmallnews\Support\Helpers\FilamentHelper;
 use UnitEnum;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class NewVarietyResource extends Resource
 {
     protected static ?string $model = NewVariety::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedQueueList;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
 
-    protected static string | BackedEnum | null $activeNavigationIcon = Heroicon::QueueList;
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::QueueList;
 
     protected static ?string $navigationLabel = '新品种';
 
-    protected static string | UnitEnum | null $navigationGroup = '研究成果';
+    protected static string|UnitEnum|null $navigationGroup = '研究成果';
 
     protected static ?string $slug = 'new-varieties';
 
@@ -67,14 +68,14 @@ class NewVarietyResource extends Resource
                                 ->columnSpanFull(),
 
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
-                                ->schema(function(Get $get) {
+                                ->schema(function (Get $get) {
                                     if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
@@ -83,7 +84,7 @@ class NewVarietyResource extends Resource
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -99,8 +100,8 @@ class NewVarietyResource extends Resource
                                                 ->state($appraise->country_name),
                                             Infolists\Components\TextEntry::make('appraise_district_name')
                                                 ->label('种质原产地区')
-                                                ->state($appraise->province_name . ' / ' . $appraise->city_name)
-                                                ->visible(fn(?Model $record) => $appraise?->country_code == 'CN'),
+                                                ->state($appraise->province_name.' / '.$appraise->city_name)
+                                                ->visible(fn (?Model $record) => $appraise?->country_code == 'CN'),
                                             Infolists\Components\TextEntry::make('appraise_address')
                                                 ->label('种质原产地址')
                                                 ->state($appraise->address),
@@ -116,7 +117,7 @@ class NewVarietyResource extends Resource
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ]),
                         Schemas\Components\Section::make('品种信息')->schema([
@@ -147,17 +148,15 @@ class NewVarietyResource extends Resource
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
-
 
     public static function infolist(Schema $schema): Schema
     {
         return NewVarietyInfolist::configure($schema);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -209,8 +208,9 @@ class NewVarietyResource extends Resource
                     ->searchable()
                     ->state(function (Model $record): string {
                         if ($record->appraise?->country_code == 'CN') {
-                            return $record->appraise->province_name . ' / ' . $record->appraise->city_name;
+                            return $record->appraise->province_name.' / '.$record->appraise->city_name;
                         }
+
                         return '/';
                     })
                     ->toggleable(),
@@ -239,8 +239,14 @@ class NewVarietyResource extends Resource
             ->searchPlaceholder('搜索品种权号、品种权人等...')
             ->filtersFormWidth(Width::Medium)
             ->filters([
-                ...FilamentHelper::createUpdateRangeFilter(),
+                ...FilterComponents::createUpdateRangeFilter(),
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportAction::make()
+                    ->exporter(NewVarietyExporter::class)
+                    ->icon(Heroicon::ArrowDownTray)
+                    ->color('gray'),
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
@@ -249,6 +255,10 @@ class NewVarietyResource extends Resource
             ])
             ->toolbarActions([
                 Actions\BulkActionGroup::make([
+                    FilamentExportBulkAction::make()
+                        ->exporter(NewVarietyExporter::class)
+                        ->icon(Heroicon::ArrowDownTray)
+                        ->color('gray'),
                     Actions\DeleteBulkAction::make(),
                     Actions\ForceDeleteBulkAction::make(),
                     Actions\RestoreBulkAction::make(),

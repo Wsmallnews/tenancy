@@ -3,9 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\PlatformLogin;
-use App\Filament\Widgets as AppWidgets;
-use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use App\Filament\Platform\Pages\Backup;
+use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
@@ -61,7 +60,6 @@ class PlatformPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 // FilamentInfoWidget::class,
-                AppWidgets\AppraiseStat::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -85,7 +83,7 @@ class PlatformPanelProvider extends PanelProvider
                     ->usingPolingInterval('10s')                                                                    // 再看看这个是干啥的
                     ->usingQueue('default') // default value is null
                     // ->timeout(120)              // 超时时间 120s
-                    ->noTimeout()               // 不限制超时时间
+                    ->noTimeout(),               // 不限制超时时间
             ])
             ->navigationGroups([
                 '资源库管理',
