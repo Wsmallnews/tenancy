@@ -3,14 +3,13 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\AdminLogin;
-use App\Filament\Widgets as AppWidgets;
+use App\Filament\Tables\PostsTable;
 use App\Http\Middleware\CheckTenant;
-use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
+use App\Models\Team;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use BezhanSalleh\FilamentShield\Support\Utils;
+use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Auth\MultiFactor\Email\EmailAuthentication;
-use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,9 +28,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Wsmallnews\Cms\CmsPlugin;
-use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
 use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
 use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
+use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 
 class AdminPanelProvider extends PanelProvider
@@ -66,7 +65,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                AppWidgets\AppraiseStat::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -94,7 +92,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('网站管理')
                     ->navigationLabel('图文管理')
                     ->customProperties([
-                        'table' => fn($table) => \App\Filament\Tables\PostsTable::configure($table)
+                        'table' => fn ($table) => PostsTable::configure($table),
                     ])
                     ->forResource(CategoryPage::class)
                     ->navigationGroup('网站管理')

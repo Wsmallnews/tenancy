@@ -7,11 +7,11 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 项目类型分布柱状图
+ * 项目级别分布柱状图
  */
-class ProjectTypeDistribution extends ChartWidget
+class ProjectLevelDistribution extends ChartWidget
 {
-    protected ?string $heading = '项目类型分布';
+    protected ?string $heading = '项目级别分布';
 
     protected int|string|array $columnSpan = 'full';
 
@@ -24,10 +24,10 @@ class ProjectTypeDistribution extends ChartWidget
 
     protected function getData(): array
     {
-        $data = ProjectManage::select('type', DB::raw('count(*) as total'))
-            ->whereNotNull('type')
-            ->where('type', '!=', '')
-            ->groupBy('type')
+        $data = ProjectManage::select('level', DB::raw('count(*) as total'))
+            ->whereNotNull('level')
+            ->where('level', '!=', '')
+            ->groupBy('level')
             ->orderByDesc('total')
             ->get();
 
@@ -36,10 +36,10 @@ class ProjectTypeDistribution extends ChartWidget
                 [
                     'label' => '项目数量',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => '#8b5cf6',
+                    'backgroundColor' => '#f59e0b',
                 ],
             ],
-            'labels' => $data->pluck('type')->toArray(),
+            'labels' => $data->pluck('level')->toArray(),
         ];
     }
 }
