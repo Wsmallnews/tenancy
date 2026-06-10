@@ -3,7 +3,201 @@
 @endphp
 
 <div class="w-full flex flex-col gap-4">
-    <div class="w-full flex flex-row-reverse items-center gap-4">
+    <div class="sn-container p-4 flex flex-col gap-4">
+        @php
+            $activeFilters = $this->getActiveFilters();
+        @endphp
+        @if (count($activeFilters))
+            <div class="flex flex-wrap flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">已启用筛选条件</span>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    @foreach ($activeFilters as $filter)
+                        <span class="flex items-center gap-1 sn-btn sn-btn-sm sn-btn-outline sn-btn-outline-primary">
+                            {{ $filter['label'] }}
+                            <span
+                                wire:click="resetFilter('{{ $filter['key'] }}')"
+                                @class([
+                                    'cursor-pointer',
+                                ])
+                                title="清除此筛选"
+                            >&times;</span>
+                        </span>
+                    @endforeach
+                    <button
+                        type="button"
+                        wire:click="resetAllFilters"
+                        class="sn-btn sn-btn-sm sn-btn-danger"
+                    >
+                        <x-filament::icon :icon="Heroicon::ArrowPath" class="size-4" aria-hidden="true" />
+                        重置全部
+                    </button>
+                </div>
+            </div>
+        @endif
+
+        {{-- 种质类型 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">种质类型</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_germplasm_type', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_germplasm_type !== '',
+                        'sn-btn-primary' => $filter_germplasm_type === '',
+                    ])
+                >全部</button>
+                @foreach ($germplasmTypeOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_germplasm_type', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_germplasm_type !== $value,
+                            'sn-btn-primary' => $filter_germplasm_type === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- 用途 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">用途</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_germplasm_use', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_germplasm_use !== '',
+                        'sn-btn-primary' => $filter_germplasm_use === '',
+                    ])
+                >全部</button>
+                @foreach ($germplasmUseOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_germplasm_use', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_germplasm_use !== $value,
+                            'sn-btn-primary' => $filter_germplasm_use === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- 果实用途 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">果实用途</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_fruit_use', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_fruit_use !== '',
+                        'sn-btn-primary' => $filter_fruit_use === '',
+                    ])
+                >全部</button>
+                @foreach ($fruitUseOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_fruit_use', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_fruit_use !== $value,
+                            'sn-btn-primary' => $filter_fruit_use === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- 植株用途 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">植株用途</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_plant_use', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_plant_use !== '',
+                        'sn-btn-primary' => $filter_plant_use === '',
+                    ])
+                >全部</button>
+                @foreach ($plantUseOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_plant_use', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_plant_use !== $value,
+                            'sn-btn-primary' => $filter_plant_use === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- 种植收集源 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">种植收集源</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_assemble_resource', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_assemble_resource !== '',
+                        'sn-btn-primary' => $filter_assemble_resource === '',
+                    ])
+                >全部</button>
+                @foreach ($assembleResourceOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_assemble_resource', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_assemble_resource !== $value,
+                            'sn-btn-primary' => $filter_assemble_resource === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- 收集材料类型 --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+            <span class="text-xs font-medium text-gray-500 sm:w-24 sm:shrink-0 sm:text-right mt-1.5">收集材料类型</span>
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <button
+                    type="button"
+                    wire:click="$set('filter_assemble_material_type', '')"
+                    @class([
+                        'sn-btn sn-btn-sm rounded-full',
+                        'sn-btn-outline' => $filter_assemble_material_type !== '',
+                        'sn-btn-primary' => $filter_assemble_material_type === '',
+                    ])
+                >全部</button>
+                @foreach ($assembleMaterialTypeOptions as $value => $label)
+                    <button
+                        type="button"
+                        wire:click="$set('filter_assemble_material_type', '{{ $value }}')"
+                        @class([
+                            'sn-btn sn-btn-sm rounded-full',
+                            'sn-btn-outline' => $filter_assemble_material_type !== $value,
+                            'sn-btn-primary' => $filter_assemble_material_type === $value,
+                        ])
+                    >{{ $label }}</button>
+                @endforeach
+            </div>
+        </div>
+
         <x-filament::input.wrapper
             class="w-full md:w-80"
             inline-prefix
@@ -19,6 +213,7 @@
         </x-filament::input.wrapper>
     </div>
 
+    {{-- ===== 种质列表 ===== --}}
     @if ($style == 'list')
         <x-sn-support::paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
             <ul class="w-full flex flex-col gap-4" role="list">

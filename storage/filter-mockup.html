@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>种质筛选 UI Mockup v3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+                            400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
+                        },
+                        gray: { 50:'#f9fafb',100:'#f3f4f6',200:'#e5e7eb',300:'#d1d5db',400:'#9ca3af',500:'#6b7280',600:'#4b5563',700:'#374151',800:'#1f2937',900:'#111827' },
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        /* ===== 容器 ===== */
+        .filter-section {
+            @apply bg-white shadow-sm ring-1 shadow-gray-800/20 ring-gray-200/80 rounded-md p-4;
+        }
+
+        /* ===== 已生效筛选标签栏 ===== */
+        .active-filters-bar {
+            @apply flex flex-wrap items-center gap-2 mb-4;
+        }
+        .active-filter-tag {
+            @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+            @apply bg-primary-50 text-primary-700 ring-1 ring-primary-200;
+            @apply transition-all duration-150;
+        }
+        .active-filter-tag .tag-x {
+            @apply inline-flex items-center justify-center size-4 rounded-full ml-0.5 -mr-1;
+            @apply hover:bg-primary-200 hover:text-primary-800 transition-colors;
+            @apply cursor-pointer;
+        }
+        /* 搜索关键词 tag 用不同颜色区分 */
+        .active-filter-tag.tag-search {
+            @apply bg-amber-50 text-amber-700 ring-1 ring-amber-200;
+        }
+        .active-filter-tag.tag-search .tag-x {
+            @apply hover:bg-amber-200 hover:text-amber-800;
+        }
+        /* 清除全部 */
+        .clear-all-btn {
+            @apply inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600;
+            @apply transition-colors duration-150 shrink-0 ml-auto;
+        }
+
+        /* ===== 标签/标题 ===== */
+        .sn-h3-text { @apply text-base font-semibold text-gray-700 md:text-lg; }
+        .sn-tip-text { @apply text-xs text-gray-500; }
+        .filter-group-label {
+            @apply text-xs font-medium text-gray-500 mt-1.5;
+            white-space: nowrap;
+        }
+
+        /* ===== 选项按钮 ===== */
+        .filter-chip {
+            @apply inline-flex items-center justify-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium;
+            @apply ring-1 ring-gray-300 bg-white text-gray-600;
+            @apply cursor-pointer select-none;
+            @apply transition-all duration-150 ease-in-out;
+            @apply hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-300;
+            @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1;
+            white-space: nowrap;
+        }
+        .filter-chip.active {
+            @apply bg-primary-500 text-white ring-primary-500 shadow-sm;
+            @apply hover:bg-primary-600 hover:text-white hover:ring-primary-600;
+        }
+        .filter-row {
+            @apply flex flex-wrap items-center gap-2;
+        }
+
+        /* ===== 搜索框 ===== */
+        .search-input {
+            @apply w-full rounded-md border-0 bg-gray-50 py-2 pl-9 pr-3 text-sm text-gray-700;
+            @apply ring-1 ring-gray-200;
+            @apply focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none;
+            @apply placeholder:text-gray-400 transition-all duration-200;
+        }
+        .search-wrap {
+            @apply relative w-full sm:w-72 lg:w-80;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 md:p-6">
+
+<div class="max-w-4xl mx-auto">
+
+    <h1 class="text-xl font-bold text-gray-800 mb-2">🎨 种质筛选 UI Mockup v3</h1>
+    <p class="sn-tip-text mb-6">方案 A + 已生效筛选 Tag + 搜索框 Tag</p>
+
+    <!-- ============================================= -->
+    <!-- 完整筛选面板                                    -->
+    <!-- ============================================= -->
+    <section class="mb-10">
+        <div class="filter-section flex flex-col gap-4" id="filter-panel">
+
+            <!-- ==================== 搜索框 ==================== -->
+            <div class="search-wrap">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+                <input
+                    id="search-input"
+                    type="search"
+                    class="search-input"
+                    placeholder="搜索种质名称、种质编号"
+                    oninput="updateSearchTag()"
+                    onkeydown="if(event.key==='Enter')updateSearchTag()"
+                />
+            </div>
+
+            <!-- ==================== 已生效的筛选条件 ==================== -->
+            <div class="active-filters-bar" id="active-filters-bar">
+                <!-- JS 动态渲染 -->
+            </div>
+
+            <!-- 分隔线 -->
+            <div class="border-t border-gray-100"></div>
+
+            <!-- ==================== 种质类型 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">种质类型</span>
+                <div class="filter-row flex-1" data-filter="germplasm_type">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">野生资源</span>
+                    <span class="filter-chip" onclick="selectChip(this)">地方品种</span>
+                    <span class="filter-chip" onclick="selectChip(this)">选育品种</span>
+                    <span class="filter-chip" onclick="selectChip(this)">品系</span>
+                    <span class="filter-chip" onclick="selectChip(this)">遗传材料</span>
+                    <span class="filter-chip" onclick="selectChip(this)">其他</span>
+                </div>
+            </div>
+
+            <!-- ==================== 用途 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">用途</span>
+                <div class="filter-row flex-1" data-filter="germplasm_use">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">果实</span>
+                    <span class="filter-chip" onclick="selectChip(this)">植株</span>
+                    <span class="filter-chip" onclick="selectChip(this)">两者</span>
+                </div>
+            </div>
+
+            <!-- ==================== 果实用途 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">果实用途</span>
+                <div class="filter-row flex-1" data-filter="fruit_use">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">鲜食</span>
+                    <span class="filter-chip" onclick="selectChip(this)">加工</span>
+                    <span class="filter-chip" onclick="selectChip(this)">两者或多种用途</span>
+                </div>
+            </div>
+
+            <!-- ==================== 植株用途 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">植株用途</span>
+                <div class="filter-row flex-1" data-filter="plant_use">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">无性系砧木</span>
+                    <span class="filter-chip" onclick="selectChip(this)">中间砧</span>
+                    <span class="filter-chip" onclick="selectChip(this)">实生砧</span>
+                    <span class="filter-chip" onclick="selectChip(this)">观赏</span>
+                    <span class="filter-chip" onclick="selectChip(this)">多种用途</span>
+                </div>
+            </div>
+
+            <!-- ==================== 种植收集源 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">种植收集源</span>
+                <div class="filter-row flex-1" data-filter="assemble_resource">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">野生</span>
+                    <span class="filter-chip" onclick="selectChip(this)">农田</span>
+                    <span class="filter-chip" onclick="selectChip(this)">庭院</span>
+                    <span class="filter-chip" onclick="selectChip(this)">市场</span>
+                    <span class="filter-chip" onclick="selectChip(this)">资源圃</span>
+                    <span class="filter-chip" onclick="selectChip(this)">研究机构</span>
+                    <span class="filter-chip" onclick="selectChip(this)">生产单位</span>
+                </div>
+            </div>
+
+            <!-- ==================== 收集材料类型 ==================== -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                <span class="filter-group-label sm:w-24 sm:shrink-0 sm:text-right">收集材料类型</span>
+                <div class="filter-row flex-1" data-filter="assemble_material_type">
+                    <span class="filter-chip active" onclick="selectChip(this)">全部</span>
+                    <span class="filter-chip" onclick="selectChip(this)">枝条</span>
+                    <span class="filter-chip" onclick="selectChip(this)">叶片</span>
+                    <span class="filter-chip" onclick="selectChip(this)">花粉</span>
+                    <span class="filter-chip" onclick="selectChip(this)">果实（种子）</span>
+                    <span class="filter-chip" onclick="selectChip(this)">苗木</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 交互演示: 预填几个值展示 active filter tags  -->
+    <!-- ============================================= -->
+    <section class="mb-10">
+        <h2 class="sn-h3-text mb-2">📋 已生效筛选 Tag 示例（预填模拟）</h2>
+        <p class="sn-tip-text mb-4">以下展示当用户选择了筛选条件 + 输入搜索关键词后，「已生效的筛选条件」区域的效果：</p>
+
+        <div class="filter-section">
+            <div class="active-filters-bar">
+                <span class="active-filter-tag tag-search">
+                    🔍 红富士
+                    <span class="tag-x" title="清除搜索">&times;</span>
+                </span>
+                <span class="active-filter-tag">
+                    种质类型: 野生资源
+                    <span class="tag-x" title="清除此筛选">&times;</span>
+                </span>
+                <span class="active-filter-tag">
+                    用途: 果实
+                    <span class="tag-x" title="清除此筛选">&times;</span>
+                </span>
+                <span class="active-filter-tag">
+                    种植收集源: 资源圃
+                    <span class="tag-x" title="清除此筛选">&times;</span>
+                </span>
+                <button class="clear-all-btn ml-auto">
+                    <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182"/></svg>
+                    重置全部
+                </button>
+            </div>
+            <p class="sn-tip-text mt-2">点击 Tag 上的 ✕ 可单独取消该筛选条件，搜索 Tag 用黄色背景区分于普通筛选 Tag。</p>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // ========== Chip 单选交互 ==========
+    function selectChip(el) {
+        // 已选中则忽略
+        if (el.classList.contains('active')) return;
+        const row = el.parentElement;
+        row.querySelectorAll('.filter-chip.active').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        renderActiveTags();
+    }
+
+    // ========== 渲染已生效筛选 Tags ==========
+    function renderActiveTags() {
+        const bar = document.getElementById('active-filters-bar');
+        let html = '';
+
+        // 1. 搜索关键词 tag
+        const searchVal = document.getElementById('search-input').value.trim();
+        if (searchVal) {
+            html += `<span class="active-filter-tag tag-search">
+                🔍 ${escapeHtml(searchVal)}
+                <span class="tag-x" onclick="clearSearch()" title="清除搜索">&times;</span>
+            </span>`;
+        }
+
+        // 2. 遍历所有 filter-row
+        document.querySelectorAll('[data-filter]').forEach(row => {
+            const filterName = row.dataset.filter;
+            const labelMap = {
+                'germplasm_type': '种质类型',
+                'germplasm_use': '用途',
+                'fruit_use': '果实用途',
+                'plant_use': '植株用途',
+                'assemble_resource': '种植收集源',
+                'assemble_material_type': '收集材料类型',
+            };
+            const label = labelMap[filterName] || filterName;
+
+            const activeChip = row.querySelector('.filter-chip.active');
+            if (activeChip && activeChip.textContent.trim() !== '全部') {
+                html += `<span class="active-filter-tag">
+                    ${label}: ${escapeHtml(activeChip.textContent.trim())}
+                    <span class="tag-x" onclick="resetFilter('${filterName}')" title="清除此筛选">&times;</span>
+                </span>`;
+            }
+        });
+
+        // 3. 如果没有任何有效筛选，显示提示
+        if (!html) {
+            html = '<span class="text-xs text-gray-400">暂无生效的筛选条件</span>';
+        } else {
+            // 添加"重置全部"按钮
+            html += `<button class="clear-all-btn" onclick="clearAll()">
+                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182"/></svg>
+                重置全部
+            </button>`;
+        }
+
+        bar.innerHTML = html;
+    }
+
+    // ========== 清除搜索 ==========
+    function clearSearch() {
+        document.getElementById('search-input').value = '';
+        renderActiveTags();
+    }
+
+    // ========== 重置某个筛选组的"全部" ==========
+    function resetFilter(filterName) {
+        const row = document.querySelector(`[data-filter="${filterName}"]`);
+        if (!row) return;
+        row.querySelectorAll('.filter-chip.active').forEach(c => c.classList.remove('active'));
+        // 激活"全部"
+        const allChip = row.querySelector('.filter-chip');
+        if (allChip) allChip.classList.add('active');
+        renderActiveTags();
+    }
+
+    // ========== 重置全部 ==========
+    function clearAll() {
+        document.getElementById('search-input').value = '';
+        document.querySelectorAll('[data-filter]').forEach(row => {
+            row.querySelectorAll('.filter-chip.active').forEach(c => c.classList.remove('active'));
+            const allChip = row.querySelector('.filter-chip');
+            if (allChip) allChip.classList.add('active');
+        });
+        renderActiveTags();
+    }
+
+    // ========== 搜索框输入时更新 Tag ==========
+    function updateSearchTag() {
+        renderActiveTags();
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // 初始化
+    renderActiveTags();
+</script>
+
+</body>
+</html>
