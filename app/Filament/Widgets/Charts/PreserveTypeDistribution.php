@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets\Charts;
 
-use App\Enums\Preserves\PreserveType;
 use App\Models\Preserve;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
@@ -33,9 +32,7 @@ class PreserveTypeDistribution extends ChartWidget
             ->get();
 
         $labels = $data->map(function ($item) {
-            $enum = PreserveType::tryFrom($item->preserve_type);
-
-            return $enum?->getLabel() ?? $item->preserve_type;
+            return $item->preserve_type?->getLabel() ?? $item->preserve_type;
         })->toArray();
 
         return [

@@ -1204,11 +1204,11 @@
         },
         {
             "name": "filament/actions",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/actions/v5.6.6/filament-actions-v5.6.6.zip",
-                "reference": "eb0f973dd88864c3ea7be5e999bf420ccbd62e14",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/actions/v5.6.7/filament-actions-v5.6.7.zip",
+                "reference": "4697f9e6dab1f023b2ea21b0e449c3fd204fb3d9",
                 "shasum": ""
             },
             "require": {
@@ -1242,15 +1242,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:17:39+00:00"
+            "time": "2026-06-08T09:27:06+00:00"
         },
         {
             "name": "filament/filament",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/filament/v5.6.6/filament-filament-v5.6.6.zip",
-                "reference": "fdb789aaa29ff418e0609927a683b099df2d5f55",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/filament/v5.6.7/filament-filament-v5.6.7.zip",
+                "reference": "2b6bfa9888e0bcba8c2a7dfbdfe913cab72cfe6a",
                 "shasum": ""
             },
             "require": {
@@ -1293,15 +1293,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:17:24+00:00"
+            "time": "2026-06-08T09:24:15+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/forms/v5.6.6/filament-forms-v5.6.6.zip",
-                "reference": "e4dc9e2add4b563822d1014e35c8e16bf812aa8d",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/forms/v5.6.7/filament-forms-v5.6.7.zip",
+                "reference": "f7b5e8701982408f84e1b12fcca75eadad47905b",
                 "shasum": ""
             },
             "require": {
@@ -1337,15 +1337,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:11:48+00:00"
+            "time": "2026-06-08T09:27:44+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/infolists/v5.6.6/filament-infolists-v5.6.6.zip",
-                "reference": "37a2484d6c65b5908e6549302001161530a88c2c",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/infolists/v5.6.7/filament-infolists-v5.6.7.zip",
+                "reference": "0b87686a37160bf7f8bccae1eedc733bbf928dc9",
                 "shasum": ""
             },
             "require": {
@@ -1376,15 +1376,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-22T07:42:24+00:00"
+            "time": "2026-06-08T09:28:23+00:00"
         },
         {
             "name": "filament/notifications",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/notifications/v5.6.6/filament-notifications-v5.6.6.zip",
-                "reference": "d4d1bef688dd85086229fcad6f1a157d47f6c336",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/notifications/v5.6.7/filament-notifications-v5.6.7.zip",
+                "reference": "28ce63bf4e378a4e38efac7b1f0519a5fed4b352",
                 "shasum": ""
             },
             "require": {
@@ -1417,14 +1417,14 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-20T17:23:54+00:00"
+            "time": "2026-06-08T09:27:42+00:00"
         },
         {
             "name": "filament/query-builder",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/query-builder/v5.6.6/filament-query-builder-v5.6.6.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/query-builder/v5.6.7/filament-query-builder-v5.6.7.zip",
                 "reference": "fb4b6cdebe6ab2c233cc78d3688a64f022263c56",
                 "shasum": ""
             },
@@ -1461,11 +1461,11 @@
         },
         {
             "name": "filament/schemas",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/schemas/v5.6.6/filament-schemas-v5.6.6.zip",
-                "reference": "1b23f15af79252591fd72f17ad4bc536cc32d47b",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/schemas/v5.6.7/filament-schemas-v5.6.7.zip",
+                "reference": "c3ecdfe73a215927caaf7b28bc5ae2b3891e805b",
                 "shasum": ""
             },
             "require": {
@@ -1496,14 +1496,14 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:16:01+00:00"
+            "time": "2026-06-08T09:28:03+00:00"
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-media-library-plugin/v5.6.6/filament-spatie-laravel-media-library-plugin-v5.6.6.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-media-library-plugin/v5.6.7/filament-spatie-laravel-media-library-plugin-v5.6.7.zip",
                 "reference": "085dda340dd99dd350d9f8fd77015cd420d8b2d2",
                 "shasum": ""
             },
@@ -1531,10 +1531,10 @@
         },
         {
             "name": "filament/spatie-laravel-settings-plugin",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-settings-plugin/v5.6.6/filament-spatie-laravel-settings-plugin-v5.6.6.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-settings-plugin/v5.6.7/filament-spatie-laravel-settings-plugin-v5.6.7.zip",
                 "reference": "533f5486b6c264d130a3de4c2d928586394aee73",
                 "shasum": ""
             },
@@ -1569,10 +1569,10 @@
         },
         {
             "name": "filament/spatie-laravel-tags-plugin",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-tags-plugin/v5.6.6/filament-spatie-laravel-tags-plugin-v5.6.6.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/spatie-laravel-tags-plugin/v5.6.7/filament-spatie-laravel-tags-plugin-v5.6.7.zip",
                 "reference": "d9751f1ff695e5b54e8bee2bbb6264d06048a52d",
                 "shasum": ""
             },
@@ -1600,11 +1600,11 @@
         },
         {
             "name": "filament/support",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/support/v5.6.6/filament-support-v5.6.6.zip",
-                "reference": "2d79214157790e89b35a00911a5d7fc5da647b87",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/support/v5.6.7/filament-support-v5.6.7.zip",
+                "reference": "caa2bf186de5b32a789d3c7167bc63db153386a1",
                 "shasum": ""
             },
             "require": {
@@ -1648,15 +1648,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:12:42+00:00"
+            "time": "2026-06-08T09:28:36+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/tables/v5.6.6/filament-tables-v5.6.6.zip",
-                "reference": "b67ef735bb000cf9e11bf9f71450e9faef2c5052",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/tables/v5.6.7/filament-tables-v5.6.7.zip",
+                "reference": "bb98022d73347eeb090976ae0730147289135ffb",
                 "shasum": ""
             },
             "require": {
@@ -1688,15 +1688,15 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:17:31+00:00"
+            "time": "2026-06-08T09:28:26+00:00"
         },
         {
             "name": "filament/widgets",
-            "version": "v5.6.6",
+            "version": "v5.6.7",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/filament/widgets/v5.6.6/filament-widgets-v5.6.6.zip",
-                "reference": "fdec7f94e32b1c43199221363382e47b8a6a9816",
+                "url": "https://mirrors.tencent.com/repository/composer/filament/widgets/v5.6.7/filament-widgets-v5.6.7.zip",
+                "reference": "8c6411e0331aab124ffdf6c49d1161b1ecfbc9bc",
                 "shasum": ""
             },
             "require": {
@@ -1726,7 +1726,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-05-27T16:16:29+00:00"
+            "time": "2026-06-08T09:28:17+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -2078,11 +2078,11 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.11.0",
+            "version": "7.11.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/guzzle/7.11.0/guzzlehttp-guzzle-7.11.0.zip",
-                "reference": "c987f8ce84b8434fa430795eca0f3430663da72b",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/guzzle/7.11.1/guzzlehttp-guzzle-7.11.1.zip",
+                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
                 "shasum": ""
             },
             "require": {
@@ -2101,7 +2101,7 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "guzzle/client-integration-tests": "3.0.2",
-                "guzzlehttp/test-server": "^0.4",
+                "guzzlehttp/test-server": "^0.5",
                 "php-http/message-factory": "^1.1",
                 "phpunit/phpunit": "^8.5.52 || ^9.6.34",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
@@ -2180,9 +2180,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.11.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.11.1"
             },
-            "time": "2026-06-02T12:40:51+00:00"
+            "time": "2026-06-07T22:54:06+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -8650,11 +8650,11 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.38.1",
+            "version": "v1.38.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-mbstring/v1.38.1/symfony-polyfill-mbstring-v1.38.1.zip",
-                "reference": "14c5439eec4ccff081ac14eca2dc57feb2a66d92",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-mbstring/v1.38.2/symfony-polyfill-mbstring-v1.38.2.zip",
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
                 "shasum": ""
             },
             "require": {
@@ -8705,9 +8705,9 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.2"
             },
-            "time": "2026-05-26T12:51:13+00:00"
+            "time": "2026-05-27T06:59:30+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
