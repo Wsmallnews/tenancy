@@ -4,15 +4,17 @@
 ])
 
 <div
-    {{ $attributes->merge([
-        'class' => 'sn-accordion-item',
-    ]) }}
+    {{ 
+        $attributes->class([
+            'sn-accordion-item',
+        ])
+    }}
     x-data="{ open: {{ $expanded ? 'true' : 'false' }} }"
 >
     {{-- 标题区域 --}}
     <button
         type="button"
-        class="flex w-full items-center justify-between gap-3 px-5 py-3.5 text-left sn-gray-bg sn-hover"
+        class="sn-accordion-item-header flex w-full items-center justify-between gap-3 px-5 py-3.5 text-left sn-gray-bg sn-hover"
         @click="open = !open"
         :aria-expanded="open"
     >
@@ -34,7 +36,7 @@
         x-show="open"
         x-collapse
         x-cloak
-        class="px-5 py-4"
+        class="sn-accordion-item-content px-5 py-4"
     >
         {{ $slot }}
     </div>

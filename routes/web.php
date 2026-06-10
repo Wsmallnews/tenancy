@@ -4,6 +4,8 @@ use App\Features\Nhgrc\Nhgrc;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\SsoCallbackController;
 use App\Livewire\Appraise;
+use App\Livewire\AppraiseCategories;
+use App\Livewire\Appraises;
 use App\Livewire\Index;
 use App\Livewire\Navigation;
 use App\Livewire\Personnel;
@@ -35,6 +37,8 @@ Route::domain(Utils::getConfig('routes.domain'))
     ->prefix(Utils::getConfig('routes.prefix'))
     ->name(Utils::getConfig('routes.name'))
     ->group(function () {
+        Route::get('appraises', Appraises::class)->name('appraises');
+        Route::get('appraise-categories', AppraiseCategories::class)->name('appraise-categories');
         Route::get('appraises/{id}', Appraise::class)->name('appraises.show');
         Route::get('appraises/qrcode/{token}', QrCode::class)->name('appraises.qrcode');
 
@@ -42,7 +46,7 @@ Route::domain(Utils::getConfig('routes.domain'))
         Route::get('personnels/{id}', Personnel::class)->name('personnels.show');
 
         // 需登录路由
-        Route::middleware('cms-auth:'.Utils::getConfig('guard'))->group(function () {
+        Route::middleware('cms-auth:' . Utils::getConfig('guard'))->group(function () {
             // 个人设置
             Route::get('user/appraise-applies', AppraiseApplies::class)->name('user.appraise-applies');
             Route::get('user/appraise-applies/{id}', AppraiseApply::class)->name('user.appraise-applies.show');
