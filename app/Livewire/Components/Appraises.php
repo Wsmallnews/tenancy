@@ -175,7 +175,7 @@ class Appraises extends Component implements HasActions, HasSchemas
 
     public function render()
     {
-        $categoryIds = Arr::wrap($this->categoryIds);
+        $categoryIds = $this->categoryIds ? Arr::wrap($this->categoryIds) : [];
 
         $allCategories = collect([]);       // 要查询的分类，以及分类的所有子节点
         foreach ($categoryIds as $id) {

@@ -9,7 +9,12 @@ use Wsmallnews\Cms\Support\Utils as CmsUtils;
 class Appraises extends Base
 {
     #[Url]
-    public string $categoryId = '';
+    public int $categoryId;
+
+    public function mount()
+    {
+        $this->categoryId = request()->input('categoryId', 0);
+    }
 
     public function render()
     {

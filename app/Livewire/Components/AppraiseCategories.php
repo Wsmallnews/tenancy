@@ -32,7 +32,7 @@ class AppraiseCategories extends Component
     {
         $categories = $this->getCategories();
 
-        return view('livewire.components.categories', [
+        return view('livewire.components.appraise-categories', [
             'categories' => $categories,
         ]);
     }

@@ -12,7 +12,7 @@
                 $categoryCover = $category->getFirstMediaUrl('cover');
             @endphp
 
-            <x-accordion-item :expanded="$loop->first" icon="heroicon-o-folder">
+            <x-accordion-item :expanded="true" icon="heroicon-o-folder">
                 <x-slot:heading>
                     {{-- 分类封面图 --}}
                     <div class="size-8 shrink-0 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
