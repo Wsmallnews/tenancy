@@ -13,6 +13,6 @@
             </div>
         @endif
 
-        <livewire:sn-components-appraises class="w-full" :category-ids="$categoryId" />
+        <livewire:sn-components-appraises class="w-full" :category-ids="$categoryId" category-style="tree" />
     </div>
 </x-dynamic-component>

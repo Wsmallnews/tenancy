@@ -245,8 +245,8 @@ class Category extends BaseCategoryPage
                                             return pinyin_permalink($group_name . $field_name);     // 分组名 + 字段名 设置为 上传表单 的 collection 名
                                         }),
                                 ])
-                                ->extraAttributes(['style' => 'place-self: center'])
-                                ->columns(4),
+                                ->columns(4)
+                                ->columnSpanFull(),
                             Forms\Components\Builder\Block::make('dateTimePicker')
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';

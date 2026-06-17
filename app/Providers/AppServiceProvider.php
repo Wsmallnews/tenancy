@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Livewire\Components\Appraises;
-use App\Livewire\Components\AppraiseShow;
 use App\Livewire\Components\AppraiseCategories;
+use App\Livewire\Components\Appraises;
 use App\Livewire\Components\Index\Overview;
 use App\Livewire\Components\Index\Posts;
 use App\Livewire\Components\Index\ScientificResearch;
@@ -136,7 +135,6 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-personnels', Personnels::class);
         Livewire::component('sn-components-personnel', \App\Livewire\Components\Personnel::class);
 
-        Livewire::component('sn-components-appraise-show', AppraiseShow::class);
         Livewire::component('sn-components-appraises', Appraises::class);
         Livewire::component('sn-components-appraise', \App\Livewire\Components\Appraise::class);
         Livewire::component('sn-components-appraise-categories', AppraiseCategories::class);
@@ -179,7 +177,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'index-overview',
                 'label' => '统计信息(首页)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     Overview::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -190,7 +188,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'index-personnels',
                 'label' => '人员列表(首页)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     \App\Livewire\Components\Index\Personnels::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -201,7 +199,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'index-card-posts',
                 'label' => '动态资讯(首页)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     Posts::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -212,7 +210,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'index-scientific-research',
                 'label' => '科学研究(首页)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     ScientificResearch::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -223,7 +221,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'personnels',
                 'label' => '人员列表',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     Personnels::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -234,10 +232,10 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'personnel-detail',
                 'label' => '人员详情',
-                'forms' => fn($fields) => [
+                'forms' => fn ($fields) => [
                     Forms\Components\Select::make('id')->label('选择人员')
                         ->options(Personnel::normal()->limit(30)->pluck('name', 'id'))
-                        ->getSearchResultsUsing(fn(string $search): array => Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+                        ->getSearchResultsUsing(fn (string $search): array => Personnel::where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
                         // ->getOptionLabelUsing(fn($value): ?string => \App\Models\Post::find($value)?->title)
                         ->placeholder('请选择人员详情')
                         ->searchable()
@@ -254,7 +252,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'appraise-categories',
                 'label' => '种质资源分类',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     AppraiseCategories::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -265,7 +263,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'appraise',
                 'label' => '种质资源列表',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
                     Appraises::class => [
                         'scopeType' => CmsUtils::getScopeType(),
@@ -276,11 +274,12 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'appraise-show',
                 'label' => '种质资源列表(带分类)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
-                    AppraiseShow::class => [
+                    Appraises::class => [
                         'scopeType' => CmsUtils::getScopeType(),
                         'scopeId' => CmsUtils::getScopeId(),
+                        'categoryStyle' => 'tree',
                         'style' => 'card',
                     ],
                 ],
@@ -288,11 +287,12 @@ class AppServiceProvider extends ServiceProvider
             [
                 'type' => 'appraise-applies-show',
                 'label' => '用种申请列表(带分类)',
-                'forms' => fn($fields) => [],
+                'forms' => fn ($fields) => [],
                 'components' => [
-                    AppraiseShow::class => [
+                    Appraises::class => [
                         'scopeType' => CmsUtils::getScopeType(),
                         'scopeId' => CmsUtils::getScopeId(),
+                        'categoryStyle' => 'tree',
                         'style' => 'list',
                     ],
                 ],
@@ -301,7 +301,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 注册用户侧边栏菜单
         $pluginId = app(CmsPlugin::class)->getId();
-        SidebarMenuRegistryFacade::register($pluginId, fn() => [
+        SidebarMenuRegistryFacade::register($pluginId, fn () => [
             'key' => 'appraise-applies',
             'label' => '种质申请',
             'url' => Utils::route('user.appraise-applies'),
@@ -314,23 +314,23 @@ class AppServiceProvider extends ServiceProvider
             '双因素认证',
         ]);
 
-        Table::configureUsing(fn(Table $table) => $table->defaultCurrency('CNY'));
-        Table::configureUsing(fn(Table $table) => $table->defaultDateDisplayFormat('Y-m-d'));
-        Table::configureUsing(fn(Table $table) => $table->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
-        Table::configureUsing(fn(Table $table) => $table->defaultNumberLocale(null));
-        Table::configureUsing(fn(Table $table) => $table->defaultTimeDisplayFormat('H:i:s'));
+        Table::configureUsing(fn (Table $table) => $table->defaultCurrency('CNY'));
+        Table::configureUsing(fn (Table $table) => $table->defaultDateDisplayFormat('Y-m-d'));
+        Table::configureUsing(fn (Table $table) => $table->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        Table::configureUsing(fn (Table $table) => $table->defaultNumberLocale(null));
+        Table::configureUsing(fn (Table $table) => $table->defaultTimeDisplayFormat('H:i:s'));
 
-        Schema::configureUsing(fn(Schema $schema) => $schema->defaultCurrency('CNY'));
-        Schema::configureUsing(fn(Schema $schema) => $schema->defaultDateDisplayFormat('Y-m-d'));
-        Schema::configureUsing(fn(Schema $schema) => $schema->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
-        Schema::configureUsing(fn(Schema $schema) => $schema->defaultNumberLocale(null));
-        Schema::configureUsing(fn(Schema $schema) => $schema->defaultTimeDisplayFormat('H:i:s'));
+        Schema::configureUsing(fn (Schema $schema) => $schema->defaultCurrency('CNY'));
+        Schema::configureUsing(fn (Schema $schema) => $schema->defaultDateDisplayFormat('Y-m-d'));
+        Schema::configureUsing(fn (Schema $schema) => $schema->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        Schema::configureUsing(fn (Schema $schema) => $schema->defaultNumberLocale(null));
+        Schema::configureUsing(fn (Schema $schema) => $schema->defaultTimeDisplayFormat('H:i:s'));
 
-        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateDisplayFormat('Y-m-d'));
-        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
-        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeWithSecondsDisplayFormat('Y-m-d H:i:s'));
-        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeDisplayFormat('H:i'));
-        DateTimePicker::configureUsing(fn(DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeWithSecondsDisplayFormat('H:i:s'));
+        DateTimePicker::configureUsing(fn (DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateDisplayFormat('Y-m-d'));
+        DateTimePicker::configureUsing(fn (DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeDisplayFormat('Y-m-d H:i:s'));
+        DateTimePicker::configureUsing(fn (DateTimePicker $dateTimePicker) => $dateTimePicker->defaultDateTimeWithSecondsDisplayFormat('Y-m-d H:i:s'));
+        DateTimePicker::configureUsing(fn (DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeDisplayFormat('H:i'));
+        DateTimePicker::configureUsing(fn (DateTimePicker $dateTimePicker) => $dateTimePicker->defaultTimeWithSecondsDisplayFormat('H:i:s'));
 
         TextEntry::configureUsing(function (TextEntry $entry): void {
             $entry->size(TextSize::Medium)

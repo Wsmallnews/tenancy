@@ -11,17 +11,22 @@ use Filament\Schemas\Contracts\HasSchemas;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Wsmallnews\Category\Livewire\Concerns\Categoryable;
+use Wsmallnews\Cms\Livewire\Concerns\HasThemeView;
+use Wsmallnews\Support\Livewire\Concerns\CanBeContained;
 use Wsmallnews\Support\Livewire\Concerns\CanPagination;
 
 class Appraises extends Component implements HasActions, HasSchemas
 {
+    use CanBeContained;
     use CanPagination;
     use Categoryable;
     use Concerns\ApplyAction;
+    use HasThemeView;
     use InteractsWithActions;
     use InteractsWithSchemas;
     use WithoutUrlPagination;
@@ -29,7 +34,12 @@ class Appraises extends Component implements HasActions, HasSchemas
     #[Url(except: '')]
     public string $search = '';
 
-    public int|string|array $categoryIds = [];
+    public int|array|null $categoryIds = [];
+
+    #[Url(except: 0)]
+    public int $categoryId = 0;
+
+    public string $categoryStyle = 'select';
 
     public Collection $appraises;
 
@@ -91,28 +101,12 @@ class Appraises extends Component implements HasActions, HasSchemas
         return ['scope_type' => 'appraise', 'scope_id' => 0];
     }
 
-    // 监听搜索变化
-    public function updatedSearch()
+    #[On('sn-filament-nestedset-leaf-click')]
+    public function onCategoryLeafClick(int $recordId): void
     {
-        $this->resetPage(); // 搜索时重置页码
-
-        if (in_array($this->pageType, ['scroll', 'manual'])) {
-            // 滚动分页或手动分页时，清空列表
-            $this->appraises = collect([]);
-        }
+        $this->categoryId = ($this->categoryId == $recordId) ? 0 : $recordId;
     }
 
-    // 监听筛选变化
-    public function updated($property)
-    {
-        if (str_starts_with($property, 'filter_')) {
-            $this->resetPage();
-
-            if (in_array($this->pageType, ['scroll', 'manual'])) {
-                $this->appraises = collect([]);
-            }
-        }
-    }
 
     // 获取生效的筛选条件（用于 UI 标签展示）
     public function getActiveFilters(): array
@@ -165,7 +159,6 @@ class Appraises extends Component implements HasActions, HasSchemas
         $this->filter_plant_use = '';
         $this->filter_assemble_resource = '';
         $this->filter_assemble_material_type = '';
-        $this->resetPage();
     }
 
     protected function getCurrents()
@@ -175,17 +168,11 @@ class Appraises extends Component implements HasActions, HasSchemas
 
     public function render()
     {
-        $categoryIds = $this->categoryIds ? Arr::wrap($this->categoryIds) : [];
+        $categoryIds = $this->categoryStyle == 'select' ? Arr::wrap($this->categoryIds) : Arr::wrap($this->categoryId);
 
-        $allCategories = collect([]);       // 要查询的分类，以及分类的所有子节点
-        foreach ($categoryIds as $id) {
-            // 查询分类以及分类的所有子节点
-            $currentIds = $this->getScopedQuery()->normal()->descendantsAndSelf($id)
-                ->pluck('id');
+        $categories = filled($categoryIds) ? $this->getScopedQuery()->normal()->whereIn('id', $categoryIds)->get() : collect([]);
 
-            $allCategories = $allCategories->merge($currentIds);
-        }
-        $allCategories = $allCategories->filter()->unique()->values();
+        $allCategories = filled($categoryIds) ? $this->getCategoryIds($categories) : collect([]);
 
         // 查询评价
         $query = AppraiseModel::query()->scopeTenant()->normal()->with(['saveCompany', 'media'])
@@ -216,11 +203,41 @@ class Appraises extends Component implements HasActions, HasSchemas
             ->orderBy('order_column', 'desc')->orderBy('id', 'desc');
 
         // 分页
-        $this->appraises = $this->withPagination($query);
+        $this->appraises = $this->withPagination($query, $this->getFingerprint());
 
         return view('livewire.components.appraises', [
+            'categories' => $categories,
             'paginatorLink' => $this->links,
         ]);
+    }
+
+    protected function getCategoryIds($categories)
+    {
+        $allCategories = collect([]);
+        foreach ($categories as $category) {
+            $currentIds = $category->descendants()->pluck('id');
+            $allCategories = $allCategories->merge($currentIds);
+        }
+        $allCategories = $allCategories->merge($categories->pluck('id'));
+        $allCategories = $allCategories->filter()->unique()->values();
+
+        return $allCategories;
+    }
+
+    protected function getFingerprint(): string
+    {
+        return md5(serialize([
+            'search' => $this->search,
+            'filter_germplasm_type' => $this->filter_germplasm_type,
+            'filter_germplasm_use' => $this->filter_germplasm_use,
+            'filter_fruit_use' => $this->filter_fruit_use,
+            'filter_plant_use' => $this->filter_plant_use,
+            'filter_assemble_resource' => $this->filter_assemble_resource,
+            'filter_assemble_material_type' => $this->filter_assemble_material_type,
+            'categoryIds' => json_encode($this->categoryIds),
+            'categoryId' => $this->categoryId,
+            ...$this->getScopeable(),
+        ]));
     }
 
     private function buildOptions(array $items): array
