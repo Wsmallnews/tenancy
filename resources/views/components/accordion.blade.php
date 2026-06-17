@@ -1,14 +1,16 @@
 @props([
-    'width' => '100%',
+    'contained' => true,
 ])
 
 <div
-    {{ $attributes->merge([
-        'class' => 'sn-container overflow-hidden',
-        'style' => "width: {$width}",
-    ]) }}
+    {{ 
+        $attributes->class([
+            'sn-accordion w-full overflow-hidden',
+            'sn-container' => $contained,
+        ])
+    }}
 >
-    <div class="divide-y divide-gray-200 dark:divide-white/10">
+    <div class="sn-accordion-content divide-y divide-gray-200 dark:divide-white/10">
         {{ $slot }}
     </div>
 </div>

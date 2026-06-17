@@ -48,7 +48,7 @@ return new class extends Migration
             $table->string('save_company_no')->nullable()->comment('保存单位编号');
             $table->string('pedigree')->nullable()->comment('系谱');
             $table->string('breeding_company')->nullable()->comment('选育单位');
-            $table->date('cultivationd_at')->nullable()->comment('育成年份');
+            $table->string('cultivationd_at')->nullable()->comment('育成年份');
             $table->string('breeding_method')->nullable()->comment('选育方法');
 
             $table->string('germplasm_type')->nullable()->comment('种质类型');

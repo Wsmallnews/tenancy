@@ -11,6 +11,7 @@ use Illuminate\Support\HtmlString;
 use UnitEnum;
 use Wsmallnews\Category\Enums\CategoryStatus;
 use Wsmallnews\Category\Filament\Pages\Category\Base as BaseCategoryPage;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class Category extends BaseCategoryPage
 {
@@ -55,7 +56,14 @@ class Category extends BaseCategoryPage
                 ->placeholder('请输入分类名称')
                 ->required(),
             Forms\Components\Textarea::make('description')->label('描述'),
-
+            FormComponents::mediaImageUpload('cover', 'cover')
+                ->label('封面')->required()
+                ->customProperties(function () {
+                    return [
+                        'team_id' => current_tenant()?->id,
+                    ];
+                })
+                ->uploadingMessage(__('封面上传中')),
             Schemas\Components\Group::make()
                 ->schema([
                     Forms\Components\Radio::make('status')
@@ -86,7 +94,7 @@ class Category extends BaseCategoryPage
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';
 
-                                    return '文本字段'.($name ? ' - '.$name : '');
+                                    return '文本字段' . ($name ? ' - ' . $name : '');
                                 })
                                 ->schema([
                                     Forms\Components\TextInput::make('name')
@@ -115,7 +123,7 @@ class Category extends BaseCategoryPage
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';
 
-                                    return '数值字段'.($name ? ' - '.$name : '');
+                                    return '数值字段' . ($name ? ' - ' . $name : '');
                                 })
                                 ->schema([
                                     Forms\Components\TextInput::make('name')
@@ -151,7 +159,7 @@ class Category extends BaseCategoryPage
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';
 
-                                    return '下拉选择字段'.($name ? ' - '.$name : '');
+                                    return '下拉选择字段' . ($name ? ' - ' . $name : '');
                                 })
                                 ->schema([
                                     Forms\Components\TextInput::make('name')
@@ -204,7 +212,7 @@ class Category extends BaseCategoryPage
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';
 
-                                    return '上传图片'.($name ? ' - '.$name : '');
+                                    return '上传图片' . ($name ? ' - ' . $name : '');
                                 })
                                 ->schema([
                                     Forms\Components\TextInput::make('name')
@@ -234,16 +242,16 @@ class Category extends BaseCategoryPage
                                             $group_name = $get('../../../name');
                                             $field_name = $get('name');
 
-                                            return pinyin_permalink($group_name.$field_name);     // 分组名 + 字段名 设置为 上传表单 的 collection 名
+                                            return pinyin_permalink($group_name . $field_name);     // 分组名 + 字段名 设置为 上传表单 的 collection 名
                                         }),
                                 ])
-                                ->extraAttributes(['style' => 'place-self: center'])
-                                ->columns(4),
+                                ->columns(4)
+                                ->columnSpanFull(),
                             Forms\Components\Builder\Block::make('dateTimePicker')
                                 ->label(function (?array $state): string {
                                     $name = $state['name'] ?? '';
 
-                                    return '日期时间'.($name ? ' - '.$name : '');
+                                    return '日期时间' . ($name ? ' - ' . $name : '');
                                 })
                                 ->schema([
                                     Forms\Components\TextInput::make('name')

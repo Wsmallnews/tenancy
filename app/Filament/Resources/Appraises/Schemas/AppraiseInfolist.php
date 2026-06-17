@@ -131,8 +131,7 @@ class AppraiseInfolist
                                         ->label('选育单位')
                                         ->formatStateUsing(fn (Model $record, $state) => $record->breedingCompany ? "{$record->breedingCompany->name} (编号：{$record->breedingCompany->code})" : '-'),
                                     Infolists\Components\TextEntry::make('cultivationd_at')
-                                        ->label('育成年份')
-                                        ->date('Y-m'),
+                                        ->label('育成年份'),
                                     Infolists\Components\TextEntry::make('breeding_method')
                                         ->label('选育方法'),
                                 ])->columnSpanFull(),

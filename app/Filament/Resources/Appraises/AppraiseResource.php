@@ -5,9 +5,11 @@ namespace App\Filament\Resources\Appraises;
 use App\Enums\Appraises\Status;
 use App\Features\Nhgrc\Nhgrc;
 use App\Features\QrCodeService;
+use App\Filament\Actions\ImportAction as FilamentImportAction;
 use App\Filament\Forms\Fields\DistrictSelect;
 use App\Filament\Resources\Appraises\Actions\QrCodeAction;
 use App\Filament\Resources\Appraises\Exports\AppraiseExporter;
+use App\Filament\Resources\Appraises\Imports\AppraiseImporter;
 use App\Filament\Resources\Appraises\Schemas\AppraiseInfolist;
 use App\Filament\Resources\Companies\CompanyResource;
 use App\Filament\Resources\Companies\Schemas\CompanyForm;
@@ -287,6 +289,10 @@ class AppraiseResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->headerActions([
+                FilamentImportAction::make()
+                    ->importer(AppraiseImporter::class)
+                    ->icon(Heroicon::ArrowUpTray)
+                    ->color('gray'),
                 FilamentExportAction::make()
                     ->exporter(AppraiseExporter::class)
                     ->icon(Heroicon::ArrowDownTray)
@@ -567,7 +573,6 @@ class AppraiseResource extends Resource
                 Forms\Components\DatePicker::make('cultivationd_at')->label('育成年份')
                     ->placeholder('请选择育成年份')
                     ->native(false)
-                    ->displayFormat('Y-m')
                     ->required(),
                 Forms\Components\TextInput::make('breeding_method')->label('选育方法')
                     ->placeholder('请输入选育方法')
