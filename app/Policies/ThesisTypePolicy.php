@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\ThesisType;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ThesisTypePolicy
 {
     use HandlesAuthorization;
-    
+
     public function viewAny(AuthUser $authUser): bool
     {
         return $authUser->can('ViewAny:ThesisTypes:ThesisType');
@@ -66,5 +66,4 @@ class ThesisTypePolicy
     {
         return $authUser->can('Reorder:ThesisTypes:ThesisType');
     }
-
 }

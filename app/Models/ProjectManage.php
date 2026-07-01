@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use App\Enums\ProjectManages\Status;
-use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Wsmallnews\Support\Models\SupportModel;
 
 class ProjectManage extends SupportModel
@@ -31,17 +30,14 @@ class ProjectManage extends SupportModel
         return '项目管理';
     }
 
-
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
-
 
     public function scopeNormal($query)
     {
@@ -52,7 +48,6 @@ class ProjectManage extends SupportModel
     {
         return $query->where('status', Status::Hidden);
     }
-
 
     public function team(): BelongsTo
     {

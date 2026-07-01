@@ -111,7 +111,7 @@ class AssembleResource extends Resource
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ])->columns(2),
                         Schemas\Components\Section::make('收集信息')->schema([
@@ -125,8 +125,8 @@ class AssembleResource extends Resource
                                 ->relationship(name: 'assembleCompany', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} (编号：{$record->code})")
-                                ->createOptionForm(fn($schema) => CompanyForm::configure($schema))
+                                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} (编号：{$record->code})")
+                                ->createOptionForm(fn ($schema) => CompanyForm::configure($schema))
                                 ->createOptionUsing(function (Forms\Components\Select $component, array $data, Schema $schema) {
                                     $data = CompanyResource::operDistrictInfo($data);     // 处理省市区数据
 
@@ -168,7 +168,7 @@ class AssembleResource extends Resource
                                 ->placeholder('选择省市')
                                 ->district(false)
                                 ->required()
-                                ->visible(fn(Get $get): bool => $get('country_code') == 'CN'),
+                                ->visible(fn (Get $get): bool => $get('country_code') == 'CN'),
                             Forms\Components\TextInput::make('address')->label('收集地址')
                                 ->placeholder('请输入收集地址')
                                 ->required(),
@@ -216,7 +216,7 @@ class AssembleResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('assembleCompany.name')
-                    ->formatStateUsing(fn($record) => $record?->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : null)
+                    ->formatStateUsing(fn ($record) => $record?->assembleCompany ? "{$record->assembleCompany->name} (编号：{$record->assembleCompany->code})" : null)
                     ->searchable()
                     ->label('收集单位')
                     ->toggleable(),
@@ -269,7 +269,7 @@ class AssembleResource extends Resource
                     ->searchable()
                     ->state(function (Model $record): string {
                         if ($record->country_code == 'CN') {
-                            return $record->province_name . ' / ' . $record->city_name;
+                            return $record->province_name.' / '.$record->city_name;
                         }
 
                         return '/';
@@ -282,7 +282,7 @@ class AssembleResource extends Resource
                 Tables\Columns\TextColumn::make('lng_lat')
                     ->label('经纬度')
                     ->formatStateUsing(function (Model $record, string $state): string {
-                        return $record->longitude . ', ' . $record->latitude;
+                        return $record->longitude.', '.$record->latitude;
                     })
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')

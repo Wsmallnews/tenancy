@@ -13,10 +13,10 @@ class TeamInfolist
         return $schema
             ->components([
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -26,7 +26,7 @@ class TeamInfolist
                         Infolists\Components\ImageEntry::make('avatar_url')
                             ->label('头像')
                             ->extraAttributes([
-                                'class' => 'sn-two-rows'
+                                'class' => 'sn-two-rows',
                             ]),
                         Infolists\Components\TextEntry::make('slug')
                             ->label('标识'),

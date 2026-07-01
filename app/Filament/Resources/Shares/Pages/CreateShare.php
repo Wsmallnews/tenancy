@@ -10,11 +10,10 @@ class CreateShare extends CreateRecord
 {
     protected static string $resource = ShareResource::class;
 
-
     /**
      * 保存后，更新排序字段
      *
-     * @param Model $record
+     * @param  Model  $record
      * @return void
      */
     protected function afterCreate()

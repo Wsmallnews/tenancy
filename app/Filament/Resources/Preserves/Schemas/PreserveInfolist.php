@@ -17,10 +17,10 @@ class PreserveInfolist
             ->components([
                 Schemas\Components\Text::make(Common::title('基础信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -52,15 +52,15 @@ class PreserveInfolist
                     ])->columnSpanFull(),
 
                 Schemas\Components\Text::make(function (Model $record) {
-                    return Common::title('保存信息: ' . $record->preserve_type?->getLabel());
+                    return Common::title('保存信息: '.$record->preserve_type?->getLabel());
                 }),
-                
+
                 // 种质圃保存
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -71,14 +71,14 @@ class PreserveInfolist
                             ->label('病虫害信息'),
                     ])
                     ->columnSpanFull()
-                    ->visible(fn(Model $record) => $record->preserve_type == PreserveType::GermplasmNursery),
+                    ->visible(fn (Model $record) => $record->preserve_type == PreserveType::GermplasmNursery),
 
                 // 试管苗保存
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -89,14 +89,14 @@ class PreserveInfolist
                             ->label('培养条件'),
                     ])
                     ->columnSpanFull()
-                    ->visible(fn(Model $record) => $record->preserve_type == PreserveType::TestTubeSeedling),
-                
+                    ->visible(fn (Model $record) => $record->preserve_type == PreserveType::TestTubeSeedling),
+
                 // 超低温保存
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -122,14 +122,14 @@ class PreserveInfolist
                             ->label('复苏程序'),
                     ])
                     ->columnSpanFull()
-                    ->visible(fn(Model $record) => $record->preserve_type == PreserveType::UltraLowTemperature),
-                
+                    ->visible(fn (Model $record) => $record->preserve_type == PreserveType::UltraLowTemperature),
+
                 // 原生境保存
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -162,15 +162,14 @@ class PreserveInfolist
                             ->label('物候记录'),
                     ])
                     ->columnSpanFull()
-                    ->visible(fn(Model $record) => $record->preserve_type == PreserveType::OriginalHabitat),
-
+                    ->visible(fn (Model $record) => $record->preserve_type == PreserveType::OriginalHabitat),
 
                 Schemas\Components\Text::make(Common::title('种质信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -179,7 +178,7 @@ class PreserveInfolist
                             ->label('种质封面图')
                             ->collection('cover')
                             ->extraAttributes([
-                                'class' => 'sn-two-rows'
+                                'class' => 'sn-two-rows',
                             ]),
                         Infolists\Components\TextEntry::make('appraise.resource_no')
                             ->label('全国统一编号'),
@@ -192,9 +191,9 @@ class PreserveInfolist
                         Infolists\Components\TextEntry::make('appraise.district_name')
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
-                                return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
+                                return $record->appraise?->province_name.' / '.$record->appraise?->city_name;
                             })
-                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
+                            ->visible(fn (Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')

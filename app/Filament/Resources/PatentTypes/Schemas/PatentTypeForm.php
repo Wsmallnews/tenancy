@@ -3,12 +3,11 @@
 namespace App\Filament\Resources\PatentTypes\Schemas;
 
 use App\Enums\PatentTypes\Status;
-use Filament\Schemas;
-use Filament\Schemas\Schema;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 
 class PatentTypeForm
-{   
+{
     public static function configure(Schema $schema): Schema
     {
         return $schema

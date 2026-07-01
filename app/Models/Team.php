@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
 use App\Enums\Teams\Status;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasCurrentTenantLabel;
 use Filament\Models\Contracts\HasName;
@@ -11,20 +11,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
-use Spatie\Activitylog\Support\Config as ActivitylogConfig;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\Config as ActivitylogConfig;
+use Spatie\Activitylog\Support\LogOptions;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
-use Wsmallnews\Support\Support\Utils as SupportUtils;
 use Wsmallnews\Support\Models\SupportModel;
+use Wsmallnews\Support\Support\Utils as SupportUtils;
 
-class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantLabel
+class Team extends SupportModel implements HasAvatar, HasCurrentTenantLabel, HasName
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
-    use SoftDeletes;
+
     use LogsActivity;
+    use SoftDeletes;
 
     protected $casts = [
         'status' => Status::class,
@@ -40,15 +41,13 @@ class Team extends SupportModel implements HasAvatar, HasName, HasCurrentTenantL
         return '团队';
     }
 
-
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
 
     public function getFilamentAvatarUrl(): ?string

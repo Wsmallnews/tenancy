@@ -7,7 +7,6 @@ use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class Personnel extends Base
 {
-
     public int $id;
 
     public function render()

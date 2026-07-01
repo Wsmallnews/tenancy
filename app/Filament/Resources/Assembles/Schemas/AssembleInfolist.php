@@ -16,10 +16,10 @@ class AssembleInfolist
             ->components([
                 Schemas\Components\Text::make(Common::title('收集信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -40,7 +40,7 @@ class AssembleInfolist
                         Infolists\Components\TextEntry::make('district_name')
                             ->label('收集地区')
                             ->state(fn (Model $record) => "{$record->province_name} / {$record->city_name}")
-                            ->visible(fn(Model $record) => $record->country_code == 'CN'),
+                            ->visible(fn (Model $record) => $record->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('address')
                             ->label('收集地址'),
                         Infolists\Components\TextEntry::make('lng_lat')
@@ -60,10 +60,10 @@ class AssembleInfolist
                     ])->columnSpanFull(),
                 Schemas\Components\Text::make(Common::title('种质信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -72,7 +72,7 @@ class AssembleInfolist
                             ->label('种质封面图')
                             ->collection('cover')
                             ->extraAttributes([
-                                'class' => 'sn-two-rows'
+                                'class' => 'sn-two-rows',
                             ]),
                         Infolists\Components\TextEntry::make('appraise.resource_no')
                             ->label('全国统一编号'),
@@ -85,9 +85,9 @@ class AssembleInfolist
                         Infolists\Components\TextEntry::make('appraise.district_name')
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
-                                return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
+                                return $record->appraise?->province_name.' / '.$record->appraise?->city_name;
                             })
-                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
+                            ->visible(fn (Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')

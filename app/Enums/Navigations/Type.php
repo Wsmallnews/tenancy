@@ -2,14 +2,11 @@
 
 namespace App\Enums\Navigations;
 
-use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Contracts\HasIcon;
-use Filament\Support\Contracts\HasColor;
 use App\Enums\Traits\EnumHelper;
+use Filament\Support\Contracts\HasLabel;
 
 enum Type: string implements HasLabel
 {
-
     use EnumHelper;
 
     case Child = 'child';

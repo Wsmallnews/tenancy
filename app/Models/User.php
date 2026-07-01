@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
-use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
-use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
-use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Auth\MultiFactor\Email\Concerns\InteractsWithEmailAuthentication;
+use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasDefaultTenant;
@@ -24,26 +24,29 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\HasActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Wsmallnews\Comment\Support\Utils as CommentUtils;
+use Wsmallnews\Preference\Models\Concerns\Preferencer;
+use Wsmallnews\Preference\Models\Concerns\Preferencer\Liker;
 use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
+use Wsmallnews\User\Userable;
 
-class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasAvatar, HasEmailAuthentication, HasName, HasDefaultTenant, HasTenants, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasAvatar, HasDefaultTenant, HasEmailAuthentication, HasName, HasTenants, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasActivity;
+
     use HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithAppAuthentication;
     use InteractsWithAppAuthenticationRecovery;
     use InteractsWithEmailAuthentication;
+    use Liker;
+    use Preferencer;
     use TwoFactorAuthenticatable;
-    use \Wsmallnews\User\Userable;
-    use \Wsmallnews\Preference\Models\Concerns\Preferencer;
-    use \Wsmallnews\Preference\Models\Concerns\Preferencer\Liker;
+    use Userable;
 
     /**
      * The attributes that are mass assignable.
@@ -101,7 +104,6 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     {
         return $this->name;
     }
-
 
     public function canAccessPanel(Panel $panel): bool
     {

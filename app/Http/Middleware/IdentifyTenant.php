@@ -4,16 +4,14 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class IdentifyTenant
 {
-
     public function handle(Request $request, Closure $next): Response
     {
-        
+
         $panel = Filament::getPanel('admin');
 
         if (! $panel->hasTenancy()) {

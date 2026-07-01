@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use Filament\Actions\Action;
 use Filament\Auth\Pages\Login as BaseLogin;
 use Illuminate\Contracts\Support\Htmlable;
 
@@ -16,7 +17,7 @@ class AdminLogin extends BaseLogin
     {
         return [
             ...parent::getFormActions(),
-            \Filament\Actions\Action::make('sso_login')
+            Action::make('sso_login')
                 ->label('使用园艺库账号登录')
                 ->color('success')
                 ->url(route('sso.redirect', ['from' => 'admin']))

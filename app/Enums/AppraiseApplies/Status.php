@@ -2,16 +2,15 @@
 
 namespace App\Enums\AppraiseApplies;
 
-use BackedEnum;
-use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Contracts\HasIcon;
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Icons\Heroicon;
 use App\Enums\Traits\EnumHelper;
+use BackedEnum;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
 
-enum Status: string implements HasLabel, HasIcon, HasColor
+enum Status: string implements HasColor, HasIcon, HasLabel
 {
-
     use EnumHelper;
 
     case Applying = 'applying';
@@ -29,8 +28,7 @@ enum Status: string implements HasLabel, HasIcon, HasColor
         };
     }
 
-
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
             self::Applying => 'info',
@@ -39,8 +37,7 @@ enum Status: string implements HasLabel, HasIcon, HasColor
         };
     }
 
-
-    public function getIcon(): string | BackedEnum | null
+    public function getIcon(): string|BackedEnum|null
     {
         return match ($this) {
             self::Applying => Heroicon::ClipboardDocumentCheck,

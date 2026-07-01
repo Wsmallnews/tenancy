@@ -175,6 +175,7 @@ class SsoCallbackController extends Controller
             if (!$user->latest_team_id) {
                 $user->update(['latest_team_id' => $user->teams()->first()->id]);
             }
+
             return;
         }
 

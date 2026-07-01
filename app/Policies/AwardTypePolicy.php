@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\AwardType;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class AwardTypePolicy
 {
     use HandlesAuthorization;
-    
+
     public function viewAny(AuthUser $authUser): bool
     {
         return $authUser->can('ViewAny:AwardTypes:AwardType');
@@ -66,5 +66,4 @@ class AwardTypePolicy
     {
         return $authUser->can('Reorder:AwardTypes:AwardType');
     }
-
 }

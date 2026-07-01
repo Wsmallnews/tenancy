@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Preserves\Schemas;
 
-use App\Enums\Preserves\Status;
 use App\Enums\Preserves\PreserveType;
+use App\Enums\Preserves\Status;
 use App\Models\Appraise;
 use Filament\Forms;
 use Filament\Infolists;
@@ -31,10 +31,10 @@ class PreserveForm
                                 ->live()
                                 ->required(),
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
@@ -47,7 +47,7 @@ class PreserveForm
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -70,7 +70,7 @@ class PreserveForm
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ]),
                         Schemas\Components\Section::make('基本信息')->schema([
@@ -100,7 +100,7 @@ class PreserveForm
                                 ->default(PreserveType::GermplasmNursery)
                                 ->live()
                                 ->inline(),
-                            
+
                             // 种质圃保存
                             Schemas\Components\Group::make()
                                 ->schema([
@@ -111,7 +111,7 @@ class PreserveForm
                                         ->placeholder('请输入病虫害信息')
                                         ->required(),
                                 ])->columns(2)
-                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::GermplasmNursery),
+                                ->visible(fn (Get $get): bool => $get('preserve_type') === PreserveType::GermplasmNursery),
 
                             // 试管苗保存
                             Schemas\Components\Group::make()
@@ -123,7 +123,7 @@ class PreserveForm
                                         ->placeholder('请输入培养条件')
                                         ->required(),
                                 ])->columns(2)
-                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::TestTubeSeedling),
+                                ->visible(fn (Get $get): bool => $get('preserve_type') === PreserveType::TestTubeSeedling),
 
                             // 超低温保存
                             Schemas\Components\Group::make()
@@ -158,7 +158,7 @@ class PreserveForm
                                         ->placeholder('请输入复苏程序')
                                         ->required(),
                                 ])->columns(2)
-                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::UltraLowTemperature),
+                                ->visible(fn (Get $get): bool => $get('preserve_type') === PreserveType::UltraLowTemperature),
 
                             // 原生境保存
                             Schemas\Components\Group::make()
@@ -203,8 +203,8 @@ class PreserveForm
                                         ->placeholder('请输入物候记录')
                                         ->required(),
                                 ])->columns(2)
-                                ->visible(fn(Get $get): bool => $get('preserve_type') === PreserveType::OriginalHabitat),
-                        ])
+                                ->visible(fn (Get $get): bool => $get('preserve_type') === PreserveType::OriginalHabitat),
+                        ]),
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([
                         Forms\Components\TextInput::make('order_column')->label('排序')->integer()
@@ -217,8 +217,8 @@ class PreserveForm
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 }

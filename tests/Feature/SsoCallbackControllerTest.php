@@ -14,13 +14,12 @@ uses(RefreshDatabase::class);
  * T056: SsoCallbackController Pest测试
  * 验证OAuth流程、用户创建(user_type='user')、映射记录
  */
-
 beforeEach(function () {
     // Mock SSO database connection to use default connection for testing
     config(['database.connections.sso' => config('database.connections.testing')]);
 
     // Create sso_cross_platform_user table for testing
-    if (!Schema::hasTable('sso_cross_platform_user')) {
+    if (! Schema::hasTable('sso_cross_platform_user')) {
         Schema::create('sso_cross_platform_user', function ($table) {
             $table->id();
             $table->string('source_platform', 32);
@@ -49,7 +48,7 @@ test('redirect sends user to SSO with account_type=horticultural', function () {
 });
 
 test('callback creates new user with user_type=user on first login', function () {
-    $ssoUser = new SocialiteUser();
+    $ssoUser = new SocialiteUser;
     $ssoUser->map([
         'id' => 'sso-user-001',
         'name' => 'TestHortUser',
@@ -101,7 +100,7 @@ test('callback reuses existing user on second login', function () {
         'updated_at' => now(),
     ]);
 
-    $ssoUser = new SocialiteUser();
+    $ssoUser = new SocialiteUser;
     $ssoUser->map([
         'id' => 'sso-user-002',
         'name' => 'ExistingHortUser',
@@ -121,7 +120,7 @@ test('callback reuses existing user on second login', function () {
 
 test('callback handles SSO failure gracefully', function () {
     Socialite::shouldReceive('driver')->with('sso')->andReturnSelf();
-    Socialite::shouldReceive('user')->andThrow(new \Exception('SSO unavailable'));
+    Socialite::shouldReceive('user')->andThrow(new Exception('SSO unavailable'));
 
     $response = $this->get('/sso/callback?code=bad-code');
 
@@ -137,7 +136,7 @@ test('callback handles email conflict by generating unique email', function () {
         'user_type' => 'admin',
     ]);
 
-    $ssoUser = new SocialiteUser();
+    $ssoUser = new SocialiteUser;
     $ssoUser->map([
         'id' => 'sso-user-003',
         'name' => 'ConflictUser',

@@ -3,12 +3,11 @@
 namespace App\Filament\Resources\AwardTypes\Schemas;
 
 use App\Enums\AwardTypes\Status;
-use Filament\Schemas;
-use Filament\Schemas\Schema;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 
 class AwardTypeForm
-{   
+{
     public static function configure(Schema $schema): Schema
     {
         return $schema

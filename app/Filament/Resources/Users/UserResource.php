@@ -2,26 +2,22 @@
 
 namespace App\Filament\Resources\Users;
 
-use BackedEnum;
-use App\Filament\Resources\Users\Pages;
 use App\Models\User;
-use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
+use BackedEnum;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Forms;
-use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\CauserTimelineAction;
 
 class UserResource extends Resource
@@ -73,7 +69,7 @@ class UserResource extends Resource
                         ->grow(false),
                 ])
                     ->columnSpanFull()
-                    ->from('lg')
+                    ->from('lg'),
             ]);
     }
 
@@ -146,18 +142,15 @@ class UserResource extends Resource
         ];
     }
 
-
     public static function getCluster(): ?string
     {
         return Utils::getResourceCluster() ?? static::$cluster;
     }
 
-
     public static function getNavigationGroup(): ?string
     {
         return __('filament-shield::filament-shield.nav.group');        // 和角色放到一个组
     }
-
 
     public static function getEloquentQuery(): Builder
     {
@@ -166,7 +159,6 @@ class UserResource extends Resource
                 SoftDeletingScope::class,
             ])->where('user_type', 'admin');
     }
-
 
     public static function getBaseFormsComponent(): array
     {
@@ -189,8 +181,8 @@ class UserResource extends Resource
                 ->revealable(filament()->arePasswordsRevealable())
                 ->rule(Password::default())
                 ->autocomplete('new-password')
-                ->dehydrated(fn($state): bool => filled($state))
-                ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                ->dehydrated(fn ($state): bool => filled($state))
+                ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                 // ->same('passwordConfirmation')       // 是否需要确认密码
                 ->live(debounce: 500),
         ];

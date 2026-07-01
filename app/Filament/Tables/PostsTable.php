@@ -12,6 +12,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Filters\TrashedFilter;
@@ -63,7 +64,7 @@ class PostsTable
                 //     ->toggleable(),
                 Tables\Columns\TextColumn::make('counter')
                     ->label('浏览量')
-                    ->formatStateUsing(fn($state) => $state->view_num)
+                    ->formatStateUsing(fn ($state) => $state->view_num)
                     ->alignCenter()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('order_column')
@@ -93,7 +94,7 @@ class PostsTable
             ->filters([
                 Tables\Filters\SelectFilter::make('flag')
                     ->label('标志')
-                    ->options(fn(Component $livewire) => FlagRegistry::getTypesOptions($livewire::getScopeType()))
+                    ->options(fn (Component $livewire) => FlagRegistry::getTypesOptions($livewire::getScopeType()))
                     ->query(function ($query, $data) {
                         if ($data['value']) {
                             $query->hasFlag($data['value']);
@@ -107,15 +108,15 @@ class PostsTable
                     ->label('提交园艺库')
                     ->action(function (Model $record) {
                         try {
-                            $nhgrc = new Nhgrc();
+                            $nhgrc = new Nhgrc;
                             $result = $nhgrc->submitArticle($record);
 
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交成功')
                                 ->body($result['msg'])
                                 ->success()->send();
                         } catch (\Exception $e) {
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交失败')
                                 ->body($e->getMessage())
                                 ->danger()->send();
@@ -130,15 +131,15 @@ class PostsTable
                     ->label('提交园艺库')
                     ->action(function (Collection $records) {
                         try {
-                            $nhgrc = new Nhgrc();
+                            $nhgrc = new Nhgrc;
                             $result = $nhgrc->batchSubmitArticle($records);
 
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交成功')
                                 ->body($result['msg'])
                                 ->success()->send();
                         } catch (\Exception $e) {
-                            \Filament\Notifications\Notification::make()
+                            Notification::make()
                                 ->title('提交失败')
                                 ->body($e->getMessage())
                                 ->danger()->send();

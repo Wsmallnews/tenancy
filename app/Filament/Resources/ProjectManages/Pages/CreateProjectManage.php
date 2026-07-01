@@ -10,11 +10,10 @@ class CreateProjectManage extends CreateRecord
 {
     protected static string $resource = ProjectManageResource::class;
 
-
     /**
      * 保存后，更新排序字段
      *
-     * @param Model $record
+     * @param  Model  $record
      * @return void
      */
     protected function afterCreate()
