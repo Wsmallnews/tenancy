@@ -29,6 +29,8 @@ class SystemDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */
@@ -42,7 +44,12 @@ class SystemDashboard extends Page
 
     public function getColumns(): int|array
     {
-        return 2;
+        return [
+            'default' => 1,
+            'md' => 1,
+            'lg' => 2,
+            '2xl' => 3
+        ];
     }
 
     public function content(Schema $schema): Schema

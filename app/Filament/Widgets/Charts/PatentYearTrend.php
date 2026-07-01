@@ -13,7 +13,9 @@ class PatentYearTrend extends ChartWidget
 {
     protected ?string $heading = '专利申请/授权年度趋势';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

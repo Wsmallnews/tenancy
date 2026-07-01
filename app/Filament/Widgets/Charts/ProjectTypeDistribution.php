@@ -13,7 +13,9 @@ class ProjectTypeDistribution extends ChartWidget
 {
     protected ?string $heading = '项目类型分布';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

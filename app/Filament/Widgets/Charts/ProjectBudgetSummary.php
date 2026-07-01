@@ -13,7 +13,9 @@ class ProjectBudgetSummary extends ChartWidget
 {
     protected ?string $heading = '年度项目经费汇总';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

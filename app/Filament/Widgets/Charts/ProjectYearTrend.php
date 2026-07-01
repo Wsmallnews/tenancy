@@ -13,7 +13,9 @@ class ProjectYearTrend extends ChartWidget
 {
     protected ?string $heading = '项目立项年度趋势';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 
