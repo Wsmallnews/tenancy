@@ -16,15 +16,15 @@ class NewVarietyInfolist
             ->components([
                 Schemas\Components\Text::make(Common::title('品权信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
                     ->schema([
-                        
+
                         Infolists\Components\TextEntry::make('variety_no')
                             ->label('品种权号'),
                         Infolists\Components\TextEntry::make('name')
@@ -48,10 +48,10 @@ class NewVarietyInfolist
                     ])->columnSpanFull(),
                 Schemas\Components\Text::make(Common::title('种质信息')),
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])
@@ -60,7 +60,7 @@ class NewVarietyInfolist
                             ->label('种质封面图')
                             ->collection('cover')
                             ->extraAttributes([
-                                'class' => 'sn-two-rows'
+                                'class' => 'sn-two-rows',
                             ]),
                         Infolists\Components\TextEntry::make('appraise.resource_no')
                             ->label('全国统一编号'),
@@ -73,9 +73,9 @@ class NewVarietyInfolist
                         Infolists\Components\TextEntry::make('appraise.district_name')
                             ->label('种质原产地区')
                             ->state(function (Model $record) {
-                                return $record->appraise?->province_name . ' / ' . $record->appraise?->city_name;
+                                return $record->appraise?->province_name.' / '.$record->appraise?->city_name;
                             })
-                            ->visible(fn(Model $record) => $record->appraise?->country_code == 'CN'),
+                            ->visible(fn (Model $record) => $record->appraise?->country_code == 'CN'),
                         Infolists\Components\TextEntry::make('appraise.address')
                             ->label('种质原产地址'),
                         Infolists\Components\TextEntry::make('appraise.subject_name')

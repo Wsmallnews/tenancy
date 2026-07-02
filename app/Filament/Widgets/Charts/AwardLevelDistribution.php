@@ -13,7 +13,9 @@ class AwardLevelDistribution extends ChartWidget
 {
     protected ?string $heading = '奖项级别分布';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

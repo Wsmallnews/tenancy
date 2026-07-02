@@ -2,14 +2,13 @@
 
 namespace App\Enums\AccurateIdentifies;
 
-use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Contracts\HasIcon;
-use Filament\Support\Contracts\HasColor;
 use App\Enums\Traits\EnumHelper;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 
-enum Status: string implements HasLabel, HasIcon, HasColor
+enum Status: string implements HasColor, HasIcon, HasLabel
 {
-
     use EnumHelper;
 
     case Normal = 'normal';
@@ -24,15 +23,13 @@ enum Status: string implements HasLabel, HasIcon, HasColor
         };
     }
 
-
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
             self::Normal => 'success',
             self::Hidden => 'gary',
         };
     }
-
 
     public function getIcon(): ?string
     {

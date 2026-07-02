@@ -2,16 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Appraise as AppraiseModel;
-use Livewire\Attributes\Url;
 use Wsmallnews\Cms\Livewire\Base;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class Appraise extends Base
 {
-
     public int $id;
-    
+
     public function render()
     {
         $breadcrumbs = [

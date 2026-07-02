@@ -58,7 +58,7 @@ class PlatformPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Platform/Resources'), for: 'App\Filament\Platform\Resources')
             ->discoverPages(in: app_path('Filament/Platform/Pages'), for: 'App\Filament\Platform\Pages')
             ->pages([
-                Dashboard::class,
+                // Dashboard::class,
                 GermplasmDashboard::class,
                 AttributeDashboard::class,
                 ResearchDashboard::class,
@@ -66,7 +66,7 @@ class PlatformPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Platform/Widgets'), for: 'App\Filament\Platform\Widgets')
             ->widgets([
-                AccountWidget::class,
+                // AccountWidget::class,
                 // FilamentInfoWidget::class,
             ])
             ->middleware([

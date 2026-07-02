@@ -3,9 +3,7 @@
 namespace App\Filament\Resources\Awards\Pages;
 
 use App\Filament\Resources\Awards\AwardResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class CreateAward extends CreateRecord
 {

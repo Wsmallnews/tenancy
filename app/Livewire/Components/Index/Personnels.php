@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class Personnels extends Component
 {
-
     public int $limit = 6;
 
     public function render()

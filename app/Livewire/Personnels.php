@@ -7,7 +7,6 @@ use Wsmallnews\Cms\Support\Utils as CmsUtils;
 
 class Personnels extends Base
 {
-
     public function render()
     {
         $breadcrumbs = [

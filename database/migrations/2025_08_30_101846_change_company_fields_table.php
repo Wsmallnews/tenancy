@@ -18,12 +18,12 @@ return new class extends Migration
                 $table->unsignedBigInteger('save_company_id')->default(0)->after('source_address')->comment('单位ID');
                 $table->dropColumn('save_company');
                 $table->dropColumn('save_company_no');
-                
+
                 $table->unsignedBigInteger('breeding_company_id')->default(0)->after('pedigree')->comment('选育单位ID');
                 $table->dropColumn('breeding_company');
             }
         );
-        
+
         Schema::whenTableDoesntHaveColumn(
             'assembles',
             'assemble_company_id',
@@ -33,14 +33,13 @@ return new class extends Migration
             }
         );
 
-        
         Schema::whenTableDoesntHaveColumn(
             'catalogs',
             'assemble_company_id',
             function (Blueprint $table) {
                 $table->unsignedBigInteger('assemble_company_id')->default(0)->after('assemble_address')->comment('收集单位ID');
                 $table->dropColumn('assemble_company');
-                
+
                 $table->unsignedBigInteger('temp_save_company_id')->default(0)->after('provider_phone')->comment('临时保存单位ID');
                 $table->dropColumn('temp_save_company');
 
@@ -49,7 +48,6 @@ return new class extends Migration
                 $table->dropColumn('original_save_company_no');
             }
         );
-
 
         Schema::whenTableDoesntHaveColumn(
             'theses',
@@ -64,7 +62,5 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

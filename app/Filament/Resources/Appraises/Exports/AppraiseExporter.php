@@ -23,7 +23,7 @@ class AppraiseExporter extends Exporter
                 ->label('ID'),
             ExportColumn::make('category.name')
                 ->label('分类')
-                ->formatStateUsing(fn($state, $record) => $record->category?->name ?? ''),
+                ->formatStateUsing(fn ($state, $record) => $record->category?->name ?? ''),
             ExportColumn::make('resource_no')
                 ->label('全国统一编号'),
             ExportColumn::make('germplasm_no')
@@ -66,12 +66,12 @@ class AppraiseExporter extends Exporter
                 ->label('来源地址'),
             ExportColumn::make('saveCompany.name')
                 ->label('保存单位')
-                ->formatStateUsing(fn($state, $record) => $record->saveCompany?->name ?? ''),
+                ->formatStateUsing(fn ($state, $record) => $record->saveCompany?->name ?? ''),
             ExportColumn::make('pedigree')
                 ->label('系谱'),
             ExportColumn::make('breedingCompany.name')
                 ->label('选育单位')
-                ->formatStateUsing(fn($state, $record) => $record->breedingCompany?->name ?? ''),
+                ->formatStateUsing(fn ($state, $record) => $record->breedingCompany?->name ?? ''),
             ExportColumn::make('cultivationd_at')
                 ->label('育成年份'),
             ExportColumn::make('breeding_method')

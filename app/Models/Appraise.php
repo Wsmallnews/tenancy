@@ -30,8 +30,6 @@ class Appraise extends SupportModel implements HasMedia
 
     /**
      * 默认模型名称
-     *
-     * @return string
      */
     public static function getModelLabel(): string
     {

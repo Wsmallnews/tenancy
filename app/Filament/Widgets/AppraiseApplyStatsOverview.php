@@ -10,6 +10,8 @@ class AppraiseApplyStatsOverview extends StatsOverviewWidget
 {
     protected ?string $heading = '用种申请概览';
 
+    protected static bool $isLazy = false;
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array

@@ -4,11 +4,11 @@ namespace App\Filament\Resources\AppraiseApplies\Schemas;
 
 use App\Enums\AppraiseApplies\Status;
 use App\Models\Appraise;
+use Filament\Forms;
+use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Filament\Forms;
-use Filament\Infolists;
 use Illuminate\Database\Eloquent\Builder;
 use Wsmallnews\Support\Filament\Forms\FormComponents;
 
@@ -32,14 +32,14 @@ class AppraiseApplyForm
                                 ->required()
                                 ->columnSpanFull(),
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
-                                ->schema(function(Get $get) {
+                                ->schema(function (Get $get) {
                                     if ($get('appraise_id') && $appraise = Appraise::findOrFail($get('appraise_id'))) {
                                         $coverMedia = $appraise->getFirstMedia('cover');
 
@@ -48,7 +48,7 @@ class AppraiseApplyForm
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -71,7 +71,7 @@ class AppraiseApplyForm
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ])->columns(2),
 
@@ -93,7 +93,7 @@ class AppraiseApplyForm
                                 ->required()
                                 ->acceptedFileTypes(['application/*'])
                                 ->uploadingMessage('申请单上传中...')
-                                ->columnSpanFull(1)
+                                ->columnSpanFull(1),
                         ]),
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([
@@ -104,8 +104,8 @@ class AppraiseApplyForm
                             ->inline(),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 }

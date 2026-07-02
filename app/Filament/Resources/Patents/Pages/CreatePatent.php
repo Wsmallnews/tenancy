@@ -3,9 +3,7 @@
 namespace App\Filament\Resources\Patents\Pages;
 
 use App\Filament\Resources\Patents\PatentResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class CreatePatent extends CreateRecord
 {

@@ -107,7 +107,6 @@ class Appraises extends Component implements HasActions, HasSchemas
         $this->categoryId = ($this->categoryId == $recordId) ? 0 : $recordId;
     }
 
-
     // 获取生效的筛选条件（用于 UI 标签展示）
     public function getActiveFilters(): array
     {

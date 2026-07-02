@@ -9,7 +9,6 @@ class CreatePersonnel extends CreateRecord
 {
     protected static string $resource = PersonnelResource::class;
 
-
     protected function afterCreate()
     {
         $record = $this->getRecord();

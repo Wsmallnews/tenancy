@@ -3,7 +3,6 @@
  * OAuth Callback 测试页面
  * 模拟 SSO callback，检查 session 是否保持
  */
-
 session_start();
 
 $receivedState = $_GET['state'] ?? null;
@@ -28,13 +27,13 @@ $storedState = $_SESSION['oauth_state'] ?? null;
     <h1>OAuth Callback Test</h1>
 
     <h2>State Verification</h2>
-    <?php if ($receivedState && $storedState && $receivedState === $storedState): ?>
+    <?php if ($receivedState && $storedState && $receivedState === $storedState) { ?>
         <p class="success">✓ State verification PASSED!</p>
         <p>Session persisted correctly across the OAuth redirect.</p>
-    <?php else: ?>
+    <?php } else { ?>
         <p class="error">✗ State verification FAILED!</p>
         <p>Session was lost during the OAuth redirect.</p>
-    <?php endif; ?>
+    <?php } ?>
 
     <table>
         <tr><th>Property</th><th>Value</th></tr>

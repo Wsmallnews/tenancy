@@ -2,8 +2,8 @@
 
 namespace App\Filament\Platform\Resources\Teams\Pages;
 
-use App\Filament\Platform\Resources\Teams\TeamResource;
 use App\Filament\Platform\Resources\Roles\Schemas\RoleForm;
+use App\Filament\Platform\Resources\Teams\TeamResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Schemas\Schema;
@@ -27,7 +27,6 @@ class ManageRoles extends ManageRelatedRecords
     protected static string $relationship = 'roles';
 
     protected static bool $shouldSkipAuthorization = true;      // @sn todo 跳过授权
-
 
     public function form(Schema $schema): Schema
     {

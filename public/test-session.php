@@ -9,7 +9,7 @@ session_start();
 
 // 生成测试数据
 $testKey = 'oauth_state';
-if (!isset($_SESSION[$testKey])) {
+if (! isset($_SESSION[$testKey])) {
     $_SESSION[$testKey] = bin2hex(random_bytes(20));
 }
 
@@ -46,10 +46,10 @@ if (!isset($_SESSION[$testKey])) {
         <tr><th>Parameter</th><th>Value</th></tr>
         <?php
         $params = session_get_cookie_params();
-        foreach ($params as $key => $value) {
-            echo "<tr><td>$key</td><td>" . var_export($value, true) . "</td></tr>";
-        }
-        ?>
+foreach ($params as $key => $value) {
+    echo "<tr><td>$key</td><td>".var_export($value, true).'</td></tr>';
+}
+?>
     </table>
 
     <h2>PHP Session Settings</h2>
@@ -98,7 +98,7 @@ if (!isset($_SESSION[$testKey])) {
                 break;
         }
     }
-    ?>
+?>
 
     <h2>OAuth Flow Simulation</h2>
     <p>Current OAuth State: <strong><?= $_SESSION[$testKey] ?></strong></p>

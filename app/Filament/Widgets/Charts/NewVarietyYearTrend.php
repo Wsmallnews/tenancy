@@ -13,7 +13,9 @@ class NewVarietyYearTrend extends ChartWidget
 {
     protected ?string $heading = '新品种审定年度趋势';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

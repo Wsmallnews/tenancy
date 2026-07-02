@@ -13,7 +13,9 @@ class ThesisTypeDistribution extends ChartWidget
 {
     protected ?string $heading = '论文类型分布';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 
