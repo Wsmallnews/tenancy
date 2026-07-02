@@ -16,6 +16,7 @@ use App\Filament\Widgets\Charts\NewVarietyYearTrend;
 use App\Filament\Widgets\Charts\PreserveTypeDistribution;
 use App\Filament\Widgets\GermplasmStatsOverview;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
@@ -39,6 +40,24 @@ class GermplasmDashboard extends Page
     protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::ChartBar;
 
     protected static ?int $navigationSort = 0;
+
+    public static function getNavigationGroup(): string|UnitEnum|null
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return '数据看板';
+        }
+
+        return static::$navigationGroup;
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return static::$navigationGroup;
+        }
+
+        return static::$navigationLabel;
+    }
 
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
