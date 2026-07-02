@@ -67,15 +67,19 @@ class GermplasmDashboard extends Page
         return [
             GermplasmStatsOverview::class,
             AppraiseApplyStatsOverview::class,
-            AppraiseCategoryDistribution::class,
+            // 趋势图（line, colSpan=2）+ 分布图（doughnut/pie/polarArea, colSpan=1）
             AppraiseMonthlyTrend::class,
-            AppraiseOriginDistribution::class,
             AppraiseTypeDistribution::class,
+            // 三列分布图
+            AppraiseCategoryDistribution::class,
+            AppraiseOriginDistribution::class,
+            PreserveTypeDistribution::class,
+            // 趋势图 + 分布图
+            AssembleYearTrend::class,
+            AssembleRegionDistribution::class,
             AppraiseApplyMonthlyTrend::class,
             AppraiseApplyStatus::class,
-            AssembleRegionDistribution::class,
-            AssembleYearTrend::class,
-            PreserveTypeDistribution::class,
+            // 趋势图
             CatalogYearTrend::class,
             NewVarietyYearTrend::class,
         ];
@@ -85,9 +89,8 @@ class GermplasmDashboard extends Page
     {
         return [
             'default' => 1,
-            'md' => 1,
-            'lg' => 2,
-            '2xl' => 3
+            'md' => 2,
+            'xl' => 3,
         ];
     }
 

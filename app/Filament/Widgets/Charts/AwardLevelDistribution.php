@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 奖项级别分布柱状图
+ * 奖项级别分布环形图
  */
 class AwardLevelDistribution extends ChartWidget
 {
@@ -21,7 +21,7 @@ class AwardLevelDistribution extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'doughnut';
     }
 
     protected function getData(): array
@@ -36,9 +36,8 @@ class AwardLevelDistribution extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => '奖项数量',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => '#ef4444',
+                    'backgroundColor' => ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444'],
                 ],
             ],
             'labels' => $data->pluck('level')->toArray(),

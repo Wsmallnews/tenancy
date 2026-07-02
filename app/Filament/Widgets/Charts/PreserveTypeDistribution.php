@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 保存方式分布柱状图
+ * 保存方式分布极坐标图
  */
 class PreserveTypeDistribution extends ChartWidget
 {
@@ -21,7 +21,7 @@ class PreserveTypeDistribution extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'polarArea';
     }
 
     protected function getData(): array
@@ -40,9 +40,8 @@ class PreserveTypeDistribution extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => '保存数量',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => '#06b6d4',
+                    'backgroundColor' => ['#06b6d4', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'],
                 ],
             ],
             'labels' => $labels,

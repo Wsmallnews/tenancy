@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧数据看板预览</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+        .dashboard-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dashboard-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+        }
+
+        /* Stats Overview */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        .stat-label { font-size: 13px; color: #94a3b8; margin-bottom: 8px; }
+        .stat-value { font-size: 32px; font-weight: 700; }
+        .stat-desc { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .stat-icon { float: right; font-size: 24px; opacity: 0.6; }
+
+        /* Chart Grid */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .chart-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .chart-card.full-width { grid-column: span 3; }
+        .chart-card.half-width { grid-column: span 2; }
+        .chart-card.one-third { grid-column: span 1; }
+        .chart-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #e2e8f0;
+        }
+        .chart-container { position: relative; height: 280px; }
+        .chart-container.small { height: 220px; }
+
+        /* Section Divider */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            padding-left: 12px;
+            border-left: 3px solid #38bdf8;
+            color: #e2e8f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .chart-grid { grid-template-columns: repeat(2, 1fr); }
+            .chart-card.full-width { grid-column: span 2; }
+            .chart-card.half-width { grid-column: span 2; }
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-card.full-width,
+            .chart-card.half-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<h1 class="dashboard-title">🌾 种质资源数据看板</h1>
+<p class="dashboard-subtitle">智慧农业大数据平台 · 实时数据监控</p>
+
+<!-- Stats Overview -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-icon">🧪</span>
+        <div class="stat-label">种质评价</div>
+        <div class="stat-value" style="color: #38bdf8;">1,247</div>
+        <div class="stat-desc">种质资源评价总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">📥</span>
+        <div class="stat-label">收集</div>
+        <div class="stat-value" style="color: #22d3ee;">856</div>
+        <div class="stat-desc">收集记录总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">📦</span>
+        <div class="stat-label">保存</div>
+        <div class="stat-value" style="color: #4ade80;">2,103</div>
+        <div class="stat-desc">保存记录总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">📑</span>
+        <div class="stat-label">编目</div>
+        <div class="stat-value" style="color: #fbbf24;">934</div>
+        <div class="stat-desc">编目记录总数</div>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-icon">✨</span>
+        <div class="stat-label">新品种</div>
+        <div class="stat-value" style="color: #a78bfa;">156</div>
+        <div class="stat-desc">新品种审定总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">🔍</span>
+        <div class="stat-label">精准鉴定</div>
+        <div class="stat-value" style="color: #f472b6;">423</div>
+        <div class="stat-desc">精准鉴定记录总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">👁️</span>
+        <div class="stat-label">表型鉴定</div>
+        <div class="stat-value" style="color: #fb923c;">678</div>
+        <div class="stat-desc">表型鉴定记录总数</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-icon">📋</span>
+        <div class="stat-label">用种申请</div>
+        <div class="stat-value" style="color: #e879f9;">89</div>
+        <div class="stat-desc">待处理申请</div>
+    </div>
+</div>
+
+<!-- 种质资源分析 -->
+<h2 class="section-title">📊 种质资源分析</h2>
+<div class="chart-grid">
+    <div class="chart-card half-width">
+        <div class="chart-title">📈 种质评价月度新增趋势</div>
+        <div class="chart-container"><canvas id="lineChart1"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">🍩 种质类型分布</div>
+        <div class="chart-container"><canvas id="doughnutChart1"></canvas></div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="chart-card one-third">
+        <div class="chart-title">🥧 种质分类分布</div>
+        <div class="chart-container"><canvas id="pieChart1"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">📊 种质原产地来源分布</div>
+        <div class="chart-container"><canvas id="barChart1"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">🎯 保存方式分布</div>
+        <div class="chart-container"><canvas id="polarChart1"></canvas></div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="chart-card full-width">
+        <div class="chart-title">🕸️ 种质资源综合指标雷达图</div>
+        <div class="chart-container"><canvas id="radarChart1"></canvas></div>
+    </div>
+</div>
+
+<!-- 收集与编目 -->
+<h2 class="section-title">📥 收集与编目</h2>
+<div class="chart-grid">
+    <div class="chart-card half-width">
+        <div class="chart-title">📈 收集记录年度趋势</div>
+        <div class="chart-container"><canvas id="lineChart2"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">📍 收集地分布</div>
+        <div class="chart-container"><canvas id="barChart2"></canvas></div>
+    </div>
+</div>
+
+<!-- 研究成果 -->
+<h2 class="section-title">🏆 研究成果</h2>
+<div class="chart-grid">
+    <div class="chart-card one-third">
+        <div class="chart-title">📊 论文类型分布</div>
+        <div class="chart-container"><canvas id="barChart3"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">🏆 奖项级别分布</div>
+        <div class="chart-container"><canvas id="doughnutChart2"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">🔬 专利状态分布</div>
+        <div class="chart-container"><canvas id="polarChart2"></canvas></div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="chart-card full-width">
+        <div class="chart-title">📈 研究成果年度趋势对比</div>
+        <div class="chart-container"><canvas id="lineChart3"></canvas></div>
+    </div>
+</div>
+
+<!-- 人员与单位 -->
+<h2 class="section-title">👥 人员与单位</h2>
+<div class="chart-grid">
+    <div class="chart-card half-width">
+        <div class="chart-title">🎓 人员学历分布</div>
+        <div class="chart-container"><canvas id="barChart4"></canvas></div>
+    </div>
+    <div class="chart-card one-third">
+        <div class="chart-title">🏢 合作单位地区分布</div>
+        <div class="chart-container"><canvas id="barChart5"></canvas></div>
+    </div>
+</div>
+
+<!-- 用种申请 -->
+<h2 class="section-title">📋 用种申请</h2>
+<div class="chart-grid">
+    <div class="chart-card one-third">
+        <div class="chart-title">📊 用种申请状态分布</div>
+        <div class="chart-container"><canvas id="doughnutChart3"></canvas></div>
+    </div>
+    <div class="chart-card half-width">
+        <div class="chart-title">📈 用种申请月度趋势</div>
+        <div class="chart-container"><canvas id="lineChart4"></canvas></div>
+    </div>
+</div>
+
+<script>
+// Color palette
+const colors = {
+    blue: '#38bdf8',
+    cyan: '#22d3ee',
+    green: '#4ade80',
+    yellow: '#fbbf24',
+    purple: '#a78bfa',
+    pink: '#f472b6',
+    orange: '#fb923c',
+    red: '#f87171',
+    indigo: '#818cf8',
+    teal: '#2dd4bf',
+};
+
+const gradientColors = [
+    'rgba(56, 189, 248, 0.8)',
+    'rgba(34, 211, 238, 0.8)',
+    'rgba(74, 222, 128, 0.8)',
+    'rgba(251, 191, 36, 0.8)',
+    'rgba(167, 139, 250, 0.8)',
+    'rgba(244, 114, 182, 0.8)',
+    'rgba(251, 146, 60, 0.8)',
+    'rgba(248, 113, 113, 0.8)',
+];
+
+// Chart defaults
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(148, 163, 184, 0.1)';
+
+// Helper: create gradient
+function createGradient(ctx, color1, color2) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(1, color2);
+    return gradient;
+}
+
+// Line Chart 1 - 种质评价月度趋势
+new Chart(document.getElementById('lineChart1'), {
+    type: 'line',
+    data: {
+        labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        datasets: [{
+            label: '新增种质评价',
+            data: [45, 52, 38, 65, 72, 58, 83, 91, 76, 88, 95, 102],
+            borderColor: colors.blue,
+            backgroundColor: 'rgba(56, 189, 248, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+        }, {
+            label: '新增收集',
+            data: [32, 28, 45, 52, 48, 62, 55, 68, 72, 65, 78, 85],
+            borderColor: colors.green,
+            backgroundColor: 'rgba(74, 222, 128, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Doughnut Chart 1 - 种质类型分布
+new Chart(document.getElementById('doughnutChart1'), {
+    type: 'doughnut',
+    data: {
+        labels: ['粮食作物', '经济作物', '蔬菜', '果树', '花卉', '中药材'],
+        datasets: [{
+            data: [35, 25, 18, 12, 6, 4],
+            backgroundColor: gradientColors,
+            borderWidth: 0,
+            hoverOffset: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        }
+    }
+});
+
+// Pie Chart 1 - 种质分类分布
+new Chart(document.getElementById('pieChart1'), {
+    type: 'pie',
+    data: {
+        labels: ['禾本科', '豆科', '茄科', '葫芦科', '十字花科', '其他'],
+        datasets: [{
+            data: [28, 22, 15, 12, 10, 13],
+            backgroundColor: gradientColors,
+            borderWidth: 0,
+            hoverOffset: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        }
+    }
+});
+
+// Bar Chart 1 - 种质原产地来源分布
+new Chart(document.getElementById('barChart1'), {
+    type: 'bar',
+    data: {
+        labels: ['山东', '河南', '河北', '黑龙江', '吉林', '辽宁', '江苏', '安徽', '湖北', '四川'],
+        datasets: [{
+            label: '种质数量',
+            data: [186, 152, 138, 125, 112, 98, 87, 76, 68, 56],
+            backgroundColor: gradientColors,
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Polar Area Chart 1 - 保存方式分布
+new Chart(document.getElementById('polarChart1'), {
+    type: 'polarArea',
+    data: {
+        labels: ['种质库', '田间', '试管苗', '超低温', 'DNA库'],
+        datasets: [{
+            data: [45, 28, 15, 8, 4],
+            backgroundColor: [
+                'rgba(56, 189, 248, 0.7)',
+                'rgba(74, 222, 128, 0.7)',
+                'rgba(251, 191, 36, 0.7)',
+                'rgba(167, 139, 250, 0.7)',
+                'rgba(244, 114, 182, 0.7)',
+            ],
+            borderWidth: 0,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        },
+        scales: { r: { grid: { color: 'rgba(148, 163, 184, 0.1)' } } }
+    }
+});
+
+// Radar Chart 1 - 种质资源综合指标
+new Chart(document.getElementById('radarChart1'), {
+    type: 'radar',
+    data: {
+        labels: ['遗传多样性', '抗病性', '产量潜力', '品质特性', '适应性', '抗逆性'],
+        datasets: [{
+            label: '水稻种质',
+            data: [85, 72, 90, 78, 82, 68],
+            borderColor: colors.blue,
+            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+            pointBackgroundColor: colors.blue,
+        }, {
+            label: '小麦种质',
+            data: [78, 85, 75, 82, 88, 72],
+            borderColor: colors.green,
+            backgroundColor: 'rgba(74, 222, 128, 0.2)',
+            pointBackgroundColor: colors.green,
+        }, {
+            label: '玉米种质',
+            data: [92, 68, 95, 70, 75, 80],
+            borderColor: colors.purple,
+            backgroundColor: 'rgba(167, 139, 250, 0.2)',
+            pointBackgroundColor: colors.purple,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 100,
+                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                angleLines: { color: 'rgba(148, 163, 184, 0.1)' },
+                pointLabels: { font: { size: 12 } }
+            }
+        }
+    }
+});
+
+// Line Chart 2 - 收集记录年度趋势
+new Chart(document.getElementById('lineChart2'), {
+    type: 'line',
+    data: {
+        labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+            label: '收集记录',
+            data: [120, 145, 168, 192, 215, 248, 280],
+            borderColor: colors.cyan,
+            backgroundColor: 'rgba(34, 211, 238, 0.1)',
+            fill: true,
+            tension: 0.4,
+        }, {
+            label: '编目记录',
+            data: [98, 112, 135, 156, 178, 205, 235],
+            borderColor: colors.yellow,
+            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+            fill: true,
+            tension: 0.4,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Bar Chart 2 - 收集地分布
+new Chart(document.getElementById('barChart2'), {
+    type: 'bar',
+    data: {
+        labels: ['云南', '四川', '贵州', '广西', '广东', '湖南', '湖北', '河南', '山东', '河北'],
+        datasets: [{
+            label: '收集数量',
+            data: [156, 132, 118, 95, 82, 76, 68, 58, 45, 38],
+            backgroundColor: gradientColors,
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// Bar Chart 3 - 论文类型分布
+new Chart(document.getElementById('barChart3'), {
+    type: 'bar',
+    data: {
+        labels: ['SCI', '核心期刊', '普通期刊', '会议论文', '学位论文'],
+        datasets: [{
+            label: '论文数量',
+            data: [86, 124, 98, 42, 56],
+            backgroundColor: [
+                'rgba(56, 189, 248, 0.8)',
+                'rgba(74, 222, 128, 0.8)',
+                'rgba(251, 191, 36, 0.8)',
+                'rgba(167, 139, 250, 0.8)',
+                'rgba(244, 114, 182, 0.8)',
+            ],
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Doughnut Chart 2 - 奖项级别分布
+new Chart(document.getElementById('doughnutChart2'), {
+    type: 'doughnut',
+    data: {
+        labels: ['国家级', '省部级', '地市级', '其他'],
+        datasets: [{
+            data: [12, 35, 48, 25],
+            backgroundColor: [
+                'rgba(251, 191, 36, 0.9)',
+                'rgba(56, 189, 248, 0.8)',
+                'rgba(74, 222, 128, 0.8)',
+                'rgba(148, 163, 184, 0.6)',
+            ],
+            borderWidth: 0,
+            hoverOffset: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        }
+    }
+});
+
+// Polar Area Chart 2 - 专利状态分布
+new Chart(document.getElementById('polarChart2'), {
+    type: 'polarArea',
+    data: {
+        labels: ['已授权', '实审中', '已公开', '已驳回'],
+        datasets: [{
+            data: [68, 45, 32, 12],
+            backgroundColor: [
+                'rgba(74, 222, 128, 0.7)',
+                'rgba(56, 189, 248, 0.7)',
+                'rgba(251, 191, 36, 0.7)',
+                'rgba(248, 113, 113, 0.7)',
+            ],
+            borderWidth: 0,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        },
+        scales: { r: { grid: { color: 'rgba(148, 163, 184, 0.1)' } } }
+    }
+});
+
+// Line Chart 3 - 研究成果年度趋势对比
+new Chart(document.getElementById('lineChart3'), {
+    type: 'line',
+    data: {
+        labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+            label: '论文',
+            data: [45, 52, 68, 78, 92, 105, 120],
+            borderColor: colors.blue,
+            tension: 0.4,
+            pointRadius: 4,
+        }, {
+            label: '专利',
+            data: [28, 35, 42, 56, 68, 82, 95],
+            borderColor: colors.green,
+            tension: 0.4,
+            pointRadius: 4,
+        }, {
+            label: '奖项',
+            data: [12, 15, 18, 22, 28, 32, 38],
+            borderColor: colors.yellow,
+            tension: 0.4,
+            pointRadius: 4,
+        }, {
+            label: '新品种',
+            data: [8, 12, 15, 22, 28, 35, 42],
+            borderColor: colors.purple,
+            tension: 0.4,
+            pointRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Bar Chart 4 - 人员学历分布
+new Chart(document.getElementById('barChart4'), {
+    type: 'bar',
+    data: {
+        labels: ['博士', '硕士', '本科', '其他'],
+        datasets: [{
+            label: '人数',
+            data: [45, 128, 86, 23],
+            backgroundColor: [
+                'rgba(167, 139, 250, 0.8)',
+                'rgba(56, 189, 248, 0.8)',
+                'rgba(74, 222, 128, 0.8)',
+                'rgba(148, 163, 184, 0.6)',
+            ],
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Bar Chart 5 - 合作单位地区分布
+new Chart(document.getElementById('barChart5'), {
+    type: 'bar',
+    data: {
+        labels: ['北京', '山东', '河南', '江苏', '黑龙江'],
+        datasets: [{
+            label: '单位数量',
+            data: [42, 38, 32, 28, 25],
+            backgroundColor: gradientColors,
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// Doughnut Chart 3 - 用种申请状态分布
+new Chart(document.getElementById('doughnutChart3'), {
+    type: 'doughnut',
+    data: {
+        labels: ['待处理', '已同意', '已拒绝', '已取消'],
+        datasets: [{
+            data: [23, 45, 12, 9],
+            backgroundColor: [
+                'rgba(251, 191, 36, 0.8)',
+                'rgba(74, 222, 128, 0.8)',
+                'rgba(248, 113, 113, 0.8)',
+                'rgba(148, 163, 184, 0.6)',
+            ],
+            borderWidth: 0,
+            hoverOffset: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+            legend: { position: 'right', labels: { padding: 16, usePointStyle: true } }
+        }
+    }
+});
+
+// Line Chart 4 - 用种申请月度趋势
+new Chart(document.getElementById('lineChart4'), {
+    type: 'line',
+    data: {
+        labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        datasets: [{
+            label: '申请数量',
+            data: [12, 8, 15, 18, 22, 28, 32, 25, 20, 15, 12, 8],
+            borderColor: colors.pink,
+            backgroundColor: 'rgba(244, 114, 182, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+        }, {
+            label: '批准数量',
+            data: [10, 7, 12, 15, 18, 22, 25, 20, 16, 12, 10, 6],
+            borderColor: colors.green,
+            backgroundColor: 'rgba(74, 222, 128, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

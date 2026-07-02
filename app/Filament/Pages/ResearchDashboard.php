@@ -67,18 +67,23 @@ class ResearchDashboard extends Page
     {
         return [
             ResearchStatsOverview::class,
-            ThesisTypeDistribution::class,
+            // 论文：趋势图 + 分布图
             ThesisYearTrend::class,
-            AwardLevelDistribution::class,
-            AwardTypeDistribution::class,
+            ThesisTypeDistribution::class,
+            // 奖项：趋势图 + 环形图
             AwardYearTrend::class,
-            PatentTypeDistribution::class,
-            PatentStatusDistribution::class,
+            AwardLevelDistribution::class,
+            // 专利：趋势图 + 极坐标图
             PatentYearTrend::class,
+            PatentStatusDistribution::class,
+            // 新品种 + 奖项类型 + 专利类型
             NewVarietyYearTrend::class,
-            ProjectTypeDistribution::class,
-            ProjectLevelDistribution::class,
+            AwardTypeDistribution::class,
+            PatentTypeDistribution::class,
+            // 项目：趋势图 + 分布图
             ProjectYearTrend::class,
+            ProjectLevelDistribution::class,
+            ProjectTypeDistribution::class,
             ProjectBudgetSummary::class,
         ];
     }
@@ -87,9 +92,8 @@ class ResearchDashboard extends Page
     {
         return [
             'default' => 1,
-            'md' => 1,
-            'lg' => 2,
-            '2xl' => 3
+            'md' => 2,
+            'xl' => 3,
         ];
     }
 

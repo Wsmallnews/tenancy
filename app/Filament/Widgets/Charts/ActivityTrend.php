@@ -15,7 +15,7 @@ class ActivityTrend extends ChartWidget
 
     protected static bool $isLazy = false;
 
-    protected int|string|array $columnSpan = 1;
+    protected int|string|array $columnSpan = 2;
 
     protected ?string $pollingInterval = null;
 

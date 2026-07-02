@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 种质类型与用途分布柱状图
+ * 种质类型分布环形图
  */
 class AppraiseTypeDistribution extends ChartWidget
 {
@@ -21,7 +21,7 @@ class AppraiseTypeDistribution extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'doughnut';
     }
 
     protected function getData(): array
@@ -36,9 +36,8 @@ class AppraiseTypeDistribution extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => '种质数量',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => '#8b5cf6',
+                    'backgroundColor' => ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4'],
                 ],
             ],
             'labels' => $data->pluck('germplasm_type')->toArray(),

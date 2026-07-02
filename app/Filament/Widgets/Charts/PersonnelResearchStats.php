@@ -7,21 +7,21 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 人员研究方向分布柱状图
+ * 人员研究方向分布雷达图
  */
 class PersonnelResearchStats extends ChartWidget
 {
-    protected ?string $heading = '研究方向分布';
+    protected ?string $heading = '人员研究方向分布';
 
     protected static bool $isLazy = false;
 
-    protected int|string|array $columnSpan = 1;
+    protected int|string|array $columnSpan = 'full';
 
     protected ?string $pollingInterval = null;
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'radar';
     }
 
     protected function getData(): array
@@ -31,6 +31,7 @@ class PersonnelResearchStats extends ChartWidget
             ->where('research_focus', '!=', '')
             ->groupBy('research_focus')
             ->orderByDesc('total')
+            ->limit(8)
             ->get();
 
         return [
@@ -38,7 +39,9 @@ class PersonnelResearchStats extends ChartWidget
                 [
                     'label' => '人数',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => '#14b8a6',
+                    'backgroundColor' => 'rgba(20, 184, 166, 0.3)',
+                    'borderColor' => '#14b8a6',
+                    'pointBackgroundColor' => '#14b8a6',
                 ],
             ],
             'labels' => $data->pluck('research_focus')->toArray(),

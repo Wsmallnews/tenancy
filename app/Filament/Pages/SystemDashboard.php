@@ -65,9 +65,8 @@ class SystemDashboard extends Page
     {
         return [
             'default' => 1,
-            'md' => 1,
-            'lg' => 2,
-            '2xl' => 3
+            'md' => 2,
+            'xl' => 3,
         ];
     }
 

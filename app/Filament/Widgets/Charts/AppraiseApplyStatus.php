@@ -6,7 +6,7 @@ use App\Models\AppraiseApply;
 use Filament\Widgets\ChartWidget;
 
 /**
- * 用种申请状态分布柱状图
+ * 用种申请状态分布环形图
  */
 class AppraiseApplyStatus extends ChartWidget
 {
@@ -20,7 +20,7 @@ class AppraiseApplyStatus extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'doughnut';
     }
 
     protected function getData(): array
@@ -32,7 +32,6 @@ class AppraiseApplyStatus extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => '申请数量',
                     'data' => [$applying, $agree, $refuse],
                     'backgroundColor' => ['#f59e0b', '#10b981', '#ef4444'],
                 ],
