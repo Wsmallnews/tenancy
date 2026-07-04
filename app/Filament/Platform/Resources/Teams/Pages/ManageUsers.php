@@ -2,18 +2,18 @@
 
 namespace App\Filament\Platform\Resources\Teams\Pages;
 
-use App\Filament\Platform\Resources\Teams\TeamResource;
 use App\Filament\Platform\Resources\PlatformUsers\Schemas\PlatformUserForm;
+use App\Filament\Platform\Resources\Teams\TeamResource;
 use App\Models\Team;
 use App\Models\User;
 use Filament\Actions;
+use Filament\Forms;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Schemas\Schema;
-use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\CauserTimelineAction;
 
 class ManageUsers extends ManageRelatedRecords
@@ -34,15 +34,13 @@ class ManageUsers extends ManageRelatedRecords
 
     protected static bool $shouldSkipAuthorization = true;      // @sn todo 跳过授权
 
-
     public function form(Schema $schema): Schema
     {
         $recordTenant = $this->getOwnerRecord();        // 关系所属租户
         setPermissionsTeamId($recordTenant->id);
-        
+
         return PlatformUserForm::teamConfigure($schema);
     }
-
 
     public function table(Table $table): Table
     {
@@ -69,7 +67,7 @@ class ManageUsers extends ManageRelatedRecords
                 Tables\Columns\TextColumn::make('roles_name')
                     ->state(function ($record) {
                         $recordTenant = $this->getOwnerRecord();        // 关系所属租户
-                        
+
                         setPermissionsTeamId($recordTenant->id);        // 一次性请求，没有后续了，不需要刻意还原之前的 team_id
                         $roles = $record->roles()->get();
 
@@ -96,6 +94,7 @@ class ManageUsers extends ManageRelatedRecords
                     ->label('创建管理员')
                     ->mutateDataUsing(function (array $data): array {
                         $data['user_type'] = 'admin';       // 租户管理员
+
                         return $data;
                     }),
                 Actions\AttachAction::make()
@@ -105,7 +104,7 @@ class ManageUsers extends ManageRelatedRecords
                         Forms\Components\Select::make('roles')
                             ->label('选择角色')
                             ->options(fn () => $this->getOwnerRecord()->roles()->pluck('name', 'id'))
-                            ->getSearchResultsUsing(fn(string $search): array => $this->getOwnerRecord()->roles()->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
+                            ->getSearchResultsUsing(fn (string $search): array => $this->getOwnerRecord()->roles()->where('name', 'like', "%{$search}%")->limit(30)->pluck('name', 'id')->toArray())
                             ->required()
                             ->multiple()
                             ->preload()
@@ -136,7 +135,7 @@ class ManageUsers extends ManageRelatedRecords
                         setPermissionsTeamId($recordTenant->id);
                         // 用户与角色分离
                         $record->roles()->detach();
-                        
+
                         // 用户与租户分离 （下面是 原 detachAction 的 process 方法内容）
                         /** @var BelongsToMany $relationship */
                         $relationship = $table->getRelationship();

@@ -5,13 +5,11 @@ namespace App\Http\Middleware;
 use App\Enums\Teams\Status;
 use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckTenant
 {
-
     public function handle(Request $request, Closure $next): Response
     {
         $panel = Filament::getCurrentOrDefaultPanel();
@@ -22,7 +20,7 @@ class CheckTenant
 
         $tenant = Filament::getTenant();
 
-        if (!$tenant || $tenant->status == Status::Disabled) {
+        if (! $tenant || $tenant->status == Status::Disabled) {
             abort(403, '当前租户已被禁用');
         }
 

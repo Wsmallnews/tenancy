@@ -7,8 +7,8 @@ use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
 use App\Models\Appraise;
 use App\Models\PhenotypeIdentify;
 use Filament\Actions;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ColumnGroup;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 
@@ -69,7 +69,7 @@ class PhenotypeIdentifyTableWidget extends TableWidget
                 Actions\Action::make('view')
                     ->label('查看')
                     ->icon('heroicon-o-eye')
-                    ->url(fn(PhenotypeIdentify $record): string => PhenotypeIdentifyResource::getUrl('view', ['record' => $record])),
+                    ->url(fn (PhenotypeIdentify $record): string => PhenotypeIdentifyResource::getUrl('view', ['record' => $record])),
             ]);
 
         return $table;

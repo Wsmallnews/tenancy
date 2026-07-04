@@ -13,7 +13,9 @@ class AssembleYearTrend extends ChartWidget
 {
     protected ?string $heading = '收集记录年度趋势';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 2;
 
     protected ?string $pollingInterval = null;
 

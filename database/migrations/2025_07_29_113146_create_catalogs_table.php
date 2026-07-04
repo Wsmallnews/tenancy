@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('resource_method')->nullable()->comment('资源来源方式');
             $table->string('catalog_at')->nullable()->comment('编目时间');
 
-
             $table->string('country_code')->nullable()->comment('原产国编号');
             $table->string('country_name')->nullable()->comment('原产国');
             $table->string('province_name')->nullable()->comment('原产省');
@@ -32,7 +31,7 @@ return new class extends Migration
             $table->string('city_name')->nullable()->comment('原产市');
             $table->unsignedBigInteger('city_id')->nullable()->comment('原产市ID');
             $table->string('address')->nullable()->comment('原产地');
-            
+
             $table->string('source_country_code')->nullable()->comment('来源国编号');
             $table->string('source_country_name')->nullable()->comment('来源国');
             $table->string('source_province_name')->nullable()->comment('来源省');
@@ -43,7 +42,6 @@ return new class extends Migration
             $table->integer('altitude')->nullable()->comment('海拔');
             $table->string('longitude')->nullable()->comment('经度');
             $table->string('latitude')->nullable()->comment('纬度');
-
 
             $table->string('assemble_address')->nullable()->comment('收集地点');
             $table->string('assemble_company')->nullable()->comment('收集单位');

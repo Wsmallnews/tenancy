@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Tests\Schemas;
 
-use Filament\Schemas\Schema;
 use Filament\Infolists;
+use Filament\Schemas\Schema;
 
 class TestInfolist
 {

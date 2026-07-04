@@ -6,9 +6,9 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
+use Wsmallnews\Support\Filament\Filters\FilterComponents;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Concerns\SubjectTimelineAction;
 use Wsmallnews\Support\Filament\Resources\ActivityLogs\Tables\ActivityLogTable as WsmallnewsActivityLogTable;
-use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class ActivityLogTable extends WsmallnewsActivityLogTable
 {
@@ -38,7 +38,7 @@ class ActivityLogTable extends WsmallnewsActivityLogTable
             ->recordActions([
                 ActionGroup::make([
                     SubjectTimelineAction::make()
-                        ->modifyQueryUsing(fn($query) => $query->whereNull('team_id'))
+                        ->modifyQueryUsing(fn ($query) => $query->whereNull('team_id'))
                         ->color('info'),
                     ViewAction::make(),
                     static::revertAction(),

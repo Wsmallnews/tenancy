@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('num')->nullable()->comment('初始数量');
             $table->string('weight')->nullable()->comment('初始质量');
 
-            // 种质圃保存=germplasm_nursery; 
-            // 试管苗保存=test_tube_seedling; 
+            // 种质圃保存=germplasm_nursery;
+            // 试管苗保存=test_tube_seedling;
             // 超低温保存=ultra_low_temperature
             // 原生境保存=original_habitat
             $table->string('preserve_type')->nullable()->comment('保存类型');
@@ -25,7 +25,7 @@ return new class extends Migration
             // 种质圃保存
             $table->string('germplasm_nursery_habitat_information')->nullable()->comment('生境信息');
             $table->string('germplasm_nursery_disease_pest_information')->nullable()->comment('病虫害信息');
-            
+
             // 试管苗保存
             $table->string('test_tube_seedling_cultivation_medium_formula')->nullable()->comment('培养基配方');
             $table->string('test_tube_seedling_culture_conditions')->nullable()->comment('培养条件');
@@ -68,8 +68,8 @@ return new class extends Migration
             $table->dropColumn('num');
             $table->dropColumn('weight');
 
-            // 种质圃保存=germplasm_nursery; 
-            // 试管苗保存=test_tube_seedling; 
+            // 种质圃保存=germplasm_nursery;
+            // 试管苗保存=test_tube_seedling;
             // 超低温保存=ultra_low_temperature
             // 原生境保存=original_habitat
             $table->dropColumn('preserve_type');

@@ -16,6 +16,7 @@ use App\Filament\Widgets\Charts\NewVarietyYearTrend;
 use App\Filament\Widgets\Charts\PreserveTypeDistribution;
 use App\Filament\Widgets\GermplasmStatsOverview;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
@@ -40,6 +41,24 @@ class GermplasmDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
+    public static function getNavigationGroup(): string|UnitEnum|null
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return '数据看板';
+        }
+
+        return static::$navigationGroup;
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return static::$navigationGroup;
+        }
+
+        return static::$navigationLabel;
+    }
+
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */
@@ -48,15 +67,19 @@ class GermplasmDashboard extends Page
         return [
             GermplasmStatsOverview::class,
             AppraiseApplyStatsOverview::class,
-            AppraiseCategoryDistribution::class,
+            // 趋势图（line, colSpan=2）+ 分布图（doughnut/pie/polarArea, colSpan=1）
             AppraiseMonthlyTrend::class,
-            AppraiseOriginDistribution::class,
             AppraiseTypeDistribution::class,
+            // 三列分布图
+            AppraiseCategoryDistribution::class,
+            AppraiseOriginDistribution::class,
+            PreserveTypeDistribution::class,
+            // 趋势图 + 分布图
+            AssembleYearTrend::class,
+            AssembleRegionDistribution::class,
             AppraiseApplyMonthlyTrend::class,
             AppraiseApplyStatus::class,
-            AssembleRegionDistribution::class,
-            AssembleYearTrend::class,
-            PreserveTypeDistribution::class,
+            // 趋势图
             CatalogYearTrend::class,
             NewVarietyYearTrend::class,
         ];
@@ -64,7 +87,11 @@ class GermplasmDashboard extends Page
 
     public function getColumns(): int|array
     {
-        return 2;
+        return [
+            'default' => 1,
+            'md' => 2,
+            'xl' => 3,
+        ];
     }
 
     public function content(Schema $schema): Schema

@@ -13,7 +13,9 @@ class CompanyRegionDistribution extends ChartWidget
 {
     protected ?string $heading = '合作单位地区分布（Top 10）';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 

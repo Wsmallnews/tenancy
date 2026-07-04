@@ -2,7 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\AttributeDashboard;
 use App\Filament\Pages\Auth\PlatformLogin;
+use App\Filament\Pages\GermplasmDashboard;
+use App\Filament\Pages\ResearchDashboard;
+use App\Filament\Pages\SystemDashboard;
 use App\Filament\Platform\Pages\Backup;
 use App\Http\Middleware\PlatformSetPermissionsTeamId;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -54,11 +58,15 @@ class PlatformPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Platform/Resources'), for: 'App\Filament\Platform\Resources')
             ->discoverPages(in: app_path('Filament/Platform/Pages'), for: 'App\Filament\Platform\Pages')
             ->pages([
-                Dashboard::class,
+                // Dashboard::class,
+                GermplasmDashboard::class,
+                AttributeDashboard::class,
+                ResearchDashboard::class,
+                SystemDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Platform/Widgets'), for: 'App\Filament\Platform\Widgets')
             ->widgets([
-                AccountWidget::class,
+                // AccountWidget::class,
                 // FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -86,6 +94,7 @@ class PlatformPanelProvider extends PanelProvider
                     ->noTimeout(),               // 不限制超时时间
             ])
             ->navigationGroups([
+                '数据看板',
                 '资源库管理',
                 '设置管理',
                 __('filament-shield::filament-shield.nav.group'),       // 权限管理

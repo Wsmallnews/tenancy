@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Enums\AwardTypes\Status;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Wsmallnews\Support\Models\SupportModel;
 
 class AwardType extends SupportModel
@@ -19,11 +19,8 @@ class AwardType extends SupportModel
         'status' => Status::class,
     ];
 
-
     /**
      * 默认模型名称
-     *
-     * @return string
      */
     public static function getModelLabel(): string
     {
@@ -36,7 +33,7 @@ class AwardType extends SupportModel
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
 
     public function scopeNormal($query)
@@ -48,7 +45,6 @@ class AwardType extends SupportModel
     {
         return $query->where('status', Status::Hidden);
     }
-
 
     public function awards(): HasMany
     {

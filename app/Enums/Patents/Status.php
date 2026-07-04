@@ -2,14 +2,13 @@
 
 namespace App\Enums\Patents;
 
-use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Contracts\HasIcon;
-use Filament\Support\Contracts\HasColor;
 use App\Enums\Traits\EnumHelper;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 
-enum Status: string implements HasLabel, HasIcon, HasColor
+enum Status: string implements HasColor, HasIcon, HasLabel
 {
-
     use EnumHelper;
 
     case Ing = 'ing';
@@ -27,8 +26,7 @@ enum Status: string implements HasLabel, HasIcon, HasColor
         };
     }
 
-
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
             self::Ing => 'gary',
@@ -36,7 +34,6 @@ enum Status: string implements HasLabel, HasIcon, HasColor
             self::Expired => 'danger',
         };
     }
-
 
     public function getIcon(): ?string
     {

@@ -19,6 +19,7 @@ class ManagePatentTypes extends ManageRecords
                 ->after(function (Action $action): Model {
                     $record = $action->getRecord();
                     $record->update(['order_column' => $record->id]);
+
                     return $record;
                 }),
         ];

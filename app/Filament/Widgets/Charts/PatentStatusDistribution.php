@@ -8,19 +8,21 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 专利状态分布柱状图
+ * 专利状态分布极坐标图
  */
 class PatentStatusDistribution extends ChartWidget
 {
     protected ?string $heading = '专利状态分布';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 1;
 
     protected ?string $pollingInterval = null;
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'polarArea';
     }
 
     protected function getData(): array
@@ -41,9 +43,8 @@ class PatentStatusDistribution extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => '专利数量',
                     'data' => $data->pluck('total')->toArray(),
-                    'backgroundColor' => ['#6366f1', '#10b981', '#ef4444'],
+                    'backgroundColor' => ['#6366f1', '#10b981', '#ef4444', '#f59e0b'],
                 ],
             ],
             'labels' => $labels,

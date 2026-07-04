@@ -8,7 +8,7 @@ use Wsmallnews\Cms\Support\Utils as CmsUtils;
 class AppraiseApply extends Base
 {
     public int $id;
-    
+
     public function render()
     {
         $breadcrumbs = [

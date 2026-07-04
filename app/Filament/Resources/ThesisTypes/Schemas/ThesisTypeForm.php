@@ -3,9 +3,8 @@
 namespace App\Filament\Resources\ThesisTypes\Schemas;
 
 use App\Enums\ThesisTypes\Status;
-use Filament\Schemas;
-use Filament\Schemas\Schema;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 
 class ThesisTypeForm
 {

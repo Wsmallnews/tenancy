@@ -2,9 +2,9 @@
 
 namespace App\Features;
 
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
-use Exception;
 
 class District
 {
@@ -237,7 +237,6 @@ class District
             $cascaders[] = $tmp_arr;
         }
 
-
         // // (20250918 如果需要市辖区，不要解开这个注释，这个是老数据格式) 处理直辖市，上面直辖市是 二级的，将直辖市也处理成三级 (直辖市，从子级中取第一个为市辖区 (老数据，新数据 children 都是区，没有市辖区数据了))
         // foreach ($cascaders as &$cascader) {
         //     // 是直辖市，处理一下
@@ -266,7 +265,6 @@ class District
         //     }
         // }
 
-
         // (20250918 如果需要市辖区，解开这个注释)处理直辖市，上面直辖市是 二级的，将直辖市也处理成三级 （直辖市，手动组装市辖区数据）
         foreach ($cascaders as &$cascader) {
             // 是直辖市，处理一下
@@ -294,19 +292,17 @@ class District
         return $cascaders;
     }
 
-
-    protected function getDirectCity($cascader) 
+    protected function getDirectCity($cascader)
     {
         return [
             'name' => '市辖区',
             'short_name' => '市辖区',
-            'id' => substr($cascader['id'], 0, 2) . '0100',
+            'id' => substr($cascader['id'], 0, 2).'0100',
             'parent_id' => $cascader['id'],
             'level' => 'city',
             'children' => [],
         ];
     }
-
 
     /**
      * 格式化 cascader 数据

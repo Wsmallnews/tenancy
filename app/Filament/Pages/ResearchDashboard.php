@@ -17,6 +17,7 @@ use App\Filament\Widgets\Charts\ThesisTypeDistribution;
 use App\Filament\Widgets\Charts\ThesisYearTrend;
 use App\Filament\Widgets\ResearchStatsOverview;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
@@ -41,6 +42,24 @@ class ResearchDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
+    public static function getNavigationGroup(): string|UnitEnum|null
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return '数据看板';
+        }
+
+        return static::$navigationGroup;
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return static::$navigationGroup;
+        }
+
+        return static::$navigationLabel;
+    }
+
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */
@@ -48,25 +67,34 @@ class ResearchDashboard extends Page
     {
         return [
             ResearchStatsOverview::class,
-            ThesisTypeDistribution::class,
+            // 论文：趋势图 + 分布图
             ThesisYearTrend::class,
-            AwardLevelDistribution::class,
-            AwardTypeDistribution::class,
+            ThesisTypeDistribution::class,
+            // 奖项：趋势图 + 环形图
             AwardYearTrend::class,
-            PatentTypeDistribution::class,
-            PatentStatusDistribution::class,
+            AwardLevelDistribution::class,
+            // 专利：趋势图 + 极坐标图
             PatentYearTrend::class,
+            PatentStatusDistribution::class,
+            // 新品种 + 奖项类型 + 专利类型
             NewVarietyYearTrend::class,
-            ProjectTypeDistribution::class,
-            ProjectLevelDistribution::class,
+            AwardTypeDistribution::class,
+            PatentTypeDistribution::class,
+            // 项目：趋势图 + 分布图
             ProjectYearTrend::class,
+            ProjectLevelDistribution::class,
+            ProjectTypeDistribution::class,
             ProjectBudgetSummary::class,
         ];
     }
 
     public function getColumns(): int|array
     {
-        return 2;
+        return [
+            'default' => 1,
+            'md' => 2,
+            'xl' => 3,
+        ];
     }
 
     public function content(Schema $schema): Schema

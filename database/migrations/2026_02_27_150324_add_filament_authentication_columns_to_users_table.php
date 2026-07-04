@@ -36,7 +36,7 @@ return new class extends Migration
             $table->dropColumn([
                 'app_authentication_secret',
                 'app_authentication_recovery_codes',
-                'has_email_authentication'
+                'has_email_authentication',
             ]);
         });
     }

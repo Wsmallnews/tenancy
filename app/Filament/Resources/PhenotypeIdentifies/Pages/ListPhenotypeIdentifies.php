@@ -6,8 +6,6 @@ use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
@@ -41,7 +39,6 @@ class ListPhenotypeIdentifies extends ListRecords
             '#' => $this->getTitle(),
         ];
     }
-
 
     protected function getCategory()
     {

@@ -8,7 +8,6 @@ use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
@@ -76,7 +75,7 @@ class PhenotypeIdentifyInfolist
                                         ->label('种质封面图')
                                         ->collection('cover')
                                         ->extraAttributes([
-                                            'class' => 'sn-two-rows'
+                                            'class' => 'sn-two-rows',
                                         ]),
                                     Infolists\Components\TextEntry::make('appraise.resource_no')
                                         ->label('全国统一编号'),

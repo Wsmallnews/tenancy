@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Appraises\Pages;
 
 use App\Filament\Resources\Appraises\AppraiseResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,12 +10,8 @@ class CreateAppraise extends CreateRecord
 {
     protected static string $resource = AppraiseResource::class;
 
-
     /**
      * 保存前，重新组装 options 字段,填充对应的 省市区字段
-     *
-     * @param array $data
-     * @return array
      */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -29,11 +24,10 @@ class CreateAppraise extends CreateRecord
         return $data;
     }
 
-
     /**
      * 保存后，更新排序字段
      *
-     * @param Model $record
+     * @param  Model  $record
      * @return void
      */
     protected function afterCreate()

@@ -4,9 +4,9 @@ namespace App\Filament\Resources\Tests\Schemas;
 
 use App\Enums\Companies\Status;
 use App\Filament\Forms\Fields\DistrictSelect;
+use Filament\Forms;
 use Filament\Schemas;
 use Filament\Schemas\Schema;
-use Filament\Forms;
 
 class TestForm
 {
@@ -47,8 +47,8 @@ class TestForm
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 }

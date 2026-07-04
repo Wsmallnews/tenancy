@@ -16,6 +16,8 @@ class GermplasmStatsOverview extends StatsOverviewWidget
 {
     protected ?string $heading = '种质资源概览';
 
+    protected static bool $isLazy = false;
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array

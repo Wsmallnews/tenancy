@@ -239,3 +239,17 @@ thead > tr > th.fi-ta-actions-header-cell {
     @apply bg-gray-100 dark:bg-gray-800;
 }
 /** --------------------------------表格操作栏固定右侧结束------------------------------ **/
+
+/** --------------------------------Dashboard 图表样式一------------------------------ **/
+
+/* 图表统一高度 */
+.fi-wi-chart-canvas-ctn {
+    height: 300px !important;
+    max-height: 300px !important;
+}
+
+/* overview 图表去掉内边距 */
+.fi-wi-widget.fi-wi-stats-overview .fi-sc .fi-grid-col .fi-sc-component .fi-sc-section .fi-section .fi-section-content-ctn .fi-section-content {
+    @apply p-[1px];
+}
+/** --------------------------------Dashboard 图表样式一------------------------------ **/

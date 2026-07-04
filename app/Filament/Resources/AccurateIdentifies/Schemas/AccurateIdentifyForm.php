@@ -3,18 +3,17 @@
 namespace App\Filament\Resources\AccurateIdentifies\Schemas;
 
 use App\Enums\AccurateIdentifies\Status;
-use App\Models\AccurateIdentify;
 use App\Models\Appraise;
 use App\Settings\AppraiseSettings;
+use Filament\Forms;
+use Filament\Infolists;
 use Filament\Schemas;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Filament\Forms;
-use Filament\Infolists;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Wsmallnews\Support\Filament\Forms\FormComponents;
 use Illuminate\Support\Arr;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 class AccurateIdentifyForm
 {
@@ -37,10 +36,10 @@ class AccurateIdentifyForm
                                 ->columnSpanFull(),
 
                             Schemas\Components\Grid::make([
-                                    'default' => 1,
-                                    'lg' => 2,
-                                    'xl' => 3,
-                                ])
+                                'default' => 1,
+                                'lg' => 2,
+                                'xl' => 3,
+                            ])
                                 ->extraAttributes([
                                     'class' => 'sn-grid-table',
                                 ])
@@ -53,7 +52,7 @@ class AccurateIdentifyForm
                                                 ->label('种质封面图')
                                                 ->state($coverMedia?->getFullUrl())
                                                 ->extraAttributes([
-                                                    'class' => 'sn-two-rows'
+                                                    'class' => 'sn-two-rows',
                                                 ]),
                                             Infolists\Components\TextEntry::make('appraise_resource_no')
                                                 ->label('全国统一编号')
@@ -69,8 +68,8 @@ class AccurateIdentifyForm
                                                 ->state($appraise->country_name),
                                             Infolists\Components\TextEntry::make('appraise_district_name')
                                                 ->label('种质原产地区')
-                                                ->state($appraise->province_name . ' / ' . $appraise->city_name)
-                                                ->visible(fn(?Model $record) => $appraise?->country_code == 'CN'),
+                                                ->state($appraise->province_name.' / '.$appraise->city_name)
+                                                ->visible(fn (?Model $record) => $appraise?->country_code == 'CN'),
                                             Infolists\Components\TextEntry::make('appraise_address')
                                                 ->label('种质原产地址')
                                                 ->state($appraise->address),
@@ -86,7 +85,7 @@ class AccurateIdentifyForm
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ]),
                         Schemas\Components\Section::make('鉴定信息')->schema([
@@ -160,8 +159,8 @@ class AccurateIdentifyForm
                             ->options(Status::class),
                     ])->grow(false),
                 ])
-                ->columnSpanFull()
-                ->from('lg')
+                    ->columnSpanFull()
+                    ->from('lg'),
             ]);
     }
 }

@@ -15,10 +15,10 @@ class ThesisInfolist
         return $schema
             ->components([
                 Schemas\Components\Grid::make([
-                        'default' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                    ])
+                    'default' => 1,
+                    'lg' => 2,
+                    'xl' => 3,
+                ])
                     ->extraAttributes([
                         'class' => 'sn-grid-table',
                     ])

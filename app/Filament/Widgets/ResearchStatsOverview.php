@@ -14,6 +14,8 @@ class ResearchStatsOverview extends StatsOverviewWidget
 {
     protected ?string $heading = '研究成果概览';
 
+    protected static bool $isLazy = false;
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array

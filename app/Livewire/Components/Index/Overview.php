@@ -5,12 +5,11 @@ namespace App\Livewire\Components\Index;
 use App\Models\Appraise as AppraiseModel;
 use App\Models\Award as AwardModel;
 use App\Models\NewVariety as NewVarietyModel;
-use App\Models\Personnel as PersonnelModel;
 use App\Models\Patent as PatentModel;
+use App\Models\Personnel as PersonnelModel;
 use App\Models\Thesis as ThesisModel;
 use Filament\Support\Icons\Heroicon;
 use Wsmallnews\Cms\Livewire\Components\Base;
-use Wsmallnews\Cms\Support\Utils;
 
 class Overview extends Base
 {

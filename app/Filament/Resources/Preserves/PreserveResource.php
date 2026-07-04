@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Preserves;
 
-use BackedEnum;
-use App\Filament\Resources\Preserves\Pages;
 use App\Filament\Resources\Preserves\Schemas\PreserveForm;
 use App\Filament\Resources\Preserves\Schemas\PreserveInfolist;
 use App\Filament\Resources\Preserves\Tables\PreservesTable;
 use App\Models\Preserve;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -43,12 +42,10 @@ class PreserveResource extends Resource
         return PreserveForm::configure($schema);
     }
 
-
     public static function infolist(Schema $schema): Schema
     {
         return PreserveInfolist::configure($schema);
     }
-
 
     public static function table(Table $table): Table
     {

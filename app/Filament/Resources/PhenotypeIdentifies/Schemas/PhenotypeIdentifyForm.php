@@ -30,12 +30,12 @@ class PhenotypeIdentifyForm
                                 ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
                                     return $query->normal()->orderBy('order_column', 'asc');
                                 })
-                                ->getOptionLabelFromRecordUsing(fn(Appraise $record) => "{$record->resource_no} - {$record->name}")
+                                ->getOptionLabelFromRecordUsing(fn (Appraise $record) => "{$record->resource_no} - {$record->name}")
                                 ->placeholder('请选择评价')
                                 ->searchable()
                                 ->preload()
                                 ->live()
-                                ->disabled(fn(string $operation) => $operation == 'edit')
+                                ->disabled(fn (string $operation) => $operation == 'edit')
                                 ->afterStateUpdated(function (Get $get, Set $set) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
                                     $appraise_id = $get('appraise_id') ?? 0;
                                     $appraise = $appraise_id ? Appraise::find($appraise_id) : null;
@@ -88,7 +88,7 @@ class PhenotypeIdentifyForm
                                         ];
                                     }
                                 })
-                                ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                                ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                                 ->columnSpanFull(),
                         ])->columns(2),
 
@@ -128,7 +128,7 @@ class PhenotypeIdentifyForm
                                         ->schema(function () use ($key, $field) {
                                             $schemas = [];
                                             foreach ($field['fields'] as $subKey => $subField) {
-                                                $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
+                                                $fieldKey = 'options.fields.'.$key.'.fields.'.$subKey.'.data.value';
                                                 if ($formField = static::getFormFields($fieldKey, $subField)) {
                                                     $schemas[] = $formField;
                                                 }
@@ -145,7 +145,7 @@ class PhenotypeIdentifyForm
                                 static::hydratedFields($component, $state);
                             })
                             ->key('dynamicTabs')
-                            ->visible(fn(Get $get): bool => boolval($get('appraise_id')))
+                            ->visible(fn (Get $get): bool => boolval($get('appraise_id')))
                             ->columns(1)->columnSpanFull(),
                     ])->columns(1),
 

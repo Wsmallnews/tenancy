@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Enums\Theses\Status;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\HasTags;
@@ -16,8 +16,8 @@ class Thesis extends SupportModel implements HasMedia
 {
     use HasTags;
     use InteractsWithMedia;
-    use SoftDeletes;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $table = 'theses';
 
@@ -35,15 +35,13 @@ class Thesis extends SupportModel implements HasMedia
         return '论文';
     }
 
-
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll()
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['order_column', 'updated_at'])        // 如果只更新排序，则忽略不记录日志
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
     }
 
     public function scopeNormal($query)
@@ -60,7 +58,6 @@ class Thesis extends SupportModel implements HasMedia
     {
         return $this->belongsTo(ThesisType::class);
     }
-
 
     public function company(): BelongsTo
     {

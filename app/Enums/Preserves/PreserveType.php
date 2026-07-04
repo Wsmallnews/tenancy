@@ -2,12 +2,11 @@
 
 namespace App\Enums\Preserves;
 
-use Filament\Support\Contracts\HasLabel;
 use App\Enums\Traits\EnumHelper;
+use Filament\Support\Contracts\HasLabel;
 
 enum PreserveType: string implements HasLabel
 {
-
     use EnumHelper;
 
     case GermplasmNursery = 'germplasm_nursery';

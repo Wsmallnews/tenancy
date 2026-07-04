@@ -6,6 +6,7 @@ use App\Filament\Widgets\Charts\CompanyRegionDistribution;
 use App\Filament\Widgets\Charts\PersonnelEducationStats;
 use App\Filament\Widgets\Charts\PersonnelResearchStats;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
@@ -30,6 +31,24 @@ class AttributeDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
+    public static function getNavigationGroup(): string|UnitEnum|null
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return '数据看板';
+        }
+
+        return static::$navigationGroup;
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        if (Filament::getCurrentPanel()?->getId() === 'platform') {
+            return static::$navigationGroup;
+        }
+
+        return static::$navigationLabel;
+    }
+
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */
@@ -44,7 +63,11 @@ class AttributeDashboard extends Page
 
     public function getColumns(): int|array
     {
-        return 2;
+        return [
+            'default' => 1,
+            'md' => 2,
+            'xl' => 3,
+        ];
     }
 
     public function content(Schema $schema): Schema

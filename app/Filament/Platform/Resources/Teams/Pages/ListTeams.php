@@ -21,17 +21,16 @@ class ListTeams extends ListRecords
         ];
     }
 
-
     public function getTabs(): array
     {
         return [
             'all' => Tab::make()
                 ->label('全部'),
-            ...(new Collection(Status::cases()))->mapWithKeys(fn(Status $status) => [
+            ...(new Collection(Status::cases()))->mapWithKeys(fn (Status $status) => [
                 $status->value => Tab::make()
                     ->label($status->getLabel())
                     ->icon($status->getIcon())
-                    ->modifyQueryUsing(fn(Builder $query) => $query->where('status', $status->value)),
+                    ->modifyQueryUsing(fn (Builder $query) => $query->where('status', $status->value)),
             ])->toArray(),
         ];
     }

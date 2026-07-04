@@ -13,7 +13,9 @@ class ActivityTrend extends ChartWidget
 {
     protected ?string $heading = '系统操作活跃度趋势（近30天）';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static bool $isLazy = false;
+
+    protected int|string|array $columnSpan = 2;
 
     protected ?string $pollingInterval = null;
 
