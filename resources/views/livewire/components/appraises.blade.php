@@ -10,7 +10,7 @@
 
     @if ($categoryStyle == 'tree')
         <div class="w-full lg:w-72">
-            <livewire:sn-category-components-categories
+            <livewire:sn-category::components.categories
                 scope-type="appraise"
                 :use-url="false"
                 :active-category-id="$categoryId"

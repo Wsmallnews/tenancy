@@ -10170,11 +10170,11 @@
         },
         {
             "name": "wsmallnews/user",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/user/v1.0.5/wsmallnews-user-v1.0.5.zip",
-                "reference": "6564dbea5848fb3923336d7593504414df981154",
+                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/user/v1.0.6/wsmallnews-user-v1.0.6.zip",
+                "reference": "d6d411e491dea9495cbb447283dfff1ec25fcfbf",
                 "shasum": ""
             },
             "require": {
@@ -10233,7 +10233,7 @@
                 "issues": "https://github.com/wsmallnews/user/issues",
                 "source": "https://github.com/wsmallnews/user"
             },
-            "time": "2026-05-25T10:51:49+00:00"
+            "time": "2026-06-22T09:09:57+00:00"
         }
     ],
     "packages-dev": [
