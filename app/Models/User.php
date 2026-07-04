@@ -28,8 +28,14 @@ use Spatie\Activitylog\Models\Concerns\HasActivity;
 use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Wsmallnews\Comment\Support\Utils as CommentUtils;
+use Wsmallnews\Comment\Models\Concerns\BeReplyer;
+use Wsmallnews\Comment\Models\Concerns\Commenter;
 use Wsmallnews\Preference\Models\Concerns\Preferencer;
+use Wsmallnews\Preference\Models\Concerns\Preferencer\Follower;
 use Wsmallnews\Preference\Models\Concerns\Preferencer\Liker;
+use Wsmallnews\Preference\Models\Concerns\Preferencer\Viewer;
+use Wsmallnews\Support\Concerns\UserIdentifiable;
+use Wsmallnews\Support\Contracts\HasSnIdentifiable;
 use Wsmallnews\User\Models\Concerns\TwoFactorAuthenticatable;
 use Wsmallnews\User\Userable;
 
@@ -47,6 +53,12 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     use Preferencer;
     use TwoFactorAuthenticatable;
     use Userable;
+    use Commenter;
+    use Follower;
+    use Liker;
+    use Preferencer;
+    use UserIdentifiable;
+    use Viewer;
 
     /**
      * The attributes that are mass assignable.
@@ -114,11 +126,6 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         };
         // return true;        // @sn todo 这里不限制登录判断
         // return str_ends_with($this->email, '@tenancy.com') && $this->hasVerifiedEmail();
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(CommentUtils::getCommentModel(), 'commenter');
     }
 
     public function teams(): BelongsToMany
