@@ -37,6 +37,9 @@ Route::domain(Utils::getConfig('routes.domain'))
     ->prefix(Utils::getConfig('routes.prefix'))
     ->name(Utils::getConfig('routes.name'))
     ->group(function () {
+        
+        Route::get('/', Index::class)->name('index');
+
         Route::get('appraises', Appraises::class)->name('appraises');
         Route::get('appraise-categories', AppraiseCategories::class)->name('appraise-categories');
         Route::get('appraises/{id}', Appraise::class)->name('appraises.show');
@@ -52,6 +55,7 @@ Route::domain(Utils::getConfig('routes.domain'))
             Route::get('user/appraise-applies/{id}', AppraiseApply::class)->name('user.appraise-applies.show');
         });
     });
+
 
 Route::get('test', function () {
     $nhgrc = new Nhgrc;
