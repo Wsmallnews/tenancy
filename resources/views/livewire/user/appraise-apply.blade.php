@@ -15,7 +15,7 @@
 
         <div class="w-full flex flex-col md:flex-row items-start gap-4">
             <div class="w-full md:w-72" >
-                <livewire:sn-user-components-user-sidebar-menu :module="app(\Wsmallnews\User\UserPlugin::class)->getId()" />
+                <livewire:sn-user::components.user.sidebar-menu :module="app(\Wsmallnews\Cms\CmsPlugin::class)->getId()" />
             </div>
 
             <div class="w-full">
