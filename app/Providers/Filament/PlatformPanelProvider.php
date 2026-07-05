@@ -35,6 +35,7 @@ class PlatformPanelProvider extends PanelProvider
             ->id('platform')
             ->path('platform')
             ->login(PlatformLogin::class)
+            ->when(filled($domain = config('sn-tenancy.platform_domain')), fn ($panel) => $panel->domain($domain))
             ->authGuard('platform')
             ->profile()
             // ->multiFactorAuthentication([        // 设置双因素认证

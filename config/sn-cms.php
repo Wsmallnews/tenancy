@@ -83,7 +83,7 @@ return [
          * The domain where the cms routes should be registered.
          * If you differentiate tenants by domain, you should set it like this: {tenant:slug}.example.com
          */
-        'domain' => '{tenant:slug}.resource-dbv4.eep.ink',
+        'domain' => env('CMS_DOMAIN'),
         /**
          * the middleware you want to apply on all the cms routes
          * for example if you want to make your cms for users only, add the middleware 'auth'.
@@ -93,7 +93,7 @@ return [
          * Default path for the blog homepage.
          * If you differentiate tenants by url, you should set it like this: cms/{tenant:slug}
          */
-        'prefix' => '/',
+        'prefix' => env('CMS_ROUTE_PREFIX', 'cms'),
         /**
          * Default name prefix for the cms routes.
          */
