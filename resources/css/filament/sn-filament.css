@@ -141,7 +141,7 @@
 /** tabs 样式 **/
 
 .fi-tabs-item.fi-active {
-    @apply bg-primary-600 dark:bg-primary-700;
+    @apply bg-primary-500 dark:bg-primary-600;
 }
 .fi-tabs-item.fi-active .fi-tabs-item-label,
 .fi-tabs-item.fi-active svg {
