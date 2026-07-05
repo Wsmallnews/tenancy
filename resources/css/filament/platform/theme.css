@@ -35,7 +35,7 @@ html {
 /** 头部 fi-topbar 样式开始 **/
 
 .fi-topbar {
-    @apply bg-primary-600 dark:bg-primary-700;
+    @apply bg-primary-500 dark:bg-primary-600;
 }
 
 .fi-topbar .fi-topbar-start .fi-icon-btn,
@@ -80,7 +80,7 @@ html {
 /** 左边头部 和 左边菜单栏 背景色 **/
 .fi-sidebar-header,
 .fi-sidebar-nav {
-    @apply bg-primary-600 dark:bg-primary-700;
+    @apply bg-primary-500 dark:bg-primary-600;
 }
 
 /** 租户菜单，左边菜单栏，分组，图标，label 文字的颜色 **/
@@ -106,12 +106,12 @@ html {
     .fi-sidebar-group-items
     .fi-sidebar-item
     .fi-sidebar-item-btn {
-    @apply hover:bg-primary-700 focus-visible:bg-primary-700 dark:hover:bg-primary-800 dark:focus-visible:bg-primary-800;
+    @apply hover:bg-primary-600 focus-visible:bg-primary-600 dark:hover:bg-primary-700 dark:focus-visible:bg-primary-700;
 }
 
 /** 左边菜单栏，选中，背景色 未限定范围，包括 页面 集群子导航 **/
 .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
-    @apply bg-primary-700 dark:bg-primary-800;
+    @apply bg-primary-600 dark:bg-primary-700;
 }
 
 /** 集群菜单文字 和 菜单图标，选中颜色 @sn todo 待测试 **/

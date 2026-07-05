@@ -18,7 +18,6 @@ use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -54,8 +53,7 @@ class AdminPanelProvider extends PanelProvider
             //     isRequired: false
             // )
             ->colors([
-                // 'primary' => Color::Blue,
-                'primary' => Color::Amber,
+                'primary' => '#1A69D0',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -120,7 +118,7 @@ class AdminPanelProvider extends PanelProvider
             ->collapsedSidebarWidth('8rem')     // 折叠侧边栏时的宽度（这个没效果啊）
             ->databaseTransactions()
             ->tenant(Team::class, slugAttribute: 'slug')
-            // ->tenantDomain('{tenant:slug}.tenancy.test')
+            ->tenantDomain('{tenant:slug}.resource-dbv4.eep.ink')
             ->tenantRoutePrefix('tenant')
             // ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
             // ->tenantMenuItems([
