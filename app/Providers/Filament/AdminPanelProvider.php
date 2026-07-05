@@ -118,7 +118,7 @@ class AdminPanelProvider extends PanelProvider
             ->collapsedSidebarWidth('8rem')     // 折叠侧边栏时的宽度（这个没效果啊）
             ->databaseTransactions()
             ->tenant(Team::class, slugAttribute: 'slug')
-            // ->tenantDomain('{tenant:slug}.tenancy.test')
+            ->tenantDomain('{tenant:slug}.resource-dbv4.eep.ink')
             ->tenantRoutePrefix('tenant')
             // ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
             // ->tenantMenuItems([
