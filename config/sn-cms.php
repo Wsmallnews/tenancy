@@ -144,7 +144,7 @@ return [
             /**
              * 是否启用评论
              */
-            'enable' => true,
+            'enable' => false,
             /**
              * 是否启用添加评论
              */

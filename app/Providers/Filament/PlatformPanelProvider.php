@@ -47,6 +47,9 @@ class PlatformPanelProvider extends PanelProvider
             //     ],
             //     isRequired: false
             // )
+            ->colors([
+                'primary' => \Filament\Support\Colors\Color::Sky,
+            ])
             ->discoverResources(in: app_path('Filament/Platform/Resources'), for: 'App\Filament\Platform\Resources')
             ->discoverPages(in: app_path('Filament/Platform/Pages'), for: 'App\Filament\Platform\Pages')
             ->pages([
