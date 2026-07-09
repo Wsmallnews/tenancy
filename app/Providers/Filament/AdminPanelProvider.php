@@ -10,6 +10,7 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Auth\MultiFactor\Email\EmailAuthentication;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -61,6 +62,10 @@ class AdminPanelProvider extends PanelProvider
                 // Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->brandName(function () {
+                $tenant = Filament::getTenant();
+                return '资源库' . ($tenant?->name ? (' - ' . $tenant->name) : ''); 
+            })
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
@@ -120,7 +125,7 @@ class AdminPanelProvider extends PanelProvider
             ->tenant(Team::class, slugAttribute: 'slug')
             ->when(filled($domain = config('sn-tenancy.cms_domain')), fn ($panel) => $panel->tenantDomain($domain))
             ->tenantRoutePrefix('tenant')
-            // ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
+            ->tenantMenu(false)         // 隐藏左侧 navigation 顶部的 租户菜单
             // ->tenantMenuItems([
             //     'profile' => MenuItem::make()->label('Edit 团队 profile')->url(fn(): string => 'https://www.taobao.com'),
             //     MenuItem::make()

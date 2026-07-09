@@ -74,6 +74,10 @@ html {
     .fi-input {
     @apply dark:text-gray-300 dark:placeholder:text-gray-300;
 }
+
+.fi-topbar .fi-topbar-end .fi-no-database .fi-topbar-database-notifications-btn {
+    @apply text-white dark:text-white;
+}
 /** 头部 fi-topbar 样式结束 **/
 
 /** --------------------------------左侧菜单栏开始------------------------------ **/
