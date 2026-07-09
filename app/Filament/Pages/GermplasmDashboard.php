@@ -18,6 +18,7 @@ use App\Filament\Widgets\GermplasmStatsOverview;
 use BackedEnum;
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
+use Filament\Panel;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -33,13 +34,25 @@ class GermplasmDashboard extends Page
 
     protected static ?string $title = '种质资源数据看板';
 
-    protected static ?string $slug = 'germplasm-dashboard';
+    protected static ?string $slug = '';
+
+    protected static string $routePath = '/';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
     protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::ChartBar;
 
     protected static ?int $navigationSort = 0;
+
+    public static function getSlug(?Panel $panel = null): string
+    {
+        return '';
+    }
+
+    public static function getRoutePath(Panel $panel): string
+    {
+        return '/';
+    }
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
