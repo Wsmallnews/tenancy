@@ -34,7 +34,7 @@ class GermplasmDashboard extends Page
 
     protected static ?string $title = '种质资源数据看板';
 
-    protected static ?string $slug = '';
+    protected static ?string $slug = null;
 
     protected static string $routePath = '/';
 
@@ -44,15 +44,6 @@ class GermplasmDashboard extends Page
 
     protected static ?int $navigationSort = 0;
 
-    public static function getSlug(?Panel $panel = null): string
-    {
-        return '';
-    }
-
-    public static function getRoutePath(Panel $panel): string
-    {
-        return '/';
-    }
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
@@ -70,6 +61,11 @@ class GermplasmDashboard extends Page
         }
 
         return static::$navigationLabel;
+    }
+
+    public static function getRoutePath(Panel $panel): string
+    {
+        return static::$routePath;
     }
 
     /**
