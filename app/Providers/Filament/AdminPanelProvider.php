@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\AdminLogin;
+use App\Filament\Pages\GermplasmDashboard;
 use App\Filament\Tables\PostsTable;
 use App\Http\Middleware\CheckTenant;
 use App\Models\Team;
@@ -61,6 +62,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 // Pages\Dashboard::class,
             ])
+            ->homeUrl(fn () => GermplasmDashboard::getUrl())
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->brandName(function () {
                 $tenant = Filament::getTenant();
@@ -106,8 +108,8 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationLabel('网站设置'),
             ])
             ->navigationGroups([
-                '网站管理',
                 '种质资源库(圃)',
+                '网站管理',
                 '属性选项',
                 '研究成果',
                 '设置管理',

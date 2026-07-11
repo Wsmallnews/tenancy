@@ -59,6 +59,7 @@ class PlatformPanelProvider extends PanelProvider
                 ResearchDashboard::class,
                 SystemDashboard::class,
             ])
+            ->homeUrl(fn () => GermplasmDashboard::getUrl())
             ->discoverWidgets(in: app_path('Filament/Platform/Widgets'), for: 'App\Filament\Platform\Widgets')
             ->widgets([
                 // AccountWidget::class,
