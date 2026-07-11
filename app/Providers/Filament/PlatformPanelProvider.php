@@ -61,6 +61,9 @@ class PlatformPanelProvider extends PanelProvider
             ])
             ->homeUrl(fn () => GermplasmDashboard::getUrl())
             ->discoverWidgets(in: app_path('Filament/Platform/Widgets'), for: 'App\Filament\Platform\Widgets')
+            ->brandName(function () {
+                return '资源库管理平台';
+            })
             ->widgets([
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,
