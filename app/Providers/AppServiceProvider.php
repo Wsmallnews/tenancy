@@ -49,6 +49,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
@@ -75,6 +76,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::prependNamespace('sn-cms', resource_path('views/cms-overrides'));
+
         // 注册自定义 JS 资源
         FilamentAsset::register([
             Js::make('table-scrollable', Vite::asset('resources/js/filament/table-scrollable.js')),

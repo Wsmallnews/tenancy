@@ -19,6 +19,10 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_URL" value="http://resourcedb.me"/>
+        <env name="CMS_DOMAIN" value="{tenant:slug}.resourcedb.me"/>
+        <env name="CMS_ROUTE_PREFIX" value=""/>
+        <env name="PLATFORM_DOMAIN" value="platform.resourcedb.me"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>

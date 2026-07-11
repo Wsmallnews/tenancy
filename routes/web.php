@@ -29,6 +29,10 @@ Route::middleware(['web'])->group(function () {
     Route::get('/sso/callback', [SsoCallbackController::class, 'callback'])->name('sso.callback');
 });
 
+Route::domain(parse_url(config('app.url'), PHP_URL_HOST))
+    ->get('/', fn () => redirect()->route('sn-cms.index', ['tenant' => 'first']))
+    ->name('home');
+
 $middlewares = Utils::getConfig('routes.middleware') ?? [];
 SupportUtils::isTenancyEnabled() && array_unshift($middlewares, IdentifyTenant::class);
 
@@ -37,7 +41,7 @@ Route::domain(Utils::getConfig('routes.domain'))
     ->prefix(Utils::getConfig('routes.prefix'))
     ->name(Utils::getConfig('routes.name'))
     ->group(function () {
-        
+
         Route::get('/', Index::class)->name('index');
 
         Route::get('appraises', Appraises::class)->name('appraises');
@@ -49,13 +53,12 @@ Route::domain(Utils::getConfig('routes.domain'))
         Route::get('personnels/{id}', Personnel::class)->name('personnels.show');
 
         // 需登录路由
-        Route::middleware('cms-auth:' . Utils::getConfig('guard'))->group(function () {
+        Route::middleware('cms-auth:'.Utils::getConfig('guard'))->group(function () {
             // 个人设置
             Route::get('user/appraise-applies', AppraiseApplies::class)->name('user.appraise-applies');
             Route::get('user/appraise-applies/{id}', AppraiseApply::class)->name('user.appraise-applies.show');
         });
     });
-
 
 Route::get('test', function () {
     $nhgrc = new Nhgrc;

@@ -1,7 +1,7 @@
 <?php
 
-it('returns a successful response', function () {
-    $response = $this->get('/');
+it('redirects the apex domain to the first tenant homepage', function () {
+    $response = $this->get('http://resourcedb.me/');
 
-    $response->assertStatus(200);
+    $response->assertRedirect('http://first.resourcedb.me');
 });
