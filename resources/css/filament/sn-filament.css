@@ -11,30 +11,9 @@
 .fi-fo-repeater.category-custom-field-group .fi-fo-repeater-item {
     @apply overflow-hidden;
 }
-.fi-fo-repeater.category-custom-field-group
-    .fi-fo-repeater-item
-    .fi-fo-repeater-item-header {
-    @apply bg-gray-400 dark:bg-gray-700;
-}
-.fi-fo-repeater.category-custom-field-group
-    .fi-fo-repeater-item
-    .fi-fo-repeater-item-content {
-    @apply bg-gray-200 dark:bg-gray-800;
-}
 /** 分类 repeater 下的 builder 区域样式设置 **/
 .fi-fo-builder.category-custom-field .fi-fo-builder-item {
     @apply overflow-hidden;
-}
-
-.fi-fo-builder.category-custom-field
-    .fi-fo-builder-item
-    .fi-fo-builder-item-header {
-    @apply bg-gray-400 dark:bg-gray-700;
-}
-.fi-fo-builder.category-custom-field
-    .fi-fo-builder-item
-    .fi-fo-builder-item-content {
-    @apply bg-gray-300 dark:bg-gray-900;
 }
 
 /** 页面子导航侧边栏宽度设置 **/
