@@ -70,4 +70,9 @@
     @apply px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-800;
 }
 
+/** 内容 Section（sn-page-sidebar-content-item）：内部 padding 归零，由 sn-grid-table 自己控制 **/
+.sn-page-sidebar-content-item > .fi-section-content-ctn > .fi-section-content {
+    @apply p-0;
+}
+
 /** --------------------------------左侧菜单栏结束------------------------------ **/

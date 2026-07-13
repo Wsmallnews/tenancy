@@ -33,64 +33,68 @@ class PhenotypeIdentifyInfolist
                     Schemas\Components\Group::make(function ($record) {
                         $sidebarContents = [
                             // 基本信息
-                            Schemas\Components\Text::make(Common::title('基本信息', 'piBase')),
-                            Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                                ->extraAttributes([
-                                    'class' => 'sn-grid-table',
-                                ])
+                            Schemas\Components\Section::make(Common::sectionTitle('基本信息', 'piBase'))
                                 ->schema([
-                                    Infolists\Components\TextEntry::make('name')
-                                        ->label('鉴定名称'),
-                                    Infolists\Components\TextEntry::make('description')
-                                        ->label('鉴定说明'),
-                                    Infolists\Components\TextEntry::make('created_at')
-                                        ->label('创建时间')
-                                        ->dateTime(),
-                                    Infolists\Components\TextEntry::make('updated_at')
-                                        ->label('更新时间')
-                                        ->dateTime(),
-                                    Infolists\Components\TextEntry::make('order_column')
-                                        ->label('排序')
-                                        ->numeric(),
-                                    Infolists\Components\TextEntry::make('status')
-                                        ->label('鉴定状态'),
+                                    Schemas\Components\Grid::make([
+                                        'default' => 1,
+                                        'xl' => 2,
+                                        '2xl' => 3,
+                                    ])
+                                        ->extraAttributes([
+                                            'class' => 'sn-grid-table',
+                                        ])
+                                        ->schema([
+                                            Infolists\Components\TextEntry::make('name')
+                                                ->label('鉴定名称'),
+                                            Infolists\Components\TextEntry::make('description')
+                                                ->label('鉴定说明'),
+                                            Infolists\Components\TextEntry::make('created_at')
+                                                ->label('创建时间')
+                                                ->dateTime(),
+                                            Infolists\Components\TextEntry::make('updated_at')
+                                                ->label('更新时间')
+                                                ->dateTime(),
+                                            Infolists\Components\TextEntry::make('order_column')
+                                                ->label('排序')
+                                                ->numeric(),
+                                            Infolists\Components\TextEntry::make('status')
+                                                ->label('鉴定状态'),
+                                        ]),
                                 ])->columnSpanFull(),
 
                             // 评价信息
-                            Schemas\Components\Text::make(Common::title('评价信息', 'piAppraise')),
-                            Schemas\Components\Grid::make([
-                                'default' => 1,
-                                'xl' => 2,
-                                '2xl' => 3,
-                            ])
-                                ->extraAttributes([
-                                    'class' => 'sn-grid-table',
-                                ])
+                            Schemas\Components\Section::make(Common::sectionTitle('评价信息', 'piAppraise'))
                                 ->schema([
-                                    Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
-                                        ->label('种质封面图')
-                                        ->collection('cover')
+                                    Schemas\Components\Grid::make([
+                                        'default' => 1,
+                                        'xl' => 2,
+                                        '2xl' => 3,
+                                    ])
                                         ->extraAttributes([
-                                            'class' => 'sn-two-rows',
+                                            'class' => 'sn-grid-table',
+                                        ])
+                                        ->schema([
+                                            Infolists\Components\SpatieMediaLibraryImageEntry::make('appraise.firstMedia')
+                                                ->label('种质封面图')
+                                                ->collection('cover')
+                                                ->extraAttributes([
+                                                    'class' => 'sn-two-rows',
+                                                ]),
+                                            Infolists\Components\TextEntry::make('appraise.resource_no')
+                                                ->label('全国统一编号'),
+                                            Infolists\Components\TextEntry::make('appraise.name')
+                                                ->label('种质名称'),
+                                            Infolists\Components\TextEntry::make('appraise.en_name')
+                                                ->label('种质外文名'),
+                                            Infolists\Components\TextEntry::make('appraise.subject_name')
+                                                ->label('科名'),
+                                            Infolists\Components\TextEntry::make('appraise.genus_name')
+                                                ->label('属名'),
+                                            Infolists\Components\TextEntry::make('appraise.species_name')
+                                                ->label('学名'),
+                                            Infolists\Components\TextEntry::make('appraise.category.name')
+                                                ->label('所属分类'),
                                         ]),
-                                    Infolists\Components\TextEntry::make('appraise.resource_no')
-                                        ->label('全国统一编号'),
-                                    Infolists\Components\TextEntry::make('appraise.name')
-                                        ->label('种质名称'),
-                                    Infolists\Components\TextEntry::make('appraise.en_name')
-                                        ->label('种质外文名'),
-                                    Infolists\Components\TextEntry::make('appraise.subject_name')
-                                        ->label('科名'),
-                                    Infolists\Components\TextEntry::make('appraise.genus_name')
-                                        ->label('属名'),
-                                    Infolists\Components\TextEntry::make('appraise.species_name')
-                                        ->label('学名'),
-                                    Infolists\Components\TextEntry::make('appraise.category.name')
-                                        ->label('所属分类'),
                                 ])->columnSpanFull(),
                         ];
 
@@ -135,12 +139,11 @@ class PhenotypeIdentifyInfolist
             if ($category) {
                 $fields = $category->options['fields'] ?? [];
                 foreach ($fields as $key => $field) {
-                    $sidebarContents[] = Schemas\Components\Text::make(
-                        Common::title($field['name'], self::getSidebarId($field['name']))
-                    );
+                    $sid = self::getSidebarId($field['name']);
+                    $sectionSchema = [];
 
                     // 非 media 字段
-                    $sidebarContents[] = Schemas\Components\Grid::make([
+                    $sectionSchema[] = Schemas\Components\Grid::make([
                         'default' => 1,
                         'xl' => 2,
                         '2xl' => 3,
@@ -164,9 +167,13 @@ class PhenotypeIdentifyInfolist
                     foreach ($field['fields'] as $subKey => $subField) {
                         $fieldKey = 'options.fields.' . $key . '.fields.' . $subKey . '.data.value';
                         if ($entryField = static::getEntryFieldsOnlyMedia($fieldKey, $subField)) {
-                            $sidebarContents[] = $entryField;
+                            $sectionSchema[] = $entryField;
                         }
                     }
+
+                    $sidebarContents[] = Schemas\Components\Section::make(Common::sectionTitle($field['name'], $sid))
+                        ->schema($sectionSchema)
+                        ->columnSpanFull();
                 }
             }
         }

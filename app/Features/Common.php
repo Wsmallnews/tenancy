@@ -53,14 +53,14 @@ class Common
                 ->extraAttributes([
                     'class' => 'sn-attachment-image-list',
                 ])
-                ->columnSpan(1);
+                ->columnSpan(fn() => $files->isNotEmpty() ? 1 : 2);
         }
 
         if ($files->isNotEmpty()) {
             $schemas[] = Schemas\Components\Section::make(($label ? $label . ' 文件' : '文件'))
                 ->schema(function () use ($files) {
                     return $files->map(function ($media) {
-                        return Infolists\Components\TextEntry::make('fileentry-' . $media->fila_name)
+                        return Infolists\Components\TextEntry::make('fileentry-' . $media->file_name)
                             ->hiddenLabel()
                             ->state($media)
                             ->formatStateUsing(fn ($state) => $state->name . '.' . $state->extension)
@@ -96,6 +96,18 @@ class Common
     {
         return new HtmlString('<div class="sn-page-sidebar-item w-full flex gap-2 items-center" @click="swithSidebar(\'' . $id . '\')" :class="currentTab == \'' . $id . '\' ? \'sn-active\' : \'\'" >' . ($icon ? generate_icon_html($icon, size: IconSize::Large)->toHtml() : '') . '<a ' . ($id ? 'href="#' . $id . '"' : '') . ' class="inline-block w-full">' . $title . '</a></div>');
     }
+
+    /**
+     * 标题 带下划线
+     *
+     * @param string $title
+     * @return HtmlString
+     */
+    public static function sectionTitle($title, $id = null, $icon = null)
+    {
+        return new HtmlString('<span ' . ($id ? 'id="' . $id . '"' : '') . ' class="sn-page-sidebar-content-item scroll-mt-20 relative inline text-lg font-bold text-gray-950 dark:text-white">' . $title . '</span>');
+    }
+
 
     /**
      * 标题 带下划线
