@@ -282,10 +282,6 @@
                             </x-sn-cms::container.block-link>
 
                             <div class="flex items-center justify-end gap-3 px-4 pb-4 sm:py-3 shrink-0">
-                                <x-filament::button tag="a" color="info" href="{{ \Wsmallnews\Cms\Support\Utils::route('appraises.show', $appraise->id) }}">
-                                    {{ __('详情') }}
-                                </x-filament::button>
-
                                 @if (($this->applyAction)(['appraise_id' => $appraise->id])->isVisible())
                                     {{ ($this->applyAction)(['appraise_id' => $appraise->id]) }}
                                 @endif

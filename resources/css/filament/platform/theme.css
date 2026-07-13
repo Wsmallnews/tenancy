@@ -39,6 +39,33 @@
     --color-primary-950: oklch(0.245 0.071 257.5);
 }
 
+:root {
+    --primary-50: oklch(0.977 0.014 257.5);
+    --primary-100: oklch(0.950 0.033 257.5);
+    --primary-200: oklch(0.840 0.106 257.5);
+    --primary-300: oklch(0.730 0.155 257.5);
+    --primary-400: oklch(0.535 0.176 257.5);
+    --primary-500: oklch(0.535 0.176 257.5);    
+    --primary-600: oklch(0.475 0.169 257.5);
+    --primary-700: oklch(0.415 0.150 257.5);
+    --primary-800: oklch(0.355 0.124 257.5);
+    --primary-900: oklch(0.300 0.100 257.5);
+    --primary-950: oklch(0.245 0.071 257.5);
+}
+
+/* 顶部进度条颜色改为 primary-700，避免与 topbar 背景色（primary-500）重合 */
+html.fi {
+    --livewire-progress-bar-color: var(--primary-300) !important;
+}
+
+/* 主题色按钮文字使用白色（覆盖 PHP 对比度算法选择的深色文字） */
+.fi-color-primary {
+    --color-800: oklch(1 0 0);
+    --color-900: oklch(1 0 0);
+    --color-950: oklch(1 0 0);
+}
+            
+
 html {
     @apply scroll-smooth;
 }
