@@ -62,14 +62,13 @@ class Common
                     return $files->map(function ($media) {
                         return Infolists\Components\TextEntry::make('fileentry-' . $media->file_name)
                             ->hiddenLabel()
-                            ->state($media)
-                            ->formatStateUsing(fn ($state) => $state->name . '.' . $state->extension)
-                            ->afterContent(function ($state) {
-                                return Actions\Action::make('download-' . $state->file_name)
+                            ->state($media->name . '.' . $media->extension)
+                            ->afterContent(function ($state) use ($media) {
+                                return Actions\Action::make('download-' . $media->file_name)
                                     ->icon(Heroicon::ArrowDownTray)
                                     ->iconButton()
-                                    ->action(function ($state) {
-                                        return response()->download($state->getPath(), $state->name . '.' . $state->extension);
+                                    ->action(function ($state) use ($media) {
+                                        return response()->download($media->getPath(), $media->name . '.' . $media->extension);
                                     }
                                 );
                             })
