@@ -88,6 +88,7 @@ class PatentResource extends Resource
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf', 'image/*'])
                                 ->uploadingMessage('专利文件上传中...')
+                                ->panelLayout('compact')
                                 ->columns(1),
                         ])->columns(1),
                     ])->columns(1),

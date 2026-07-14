@@ -99,12 +99,14 @@ class ThesisResource extends Resource
                         ]),
                         Schemas\Components\Section::make('附件管理')->schema([
                             FormComponents::mediaFileUpload('theses', 'theses')->label('附件')
+                                ->helperText('支持上传 PDF 格式的论文文件')
                                 ->required()
                                 ->multiple()
                                 ->minFiles(1)
                                 ->maxFiles(20)
                                 ->acceptedFileTypes(['application/pdf'])
                                 ->uploadingMessage('附件上传中...')
+                                ->panelLayout('compact')
                                 ->columns(1),
                         ]),
                     ])->columns(1),

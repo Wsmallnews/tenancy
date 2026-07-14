@@ -83,7 +83,7 @@ class Category extends BaseCategoryPage
                         ->required()
                         ->live(onBlur: true)
                         ->rules([
-                            fn (Get $get, string $state): Closure => static::repeaterGroupNameUniqueRule($get, $state),
+                            fn (Get $get, ?string $state): Closure => static::repeaterGroupNameUniqueRule($get, $state),
                         ])
                         ->columnSpan(1),
                     Forms\Components\Builder::make('fields')
@@ -296,6 +296,7 @@ class Category extends BaseCategoryPage
                         // ->deleteAction(
                         //     fn (Action $action) => $action->requiresConfirmation(),
                         // )
+                        ->required()
                         ->extraAttributes(['class' => 'category-custom-field'])
                         ->addActionLabel('添加字段')
                         ->collapsible()

@@ -404,7 +404,7 @@ class AppraiseResource extends Resource
                         return $query->scopeable('appraise', 0);
                     })
                     ->searchable()
-                    ->enableBranchNode()
+                    ->enableBranchNode(false)
                     ->withCount()
                     ->live()
                     ->afterStateUpdated(function (Livewire $livewire) {     // 字段更新后触发，只能前端更新才会触发，$set 更新该无效
