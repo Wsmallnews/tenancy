@@ -5,12 +5,16 @@ namespace App\Filament\Resources\PhenotypeIdentifies\Pages;
 use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
 use Filament\Resources\Pages\CreateRecord;
+use Livewire\Attributes\Url;
 
 class CreatePhenotypeIdentify extends CreateRecord
 {
     use HasCategoryFields;
 
     protected static string $resource = PhenotypeIdentifyResource::class;
+
+    #[Url]
+    public ?int $categoryId = null;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

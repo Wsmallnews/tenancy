@@ -64,9 +64,9 @@ class PhenotypeIdentifyResource extends Resource
         return [
             'index' => Pages\CategoryPhenotypeIdentify::route('/'),
             'table' => Pages\ListPhenotypeIdentifies::route('/category/{categoryId}'),
-            'create' => Pages\CreatePhenotypeIdentify::route('/create'),
+            'create' => Pages\CreatePhenotypeIdentify::route('/category/{categoryId}/create'),
             'view' => Pages\ViewPhenotypeIdentify::route('/{record}'),
-            'edit' => Pages\EditPhenotypeIdentify::route('/{record}/edit'),
+            'edit' => Pages\EditPhenotypeIdentify::route('/category/{categoryId}/{record}/edit'),
         ];
     }
 

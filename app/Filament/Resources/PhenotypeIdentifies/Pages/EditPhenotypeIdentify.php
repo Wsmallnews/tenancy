@@ -6,12 +6,16 @@ use App\Filament\Resources\Concerns\HasCategoryFields;
 use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Livewire\Attributes\Url;
 
 class EditPhenotypeIdentify extends EditRecord
 {
     use HasCategoryFields;
 
     protected static string $resource = PhenotypeIdentifyResource::class;
+
+    #[Url]
+    public ?int $categoryId = null;
 
     protected function getHeaderActions(): array
     {

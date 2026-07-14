@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PhenotypeIdentifies\Tables;
 
 use App\Filament\Resources\Concerns\HasCategoryFields;
+use App\Filament\Resources\PhenotypeIdentifies\Pages\EditPhenotypeIdentify as EditPhenotypeIdentifyPage;
 use Filament\Actions;
 use Filament\Support\Enums\Width;
 use Filament\Tables;
@@ -100,7 +101,8 @@ class PhenotypeIdentifiesTable
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
-                Actions\EditAction::make(),
+                Actions\EditAction::make()
+                    ->url(fn ($record) => EditPhenotypeIdentifyPage::getUrl(['record' => $record, 'categoryId' => $categoryId])),
                 Actions\DeleteAction::make(),
             ])
             ->toolbarActions([

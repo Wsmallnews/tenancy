@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PhenotypeIdentifies\Pages;
 
 use App\Filament\Resources\Concerns\HasCategoryFields;
+use App\Filament\Resources\PhenotypeIdentifies\Pages\CreatePhenotypeIdentify as CreatePhenotypeIdentifyPage;
 use App\Filament\Resources\PhenotypeIdentifies\PhenotypeIdentifyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -28,7 +29,8 @@ class ListPhenotypeIdentifies extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->url(CreatePhenotypeIdentifyPage::getUrl(['categoryId' => $this->categoryId])),
         ];
     }
 

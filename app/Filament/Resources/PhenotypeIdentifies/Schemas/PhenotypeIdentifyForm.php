@@ -12,6 +12,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component;
 use Wsmallnews\Category\Support\Utils as CategoryUtils;
 
 class PhenotypeIdentifyForm
@@ -27,8 +28,16 @@ class PhenotypeIdentifyForm
                         // 选择评价
                         Schemas\Components\Section::make('种质信息')->schema([
                             Forms\Components\Select::make('appraise_id')->label('选择评价')
-                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
-                                    return $query->normal()->orderBy('order_column', 'asc');
+                                ->relationship(name: 'appraise', titleAttribute: 'name', modifyQueryUsing: function (Builder $query, Component $livewire) {
+                                    $query->normal()->orderBy('order_column', 'asc');
+
+                                    $categoryId = $livewire->categoryId ?? null;
+
+                                    if ($categoryId) {
+                                        $query->where('category_id', $categoryId);
+                                    }
+
+                                    return $query;
                                 })
                                 ->getOptionLabelFromRecordUsing(fn (Appraise $record) => "{$record->resource_no} - {$record->name}")
                                 ->placeholder('请选择评价')
