@@ -14,6 +14,7 @@ use Filament\Schemas;
 use Filament\Support\Enums\Width;
 use Livewire\Component;
 use Wsmallnews\Cms\Support\Utils;
+use Wsmallnews\Support\Filament\Forms\FormComponents;
 
 trait ApplyAction
 {
@@ -83,15 +84,16 @@ trait ApplyAction
                     Forms\Components\TextInput::make('company_name')
                         ->label('用种单位')
                         ->required(),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('apply_file')->label('申请单')
-                        ->helperText('上传申请单')
-                        ->collection('apply_file')
+                    FormComponents::mediaFileUpload('apply_file', 'apply_file')->label('申请资料')
+                        ->helperText('上传申请资料（word、PDF、图片等）')
                         ->required()
-                        ->downloadable()
-                        ->acceptedFileTypes(['application/*'])
-                        ->imagePreviewHeight('100')
-                        ->uploadingMessage('申请单上传中...')
-                        ->columnSpanFull(1),
+                        ->multiple()
+                        ->minFiles(1)
+                        ->maxFiles(20)
+                        ->acceptedFileTypes(['application/*', 'image/*'])
+                        ->uploadingMessage('申请资料上传中...')
+                        ->panelLayout('compact')
+                        ->columns(1),
                 ];
             })
             ->mutateDataUsing(function (array $data, array $arguments): array {
@@ -102,6 +104,8 @@ trait ApplyAction
 
                 return $data;
             })
+            ->modalSubmitActionLabel('提交申请')
+            ->createAnother(false)
             ->model(AppraiseApply::class)       // 当前保存主表模型
             ->visible(true)
             ->stickyModalHeader()

@@ -88,12 +88,16 @@ class AppraiseApplyForm
                             Forms\Components\TextInput::make('company_name')->label('用种单位名称')
                                 ->placeholder('请输入用种单位名称')
                                 ->required(),
-                            FormComponents::mediaFileUpload('apply_file', 'apply_file')->label('申请单')
-                                ->helperText('上传申请单')
+                            FormComponents::mediaFileUpload('apply_file', 'apply_file')->label('申请资料')
+                                ->helperText('上传申请资料（word、PDF、图片等）')
                                 ->required()
-                                ->acceptedFileTypes(['application/*'])
-                                ->uploadingMessage('申请单上传中...')
-                                ->columnSpanFull(1),
+                                ->multiple()
+                                ->minFiles(1)
+                                ->maxFiles(20)
+                                ->acceptedFileTypes(['application/*', 'image/*'])
+                                ->uploadingMessage('申请资料上传中...')
+                                ->panelLayout('compact')
+                                ->columns(1),
                         ]),
                     ])->columns(1),
                     Schemas\Components\Section::make('状态')->schema([

@@ -28,7 +28,7 @@ class Appraise extends Component implements HasActions, HasSchemas
 
     public function appraiseInfolist(Schema $schema): Schema
     {
-        return AppraiseInfolist::configure($schema)->record($this->appraise);
+        return AppraiseInfolist::configure($schema, false)->record($this->appraise);
     }
 
     public function render()

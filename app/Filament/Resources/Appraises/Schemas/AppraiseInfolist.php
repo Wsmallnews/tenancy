@@ -13,7 +13,7 @@ use Wsmallnews\Category\Support\Utils;
 
 class AppraiseInfolist
 {
-    public static function configure(Schema $schema): Schema
+    public static function configure(Schema $schema, $isPanel = true): Schema
     {
         return $schema
             ->components([
@@ -28,7 +28,7 @@ class AppraiseInfolist
                                 Schemas\Components\Text::make(Common::sidebar('种质图集', 'appraiseMedia', Heroicon::OutlinedRectangleStack)),
                             ], self::getSidebarItems($record));
                         })->grow(false),
-                    Schemas\Components\Group::make(function ($record) {
+                    Schemas\Components\Group::make(function ($record) use ($isPanel) {
                         $sidebarContents = [
                             Schemas\Components\Section::make(Common::sectionTitle('基础信息', 'appraiseBase'))
                                 ->schema([
@@ -77,7 +77,8 @@ class AppraiseInfolist
                                                 ->label('排序')
                                                 ->numeric(),
                                             Infolists\Components\TextEntry::make('status')
-                                                ->label('评价状态'),
+                                                ->label('评价状态')
+                                                ->visible($isPanel),
                                         ]),
                                 ])->columnSpanFull(),
                             Schemas\Components\Section::make(Common::sectionTitle('地理信息', 'appraiseAddress'))

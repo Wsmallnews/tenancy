@@ -43,7 +43,7 @@ class AppraiseApplyInfolist
                                     ->label('状态'),
                             ]),
                     ])->columnSpanFull(),
-                Schemas\Components\Section::make(Common::sectionTitle('申请单'))
+                Schemas\Components\Section::make(Common::sectionTitle('申请资料'))
                     ->schema(function (Model $record) {
                         return Common::mediasEntry($record, 'apply_file');
                     })
