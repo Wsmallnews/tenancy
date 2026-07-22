@@ -4,6 +4,7 @@ namespace App\Filament\Resources\AppraiseApplies\Schemas;
 
 use App\Enums\AppraiseApplies\Status;
 use App\Models\Appraise;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Schemas;
@@ -77,7 +78,7 @@ class AppraiseApplyForm
 
                         Schemas\Components\Section::make('申请信息')->schema([
                             Forms\Components\Select::make('user_id')->label('申请用户')
-                                ->relationship('user', 'name')
+                                ->relationship('user', 'name', modifyQueryUsing: fn ($query) => $query->withoutGlobalScope(Filament::getTenancyScopeName()))
                                 ->required(),
                             Forms\Components\TextInput::make('name')->label('申请人')
                                 ->placeholder('请输入申请人')

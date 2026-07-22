@@ -8,8 +8,10 @@ use Filament\Actions\ExportAction as FilamentExportAction;
 use Filament\Actions\ExportBulkAction as FilamentExportBulkAction;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Filament\Facades\Filament;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Wsmallnews\Support\Filament\Filters\FilterComponents;
 
 class AppraiseAppliesTable
@@ -17,6 +19,11 @@ class AppraiseAppliesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with([
+                // 预注册带约束的 eager load，排除 User 模型上的租户全局作用域
+                // applyEagerLoading 会检测到已存在而跳过，避免重复添加无约束的 with('user')
+                'user' => fn ($q) => $q->withoutGlobalScope(Filament::getTenancyScopeName()),
+            ]))
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')

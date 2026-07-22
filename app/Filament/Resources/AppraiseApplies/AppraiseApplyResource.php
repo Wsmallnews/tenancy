@@ -7,6 +7,7 @@ use App\Filament\Resources\AppraiseApplies\Schemas\AppraiseApplyInfolist;
 use App\Filament\Resources\AppraiseApplies\Tables\AppraiseAppliesTable;
 use App\Models\AppraiseApply;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -73,6 +74,10 @@ class AppraiseApplyResource extends Resource
         return parent::getRecordRouteBindingEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
+            ])
+            // 预加载 user 关联时排除租户全局作用域，避免详情/编辑页无法显示申请用户
+            ->with([
+                'user' => fn ($q) => $q->withoutGlobalScope(Filament::getTenancyScopeName()),
             ]);
     }
 }

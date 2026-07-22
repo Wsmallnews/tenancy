@@ -18,11 +18,13 @@
       "Bash(where php *)",
       "Bash(\"C:\\\\Users\\\\smallnews\\\\.config\\\\herd\\\\bin\\\\php.bat\" vendor/bin/pint --dirty --format agent)",
       "Bash(vendor/bin/pint --dirty --format agent)",
-      "Bash(\"C:/Users/smallnews/.config/herd/bin/php.bat\" c:/work/www/tenancyv4/vendor/bin/pint --dirty --format agent)"
+      "Bash(\"C:/Users/smallnews/.config/herd/bin/php.bat\" c:/work/www/tenancyv4/vendor/bin/pint --dirty --format agent)",
+      "Bash(\"/c/Users/smallnews/.config/herd/bin/php\" vendor/bin/pint --dirty --format agent)",
+      "Bash(\"/c/Program Files/Herod/bin/php\" vendor/bin/pint --dirty --format agent)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "laravel-boost"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
