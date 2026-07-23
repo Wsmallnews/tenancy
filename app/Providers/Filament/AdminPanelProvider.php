@@ -85,27 +85,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                CmsPlugin::make()
-                    ->forResource(NavigationPage::class)
-                    ->navigationGroup('网站管理')
-                    ->navigationLabel('导航管理')
-                    ->customProperties([
-                        'emptyLabel' => '呀，怎么没数据呀！',
-                        'level' => 3,
-                    ])
-                    ->forResource(PostResource::class)
-                    ->navigationGroup('网站管理')
-                    ->navigationLabel('图文管理')
-                    ->customProperties([
-                        'table' => fn ($table) => PostsTable::configure($table),
-                    ])
-                    ->forResource(CategoryPage::class)
-                    ->navigationGroup('网站管理')
-                    ->navigationParentItem('图文管理')
-                    ->navigationLabel('图文分类')
-                    ->forResource(GeneralSettingPage::class)
-                    ->navigationGroup('网站管理')
-                    ->navigationLabel('网站设置'),
+                CmsPlugin::make(),
             ])
             ->navigationGroups([
                 '种质资源库(圃)',
