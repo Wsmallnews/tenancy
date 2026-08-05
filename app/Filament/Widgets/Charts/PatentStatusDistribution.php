@@ -35,7 +35,7 @@ class PatentStatusDistribution extends ChartWidget
             ->get();
 
         $labels = $data->map(function ($item) {
-            $enum = Status::tryFrom($item->status);
+            $enum = $item->status;
 
             return $enum?->getLabel() ?? $item->status;
         })->toArray();
