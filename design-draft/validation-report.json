@@ -1,0 +1,132 @@
+{
+  "success": true,
+  "outcome": "passed",
+  "repairable": true,
+  "terminalViolations": [],
+  "terminalBlockingSummary": null,
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.08.06.19.15.08",
+    "version_source": "skill-release-manifest.json",
+    "runtime_skill_dir": null,
+    "recorded_at": null,
+    "expected_version": "2026.08.06.19.15.08",
+    "status": "matched",
+    "read_status": "ok"
+  },
+  "operatingMode": "free-explore",
+  "renderBlockingErrorCount": 0,
+  "softWarningCount": 7,
+  "renderBlockingErrors": [],
+  "errorSignatures": [],
+  "softWarnings": [
+    "[html-quality] colors_and_type.css: free-explore brand CSS must use one primary hue only; forbidden secondary/accent brand variables found (--sn-secondary, --sn-secondary-foreground, --sn-accent, --sn-accent-foreground). Use --state-success/warning/error/info only for semantic states.",
+    "[html-quality] appraise.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] index.html: Tailwind named color utilities are forbidden (bg-gray-300). Use brand CSS variables instead.",
+    "[html-quality] index.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference.",
+    "[html-quality] index.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] post-detail.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] posts.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states."
+  ],
+  "repairPlanHints": [
+    {
+      "errorClass": "hardcoded-color-in-body",
+      "owner": "sub-agent",
+      "repairScope": "targeted-token-replace",
+      "strategy": "targeted_token_replace_once",
+      "affectedFiles": [
+        "index.html"
+      ],
+      "repairReportPath": null,
+      "repairAlreadyAttempted": false,
+      "allowSourceRead": "no-full-html-read",
+      "maxValidationRuns": 2
+    }
+  ],
+  "repairActionTable": [],
+  "errorCount": 0,
+  "warningCount": 7,
+  "errors": [],
+  "warnings": [
+    "[html-quality] colors_and_type.css: free-explore brand CSS must use one primary hue only; forbidden secondary/accent brand variables found (--sn-secondary, --sn-secondary-foreground, --sn-accent, --sn-accent-foreground). Use --state-success/warning/error/info only for semantic states.",
+    "[html-quality] appraise.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] index.html: Tailwind named color utilities are forbidden (bg-gray-300). Use brand CSS variables instead.",
+    "[html-quality] index.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference.",
+    "[html-quality] index.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] post-detail.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states.",
+    "[html-quality] posts.html: free-explore pages must not use secondary/accent brand variables. Use the single primary hue, neutral tints, or --state-success/warning/error/info for real semantic states."
+  ],
+  "validationRunDisciplineStatus": {
+    "declared": true,
+    "restoreMode": true,
+    "maxFullValidationRuns": 2,
+    "validationHistoryCount": 0,
+    "repairLedgerCount": 0,
+    "softWarningsTriggerRepair": false,
+    "terminalState": null,
+    "nextAction": null,
+    "violations": [],
+    "success": true
+  },
+  "terminalState": null,
+  "nextCheck": {
+    "type": "finish-readiness",
+    "command": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=all --final-response-file=\"<final-response-draft.md>\"",
+    "fullValidationAllowed": false,
+    "reason": "restore workspace validation passed; run complete finish readiness with final response draft before delivery"
+  },
+  "repairBatch": [],
+  "repairContextPacket": {
+    "schema_version": "1.0",
+    "purpose": "small-context repair packet; read this before full validation-report.json",
+    "success": true,
+    "terminalState": null,
+    "skillProvenance": {
+      "name": "solo-design",
+      "version": "2026.08.06.19.15.08",
+      "version_source": "skill-release-manifest.json",
+      "runtime_skill_dir": null,
+      "recorded_at": null,
+      "expected_version": "2026.08.06.19.15.08",
+      "status": "matched",
+      "read_status": "ok"
+    },
+    "renderBlockingErrorCount": 0,
+    "softWarningCount": 7,
+    "renderBlockingErrors": [],
+    "repairActionTable": [],
+    "nextCheck": {
+      "type": "finish-readiness",
+      "command": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=all --final-response-file=\"<final-response-draft.md>\"",
+      "fullValidationAllowed": false,
+      "reason": "restore workspace validation passed; run complete finish readiness with final response draft before delivery"
+    },
+    "forbidden": [
+      "do not read validator source",
+      "do not rerun full validation when nextCheck.fullValidationAllowed=false",
+      "do not start preview/browser unless user explicitly asks",
+      "do not hand-edit repair ledger fields"
+    ]
+  },
+  "projectFileHashes": {
+    "design-draft.design": "a6cd3a23f9d8052ca50887269d55deabfdbf7a0d980e078b3a9d10e5d706faa7",
+    "colors_and_type.css": "c7636c41b0a1a5630dc6bfac2e215cee546614c6c8d3b8d4ff1952f4fe90a8c1",
+    "runtime-orchestration-summary.json": "dee8a500362383185162e80b9e0bd39096cb58256ab9876eb6ed72d7e50ddf6b",
+    "pages/appraise.html": "2da29df65b11d990d2b56b98b62e49591539f1b31725c7e5f1de06f9a1609c99",
+    "pages/index.html": "c8f6a2c17ba3a250df0f400cb467ebd92025e1aa6a703c83b6b1247178d3712e",
+    "pages/post-detail.html": "0c58a3c3efdd038fb87c968a5efd724ea36e40da1713b9bde817fa17ab22b166",
+    "pages/posts.html": "1538d8445bdddcc72b84bbd637ae5e83796f7f8024ffed0b2e07be8957f40fa3",
+    "assets/hero-bg.jpg": "f1f2441322aea7181987c8886be0a3ab8c6cef1af9ac872a40624cc495eefce9",
+    "assets/placeholder-crop-01.svg": "9504768bb35e55712c228808e7727a08085b6d57a05731046e4884029c02f1be",
+    "assets/placeholder-crop-02.svg": "21ebfe4574ab7d7c5c341b80075ad7ffb269de1174b347f1802eeada03b82595",
+    "assets/placeholder-crop-03.svg": "22f887531e21c19df769a647292dcd87adea17c2ec3a1e8472402add93ca4c0b",
+    "assets/placeholder-crop-04.svg": "cb5aa263acc736fb21ed548b6543fa0fa348a252e217c2b9e9f8633e755e4033",
+    "assets/placeholder-crop-05.svg": "8a0df1bb15046045de4cad3e4780794fc12fd5463c300d112e313f9a88a50a75",
+    "assets/placeholder-post-hero.svg": "6f9ed2e3bfaf595a3b81cc2a26ad2a7f4662a8d2e3c0992232332f6affb5d8d7",
+    "assets/placeholder-thumb.svg": "e64b50608e1701ee5c72a3cc7ec2ccc7166e9ee7c289662932441c8c7f16f020"
+  },
+  "designDir": "c:\\html\\herd\\tenancyv4\\design-draft",
+  "expectedPages": null,
+  "requireInteractions": null,
+  "checkedAt": "2026-08-22T02:47:44.203Z"
+}

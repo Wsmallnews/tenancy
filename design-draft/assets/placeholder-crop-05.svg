@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#f1f5f9"/>
+  <circle cx="200" cy="200" r="120" fill="#e2e8f0"/>
+  <path d="M140 200c0-33 27-60 60-60s60 27 60 60-27 60-60 60" stroke="oklch(0.535 0.176 257.5)" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <path d="M160 200c0-22 18-40 40-40s40 18 40 40" stroke="oklch(0.730 0.155 257.5)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M180 200c0-11 9-20 20-20s20 9 20 20" stroke="oklch(0.840 0.106 257.5)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <circle cx="200" cy="200" r="8" fill="oklch(0.535 0.176 257.5)"/>
+  <path d="M200 120v20M200 260v20M120 200h20M260 200h20" stroke="oklch(0.905 0.063 257.5)" stroke-width="5" stroke-linecap="round"/>
+</svg>

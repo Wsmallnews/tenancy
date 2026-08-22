@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国农作物种质资源信息平台</title>
+    <style id="theme-vars">
+/* 全国农作物种质资源信息平台 — 首页高保真还原设计令牌 */
+/* 颜色从用户提供的效果图目测采样 */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+@theme inline {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #2563eb; /* sampled: nav bar / search button */
+  --color-primary-600: #1d4ed8; /* sampled: primary hover */
+  --color-primary-700: #1e40af;
+  --color-primary-800: #1e3a8a; /* sampled: footer background */
+  --color-primary-900: #172554; /* sampled: sub-footer background */
+
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+  --sn-background: #ffffff; /* sampled: main header / content background */
+  --sn-foreground: #1f2937; /* sampled: primary body text */
+  --sn-card: #ffffff;       /* sampled: card surfaces */
+  --sn-card-foreground: #1f2937;
+  --sn-primary: #2563eb;    /* sampled: nav bar / search button */
+  --sn-primary-foreground: #ffffff;
+  --sn-secondary: #f3f4f6;  /* sampled: subtle backgrounds */
+  --sn-secondary-foreground: #374151;
+  --sn-muted: #f5f7fa;      /* sampled: top welcome bar */
+  --sn-muted-foreground: #6b7280;
+  --sn-accent: #eff6ff;     /* sampled: light blue badge bg */
+  --sn-accent-foreground: #1d4ed8;
+  --sn-border: #e5e7eb;     /* sampled: card borders */
+  --sn-input: #e5e7eb;
+  --sn-ring: #2563eb;
+  --sn-radius-sm: 4px;
+  --sn-radius-md: 8px;
+  --sn-radius-lg: 12px;
+  --sn-top-bar-bg: #f5f7fa;
+  --sn-top-bar-text: #6b7280;
+  --sn-footer-bg: #1e3a8a;  /* sampled: footer */
+  --sn-sub-footer-bg: #172554;
+  --sn-footer-text: #ffffff;
+  --sn-hero-overlay-start: rgba(0, 0, 0, 0.55);
+  --sn-hero-overlay-end: rgba(0, 0, 0, 0);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--sn-background);
+  color: var(--sn-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+::selection {
+  background-color: color-mix(in oklch, var(--sn-primary) 25%, transparent);
+  color: var(--sn-foreground);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--sn-background);
+    --color-foreground: var(--sn-foreground);
+    --color-card: var(--sn-card);
+    --color-card-foreground: var(--sn-card-foreground);
+    --color-primary: var(--sn-primary);
+    --color-primary-foreground: var(--sn-primary-foreground);
+    --color-secondary: var(--sn-secondary);
+    --color-secondary-foreground: var(--sn-secondary-foreground);
+    --color-muted: var(--sn-muted);
+    --color-muted-foreground: var(--sn-muted-foreground);
+    --color-accent: var(--sn-accent);
+    --color-accent-foreground: var(--sn-accent-foreground);
+    --color-border: var(--sn-border);
+    --color-input: var(--sn-input);
+    --color-ring: var(--sn-ring);
+    --radius-sm: var(--sn-radius-sm);
+    --radius-md: var(--sn-radius-md);
+    --radius-lg: var(--sn-radius-lg);
+  }
+  @layer base {
+    body { background: var(--sn-background); color: var(--sn-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--sn-background); }
+      .text-background { color: var(--sn-background); }
+      .border-background { border-color: var(--sn-background); }
+      .ring-background { --tw-ring-color: var(--sn-background); }
+      .bg-foreground { background-color: var(--sn-foreground); }
+      .text-foreground { color: var(--sn-foreground); }
+      .border-foreground { border-color: var(--sn-foreground); }
+      .ring-foreground { --tw-ring-color: var(--sn-foreground); }
+      .bg-card { background-color: var(--sn-card); }
+      .text-card { color: var(--sn-card); }
+      .border-card { border-color: var(--sn-card); }
+      .ring-card { --tw-ring-color: var(--sn-card); }
+      .bg-card-foreground { background-color: var(--sn-card-foreground); }
+      .text-card-foreground { color: var(--sn-card-foreground); }
+      .border-card-foreground { border-color: var(--sn-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--sn-card-foreground); }
+      .bg-primary { background-color: var(--sn-primary); }
+      .text-primary { color: var(--sn-primary); }
+      .border-primary { border-color: var(--sn-primary); }
+      .ring-primary { --tw-ring-color: var(--sn-primary); }
+      .bg-primary-foreground { background-color: var(--sn-primary-foreground); }
+      .text-primary-foreground { color: var(--sn-primary-foreground); }
+      .border-primary-foreground { border-color: var(--sn-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--sn-primary-foreground); }
+      .bg-secondary { background-color: var(--sn-secondary); }
+      .text-secondary { color: var(--sn-secondary); }
+      .border-secondary { border-color: var(--sn-secondary); }
+      .ring-secondary { --tw-ring-color: var(--sn-secondary); }
+      .bg-secondary-foreground { background-color: var(--sn-secondary-foreground); }
+      .text-secondary-foreground { color: var(--sn-secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--sn-secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--sn-secondary-foreground); }
+      .bg-muted { background-color: var(--sn-muted); }
+      .text-muted { color: var(--sn-muted); }
+      .border-muted { border-color: var(--sn-muted); }
+      .ring-muted { --tw-ring-color: var(--sn-muted); }
+      .bg-muted-foreground { background-color: var(--sn-muted-foreground); }
+      .text-muted-foreground { color: var(--sn-muted-foreground); }
+      .border-muted-foreground { border-color: var(--sn-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--sn-muted-foreground); }
+      .bg-accent { background-color: var(--sn-accent); }
+      .text-accent { color: var(--sn-accent); }
+      .border-accent { border-color: var(--sn-accent); }
+      .ring-accent { --tw-ring-color: var(--sn-accent); }
+      .bg-accent-foreground { background-color: var(--sn-accent-foreground); }
+      .text-accent-foreground { color: var(--sn-accent-foreground); }
+      .border-accent-foreground { border-color: var(--sn-accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--sn-accent-foreground); }
+      .bg-border { background-color: var(--sn-border); }
+      .text-border { color: var(--sn-border); }
+      .border-border { border-color: var(--sn-border); }
+      .ring-border { --tw-ring-color: var(--sn-border); }
+      .bg-input { background-color: var(--sn-input); }
+      .text-input { color: var(--sn-input); }
+      .border-input { border-color: var(--sn-input); }
+      .ring-input { --tw-ring-color: var(--sn-input); }
+      .bg-ring { background-color: var(--sn-ring); }
+      .text-ring { color: var(--sn-ring); }
+      .border-ring { border-color: var(--sn-ring); }
+      .ring-ring { --tw-ring-color: var(--sn-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen bg-background text-foreground antialiased">
+
+  <!-- Top bar -->
+  <div class="w-full" style="background-color: #f5f7fa;">
+    <div class="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs" style="color: #6b7280;">
+      <span>欢迎访问全国农作物种质资源信息平台</span>
+      <div class="hidden items-center gap-4 md:flex">
+        <span>国家农业科学数据中心农业生物种质资源专题</span>
+        <span class="h-3 w-px bg-gray-300"></span>
+        <span>国家科技资源共享服务平台</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo header -->
+  <header class="w-full bg-white">
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+      <a href="#" class="flex items-center gap-3">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full" style="background-color: #15803d;">
+          <i data-lucide="wheat" class="h-6 w-6 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-bold" style="color: #1f2937;">全国农作物种质资源信息平台</span>
+          <span class="text-xs tracking-wide" style="color: #6b7280;">National Crop Germplasm Resources Information Platform</span>
+        </div>
+      </a>
+      <div class="hidden items-center gap-4 md:flex">
+        <div class="flex overflow-hidden rounded" style="border: 1px solid #e5e7eb;">
+          <input type="text" placeholder="请输入关键词" class="h-9 w-64 px-3 text-sm outline-none" style="color: #374151;">
+          <button class="flex h-9 w-20 items-center justify-center text-sm font-medium text-white" style="background-color: var(--sn-primary);">
+            搜索
+          </button>
+        </div>
+        <div class="flex items-center gap-1 text-sm" style="color: #6b7280;">
+          <a href="#" class="px-2 hover:text-primary">登录</a>
+          <span>/</span>
+          <a href="#" class="px-2 hover:text-primary">注册</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Primary nav -->
+  <nav class="w-full" style="background-color: var(--sn-primary);">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="flex items-center overflow-x-auto no-scrollbar">
+        <a href="#" data-dom-id="nav-home" class="nav-item" style="background-color: rgba(255,255,255,0.12);">首页</a>
+        <a href="#" class="nav-item">平台概况</a>
+        <a href="#" data-dom-id="nav-news" class="nav-item">动态资讯</a>
+        <a href="#" class="nav-item">科学研究</a>
+        <a href="#" data-dom-id="nav-appraise" class="nav-item">种质资源</a>
+        <a href="#" class="nav-item">人才储备</a>
+        <a href="#" class="nav-item">服务案例</a>
+        <a href="#" class="nav-item">用户申请</a>
+        <a href="#" class="nav-item">数据共享</a>
+        <a href="#" class="nav-item">关于我们</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative w-full overflow-hidden" style="height: 420px;">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../assets/hero-bg.jpg');"></div>
+    <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 70%, transparent 100%);"></div>
+    <div class="relative mx-auto flex h-full max-w-7xl items-center px-4">
+      <div class="flex w-full items-center justify-between">
+        <!-- Left hero text -->
+        <div class="max-w-xl">
+          <h1 class="mb-4 text-4xl font-bold leading-tight text-white md:text-[40px]">保护种质资源 赋能农业创新</h1>
+          <p class="mb-8 text-base text-white/90">整合共享 · 开放创新 · 支撑育种 · 服务产业</p>
+          <div class="flex flex-wrap gap-3">
+            <span class="hero-badge"><i data-lucide="shield-check" class="h-4 w-4"></i> 权威数据</span>
+            <span class="hero-badge"><i data-lucide="file-check" class="h-4 w-4"></i> 标准规范</span>
+            <span class="hero-badge"><i data-lucide="lock" class="h-4 w-4"></i> 安全可靠</span>
+            <span class="hero-badge"><i data-lucide="globe" class="h-4 w-4"></i> 开放共享</span>
+          </div>
+        </div>
+
+        <!-- Right news card -->
+        <div class="hidden lg:block">
+          <div class="w-[360px] rounded-lg bg-white p-5 shadow-lg">
+            <div class="mb-4 flex items-center justify-between">
+              <h3 class="text-lg font-bold" style="color: #1f2937;">最新动态</h3>
+              <a href="#" class="text-xs hover:underline" style="color: #6b7280;">更多 &gt;</a>
+            </div>
+            <div class="mb-4 flex gap-6 border-b" style="border-color: #e5e7eb;">
+              <span class="news-tab-active pb-2 font-medium">平台公告</span>
+              <span class="news-tab pb-2">政策法规</span>
+            </div>
+            <div class="space-y-4">
+              <a href="#" class="group flex gap-3">
+                <img src="../assets/placeholder-thumb.svg" alt="" class="h-14 w-20 rounded object-cover">
+                <div>
+                  <p class="line-clamp-2 text-sm font-medium group-hover:text-primary" style="color: #1f2937;">国家种质资源保护体系：覆盖全国的"生命备份"筑起</p>
+                  <p class="mt-1 text-xs" style="color: #9ca3af;">2024-06-11</p>
+                </div>
+              </a>
+              <a href="#" class="group flex gap-3">
+                <img src="../assets/placeholder-thumb.svg" alt="" class="h-14 w-20 rounded object-cover">
+                <div>
+                  <p class="line-clamp-2 text-sm font-medium group-hover:text-primary" style="color: #1f2937;">科技赋能：从"存得住"到"用得活"的跨越</p>
+                  <p class="mt-1 text-xs" style="color: #9ca3af;">2024-06-11</p>
+                </div>
+              </a>
+              <a href="#" class="group flex gap-3">
+                <img src="../assets/placeholder-thumb.svg" alt="" class="h-14 w-20 rounded object-cover">
+                <div>
+                  <p class="line-clamp-2 text-sm font-medium group-hover:text-primary" style="color: #1f2937;">特色资源库：保护区域性和多样性的"专业卫士"</p>
+                  <p class="mt-1 text-xs" style="color: #9ca3af;">2024-06-11</p>
+                </div>
+              </a>
+              <a href="#" class="group flex gap-3">
+                <img src="../assets/placeholder-thumb.svg" alt="" class="h-14 w-20 rounded object-cover">
+                <div>
+                  <p class="line-clamp-2 text-sm font-medium group-hover:text-primary" style="color: #1f2937;">国际种质资源保护体系：覆盖全球的"生命备份"网络</p>
+                  <p class="mt-1 text-xs" style="color: #9ca3af;">2024-05-11</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="w-full bg-white py-6">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+        <div class="flex items-center gap-4">
+          <div class="stat-icon-wrap">
+            <i data-lucide="database" class="h-6 w-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold" style="color: var(--sn-primary);">1,024,358</div>
+            <div class="text-sm" style="color: #6b7280;">资源数量（份）</div>
+            <div class="mt-0.5 flex items-center text-xs" style="color: #ef4444;">
+              <span>较上月</span>
+              <i data-lucide="arrow-up" class="mx-1 h-3 w-3"></i>
+              <span>3.2%</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="stat-icon-wrap">
+            <i data-lucide="book-open" class="h-6 w-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold" style="color: var(--sn-primary);">256</div>
+            <div class="text-sm" style="color: #6b7280;">标准规范（项）</div>
+            <div class="mt-0.5 flex items-center text-xs" style="color: #ef4444;">
+              <span>较上月</span>
+              <i data-lucide="arrow-up" class="mx-1 h-3 w-3"></i>
+              <span>1.1%</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="stat-icon-wrap">
+            <i data-lucide="building-2" class="h-6 w-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold" style="color: var(--sn-primary);">362</div>
+            <div class="text-sm" style="color: #6b7280;">合作机构（家）</div>
+            <div class="mt-0.5 flex items-center text-xs" style="color: #ef4444;">
+              <span>较上月</span>
+              <i data-lucide="arrow-up" class="mx-1 h-3 w-3"></i>
+              <span>2.7%</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="stat-icon-wrap">
+            <i data-lucide="flask-conical" class="h-6 w-6"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold" style="color: var(--sn-primary);">1,128</div>
+            <div class="text-sm" style="color: #6b7280;">科研成果（项）</div>
+            <div class="mt-0.5 flex items-center text-xs" style="color: #ef4444;">
+              <span>较上月</span>
+              <i data-lucide="arrow-up" class="mx-1 h-3 w-3"></i>
+              <span>4.5%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Talent -->
+  <section class="w-full bg-white py-10">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="mb-2 flex items-end justify-between">
+        <div class="section-header-bar">
+          <h2 class="text-xl font-bold" style="color: #1f2937;">人才储备</h2>
+        </div>
+        <a href="#" class="flex items-center text-sm hover:underline" style="color: var(--sn-primary);">
+          查看更多 <i data-lucide="chevron-right" class="h-4 w-4"></i>
+        </a>
+      </div>
+      <p class="mb-6 text-sm" style="color: #6b7280;">汇聚行业顶尖人才，打造高水平科研创新团队</p>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Talent card 1 -->
+        <div class="rounded-lg border bg-white p-5 text-center" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-thumb.svg" alt="" class="mx-auto mb-3 h-20 w-20 rounded-full object-cover">
+          <h3 class="text-base font-bold" style="color: #1f2937;">李建国</h3>
+          <span class="tag-blue mb-2 mt-1 inline-block">首席科学家</span>
+          <p class="mt-2 text-xs" style="color: #6b7280;">研究方向：果树遗传育种</p>
+          <p class="text-xs" style="color: #6b7280;">成果：国家科技进步二等奖</p>
+          <button class="mt-4 h-8 rounded px-4 text-sm" style="border: 1px solid var(--sn-primary); color: var(--sn-primary); background: #fff;">查看详情</button>
+        </div>
+        <!-- Talent card 2 -->
+        <div class="rounded-lg border bg-white p-5 text-center" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-thumb.svg" alt="" class="mx-auto mb-3 h-20 w-20 rounded-full object-cover">
+          <h3 class="text-base font-bold" style="color: #1f2937;">张晓燕</h3>
+          <span class="tag-blue mb-2 mt-1 inline-block">研究员</span>
+          <p class="mt-2 text-xs" style="color: #6b7280;">研究方向：资源评价与利用</p>
+          <p class="text-xs" style="color: #6b7280;">成果：发表论文 56 篇</p>
+          <button class="mt-4 h-8 rounded px-4 text-sm" style="border: 1px solid var(--sn-primary); color: var(--sn-primary); background: #fff;">查看详情</button>
+        </div>
+        <!-- Talent card 3 -->
+        <div class="rounded-lg border bg-white p-5 text-center" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-thumb.svg" alt="" class="mx-auto mb-3 h-20 w-20 rounded-full object-cover">
+          <h3 class="text-base font-bold" style="color: #1f2937;">王志强</h3>
+          <span class="tag-blue mb-2 mt-1 inline-block">研究员</span>
+          <p class="mt-2 text-xs" style="color: #6b7280;">研究方向：分子生物学</p>
+          <p class="text-xs" style="color: #6b7280;">成果：授权专利 18 项</p>
+          <button class="mt-4 h-8 rounded px-4 text-sm" style="border: 1px solid var(--sn-primary); color: var(--sn-primary); background: #fff;">查看详情</button>
+        </div>
+        <!-- Talent card 4 -->
+        <div class="rounded-lg border bg-white p-5 text-center" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-thumb.svg" alt="" class="mx-auto mb-3 h-20 w-20 rounded-full object-cover">
+          <h3 class="text-base font-bold" style="color: #1f2937;">刘思敏</h3>
+          <span class="tag-blue mb-2 mt-1 inline-block">副研究员</span>
+          <p class="mt-2 text-xs" style="color: #6b7280;">研究方向：表型组学</p>
+          <p class="text-xs" style="color: #6b7280;">成果：发表论文 32 篇</p>
+          <button class="mt-4 h-8 rounded px-4 text-sm" style="border: 1px solid var(--sn-primary); color: var(--sn-primary); background: #fff;">查看详情</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service cases -->
+  <section class="w-full bg-white py-10">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="mb-2 flex items-end justify-between">
+        <div class="section-header-bar">
+          <h2 class="text-xl font-bold" style="color: #1f2937;">服务案例</h2>
+        </div>
+        <a href="#" class="flex items-center text-sm hover:underline" style="color: var(--sn-primary);">
+          查看更多 <i data-lucide="chevron-right" class="h-4 w-4"></i>
+        </a>
+      </div>
+      <p class="mb-6 text-sm" style="color: #6b7280;">联合创新，共促农业科技成果转化应用</p>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Case 1 -->
+        <div class="overflow-hidden rounded-lg border bg-white" style="border-color: #e5e7eb;">
+          <div class="relative h-40 bg-cover bg-center" style="background-image: url('../assets/placeholder-crop-01.svg');">
+            <span class="absolute left-3 top-3 rounded px-2 py-0.5 text-xs text-white" style="background-color: var(--sn-primary);">种质创新</span>
+          </div>
+          <div class="p-4">
+            <h3 class="mb-2 text-base font-bold" style="color: #1f2937;">苹果抗逆优质新品种培育与应用</h3>
+            <p class="mb-3 line-clamp-2 text-xs" style="color: #6b7280;">通过分子标记辅助选择，培育出抗寒、优质、丰产的苹果新品种。</p>
+            <p class="text-xs" style="color: #9ca3af;">合作单位：山东农业大学</p>
+          </div>
+        </div>
+        <!-- Case 2 -->
+        <div class="overflow-hidden rounded-lg border bg-white" style="border-color: #e5e7eb;">
+          <div class="relative h-40 bg-cover bg-center" style="background-image: url('../assets/placeholder-crop-02.svg');">
+            <span class="absolute left-3 top-3 rounded px-2 py-0.5 text-xs text-white" style="background-color: var(--sn-primary);">资源评价</span>
+          </div>
+          <div class="p-4">
+            <h3 class="mb-2 text-base font-bold" style="color: #1f2937;">猕猴桃种质资源精准评价体系建立</h3>
+            <p class="mb-3 line-clamp-2 text-xs" style="color: #6b7280;">构建猕猴桃种质资源多维度评价体系，筛选优异种质。</p>
+            <p class="text-xs" style="color: #9ca3af;">合作单位：中国农业科学院</p>
+          </div>
+        </div>
+        <!-- Case 3 -->
+        <div class="overflow-hidden rounded-lg border bg-white" style="border-color: #e5e7eb;">
+          <div class="relative h-40 bg-cover bg-center" style="background-image: url('../assets/placeholder-crop-03.svg');">
+            <span class="absolute left-3 top-3 rounded px-2 py-0.5 text-xs text-white" style="background-color: var(--sn-primary);">技术服务</span>
+          </div>
+          <div class="p-4">
+            <h3 class="mb-2 text-base font-bold" style="color: #1f2937;">果树种苗脱毒快繁技术服务</h3>
+            <p class="mb-3 line-clamp-2 text-xs" style="color: #6b7280;">为企业提供脱毒苗繁育技术支持，提升苗木质量与产量。</p>
+            <p class="text-xs" style="color: #9ca3af;">合作单位：某某农业科技公司</p>
+          </div>
+        </div>
+        <!-- Case 4 -->
+        <div class="overflow-hidden rounded-lg border bg-white" style="border-color: #e5e7eb;">
+          <div class="relative h-40 bg-cover bg-center" style="background-image: url('../assets/placeholder-crop-04.svg');">
+            <span class="absolute left-3 top-3 rounded px-2 py-0.5 text-xs text-white" style="background-color: var(--sn-primary);">平台支撑</span>
+          </div>
+          <div class="p-4">
+            <h3 class="mb-2 text-base font-bold" style="color: #1f2937;">国家果树种质资源圈建设与运行</h3>
+            <p class="mb-3 line-clamp-2 text-xs" style="color: #6b7280;">建设国家果树种质资源圈，保存资源 5000 余份。</p>
+            <p class="text-xs" style="color: #9ca3af;">合作单位：农业农村部</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research results -->
+  <section class="w-full bg-white py-10">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="mb-2 flex items-end justify-between">
+        <div class="section-header-bar">
+          <h2 class="text-xl font-bold" style="color: #1f2937;">科研成果</h2>
+        </div>
+        <a href="#" class="flex items-center text-sm hover:underline" style="color: var(--sn-primary);">
+          查看更多 <i data-lucide="chevron-right" class="h-4 w-4"></i>
+        </a>
+      </div>
+      <p class="mb-6 text-sm" style="color: #6b7280;">聚焦前沿研究，推动农业科技创新发展</p>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Result 1 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-01.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果树抗逆性遗传机制解析</h3>
+            <span class="tag-blue">研究论文</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">Plant Biotechnology Journal</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-06-01</p>
+          </div>
+        </div>
+        <!-- Result 2 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-02.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果树种质资源数字化管理平台构建</h3>
+            <span class="tag-blue">技术报告</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">作者：王志强 等</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-05-15</p>
+          </div>
+        </div>
+        <!-- Result 3 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-03.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果树脱毒快繁技术体系优化</h3>
+            <span class="tag-blue">专利技术</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">作者：陈晓 等</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-05-10</p>
+          </div>
+        </div>
+        <!-- Result 4 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-04.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">一种果树种质资源表型采集系统</h3>
+            <span class="tag-blue">专利成果</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">专利号：ZL 2024 1 0123456.7</p>
+            <p class="text-xs" style="color: #9ca3af;">授权时间：2024-04-28</p>
+          </div>
+        </div>
+        <!-- Result 5 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-05.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果实品质形成关键基因挖掘与功能验证</h3>
+            <span class="tag-blue">研究论文</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">Horticulture Research</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-05-20</p>
+          </div>
+        </div>
+        <!-- Result 6 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-01.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">苹果新品种"瑞阳"选育与推广</h3>
+            <span class="tag-blue">新品种</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">完成人：李建团 等</p>
+            <p class="text-xs" style="color: #9ca3af;">登记号：国品审 2024001</p>
+          </div>
+        </div>
+        <!-- Result 7 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-02.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果树病毒检测与脱除技术规程</h3>
+            <span class="tag-blue">标准规范</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">NY/T 标准</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-04-15</p>
+          </div>
+        </div>
+        <!-- Result 8 -->
+        <div class="flex gap-3 rounded-lg border bg-white p-3" style="border-color: #e5e7eb;">
+          <img src="../assets/placeholder-crop-03.svg" alt="" class="h-20 w-24 rounded object-cover">
+          <div>
+            <h3 class="mb-1 line-clamp-2 text-sm font-bold" style="color: #1f2937;">果树基因组数据库建设与应用</h3>
+            <span class="tag-blue">数据库</span>
+            <p class="mt-1 text-xs" style="color: #9ca3af;">作者：张明 等</p>
+            <p class="text-xs" style="color: #9ca3af;">2024-04-08</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full pt-10" style="background-color: var(--sn-footer-bg);">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid grid-cols-1 gap-8 pb-10 md:grid-cols-12">
+        <!-- Logo & about -->
+        <div class="md:col-span-4">
+          <a href="#" class="mb-4 flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full" style="background-color: #15803d;">
+              <i data-lucide="wheat" class="h-6 w-6 text-white"></i>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-lg font-bold text-white">全国农作物种质资源信息平台</span>
+              <span class="text-xs text-white/60">National Crop Germplasm Resources Information Platform</span>
+            </div>
+          </a>
+          <p class="mt-4 text-sm leading-relaxed text-white/70">
+            主办单位：中国农业科学院果树研究所<br>
+            承办单位：农业农村部种质资源保护与利用中心
+          </p>
+        </div>
+
+        <!-- Platform nav -->
+        <div class="md:col-span-2">
+          <h4 class="mb-4 text-sm font-semibold text-white">平台导航</h4>
+          <ul class="space-y-2 text-sm text-white/70">
+            <li><a href="#" class="footer-link transition">平台概况</a></li>
+            <li><a href="#" class="footer-link transition">动态资讯</a></li>
+            <li><a href="#" class="footer-link transition">科学研究</a></li>
+            <li><a href="#" class="footer-link transition">种质资源</a></li>
+          </ul>
+        </div>
+
+        <!-- Service support -->
+        <div class="md:col-span-2">
+          <h4 class="mb-4 text-sm font-semibold text-white">服务支持</h4>
+          <ul class="space-y-2 text-sm text-white/70">
+            <li><a href="#" class="footer-link transition">用户申请</a></li>
+            <li><a href="#" class="footer-link transition">数据共享</a></li>
+            <li><a href="#" class="footer-link transition">常见问题</a></li>
+            <li><a href="#" class="footer-link transition">下载中心</a></li>
+            <li><a href="#" class="footer-link transition">联系我们</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="md:col-span-2">
+          <h4 class="mb-4 text-sm font-semibold text-white">联系我们</h4>
+          <ul class="space-y-2 text-sm text-white/70">
+            <li>地址：山东省泰安市泰山区果树研究所 1 号</li>
+            <li>电话：0538-12345678</li>
+            <li>邮箱：germplasm@caas.cn</li>
+          </ul>
+        </div>
+
+        <!-- QR -->
+        <div class="md:col-span-2">
+          <div class="inline-block rounded bg-white p-2">
+            <img src="../assets/placeholder-thumb.svg" alt="微信公众号" class="h-24 w-24">
+          </div>
+          <p class="mt-2 text-center text-xs text-white/70">关注公众号</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub footer -->
+    <div class="w-full py-4" style="background-color: var(--sn-sub-footer-bg);">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 md:flex-row">
+        <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-white/50">
+          <span>国家农业科学数据中心</span>
+          <span>国家科技资源共享服务平台</span>
+          <span>农业农村部种质资源平台</span>
+        </div>
+        <div class="text-xs text-white/50">
+          鲁 ICP 备 05002188 号 -1 · 鲁公网安备 12345678901234 号 · © 2024 All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+
+    <style>
+    .section-header-bar {
+      border-left: 4px solid var(--sn-primary);
+      padding-left: 12px;
+    }
+    .nav-item {
+      position: relative;
+      padding: 0 20px;
+      line-height: 48px;
+      color: #fff;
+      font-size: 15px;
+      display: inline-block;
+      transition: background-color 0.2s;
+    }
+    .nav-item:hover {
+      background-color: rgba(255,255,255,0.12);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--sn-primary);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+    }
+    .stat-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #eff6ff;
+      color: var(--sn-primary);
+    }
+    .news-tab-active {
+      color: var(--sn-primary);
+      border-bottom: 2px solid var(--sn-primary);
+    }
+    .news-tab {
+      color: #6b7280;
+      padding-bottom: 8px;
+      border-bottom: 2px solid transparent;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .news-tab:hover {
+      color: var(--sn-primary);
+    }
+    .tag-blue {
+      display: inline-block;
+      background-color: #eff6ff;
+      color: var(--sn-primary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .footer-link:hover {
+      color: #60a5fa;
+    }
+    [data-icon] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</body>
+</html>
