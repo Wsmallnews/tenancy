@@ -1,23 +1,37 @@
 @php
     use Filament\Support\Icons\Heroicon;
+    use Wsmallnews\Cms\Support\Utils;
+
+    // 分类 pill 颜色（设计稿四色：主题蓝 + emerald/amber/rose），按分类 id 稳定取色
+    $pillPalette = [
+        'bg-primary-600 dark:bg-primary-500',
+        'bg-emerald-500 dark:bg-emerald-600',
+        'bg-amber-500 dark:bg-amber-600',
+        'bg-rose-500 dark:bg-rose-600',
+    ];
 @endphp
 
-<section class="py-12 md:py-16" aria-labelledby="posts-heading">
-    <header class="flex flex-col items-center justify-center text-center mb-12">
-        <h2 id="posts-heading" class="sn-section-title sn-h1-text mb-6">动态资讯</h2>
-        <p class="sn-content-text max-w-3xl mx-auto">
-            种质资源库启动，为农业发展注入核心"芯片"，守护生物多样性
-        </p>
-    </header>
+<section class="w-full pt-6" aria-labelledby="posts-heading">
+    <x-index.section-header
+        headingId="posts-heading"
+        title="{{ __('服务案例') }}"
+        description="{{ __('联合创新，共促农业科技成果转化应用') }}"
+        :href="Utils::route('posts')"
+    />
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        @foreach($posts as $post)
-            <article class="sn-container sn-hover overflow-hidden group">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        @foreach ($posts as $post)
+            @php
+                $category = $post->categories->first();
+                $pillColor = $category ? $pillPalette[$category->id % count($pillPalette)] : $pillPalette[0];
+            @endphp
+
+            <article class="bg-white dark:bg-gray-900 rounded-xl shadow-md overflow-hidden group">
                 <x-sn-cms::container.block-link
-                    href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post) }}"
-                    class="sn-link block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 rounded-md"
+                    href="{{ Utils::route('posts.show', $post) }}"
+                    class="sn-link flex flex-col h-full rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
                 >
-                    <div class="relative h-48 overflow-hidden">
+                    <div class="relative w-full aspect-[290/176] overflow-hidden shrink-0">
                         @if ($post->getFirstMediaUrl('post_image'))
                             <img
                                 src="{{ $post->getFirstMediaUrl('post_image') }}"
@@ -31,53 +45,29 @@
                             </div>
                         @endif
 
-                        @if($post->categories->count() > 0)
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-primary-500 dark:bg-primary-600 px-3 py-1 text-white text-xs font-bold rounded-full shadow-sm">
-                                    {{ $post->categories->first()->name }}
-                                </span>
-                            </div>
+                        @if ($category)
+                            <span class="absolute left-3 top-3 inline-flex items-center h-6 px-3 rounded-full text-xs font-medium text-white shadow-sm {{ $pillColor }}">
+                                {{ $category->name }}
+                            </span>
                         @endif
                     </div>
 
-                    <div class="p-6">
-                        <div class="sn-tip-text flex items-center gap-4 mb-3">
-                            <div class="flex items-center gap-1">
-                                <x-filament::icon :icon="Heroicon::OutlinedCalendarDays" class="w-4 h-4" aria-hidden="true" />
-                                <time datetime="{{ ($post->published_at ?? $post->created_at)->toIso8601String() }}">
-                                    {{ $post->published_at ? $post->published_at->format('Y-m-d') : $post->created_at->format('Y-m-d') }}
-                                </time>
-                            </div>
-                            @if($post->categories->count() > 0)
-                                <div class="flex items-center gap-1">
-                                    <x-filament::icon :icon="Heroicon::OutlinedTag" class="w-4 h-4" aria-hidden="true" />
-                                    {{ $post->categories->first()->name }}
-                                </div>
-                            @endif
-                        </div>
-
-                        <h3 class="sn-h3-text sn-hover mb-3 line-clamp-2">
+                    <div class="p-5 flex flex-col gap-2 grow">
+                        <h3 class="text-sm font-bold leading-6 text-gray-900 dark:text-gray-100 truncate">
                             {{ $post->title }}
                         </h3>
 
-                        <p class="sn-descript-text line-clamp-3 mb-4">
+                        <p class="text-xs leading-5 text-gray-500 dark:text-gray-400 line-clamp-2">
                             {{ $post->description ?? __('暂无描述') }}
                         </p>
 
-                        <span class="sn-link-more">
-                            {{ __('阅读全文') }}
-                            <x-filament::icon :icon="Heroicon::OutlinedChevronRight" class="w-4 h-4" aria-hidden="true" />
-                        </span>
+                        <time class="mt-auto pt-2 text-xs text-gray-400 dark:text-gray-500 tabular-nums"
+                            datetime="{{ ($post->published_at ?? $post->created_at)->toIso8601String() }}">
+                            {{ ($post->published_at ?? $post->created_at)->format('Y-m-d') }}
+                        </time>
                     </div>
                 </x-sn-cms::container.block-link>
             </article>
         @endforeach
-    </div>
-
-    <div class="mt-10 text-center">
-        <x-sn-cms::container.block-link href="{{ \Wsmallnews\Cms\Support\Utils::route('posts') }}" class="sn-link-more">
-            {{ __('查看更多') }}
-            <x-filament::icon :icon="Heroicon::OutlinedArrowRight" class="w-4 h-4" aria-hidden="true" />
-        </x-sn-cms::container.block-link>
     </div>
 </section>

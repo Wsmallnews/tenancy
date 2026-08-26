@@ -56,6 +56,10 @@ return [
                 // 需与 PostResource 的 scopeable 保持一致(PostResource 默认值为当前配置文件的 scopeable 配置)
                 'scope_type' => 'sn-cms',
                 'scope_id' => 0,
+
+                'custom_properties' => [
+                    'level' => 1,
+                ],
             ],
             GeneralSettingPage::class => [
                 'navigation_label' => '网站设置',
