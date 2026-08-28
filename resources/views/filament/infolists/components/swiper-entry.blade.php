@@ -48,7 +48,8 @@
             @endif
         </div>
     @else
-        <x-sn-support::swiper class="w-full aspect-[16/9]" :slides="$images" :hasThumb="false" />
+        {{-- 左侧缩略图轮播：hasThumb + thumbPosition=left（缩略图竖排，联动主图） --}}
+        <x-sn-support::swiper class="w-full aspect-[16/9]" :slides="$images" :hasThumb="true" thumbPosition="left" />
     @endif
 
 

@@ -9,7 +9,14 @@
       "canvasData": {
         "x": 60,
         "y": 0,
-        "group": 0
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-9caf65ee",
+          "measuredAt": 1787907022574
+        }
       },
       "devMetadata": {
         "htmlSrc": "pages/index.html",
@@ -38,7 +45,14 @@
       "canvasData": {
         "x": 60,
         "y": 373,
-        "group": 0
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-a09e8a07",
+          "measuredAt": 1787907022574
+        }
       },
       "devMetadata": {
         "htmlSrc": "pages/posts.html"
@@ -53,7 +67,14 @@
       "canvasData": {
         "x": 60,
         "y": 746,
-        "group": 0
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-8c3852cf",
+          "measuredAt": 1787907022574
+        }
       },
       "devMetadata": {
         "htmlSrc": "pages/appraise.html"

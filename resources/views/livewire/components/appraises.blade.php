@@ -9,14 +9,17 @@
     <x-sn-support::loading.overlay />
 
     @if ($categoryStyle == 'tree')
-        <div class="w-full lg:w-72">
-            <livewire:sn-category::components.categories
-                scope-type="appraise"
-                :use-url="false"
-                :active-category-id="$categoryId"
-                :view="$view"
-                :record-view="$recordView"
-                :key="'sn-category-components-categories-' . $this->getFingerprint()" />
+        <div class="w-full lg:w-72 shrink-0">
+            {{-- 分类树区块：亮色白底 / 暗色深底（sn-container 同时为 sn-link 提供悬停主题淡蓝上下文） --}}
+            <div class="sn-container p-2">
+                <livewire:sn-category::components.categories
+                    scope-type="appraise"
+                    :use-url="false"
+                    :active-category-id="$categoryId"
+                    :view="$view"
+                    :record-view="$recordView"
+                    :key="'sn-category-components-categories-' . $this->getFingerprint()" />
+            </div>
         </div>
     @endif
 
