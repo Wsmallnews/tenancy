@@ -1,0 +1,78 @@
+/** -------------------------------- appraise 自定义infolist ------------------------------ **/
+
+/** 页面内部侧边栏样式 **/
+.sn-page-sidebar .fi-sc.fi-grid.fi-sc-has-gap {
+    @apply gap-1;
+}
+/** sidebar-item 外层容器样式设置**/
+.fi-sc-text {
+    @apply
+        has-[.sn-page-sidebar-item]:inline-block
+        has-[.sn-page-sidebar-item]:w-full
+        has-[.sn-page-sidebar-item]:p-2
+        has-[.sn-page-sidebar-item]:rounded-md
+        has-[.sn-page-sidebar-item]:hover:bg-gray-200
+        has-[.sn-page-sidebar-item]:dark:hover:bg-gray-800
+        has-[.sn-page-sidebar-item]:text-gray-950
+        has-[.sn-page-sidebar-item]:dark:text-white
+}
+.fi-sc-text {
+    @apply
+        has-[.sn-page-sidebar-item.sn-active]:text-white
+        has-[.sn-page-sidebar-item.sn-active]:bg-primary-600
+        has-[.sn-page-sidebar-item.sn-active]:dark:bg-primary-700
+}
+/** sn-page-sidebar 外层容器 吸顶 **/
+.fi-sc-flex > div {
+    @apply
+        has-[.sn-page-sidebar]:sticky
+        has-[.sn-page-sidebar]:top-20
+        has-[.sn-page-sidebar]:z-20
+}
+
+/** 表格网格样式 容器样式 **/
+.sn-grid-table {
+    @apply bg-gray-200 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-700 dark:ring-white/10;
+}
+/** 表格网格样式 grid样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap {
+    @apply gap-[1px];
+}
+/** 表格网络 特定子元素 所占行数设置 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col {
+    @apply has-[.sn-two-rows]:row-span-2 has-[.sn-three-rows]:row-span-3 has-[.sn-four-rows]:row-span-4;
+}
+/** 表格网格样式 下面的 entry 的样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry {
+    @apply min-h-14 h-full flex items-stretch gap-0;
+}
+/** 表格网格样式 下面的 entry label 样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-label-col {
+    @apply w-30 shrink-0 flex items-center border-r border-gray-100 bg-gray-100 dark:border-gray-700 dark:bg-gray-800 p-4;
+}
+/** 表格网格样式 下面的 entry content 样式 **/
+.sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col .fi-sc-component .fi-in-entry .fi-in-entry-content-col {
+    @apply flex items-center bg-white px-4 py-2 grow dark:bg-gray-900;
+}
+
+/** 附件组件中 图片列表样式 **/
+.sn-attachment-image-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content {
+    @apply gap-0 p-0;
+}
+.sn-attachment-image-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content .fi-in-entry{
+    @apply gap-0;
+}
+/** 附件组件中的 文件列表样式 **/
+.sn-attachment-file-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content {
+    @apply gap-0 p-0;
+}
+.sn-attachment-file-list .fi-sc.fi-sc-has-gap.fi-grid.fi-section-content .fi-grid-col {
+    @apply px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-800;
+}
+
+/** 内容 Section（sn-page-sidebar-content-item）：内部 padding 归零，由 sn-grid-table 自己控制 **/
+.sn-page-sidebar-content-item > .fi-section-content-ctn > .fi-section-content {
+    @apply p-0;
+}
+
+/** --------------------------------左侧菜单栏结束------------------------------ **/

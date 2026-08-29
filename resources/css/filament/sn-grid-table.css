@@ -31,15 +31,20 @@
 }
 
 /** 表格网格样式 容器样式 **/
+/** 分割线实现：容器白底 + 单元格自画 右/下 边框（替代旧的 容器深底+gap 露缝 技法） **/
+/** 旧技法在末行未填满时，空白区域会露出容器深色背景，形成深色块；新技法空白处自然为白底 **/
 .sn-grid-table {
-    @apply bg-gray-200 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-700 dark:ring-white/10;
+    @apply bg-white dark:bg-gray-900 rounded-md overflow-hidden shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10;
 }
-/** 表格网格样式 grid样式 **/
+/** 表格网格样式 grid样式：无 gap；负 margin 把末列/末行的边框推出容器，由 overflow-hidden 裁掉（避免与外框叠成 2px） **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap {
-    @apply gap-[1px];
+    @apply gap-0;
+    margin-right: -1px;
+    margin-bottom: -1px;
 }
 /** 表格网络 特定子元素 所占行数设置 **/
 .sn-grid-table > .fi-sc.fi-grid.fi-sc-has-gap .fi-grid-col {
+    @apply border-r border-b border-gray-200 dark:border-gray-700;
     @apply has-[.sn-two-rows]:row-span-2 has-[.sn-three-rows]:row-span-3 has-[.sn-four-rows]:row-span-4;
 }
 /** 表格网格样式 下面的 entry 的样式 **/

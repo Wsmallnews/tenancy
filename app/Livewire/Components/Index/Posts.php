@@ -7,7 +7,7 @@ use Wsmallnews\Cms\Support\Utils;
 
 class Posts extends Base
 {
-    public int $limit = 6;
+    public int $limit = 4;
 
     public function render()
     {

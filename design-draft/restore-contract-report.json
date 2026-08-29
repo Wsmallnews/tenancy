@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "mode": "preflight",
+  "errors": [],
+  "warnings": [],
+  "evidence": {
+    "sourceType": "image",
+    "measuredSourceFactsCount": 10,
+    "highPriorityMeasuredSourceFactsCount": 6,
+    "highPriorityFactsWithMeasurementBasis": 6,
+    "restoreVisualCheckpointsCount": 10,
+    "highPriorityCheckpointCount": 6,
+    "sourceRegionCoverageSource": "project.sourceRegionCoverage",
+    "sourceRegionCoverageCount": 3,
+    "requiredRegionGroups": [
+      "first-screen",
+      "middle-section",
+      "footer-bottom"
+    ],
+    "cssFilePath": "c:\\html\\herd\\tenancyv4\\design-draft\\colors_and_type.css",
+    "brandPrefix": "sn",
+    "cssHash": "c7636c41b0a1a5630dc6bfac2e215cee546614c6c8d3b8d4ff1952f4fe90a8c1"
+  },
+  "checkedAt": "2026-08-22T02:34:02.598Z",
+  "designDir": "c:\\html\\herd\\tenancyv4\\design-draft",
+  "summaryPath": "c:/html/herd/tenancyv4/design-draft/runtime-orchestration-summary.json",
+  "fixPlan": [
+    {
+      "safe": true,
+      "field": "project.sourceRegionCoverage[0].status",
+      "action": "set-if-missing",
+      "value": "mapped",
+      "reason": "status can be normalized from mappedStatus alias"
+    },
+    {
+      "safe": true,
+      "field": "project.sourceRegionCoverage[1].status",
+      "action": "set-if-missing",
+      "value": "mapped",
+      "reason": "status can be normalized from mappedStatus alias"
+    },
+    {
+      "safe": true,
+      "field": "project.sourceRegionCoverage[2].status",
+      "action": "set-if-missing",
+      "value": "mapped",
+      "reason": "status can be normalized from mappedStatus alias"
+    }
+  ],
+  "appliedFixes": []
+}

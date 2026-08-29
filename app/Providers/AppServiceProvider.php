@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Livewire\Components\AppraiseCategories;
 use App\Livewire\Components\Appraises;
+use App\Livewire\Components\Index\Featured;
 use App\Livewire\Components\Index\Overview;
 use App\Livewire\Components\Index\Posts;
 use App\Livewire\Components\Index\ScientificResearch;
@@ -48,8 +49,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
@@ -145,6 +146,7 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('sn-components-user-appraise-apply', \App\Livewire\Components\User\AppraiseApply::class);
 
         // 首页组件
+        Livewire::component('sn-components-index-featured', Featured::class);
         Livewire::component('sn-components-index-overview', Overview::class);
         Livewire::component('sn-components-index-personnels', \App\Livewire\Components\Index\Personnels::class);
         Livewire::component('sn-components-index-posts', Posts::class);

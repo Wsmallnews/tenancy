@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preflight</title>
+    <style id="theme-vars">
+/* 全国农作物种质资源信息平台 — Redesign 设计稿令牌 */
+/* 保留客户指定蓝色主色，重构其使用方式，让蓝色成为点睛色而非大面积背景色 */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+@theme inline {
+  /* Primary Blue — 客户指定主色，保持色相 257.5 */
+  --color-primary-50: oklch(0.977 0.014 257.5);
+  --color-primary-100: oklch(0.950 0.033 257.5);
+  --color-primary-200: oklch(0.905 0.063 257.5);
+  --color-primary-300: oklch(0.840 0.106 257.5);
+  --color-primary-400: oklch(0.730 0.155 257.5);
+  --color-primary-500: oklch(0.535 0.176 257.5);
+  --color-primary-600: oklch(0.475 0.169 257.5);
+  --color-primary-700: oklch(0.415 0.150 257.5);
+  --color-primary-800: oklch(0.355 0.124 257.5);
+  --color-primary-900: oklch(0.300 0.100 257.5);
+  --color-primary-950: oklch(0.245 0.071 257.5);
+
+  /* Neutral scale — 冷灰，与蓝色协调 */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
+
+  /* Radius scale */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Light mode semantic tokens */
+:root {
+  --sn-background: #ffffff;
+  --sn-foreground: #0f172a;
+  --sn-card: #ffffff;
+  --sn-card-foreground: #0f172a;
+  --sn-popover: #ffffff;
+  --sn-popover-foreground: #0f172a;
+  --sn-primary: oklch(0.535 0.176 257.5);
+  --sn-primary-foreground: #ffffff;
+  --sn-secondary: #f1f5f9;
+  --sn-secondary-foreground: #1e293b;
+  --sn-muted: #f1f5f9;
+  --sn-muted-foreground: #64748b;
+  --sn-accent: #f1f5f9;
+  --sn-accent-foreground: #1e293b;
+  --sn-border: #e2e8f0;
+  --sn-input: #e2e8f0;
+  --sn-ring: oklch(0.535 0.176 257.5);
+  --sn-radius-sm: 0.375rem;
+  --sn-radius-md: 0.5rem;
+  --sn-radius-lg: 0.75rem;
+  --sn-radius-xl: 1rem;
+}
+
+/* Dark mode semantic tokens */
+.dark {
+  --sn-background: #020617;
+  --sn-foreground: #f8fafc;
+  --sn-card: #0f172a;
+  --sn-card-foreground: #f8fafc;
+  --sn-popover: #0f172a;
+  --sn-popover-foreground: #f8fafc;
+  --sn-primary: oklch(0.535 0.176 257.5);
+  --sn-primary-foreground: #ffffff;
+  --sn-secondary: #1e293b;
+  --sn-secondary-foreground: #f1f5f9;
+  --sn-muted: #1e293b;
+  --sn-muted-foreground: #94a3b8;
+  --sn-accent: #1e293b;
+  --sn-accent-foreground: #f1f5f9;
+  --sn-border: rgba(148, 163, 184, 0.2);
+  --sn-input: rgba(148, 163, 184, 0.2);
+  --sn-ring: oklch(0.535 0.176 257.5);
+}
+
+/* Base */
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--sn-background);
+  color: var(--sn-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+/* Selection */
+::selection {
+  background-color: color-mix(in oklch, var(--sn-primary) 25%, transparent);
+  color: var(--sn-foreground);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--sn-background);
+    --color-foreground: var(--sn-foreground);
+    --color-card: var(--sn-card);
+    --color-card-foreground: var(--sn-card-foreground);
+    --color-popover: var(--sn-popover);
+    --color-popover-foreground: var(--sn-popover-foreground);
+    --color-primary: var(--sn-primary);
+    --color-primary-foreground: var(--sn-primary-foreground);
+    --color-secondary: var(--sn-secondary);
+    --color-secondary-foreground: var(--sn-secondary-foreground);
+    --color-muted: var(--sn-muted);
+    --color-muted-foreground: var(--sn-muted-foreground);
+    --color-accent: var(--sn-accent);
+    --color-accent-foreground: var(--sn-accent-foreground);
+    --color-border: var(--sn-border);
+    --color-input: var(--sn-input);
+    --color-ring: var(--sn-ring);
+    --radius-sm: var(--sn-radius-sm);
+    --radius-md: var(--sn-radius-md);
+    --radius-lg: var(--sn-radius-lg);
+    --radius-xl: var(--sn-radius-xl);
+  }
+  @layer base {
+    body { background: var(--sn-background); color: var(--sn-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--sn-background); }
+      .text-background { color: var(--sn-background); }
+      .border-background { border-color: var(--sn-background); }
+      .ring-background { --tw-ring-color: var(--sn-background); }
+      .bg-foreground { background-color: var(--sn-foreground); }
+      .text-foreground { color: var(--sn-foreground); }
+      .border-foreground { border-color: var(--sn-foreground); }
+      .ring-foreground { --tw-ring-color: var(--sn-foreground); }
+      .bg-card { background-color: var(--sn-card); }
+      .text-card { color: var(--sn-card); }
+      .border-card { border-color: var(--sn-card); }
+      .ring-card { --tw-ring-color: var(--sn-card); }
+      .bg-card-foreground { background-color: var(--sn-card-foreground); }
+      .text-card-foreground { color: var(--sn-card-foreground); }
+      .border-card-foreground { border-color: var(--sn-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--sn-card-foreground); }
+      .bg-popover { background-color: var(--sn-popover); }
+      .text-popover { color: var(--sn-popover); }
+      .border-popover { border-color: var(--sn-popover); }
+      .ring-popover { --tw-ring-color: var(--sn-popover); }
+      .bg-popover-foreground { background-color: var(--sn-popover-foreground); }
+      .text-popover-foreground { color: var(--sn-popover-foreground); }
+      .border-popover-foreground { border-color: var(--sn-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--sn-popover-foreground); }
+      .bg-primary { background-color: var(--sn-primary); }
+      .text-primary { color: var(--sn-primary); }
+      .border-primary { border-color: var(--sn-primary); }
+      .ring-primary { --tw-ring-color: var(--sn-primary); }
+      .bg-primary-foreground { background-color: var(--sn-primary-foreground); }
+      .text-primary-foreground { color: var(--sn-primary-foreground); }
+      .border-primary-foreground { border-color: var(--sn-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--sn-primary-foreground); }
+      .bg-secondary { background-color: var(--sn-secondary); }
+      .text-secondary { color: var(--sn-secondary); }
+      .border-secondary { border-color: var(--sn-secondary); }
+      .ring-secondary { --tw-ring-color: var(--sn-secondary); }
+      .bg-secondary-foreground { background-color: var(--sn-secondary-foreground); }
+      .text-secondary-foreground { color: var(--sn-secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--sn-secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--sn-secondary-foreground); }
+      .bg-muted { background-color: var(--sn-muted); }
+      .text-muted { color: var(--sn-muted); }
+      .border-muted { border-color: var(--sn-muted); }
+      .ring-muted { --tw-ring-color: var(--sn-muted); }
+      .bg-muted-foreground { background-color: var(--sn-muted-foreground); }
+      .text-muted-foreground { color: var(--sn-muted-foreground); }
+      .border-muted-foreground { border-color: var(--sn-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--sn-muted-foreground); }
+      .bg-accent { background-color: var(--sn-accent); }
+      .text-accent { color: var(--sn-accent); }
+      .border-accent { border-color: var(--sn-accent); }
+      .ring-accent { --tw-ring-color: var(--sn-accent); }
+      .bg-accent-foreground { background-color: var(--sn-accent-foreground); }
+      .text-accent-foreground { color: var(--sn-accent-foreground); }
+      .border-accent-foreground { border-color: var(--sn-accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--sn-accent-foreground); }
+      .bg-border { background-color: var(--sn-border); }
+      .text-border { color: var(--sn-border); }
+      .border-border { border-color: var(--sn-border); }
+      .ring-border { --tw-ring-color: var(--sn-border); }
+      .bg-input { background-color: var(--sn-input); }
+      .text-input { color: var(--sn-input); }
+      .border-input { border-color: var(--sn-input); }
+      .ring-input { --tw-ring-color: var(--sn-input); }
+      .bg-ring { background-color: var(--sn-ring); }
+      .text-ring { color: var(--sn-ring); }
+      .border-ring { border-color: var(--sn-ring); }
+      .ring-ring { --tw-ring-color: var(--sn-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

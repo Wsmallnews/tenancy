@@ -74,4 +74,6 @@ html.fi {
 html,
 body {
     height: 100%;
+    /* Tailwind container 在整断点宽度（1024/1280/...）不含滚动条宽度，会产生 15px 横向溢出；clip 掉 */
+    overflow-x: clip;
 }

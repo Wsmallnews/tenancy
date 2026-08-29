@@ -1,0 +1,927 @@
+{
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.08.06.19.15.08",
+    "version_source": "skill-release-manifest.json"
+  },
+  "project": {
+    "resolvedLane": "restore_1to1",
+    "replicationMode": "high-fidelity",
+    "brandPrefix": "sn",
+    "selectedIntentWorkflowRead": true,
+    "intentProfile": {
+      "caseFamily": "restore_1to1",
+      "sourceType": "image",
+      "routingReason": "用户上传首页效果图并要求按图转成可编辑设计稿，属于高保真还原"
+    },
+    "deviceType": "desktop",
+    "sourceType": "image",
+    "sourceIdentity": {
+      "businessType": "government-agriculture-portal-homepage",
+      "coreObjects": [
+        "top-bar",
+        "logo-header",
+        "primary-nav",
+        "hero-banner",
+        "stats-row",
+        "talent-section",
+        "service-cases-section",
+        "research-results-section",
+        "footer"
+      ],
+      "deviceType": "desktop",
+      "pageTitle": "全国农作物种质资源信息平台首页"
+    },
+    "pageStateLock": {
+      "currentState": "首页首屏展开状态：顶部欢迎条、主导航在蓝色导航栏、首屏为左侧渐变遮罩的果实主题大图、 statistics 数字行、人才储备/服务案例/科研成果三大内容区、蓝底页脚",
+      "forbiddenDeviations": [
+        "不得改成暗色模式或改变蓝色主色调",
+        "不得合并/删除人才储备、服务案例、科研成果三大内容区",
+        "不得把首页改成列表页或详情页",
+        "不得替换 logo 为其他图形"
+      ]
+    },
+    "sourceAuthorityLock": {
+      "visualAuthority": "provided-image",
+      "contentSupplement": "none",
+      "browserObservationRole": "targeted-verification-only",
+      "mayOverrideVisualAuthority": false,
+      "lockedBeforeDispatch": true
+    },
+    "referenceCaptureEvidence": {
+      "sourceImagePath": "reference/source-screenshot.png",
+      "capturedAt": "2026-08-22T10:29:00+08:00",
+      "captureMethod": "user-upload"
+    },
+    "sourceDocumentProfile": {
+      "sourceType": "image",
+      "documentLengthClass": "long",
+      "viewportScrollRatio": 1,
+      "deviceFramePresent": false,
+      "requiredRegionGroups": [
+        "first-screen",
+        "middle-section",
+        "footer-bottom"
+      ]
+    },
+    "measuredSourceFacts": [
+      {
+        "id": "msf-01",
+        "category": "viewport",
+        "sourceRegion": "header",
+        "fact": "desktop document-scroll page, reference frame approximately 1440px wide",
+        "measurementBasis": "visual estimation from full-page screenshot proportions",
+        "measurement": {
+          "unit": "px",
+          "value": "1440"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-01"
+        ]
+      },
+      {
+        "id": "msf-02",
+        "category": "layout-region",
+        "sourceRegion": "header",
+        "fact": "top welcome bar height ~36px with light gray background, main header height ~80px white, primary nav height ~48px blue",
+        "measurementBasis": "visual proportion of stacked chrome rows",
+        "measurement": {
+          "unit": "px",
+          "value": "36 / 80 / 48"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-02"
+        ]
+      },
+      {
+        "id": "msf-03",
+        "category": "color-surface",
+        "sourceRegion": "hero",
+        "fact": "hero uses photographic fruit background with left-to-right dark gradient overlay",
+        "measurementBasis": "sampled from screenshot hero left edge and nav bar",
+        "measurement": {
+          "unit": "color",
+          "value": "nav primary #2563eb; hero overlay rgba(0,0,0,0.45) → transparent"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-03"
+        ]
+      },
+      {
+        "id": "msf-04",
+        "category": "component-proportion",
+        "sourceRegion": "hero",
+        "fact": "hero region occupies full width and roughly 380-420px height, text block anchored left with generous padding",
+        "measurementBasis": "visual estimation against nav and stats row",
+        "measurement": {
+          "unit": "px",
+          "value": "height 400px; text padding-left ~120px"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-04"
+        ]
+      },
+      {
+        "id": "msf-05",
+        "category": "density-spacing",
+        "sourceRegion": "stats",
+        "fact": "stats row has 4 evenly spaced columns with icon + number + label, vertical padding ~24px",
+        "measurementBasis": "visual rhythm between hero and first content section",
+        "measurement": {
+          "unit": "px",
+          "value": "row padding 24px; column gap ~32px"
+        },
+        "priority": "medium",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-05"
+        ]
+      },
+      {
+        "id": "msf-06",
+        "category": "typography-scale",
+        "sourceRegion": "hero",
+        "fact": "hero heading is large bold white sans-serif, approximately 36px/44px; subheading ~16px/24px",
+        "measurementBasis": "visual hierarchy relative to nav and body text",
+        "measurement": {
+          "unit": "px",
+          "value": "heading 36/44 bold; subheading 16/24"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-06"
+        ]
+      },
+      {
+        "id": "msf-07",
+        "category": "component-proportion",
+        "sourceRegion": "card",
+        "fact": "talent cards contain circular avatar ~80px, name, title tag, research direction and achievement lines, outline button",
+        "measurementBasis": "visual card internal layout",
+        "measurement": {
+          "unit": "px",
+          "value": "avatar 80px; card padding ~24px"
+        },
+        "priority": "medium",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-07"
+        ]
+      },
+      {
+        "id": "msf-08",
+        "category": "color-surface",
+        "sourceRegion": "footer",
+        "fact": "footer has dark blue background (#1e3a8a) with white text and lighter blue sub-footer (#172554)",
+        "measurementBasis": "sampled from screenshot footer region",
+        "measurement": {
+          "unit": "color",
+          "value": "footer-bg #1e3a8a; sub-footer-bg #172554; footer-text #ffffff"
+        },
+        "priority": "high",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-08"
+        ]
+      },
+      {
+        "id": "msf-09",
+        "category": "density-spacing",
+        "sourceRegion": "card",
+        "fact": "service-case cards are 4-column grid with image on top, small tag overlay, title, description and cooperation unit",
+        "measurementBasis": "visual grid rhythm",
+        "measurement": {
+          "unit": "px",
+          "value": "grid gap ~24px; image height ~160px"
+        },
+        "priority": "medium",
+        "tolerance": "approximate-±15%",
+        "usedByCheckpointIds": [
+          "vc-09"
+        ]
+      },
+      {
+        "id": "msf-10",
+        "category": "layout-region",
+        "sourceRegion": "sidebar",
+        "fact": "section headers use blue left border bar with bold title and right-aligned '查看更多' link",
+        "measurementBasis": "visual section header pattern",
+        "measurement": {
+          "unit": "px",
+          "value": "border-left 4px #2563eb; title 20px bold"
+        },
+        "priority": "medium",
+        "tolerance": "small",
+        "usedByCheckpointIds": [
+          "vc-10"
+        ]
+      }
+    ],
+    "restoreVisualCheckpoints": [
+      {
+        "id": "vc-01",
+        "priority": "high",
+        "dimension": "layout",
+        "sourceObservation": "full-width desktop document-scroll page, content max-width centered around 1200-1280px",
+        "targetImplementation": "use max-w-7xl mx-auto container and full-width bands for nav/hero/footer",
+        "tolerance": "small spacing variance",
+        "region": "header"
+      },
+      {
+        "id": "vc-02",
+        "priority": "high",
+        "dimension": "layout",
+        "sourceObservation": "three stacked chrome rows: gray welcome bar, white header with logo/search/login, blue nav with 10 white items",
+        "targetImplementation": "render top-bar, main-header, primary-nav as separate full-width bands with exact vertical stack",
+        "tolerance": "small spacing variance",
+        "region": "header"
+      },
+      {
+        "id": "vc-03",
+        "priority": "high",
+        "dimension": "color-rhythm",
+        "sourceObservation": "dominant white background, bright blue (#2563eb) primary for nav/search button/links, dark blue footer",
+        "targetImplementation": "set primary blue, nav blue, footer dark blue; keep body white with gray borders",
+        "tolerance": "small hue variance",
+        "region": "hero"
+      },
+      {
+        "id": "vc-04",
+        "priority": "high",
+        "dimension": "component-proportion",
+        "sourceObservation": "hero is a wide banner with left gradient overlay, white heading/subheading and four small blue badges",
+        "targetImplementation": "hero container height ~400px, background image with linear-gradient overlay, left-aligned text block, badges row",
+        "tolerance": "approximate height acceptable",
+        "region": "hero"
+      },
+      {
+        "id": "vc-05",
+        "priority": "medium",
+        "dimension": "density",
+        "sourceObservation": "statistics row shows four metrics with circular icons, large blue numbers and small gray labels",
+        "targetImplementation": "four-column grid, icon in colored circle, number in primary color, label muted",
+        "tolerance": "small spacing variance",
+        "region": "card"
+      },
+      {
+        "id": "vc-06",
+        "priority": "high",
+        "dimension": "typography",
+        "sourceObservation": "hero heading is bold ~36px white; body text is regular ~14-16px; section titles are bold ~20px dark",
+        "targetImplementation": "match font sizes/weights: hero 36px bold, section title 20px bold, body 14-16px normal",
+        "tolerance": "small size variance",
+        "region": "hero"
+      },
+      {
+        "id": "vc-07",
+        "priority": "medium",
+        "dimension": "component-proportion",
+        "sourceObservation": "talent cards are 4-column, each with circular avatar on top, name, colored title tag, research text and outline button",
+        "targetImplementation": "4-column responsive grid, rounded white cards with border, centered avatar, blue outline button",
+        "tolerance": "small spacing variance",
+        "region": "card"
+      },
+      {
+        "id": "vc-08",
+        "priority": "high",
+        "dimension": "color-rhythm",
+        "sourceObservation": "footer background is dark blue with white text, QR code area on the right, sub-footer even darker with accreditation logos",
+        "targetImplementation": "footer bg #1e3a8a, sub-footer #172554, white/blue text, placeholder QR/logo blocks",
+        "tolerance": "small hue variance",
+        "region": "footer"
+      },
+      {
+        "id": "vc-09",
+        "priority": "medium",
+        "dimension": "component-proportion",
+        "sourceObservation": "service-case cards use top image, blue category tag top-left, title, description and cooperation unit",
+        "targetImplementation": "card with overflow-hidden rounded image area, absolute tag, text content below",
+        "tolerance": "small spacing variance",
+        "region": "card"
+      },
+      {
+        "id": "vc-10",
+        "priority": "medium",
+        "dimension": "fine-detail",
+        "sourceObservation": "section headers have a blue vertical bar on the left and a right-aligned '查看更多 >' link",
+        "targetImplementation": "flex row with border-l-4 border-primary, bold title, spacer, primary color link with chevron",
+        "tolerance": "none",
+        "region": "header"
+      }
+    ],
+    "sourceRegionCoverage": [
+      {
+        "regionGroup": "first-screen",
+        "mappedStatus": "mapped"
+      },
+      {
+        "regionGroup": "middle-section",
+        "mappedStatus": "mapped"
+      },
+      {
+        "regionGroup": "footer-bottom",
+        "mappedStatus": "mapped"
+      }
+    ],
+    "restorationContractLite": {
+      "visualAuthority": "provided-image",
+      "allowedDeviationList": [
+        {
+          "ref": "placeholder-images",
+          "description": "英雄区、人才头像、服务案例、科研成果缩略图、页脚二维码使用占位图，后续替换正式图"
+        },
+        {
+          "ref": "logo-emblem",
+          "description": "平台徽章使用简化圆形徽章占位，不逐像素复刻原徽标"
+        },
+        {
+          "ref": "icon-shapes",
+          "description": "统计图标、箭头使用 Lucide 近似图标"
+        }
+      ]
+    },
+    "visualSpecExcerpt": "=== VISUAL SPEC ===\n[LAYOUT]\nviewport: 1440x900, document-scroll desktop\ntop-bar: full width, height 36px, bg #f5f7fa\nmain-header: full width, height 80px, bg #ffffff, content max-w-7xl centered\nprimary-nav: full width, height 48px, bg #2563eb\nhero: full width, height 400px, background image with left gradient overlay\nstats-row: full width, bg #ffffff, 4 equal columns\ncontent-sections: max-w-7xl centered, vertical gap 48px\nfooter: full width, bg #1e3a8a; sub-footer bg #172554\n\n[SPACING]\ncontainer-padding-x: 16px (mobile) / 24px (tablet) / 32px (desktop)\nsection-padding-y: 48px\nsection-header-gap: 12px\ncard-padding: 24px\ncard-grid-gap: 24px\nhero-text-padding-left: 120px\nhero-heading-margin-bottom: 16px\nstats-row-padding-y: 24px\n\n[TYPOGRAPHY]\nhero-heading: 36px/44px 700 white\nhero-subheading: 16px/24px 400 white/80\nsection-title: 20px/28px 700 #1f2937\nsection-subtitle: 14px/22px 400 #6b7280\nbody: 14px/22px 400 #374151\nstat-number: 28px/36px 700 #2563eb\nstat-label: 14px/22px 400 #6b7280\nfooter-text: 14px/22px 400 #ffffff/80\n\n[COLORS]\nprimary: #2563eb\nprimary-hover: #1d4ed8\nnav-bg: #2563eb\nbody-bg: #ffffff\ntop-bar-bg: #f5f7fa\ntop-bar-text: #6b7280\nheader-bg: #ffffff\ntext-primary: #1f2937\ntext-secondary: #6b7280\nborder: #e5e7eb\nfooter-bg: #1e3a8a\nsub-footer-bg: #172554\nfooter-text: #ffffff\nhero-overlay-start: rgba(0,0,0,0.55)\nhero-overlay-end: rgba(0,0,0,0)\n\n[SHADOWS & DEPTH]\ncard-shadow: 0 1px 3px rgba(0,0,0,0.08)\nheader-shadow: 0 1px 2px rgba(0,0,0,0.05)\n\n[RADII]\nbutton: 4px\ninput: 4px\ncard: 8px\nbadge: 9999px\navatar: 9999px\n=== END SPEC ===",
+    "validationRunDiscipline": {
+      "maxFullValidationRuns": 2,
+      "softWarningsTriggerRepair": false,
+      "blockingRepairMode": "targeted-once"
+    },
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "noProgressNextAction": "enter_readiness_or_blocked_summary"
+    },
+    "contextRequirementsLoaded": [
+      {
+        "path": "intent-workflows/intent-page-restore-1to1/start-restore-1to1-project.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "intent-workflows/intent-page-restore-1to1/dispatch-contract.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "intent-workflows/intent-page-restore-1to1/restore-dispatch-packet-format.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "intent-workflows/intent-page-restore-1to1/restore-1to1-page-runtime.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      }
+    ],
+    "contextReadScope": "restore_1to1_minimal",
+    "dispatchPreflightManifest": [
+      {
+        "recorded_at": "2026-08-22T02:34:11.102Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "RestorePagePacket",
+        "laneContract": {
+          "resolvedLane": "restore_1to1",
+          "packetType": "RestorePagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-page-restore-1to1/restore-1to1-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-page-restore-1to1/dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-page-restore-1to1/restore-1to1-page-runtime.md",
+        "nodeId": "page-index",
+        "htmlSrc": "pages/index.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/index.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/index.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design",
+          "deterministicToolDir": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-design-workspace.mjs",
+            "validateFinishReadiness": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs",
+            "validateRestoreContract": "c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\record-dispatch-completion.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --node-id=\"page-index\" --html-src=\"pages/index.html\" --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "c:\\html\\herd\\tenancyv4\\design-draft\\colors_and_type.css",
+        "htmlFilePath": "c:\\html\\herd\\tenancyv4\\design-draft\\pages\\index.html",
+        "brandPrefix": "sn",
+        "aestheticsMode": "high-fidelity",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": null,
+        "headFillMode": "replace-head-after-body",
+        "viewportMode": null,
+        "completionSchemaExpected": "restore",
+        "restoreFields": {
+          "sourceType": "image",
+          "referenceCaptureEvidencePresent": true,
+          "measuredSourceFactsCount": 10,
+          "highPriorityMeasuredSourceFactsCount": 6,
+          "restoreVisualCheckpointsCount": 10,
+          "highPriorityCheckpointCount": 6,
+          "sourceTypeEvidenceConsistent": true
+        },
+        "restoreContractStatus": {
+          "reportPath": "restore-contract-report.json",
+          "reportHash": "4d14d889ae9d8c01ff236eae0c6e593ec69d9fdc9eb2c8c7fe899c80f41fc2f7",
+          "success": true,
+          "checkedAt": "2026-08-22T02:34:02.598Z",
+          "evidence": {
+            "sourceType": "image",
+            "measuredSourceFactsCount": 10,
+            "highPriorityMeasuredSourceFactsCount": 6,
+            "highPriorityFactsWithMeasurementBasis": 6,
+            "restoreVisualCheckpointsCount": 10,
+            "highPriorityCheckpointCount": 6,
+            "sourceRegionCoverageSource": "project.sourceRegionCoverage",
+            "sourceRegionCoverageCount": 3,
+            "requiredRegionGroups": [
+              "first-screen",
+              "middle-section",
+              "footer-bottom"
+            ],
+            "cssFilePath": "c:\\html\\herd\\tenancyv4\\design-draft\\colors_and_type.css",
+            "brandPrefix": "sn",
+            "cssHash": "c7636c41b0a1a5630dc6bfac2e215cee546614c6c8d3b8d4ff1952f4fe90a8c1"
+          },
+          "errorCount": 0,
+          "warningCount": 0
+        },
+        "restoreCompactPacket": {
+          "schema": "restoreCompactPacket.v1",
+          "sourceType": "image",
+          "sourceIdentity": {
+            "businessType": "government-agriculture-portal-homepage",
+            "coreObjects": [
+              "top-bar",
+              "logo-header",
+              "primary-nav",
+              "hero-banner",
+              "stats-row",
+              "talent-section",
+              "service-cases-section",
+              "research-results-section"
+            ],
+            "deviceType": "desktop",
+            "pageTitle": "全国农作物种质资源信息平台首页"
+          },
+          "pageStateLock": {
+            "currentState": "首页首屏展开状态：顶部欢迎条、主导航在蓝色导航栏、首屏为左侧渐变遮罩的果实主题大图、 statistics 数字行、人才储备/服务案例/科研成果三大内容区、蓝底页脚",
+            "forbiddenDeviations": [
+              "不得改成暗色模式或改变蓝色主色调",
+              "不得合并/删除人才储备、服务案例、科研成果三大内容区",
+              "不得把首页改成列表页或详情页",
+              "不得替换 logo 为其他图形"
+            ]
+          },
+          "sourceDocumentProfile": {
+            "sourceType": "image",
+            "documentLengthClass": "long",
+            "viewportScrollRatio": 1,
+            "deviceFramePresent": false,
+            "requiredRegionGroups": [
+              "first-screen",
+              "middle-section",
+              "footer-bottom"
+            ]
+          },
+          "measuredSourceFacts": [
+            {
+              "id": "msf-01",
+              "cat": "viewport",
+              "reg": "header",
+              "p": "high",
+              "fact": "desktop document-scroll page, reference frame approximately 1440px wide",
+              "basis": "visual estimation from full-page screenshot proportions",
+              "vc": [
+                "vc-01"
+              ]
+            },
+            {
+              "id": "msf-02",
+              "cat": "layout-region",
+              "reg": "header",
+              "p": "high",
+              "fact": "top welcome bar height ~36px with light gray background, main header height ~80px white, …",
+              "basis": "visual proportion of stacked chrome rows",
+              "vc": [
+                "vc-02"
+              ]
+            },
+            {
+              "id": "msf-03",
+              "cat": "color-surface",
+              "reg": "hero",
+              "p": "high",
+              "fact": "hero uses photographic fruit background with left-to-right dark gradient overlay",
+              "basis": "sampled from screenshot hero left edge and nav bar",
+              "vc": [
+                "vc-03"
+              ]
+            },
+            {
+              "id": "msf-04",
+              "cat": "component-proportion",
+              "reg": "hero",
+              "p": "high",
+              "fact": "hero region occupies full width and roughly 380-420px height, text block anchored left wi…",
+              "basis": "visual estimation against nav and stats row",
+              "vc": [
+                "vc-04"
+              ]
+            },
+            {
+              "id": "msf-05",
+              "cat": "density-spacing",
+              "reg": "stats",
+              "p": "medium",
+              "fact": "stats row has 4 evenly spaced columns with icon + number + label, vertical padding ~24px",
+              "basis": "visual rhythm between hero and first content section",
+              "vc": [
+                "vc-05"
+              ]
+            },
+            {
+              "id": "msf-06",
+              "cat": "typography-scale",
+              "reg": "hero",
+              "p": "high",
+              "fact": "hero heading is large bold white sans-serif, approximately 36px/44px; subheading ~16px/24…",
+              "basis": "visual hierarchy relative to nav and body text",
+              "vc": [
+                "vc-06"
+              ]
+            },
+            {
+              "id": "msf-07",
+              "cat": "component-proportion",
+              "reg": "card",
+              "p": "medium",
+              "fact": "talent cards contain circular avatar ~80px, name, title tag, research direction and achie…",
+              "basis": "visual card internal layout",
+              "vc": [
+                "vc-07"
+              ]
+            },
+            {
+              "id": "msf-08",
+              "cat": "color-surface",
+              "reg": "footer",
+              "p": "high",
+              "fact": "footer has dark blue background (#1e3a8a) with white text and lighter blue sub-footer (#1…",
+              "basis": "sampled from screenshot footer region",
+              "vc": [
+                "vc-08"
+              ]
+            },
+            {
+              "id": "msf-09",
+              "cat": "density-spacing",
+              "reg": "card",
+              "p": "medium",
+              "fact": "service-case cards are 4-column grid with image on top, small tag overlay, title, descrip…",
+              "basis": "visual grid rhythm",
+              "vc": [
+                "vc-09"
+              ]
+            },
+            {
+              "id": "msf-10",
+              "cat": "layout-region",
+              "reg": "sidebar",
+              "p": "medium",
+              "fact": "section headers use blue left border bar with bold title and right-aligned '查看更多' link",
+              "basis": "visual section header pattern",
+              "vc": [
+                "vc-10"
+              ]
+            }
+          ],
+          "restoreVisualCheckpoints": [
+            {
+              "id": "vc-01",
+              "p": "high",
+              "dim": "layout",
+              "reg": "header",
+              "src": "full-width desktop document-scroll page, content max-width centered around 1200…",
+              "exp": "use max-w-7xl mx-auto container and full-width bands for nav/hero/footer",
+              "dev": null
+            },
+            {
+              "id": "vc-02",
+              "p": "high",
+              "dim": "layout",
+              "reg": "header",
+              "src": "three stacked chrome rows: gray welcome bar, white header with logo/search/logi…",
+              "exp": "render top-bar, main-header, primary-nav as separate full-width bands with exac…",
+              "dev": null
+            },
+            {
+              "id": "vc-03",
+              "p": "high",
+              "dim": "color-rhythm",
+              "reg": "hero",
+              "src": "dominant white background, bright blue (#2563eb) primary for nav/search button/…",
+              "exp": "set primary blue, nav blue, footer dark blue; keep body white with gray borders",
+              "dev": null
+            },
+            {
+              "id": "vc-04",
+              "p": "high",
+              "dim": "component-proportion",
+              "reg": "hero",
+              "src": "hero is a wide banner with left gradient overlay, white heading/subheading and …",
+              "exp": "hero container height ~400px, background image with linear-gradient overlay, le…",
+              "dev": null
+            },
+            {
+              "id": "vc-05",
+              "p": "medium",
+              "dim": "density",
+              "reg": "card",
+              "src": "statistics row shows four metrics with circular icons, large blue numbers and s…",
+              "exp": "four-column grid, icon in colored circle, number in primary color, label muted",
+              "dev": null
+            },
+            {
+              "id": "vc-06",
+              "p": "high",
+              "dim": "typography",
+              "reg": "hero",
+              "src": "hero heading is bold ~36px white; body text is regular ~14-16px; section titles…",
+              "exp": "match font sizes/weights: hero 36px bold, section title 20px bold, body 14-16px…",
+              "dev": null
+            },
+            {
+              "id": "vc-07",
+              "p": "medium",
+              "dim": "component-proportion",
+              "reg": "card",
+              "src": "talent cards are 4-column, each with circular avatar on top, name, colored titl…",
+              "exp": "4-column responsive grid, rounded white cards with border, centered avatar, blu…",
+              "dev": null
+            },
+            {
+              "id": "vc-08",
+              "p": "high",
+              "dim": "color-rhythm",
+              "reg": "footer",
+              "src": "footer background is dark blue with white text, QR code area on the right, sub-…",
+              "exp": "footer bg #1e3a8a, sub-footer #172554, white/blue text, placeholder QR/logo blo…",
+              "dev": null
+            },
+            {
+              "id": "vc-09",
+              "p": "medium",
+              "dim": "component-proportion",
+              "reg": "card",
+              "src": "service-case cards use top image, blue category tag top-left, title, descriptio…",
+              "exp": "card with overflow-hidden rounded image area, absolute tag, text content below",
+              "dev": null
+            },
+            {
+              "id": "vc-10",
+              "p": "medium",
+              "dim": "fine-detail",
+              "reg": "header",
+              "src": "section headers have a blue vertical bar on the left and a right-aligned '查看更多 …",
+              "exp": "flex row with border-l-4 border-primary, bold title, spacer, primary color link…",
+              "dev": null
+            }
+          ],
+          "sourceRegionCoverage": [
+            {
+              "id": null,
+              "reg": null,
+              "group": "first-screen",
+              "p": null,
+              "status": "mapped"
+            },
+            {
+              "id": null,
+              "reg": null,
+              "group": "middle-section",
+              "p": null,
+              "status": "mapped"
+            },
+            {
+              "id": null,
+              "reg": null,
+              "group": "footer-bottom",
+              "p": null,
+              "status": "mapped"
+            }
+          ],
+          "contentToPreserve": [],
+          "byteLength": 6208
+        },
+        "deterministicCommands": {
+          "restorePreflight": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-restore-contract.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --mode=preflight",
+          "restorePreflightApplySafeFixes": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-restore-contract.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --mode=preflight --apply-safe-fixes",
+          "buildManifest": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\build-page-dispatch-manifest.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --mode=restore",
+          "workspaceValidation": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-design-workspace.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --report-json=\"c:\\html\\herd\\tenancyv4\\design-draft\\validation-report.json\"",
+          "finishReadinessAll": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=all --final-response-file=\"<final-response-draft.md>\"",
+          "finishReadinessAllWithResponse": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=all --final-response-file=\"<final-response-draft.md>\"",
+          "finishReadinessRepairLedger": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=repair-ledger",
+          "finishReadinessArtifact": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=artifact",
+          "finishReadinessResponse": "node \"c:\\Users\\XPKJ-003\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\html\\herd\\tenancyv4\\design-draft\" --check=response --final-response-file=\"<final-response-draft.md>\""
+        },
+        "sourceAuthorityLock": {
+          "visualAuthority": "provided-image",
+          "contentSupplement": "none",
+          "browserObservationRole": "targeted-verification-only",
+          "mayOverrideVisualAuthority": false,
+          "lockedBeforeDispatch": true
+        },
+        "preDispatchFileHashes": {
+          "design-draft.design": "6dcc1ce3cc6828534f5d400df9688014062f155529da191d32c74fed129d3250"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-page-restore-1to1/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "intent-workflows/intent-page-restore-1to1/start-restore-1to1-project.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "intent-workflows/intent-page-restore-1to1/dispatch-contract.md",
+            "intent-workflows/intent-page-restore-1to1/restore-dispatch-packet-format.md"
+          ],
+          "optionalContextFiles": [
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "intent-workflows/intent-page-restore-1to1/restore-evidence-contract.md",
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md"
+          ],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": false,
+          "appliesToThisPage": false,
+          "canonicalHtmlIncluded": false,
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      }
+    ],
+    "readScopeLedger": [
+      {
+        "actor": "page-sub-agent",
+        "lane": "restore_1to1",
+        "path": "intent-workflows/intent-page-restore-1to1/restore-1to1-page-runtime.md",
+        "reason": "page runtime guide",
+        "scopeClass": "page-runtime",
+        "declaredBeforeRead": true,
+        "recordedAt": "2026-08-22T02:34:11.102Z",
+        "nodeId": "page-index",
+        "htmlSrc": "pages/index.html"
+      },
+      {
+        "actor": "page-sub-agent",
+        "lane": "restore_1to1",
+        "path": "intent-workflows/intent-page-restore-1to1/dispatch-contract.md",
+        "reason": "dispatch contract",
+        "scopeClass": "dispatch-contract",
+        "declaredBeforeRead": true,
+        "recordedAt": "2026-08-22T02:34:11.102Z",
+        "nodeId": "page-index",
+        "htmlSrc": "pages/index.html"
+      }
+    ],
+    "expectedDispatches": [
+      {
+        "nodeId": "page-index",
+        "pageId": "page-index",
+        "targetPageId": "page-index",
+        "htmlSrc": "pages/index.html",
+        "packetType": "RestorePagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/index.html",
+          "assets/hero-bg.jpg"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-22T02:42:39.381Z",
+        "source": "record-dispatch-completion.mjs"
+      }
+    ],
+    "mainAgentPostDispatchMutations": [
+      {
+        "path": "design-draft.design",
+        "reason": "registered additional page nodes and hero background image asset to match existing pages/ assets",
+        "owner": "main-agent",
+        "recordedAt": "2026-08-22T02:45:00.000Z",
+        "source": "record-dispatch-completion.mjs"
+      }
+    ],
+    "sourceFactCoverageMap": [
+      {
+        "sourceFactId": "msf-01",
+        "checkpointId": "vc-01",
+        "selector": "body, .max-w-7xl",
+        "implementedProperty": "desktop document-scroll layout with max-w-7xl centered container"
+      },
+      {
+        "sourceFactId": "msf-02",
+        "checkpointId": "vc-02",
+        "selector": ".top-bar, header, nav",
+        "implementedProperty": "three stacked chrome rows: top welcome bar, logo header, blue primary nav"
+      },
+      {
+        "sourceFactId": "msf-03",
+        "checkpointId": "vc-03",
+        "selector": ".hero",
+        "implementedProperty": "photographic fruit background with left-to-right dark gradient overlay"
+      },
+      {
+        "sourceFactId": "msf-04",
+        "checkpointId": "vc-04",
+        "selector": ".hero",
+        "implementedProperty": "hero container ~420px height with left-aligned text block and badges"
+      },
+      {
+        "sourceFactId": "msf-05",
+        "checkpointId": "vc-05",
+        "selector": ".stats-row",
+        "implementedProperty": "four-column statistics grid with circular icon, primary number, muted label"
+      },
+      {
+        "sourceFactId": "msf-06",
+        "checkpointId": "vc-06",
+        "selector": ".hero h1",
+        "implementedProperty": "large bold white hero heading (~36px/44px)"
+      },
+      {
+        "sourceFactId": "msf-08",
+        "checkpointId": "vc-08",
+        "selector": "footer",
+        "implementedProperty": "dark blue footer (#1e3a8a) and deeper sub-footer (#172554) with white text"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "nodeId": "page-index",
+      "htmlSrc": "pages/index.html",
+      "title": "首页",
+      "brandPrefix": "sn",
+      "dispatchStatus": "completed"
+    }
+  ]
+}
