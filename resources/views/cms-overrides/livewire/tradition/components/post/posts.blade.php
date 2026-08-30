@@ -20,6 +20,20 @@
         ? $posts
         : new \Illuminate\Database\Eloquent\Collection($posts->all());
     $posts->loadMissing('categories');
+
+    // flag 标识：标签 / 颜色 / 图标映射（颜色为 Filament 色名，转成与分类标签调色板同风格的 Tailwind 类）
+    $flagLabels = FlagRegistry::getTypesOptions($scopeType);
+    $flagColors = FlagRegistry::getTypesColors($scopeType);
+    $flagIcons = FlagRegistry::getTypesIcons($scopeType);
+
+    $flagColorClasses = [
+        'primary' => 'bg-primary-500/10 dark:bg-primary-400/10 text-primary-600 dark:text-primary-400',
+        'danger' => 'bg-rose-50 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400',
+        'warning' => 'bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400',
+        'success' => 'bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400',
+        'info' => 'bg-sky-50 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400',
+        'gray' => 'bg-gray-100 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400',
+    ];
 @endphp
 
 <div class="w-full flex flex-col lg:flex-row gap-4 relative">
@@ -91,9 +105,9 @@
             <x-sn-support::paginators.container :page-type="$pageType" :page-info="$pageInfo" :paginator-link="$paginatorLink" :page-name="$pageName">
                 <div class="w-full flex flex-col divide-y divide-gray-100 dark:divide-gray-800/70">
                     @forelse ($posts as $post)
-                        {{-- 行高写死；图片区满行高 + 服务案例比例（aspect-[290/176]），cover 居中裁剪 --}}
+                        {{-- 行高写死；图片区满行高 + 服务案例比例（aspect-[290/176]），cover 居中裁剪；sm 起行高加大，容纳 flag 徽章行与查看详情按钮行 --}}
                         <x-sn-cms::container.block-link
-                            class="group flex flex-row gap-4 h-36 p-4 overflow-hidden transition-colors duration-200 motion-reduce:transition-none hover:bg-primary-50/50 dark:hover:bg-primary-900/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-500"
+                            class="group flex flex-row gap-4 h-40 sm:h-44 p-4 overflow-hidden transition-colors duration-200 motion-reduce:transition-none hover:bg-primary-50/50 dark:hover:bg-primary-900/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-500"
                             href="{{ \Wsmallnews\Cms\Support\Utils::route('posts.show', $post) }}"
                         >
                             <div class="h-full aspect-[290/176] max-w-[45%] shrink-0 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -106,15 +120,34 @@
                                 @endif
                             </div>
 
-                            <div class="flex flex-col grow min-w-0 gap-1.5">
-                                {{-- 分类标签：全部显示（标题上方） --}}
-                                @if ($post->categories->isNotEmpty())
-                                    <div class="flex flex-wrap gap-1.5">
-                                        @foreach ($post->categories as $category)
-                                            <span class="px-1.5 py-0.5 rounded text-[10px] font-medium leading-4 {{ $tagPalette[$category->id % count($tagPalette)] }}">
-                                                {{ $category->name }}
-                                            </span>
-                                        @endforeach
+                            <div class="flex flex-col grow min-w-0 gap-1 sm:gap-1.5">
+                                {{-- 顶行：分类标签（左）+ flag 标识（右）--}}
+                                @if ($post->categories->isNotEmpty() || filled($post->flags))
+                                    <div class="flex items-start justify-between gap-2">
+                                        @if ($post->categories->isNotEmpty())
+                                            <div class="flex flex-wrap gap-1.5 min-w-0">
+                                                @foreach ($post->categories as $category)
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-medium leading-4 {{ $tagPalette[$category->id % count($tagPalette)] }}">
+                                                        {{ $category->name }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        @if (filled($post->flags))
+                                            {{-- 最多展示 2 个 flag，避免窄屏换行撑高行 --}}
+                                            <div class="flex flex-wrap justify-end gap-1.5 shrink-0 ml-auto">
+                                                @foreach (array_slice($post->flags ?? [], 0, 2) as $flagType)
+                                                    @continue(blank($flagLabels[$flagType] ?? null))
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium leading-4 {{ $flagColorClasses[$flagColors[$flagType] ?? 'gray'] }}">
+                                                        @if (filled($flagIcons[$flagType] ?? null))
+                                                            <x-filament::icon :icon="$flagIcons[$flagType]" class="w-3 h-3" aria-hidden="true" />
+                                                        @endif
+                                                        {{ $flagLabels[$flagType] }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 @endif
 
@@ -126,8 +159,17 @@
                                     {{ $post->description }}
                                 </div>
 
-                                <div class="sn-tip-text mt-auto">
-                                    {{ $post->updated_at->format('Y-m-d') }}
+                                {{-- 底行：日期（左）+ 查看详情（右）--}}
+                                <div class="flex items-center justify-between gap-2 mt-auto">
+                                    <div class="sn-tip-text">
+                                        {{ $post->updated_at->format('Y-m-d') }}
+                                    </div>
+
+                                    {{-- 整行已是链接，按钮用 span 仅作视觉标识，避免嵌套可交互元素 --}}
+                                    <span class="shrink-0 inline-flex items-center gap-1 h-7 px-2.5 rounded-md border border-primary-600/60 dark:border-primary-400/50 text-xs font-medium text-primary-600 dark:text-primary-400 group-hover:bg-primary-600 group-hover:border-primary-600 group-hover:text-white dark:group-hover:bg-primary-500 dark:group-hover:border-primary-500 dark:group-hover:text-white transition-colors duration-200 motion-reduce:transition-none">
+                                        {{ __('查看详情') }}
+                                        <x-filament::icon :icon="Heroicon::ChevronRight" class="w-3 h-3" aria-hidden="true" />
+                                    </span>
                                 </div>
                             </div>
                         </x-sn-cms::container.block-link>
