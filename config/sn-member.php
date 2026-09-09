@@ -1,0 +1,47 @@
+<?php
+
+use Wsmallnews\Member\Filament\Resources\Members\MemberResource;
+use Wsmallnews\Member\Models;
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Member Model
+    |--------------------------------------------------------------------------
+    |
+    | The model class to use for members. You can swap this for your own
+    | implementation as long as it extends the base Member model.
+    |
+    */
+    'models' => [
+        'member' => Models\Member::class,
+    ],
+
+    /**
+     * Panel register
+     *
+     * global_default 共享默认（非 FQCN 的 string key）会合并到所有条目：
+     *   - navigation_group: 所有页面/资源的默认导航组
+     *
+     * 条目格式：
+     *   - 简单 FQCN：ClassName::class（仅合并共享默认）
+     *   - 键值对：ClassName::class => ['key' => 'value']（合并共享默认 + 自定义覆盖）
+     *   - 配置项键名使用 snake_case（如 navigation_label、navigation_icon）
+     */
+    'panel_register' => [
+        'global_default' => [
+            'navigation_group' => 'sn-member::member.global_default.navigation_group',
+        ],
+        'resources' => [
+            MemberResource::class => ['navigation_group' => '用户管理', 'navigation_label' => '用户管理'],
+        ],
+        'pages' => [
+        ],
+    ],
+
+    /**
+     * File base directory (only used by filament default upload component (Forms\Components\FileUpload))
+     */
+    'file_directory' => 'sn/member/',
+];

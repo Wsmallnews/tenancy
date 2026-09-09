@@ -9856,11 +9856,11 @@
         },
         {
             "name": "wsmallnews/cms",
-            "version": "v1.0.13",
+            "version": "v1.0.14",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/cms/v1.0.13/wsmallnews-cms-v1.0.13.zip",
-                "reference": "2523c5adc9f15d4852435d18120c3a3944b1e503",
+                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/cms/v1.0.14/wsmallnews-cms-v1.0.14.zip",
+                "reference": "eba06e8640f902c1448f5ed022e4d1385677cadc",
                 "shasum": ""
             },
             "require": {
@@ -9922,7 +9922,7 @@
                 "issues": "https://github.com/wsmallnews/cms/issues",
                 "source": "https://github.com/wsmallnews/cms"
             },
-            "time": "2026-09-09T09:14:05+00:00"
+            "time": "2026-09-09T15:47:56+00:00"
         },
         {
             "name": "wsmallnews/comment",
@@ -10207,11 +10207,11 @@
         },
         {
             "name": "wsmallnews/support",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/support/v1.0.11/wsmallnews-support-v1.0.11.zip",
-                "reference": "02f478fbfd265233c4ac1406ed486961c129f550",
+                "url": "https://mirrors.tencent.com/repository/composer/wsmallnews/support/v1.0.12/wsmallnews-support-v1.0.12.zip",
+                "reference": "1a450d0457449fc7dbca8fbaa2f9e91c30cb71ae",
                 "shasum": ""
             },
             "require": {
@@ -10287,7 +10287,7 @@
                 "issues": "https://github.com/wsmallnews/support/issues",
                 "source": "https://github.com/wsmallnews/support"
             },
-            "time": "2026-09-09T06:47:12+00:00"
+            "time": "2026-09-09T15:48:02+00:00"
         },
         {
             "name": "wsmallnews/user",

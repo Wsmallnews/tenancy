@@ -33,6 +33,7 @@ use Wsmallnews\Cms\Filament\Pages\Category as CategoryPage;
 use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
 use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
+use Wsmallnews\Member\MemberPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -86,12 +87,14 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
                 CmsPlugin::make(),
+                MemberPlugin::make(),
             ])
             ->navigationGroups([
                 '种质资源库(圃)',
                 '网站管理',
                 '属性选项',
                 '研究成果',
+                '用户管理',
                 '设置管理',
                 __('filament-shield::filament-shield.nav.group'),       // 权限管理
             ])
