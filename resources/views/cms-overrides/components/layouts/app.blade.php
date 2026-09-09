@@ -1,5 +1,6 @@
 @php
     use Wsmallnews\Cms\Support\Utils;
+    use Wsmallnews\Cms\CmsPlugin;
 @endphp
 
 <!DOCTYPE html>
@@ -15,15 +16,18 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        @stack('seo')
+        {{-- 页面 SEO 标签（模块归属由 seo-init 路由中间件声明，页面组件在 render 阶段经 Seo 门面链式声明数据） --}}
+        @snSeo
+
+        {{-- RSS autodiscovery（浏览器/阅读器自动发现订阅地址，指令由 support 提供，参数 = 模块 ID） --}}
+        @if (Utils::getConfig('feed.enabled', true))
+            @snFeeds(app(CmsPlugin::class)->getId())
+        @endif
 
         <style>
             :root {
                 /** 默认主题设置变量，可以通过读取该变量获取默认主题色 **/
                 --default-theme-mode: {{ Utils::getDefaultDarkMode() }};
-            }
-            [x-cloak] {
-                display: none !important;
             }
         </style>
 
@@ -65,6 +69,9 @@
         @endif
 
         @vite('resources/css/app.css')
+
+        {{-- sn-* 设计令牌运行时覆盖（config sn-support.theme），须在 CSS 之后渲染 --}}
+        @snTheme
     </head>
 
     <body class="sn-body antialiased bg-[#F0F4F8] dark:bg-gray-950 text-gray-700 dark:text-gray-200 flex flex-col min-h-screen">
@@ -81,6 +88,9 @@
 
         @filamentScripts
         @vite('resources/js/app.js')
+
+        {{-- 统计代码（后台设置的 analytics_code），注入在 </body> 前 --}}
+        @snSeoAnalytics
 
         <script>
             document.addEventListener('livewire:init', () => {

@@ -1,9 +1,11 @@
 <?php
 
-use Filament\Support\Icons\Heroicon;
 use Wsmallnews\Category\Filament\Pages\Category\CategoryPage as PostCategoryPage;
+use Wsmallnews\Cms\Enums;
 use Wsmallnews\Cms\Filament\Pages\GeneralSetting as GeneralSettingPage;
+use Wsmallnews\Cms\Filament\Pages\Navigation\Footer\FooterNavigationPage;
 use Wsmallnews\Cms\Filament\Pages\Navigation\NavigationPage;
+use Wsmallnews\Cms\Filament\Resources\Links\LinkResource;
 use Wsmallnews\Cms\Filament\Resources\NavigationTypes\NavigationTypeResource;
 use Wsmallnews\Cms\Filament\Resources\Posts\PostResource;
 use Wsmallnews\Cms\Models;
@@ -20,12 +22,26 @@ return [
     ],
 
     /**
+     * RSS 订阅（cms 的 posts 内容流）
+     *
+     * 端点由 support 提供（/feed 整站聚合流、/feed/posts 具名流、/cms/feed 与
+     * /cms/feed/posts 模块端点——仅输出本模块流），cms 只往 FeedRegistry 注册
+     * 内容流并在路由组内调 Feed::routes()：enabled 控制是否注册流与模块端点路由
+     * （boot 期读取，关闭后前台渲染层一并隐藏）；limit 为本流输出条数上限。
+     */
+    'feed' => [
+        'enabled' => true,
+        'limit' => 50,
+    ],
+
+    /**
      * Custom models
      */
     'models' => [
         'navigation' => Models\Navigation::class,
         'navigation_type' => Models\NavigationType::class,
         'post' => Models\Post::class,
+        'link' => Models\Link::class,
     ],
 
     /**
@@ -45,6 +61,7 @@ return [
         ],
         'resources' => [
             // NavigationTypeResource::class,
+            LinkResource::class,
             PostResource::class,
         ],
         'pages' => [
@@ -65,6 +82,7 @@ return [
                 'navigation_label' => '网站设置',
             ],
             NavigationPage::class,
+            FooterNavigationPage::class,
         ],
     ],
 
@@ -72,6 +90,14 @@ return [
      * auth guard
      */
     'guard' => 'web',
+
+    /**
+     * auth_user_type
+     *
+     * 默认为 wsmallnews/member 模块，可选 wsmallnews/user 模块, 示例值：member | user
+     * 如果你使用多租户， 请设置为 member 模块
+     */
+    'auth_user_type' => 'member',
 
     /**
      * 2FA 配置
@@ -98,6 +124,21 @@ return [
      * 文件基础目录，会自动拼接当前年月日 (仅用于 filament 默认上传组件 (Forms\Components\FileUpload))
      */
     'file_directory' => 'sn/cms/',
+
+    /**
+     * 内容表单配置（FormComponents::contentTypeGroup）
+     * types: 允许的内容类型；default_type: 默认内容类型
+     */
+    'contents' => [
+        'post' => [
+            'types' => null,
+            'default_type' => ContentType::Richtext,
+        ],
+        'navigation' => [
+            'types' => null,
+            'default_type' => ContentType::Markdown,
+        ],
+    ],
 
     'routes' => [
         /**
@@ -138,6 +179,9 @@ return [
             'navigation-show' => 'navigation/{slug}',
             'posts' => 'posts',
             'posts-show' => 'posts/{slug}',
+
+            // 全局搜索结果页（search.display = 'page' 时搜索框回车跳转目标）
+            'search' => 'search',
 
             'login' => 'login',
             'register' => 'register',
@@ -185,6 +229,65 @@ return [
         ],
     ],
 
+    /**
+     * 全局搜索（前端搜索框仅在本模块启用时渲染，来源也仅在启用时参与搜索）
+     */
+    'search' => [
+        /**
+         * 是否启用本模块的全局搜索
+         */
+        'enabled' => true,
+
+        /**
+         * 本模块搜索引擎：'database' | 'scout' | 引擎类名；null 走全局兜底
+         * （config('sn-support.search.engine')，默认 database）
+         */
+        'engine' => null,
+
+        /**
+         * 搜索结果的展示方式：'dropdown'（输入即搜，浮层展示）| 'page'（回车跳转独立搜索结果页）
+         * null 走全局兜底（config('sn-support.search.display')，默认 dropdown）
+         */
+        'display' => 'page',
+    ],
+
+    /**
+     * 前台导航（tradition 主题导航条）
+     *
+     * 注意：与 contents.navigation（内容表单）、models.navigation（模型映射）是不同层级的既有键，互不冲突。
+     */
+    'navigation' => [
+
+        // 整体风格：primary = 主题色面板+白字（默认）；minimal = 白底简约，默认黑字、hover/选中转主题色
+        // 注意：主行背景由调用方设置——primary 文字为白色，调用处必须提供深色背景（如 sn-primary-bg），否则文字不可见
+        'style' => 'primary',
+
+        // PC 主行（lg+）子菜单展开形式：cascade = 级联（一级向下，深层向左/右弹）| accordion = 手风琴
+        'desktop_submenu_style' => 'cascade',
+
+        // PC 主行一级导航的展开触发：hover | click（cascade 深层子菜单跟随同一触发；
+        // accordion 仅对一级生效，面板内部的手风琴层级固定 click）
+        'desktop_submenu_trigger' => 'hover',
+
+        // PC 一级导航 hover/选中形态：flush = 通栏着色（默认）| rounded = 圆角胶囊（上下留呼吸边）
+        'desktop_item_style' => 'flush',
+
+        // 仅「hover 级联」生效：父项是否可点击（直达第一个可用叶子）
+        'parent_clickable' => true,
+
+        // "更多"下拉（溢出折叠）里的展开形式：accordion（默认，窄面板更稳）| cascade
+        'more_submenu_style' => 'accordion',
+
+        // "更多"下拉里 cascade 形式的触发（accordion 时此值忽略）
+        'more_submenu_trigger' => 'click',
+
+        // "更多"按钮仅图标（⋯），不显示文字
+        'more_icon_only' => true,
+    ],
+
+    /**
+     * themes
+     */
     'themes' => [
         // 是否启用暗黑模式
         'dark_mode' => true,
@@ -204,33 +307,14 @@ return [
     ],
 
     /**
-     * 推荐标签配置
-     * 用户可以自定义追加，比如精品、必看等
+     * 可自定义的 enum
+     *
+     * 替换类必须实现对应契约接口，并保证契约常量对应的值存在（值是数据库与查询逻辑的稳定契约）。
+     * 只有"展示元数据型" enum 才登记在此（label/color/icon 随站点变化、业务行为不依赖 case 身份），
+     * 业务状态机型 enum（如 PostStatus）不开放配置。
      */
-    'flags' => [
-        [
-            'type' => 'hot',
-            'label' => '热门',
-            'color' => 'danger',
-            'icon' => Heroicon::OutlinedFire,
-        ],
-        [
-            'type' => 'new',
-            'label' => '新',
-            'color' => 'danger',
-            'icon' => Heroicon::OutlinedSparkles,
-        ],
-        [
-            'type' => 'recommend',
-            'label' => '推荐',
-            'color' => 'primary',
-            'icon' => Heroicon::OutlinedStar,
-        ],
-        [
-            'type' => 'top',
-            'label' => '置顶',
-            'color' => 'warning',
-            'icon' => Heroicon::OutlinedArrowUp,
-        ],
+    'enums' => [
+        // 图文 flag，须实现 Wsmallnews\Cms\Contracts\PostFlagContract
+        'post_flag' => Enums\PostFlag::class,
     ],
 ];
