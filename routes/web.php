@@ -19,6 +19,9 @@ use App\Livewire\User\AppraiseApply;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use RalphJSmit\Livewire\Urls\Middleware\LivewireUrlsMiddleware;
+use Wsmallnews\Cms\CmsPlugin;
+use Wsmallnews\Member\Http\Middleware\ResolveMember;
 use Wsmallnews\Cms\Support\Utils;
 use Wsmallnews\Support\Http\Middleware\IdentifyTenant;
 use Wsmallnews\Support\Support\Utils as SupportUtils;
@@ -34,7 +37,22 @@ Route::domain(parse_url(config('app.url'), PHP_URL_HOST))
     ->name('home');
 
 $middlewares = Utils::getConfig('routes.middleware') ?? [];
+$guard = Utils::getConfig('guard', 'web');
 SupportUtils::isTenancyEnabled() && array_unshift($middlewares, IdentifyTenant::class);
+
+// 用户可用性校验
+$middlewares[] = 'user-active:' . $guard;
+
+if (Utils::getConfig('auth_user_type', 'member') === 'member') {
+    // 解析当前 Member 到请求上下文（传入 CMS 的 guard）
+    $middlewares[] = ResolveMember::class . ':' . $guard;
+}
+
+// 记录路由历史
+$middlewares[] = LivewireUrlsMiddleware::class;
+
+// 首屏初始化页面 SEO 上下文（模块归属由路由声明，seo-init 中间件在 support 包注册）
+$middlewares[] = 'seo-init:' . app(CmsPlugin::class)->getId();
 
 Route::domain(Utils::getConfig('routes.domain'))
     ->middleware($middlewares)
