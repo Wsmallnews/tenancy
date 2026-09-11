@@ -1,29 +1,5 @@
 @import "../../../../vendor/filament/filament/resources/css/theme.css";
 
-/* wsmallnews/support */
-@import "../../../../vendor/wsmallnews/support/resources/css/index.css";
-
-/* wsmallnews/preference */
-@import "../../../../vendor/wsmallnews/preference/resources/css/index.css";
-
-/* wsmallnews/comment */
-@import "../../../../vendor/wsmallnews/comment/resources/css/index.css";
-
-/* wsmallnews/cms */
-@import "../../../../vendor/wsmallnews/cms/resources/css/index.css";
-
-/* wsmallnews/filament-nestedset */
-@import "../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css";
-
-/* 自定义 infolist */
-@import "../sn-grid-table.css";
-/* 自定义 filament 组件样式 */
-@import "../sn-filament.css";
-
-@source "../../../../app/Filament/**/*";
-@source "../../../../app/Features/**/*";
-@source "../../../../resources/views/**/*";
-
 /* 主题色 primary-500 = #1A69D0 */
 @theme {
     --color-primary-50: oklch(0.977 0.014 257.5);
@@ -52,6 +28,30 @@
     --primary-900: oklch(0.300 0.100 257.5);
     --primary-950: oklch(0.245 0.071 257.5);
 }
+
+/* wsmallnews/support */
+@import "../../../../vendor/wsmallnews/support/resources/css/index.css";
+
+/* wsmallnews/preference */
+@import "../../../../vendor/wsmallnews/preference/resources/css/index.css";
+
+/* wsmallnews/comment */
+@import "../../../../vendor/wsmallnews/comment/resources/css/index.css";
+
+/* wsmallnews/cms */
+@import "../../../../vendor/wsmallnews/cms/resources/css/index.css";
+
+/* wsmallnews/filament-nestedset */
+@import "../../../../vendor/wsmallnews/filament-nestedset/resources/css/index.css";
+
+/* 自定义 infolist */
+@import "../sn-grid-table.css";
+/* 自定义 filament 组件样式 */
+@import "../sn-filament.css";
+
+@source "../../../../app/Filament/**/*";
+@source "../../../../app/Features/**/*";
+@source "../../../../resources/views/**/*";
 
 /* 顶部进度条颜色改为 primary-700，避免与 topbar 背景色（primary-500）重合 */
 html.fi {

@@ -2285,16 +2285,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "9.0.38",
+            "version": "9.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ba273135702a0d0c1f5954dc7291bfc4082da4f0"
+                "reference": "268d42f8f6401d94fd3c5c9dddb09290f81ed613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ba273135702a0d0c1f5954dc7291bfc4082da4f0",
-                "reference": "ba273135702a0d0c1f5954dc7291bfc4082da4f0",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/268d42f8f6401d94fd3c5c9dddb09290f81ed613",
+                "reference": "268d42f8f6401d94fd3c5c9dddb09290f81ed613",
                 "shasum": ""
             },
             "require": {
@@ -2357,7 +2357,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2026-09-01T10:42:16+00:00"
+            "time": "2026-09-10T13:00:24+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -7053,16 +7053,16 @@
         },
         {
             "name": "ralphjsmit/laravel-filament-seo",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralphjsmit/laravel-filament-seo.git",
-                "reference": "c217d80708a3947dfd04d44e91e86d8fa2366587"
+                "reference": "a9841f4db7ed8eb00bc7ab7918f658468e5893b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralphjsmit/laravel-filament-seo/zipball/c217d80708a3947dfd04d44e91e86d8fa2366587",
-                "reference": "c217d80708a3947dfd04d44e91e86d8fa2366587",
+                "url": "https://api.github.com/repos/ralphjsmit/laravel-filament-seo/zipball/a9841f4db7ed8eb00bc7ab7918f658468e5893b1",
+                "reference": "a9841f4db7ed8eb00bc7ab7918f658468e5893b1",
                 "shasum": ""
             },
             "require": {
@@ -7116,9 +7116,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ralphjsmit/laravel-filament-seo/issues",
-                "source": "https://github.com/ralphjsmit/laravel-filament-seo/tree/2.2.0"
+                "source": "https://github.com/ralphjsmit/laravel-filament-seo/tree/2.2.1"
             },
-            "time": "2026-03-07T22:20:25+00:00"
+            "time": "2026-09-11T08:04:52+00:00"
         },
         {
             "name": "ralphjsmit/laravel-helpers",
@@ -12076,16 +12076,16 @@
         },
         {
             "name": "wsmallnews/cms",
-            "version": "v1.0.14",
+            "version": "v1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/cms.git",
-                "reference": "eba06e8640f902c1448f5ed022e4d1385677cadc"
+                "reference": "d464cdf5aab2821f1e3138347e4e6d90c55479f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/cms/zipball/eba06e8640f902c1448f5ed022e4d1385677cadc",
-                "reference": "eba06e8640f902c1448f5ed022e4d1385677cadc",
+                "url": "https://api.github.com/repos/Wsmallnews/cms/zipball/d464cdf5aab2821f1e3138347e4e6d90c55479f1",
+                "reference": "d464cdf5aab2821f1e3138347e4e6d90c55479f1",
                 "shasum": ""
             },
             "require": {
@@ -12154,7 +12154,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-09T15:47:56+00:00"
+            "time": "2026-09-11T09:50:27+00:00"
         },
         {
             "name": "wsmallnews/comment",
@@ -12487,16 +12487,16 @@
         },
         {
             "name": "wsmallnews/support",
-            "version": "v1.0.12",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wsmallnews/support.git",
-                "reference": "1a450d0457449fc7dbca8fbaa2f9e91c30cb71ae"
+                "reference": "c7495d685ca349240c8ad89630549e327c2309e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wsmallnews/support/zipball/1a450d0457449fc7dbca8fbaa2f9e91c30cb71ae",
-                "reference": "1a450d0457449fc7dbca8fbaa2f9e91c30cb71ae",
+                "url": "https://api.github.com/repos/Wsmallnews/support/zipball/c7495d685ca349240c8ad89630549e327c2309e4",
+                "reference": "c7495d685ca349240c8ad89630549e327c2309e4",
                 "shasum": ""
             },
             "require": {
@@ -12579,7 +12579,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-09T15:48:02+00:00"
+            "time": "2026-09-11T09:50:15+00:00"
         },
         {
             "name": "wsmallnews/user",
@@ -13349,16 +13349,16 @@
         },
         {
             "name": "laravel/boost",
-            "version": "v2.8.0",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/boost.git",
-                "reference": "ac0b51fbaf3cc19453aef7a1b188bce19a1ec049"
+                "reference": "820bc93b7826c456ca591cfecca463b4dc794a72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/boost/zipball/ac0b51fbaf3cc19453aef7a1b188bce19a1ec049",
-                "reference": "ac0b51fbaf3cc19453aef7a1b188bce19a1ec049",
+                "url": "https://api.github.com/repos/laravel/boost/zipball/820bc93b7826c456ca591cfecca463b4dc794a72",
+                "reference": "820bc93b7826c456ca591cfecca463b4dc794a72",
                 "shasum": ""
             },
             "require": {
@@ -13411,7 +13411,7 @@
                 "issues": "https://github.com/laravel/boost/issues",
                 "source": "https://github.com/laravel/boost"
             },
-            "time": "2026-09-08T17:07:40+00:00"
+            "time": "2026-09-10T15:25:39+00:00"
         },
         {
             "name": "laravel/envoy",
@@ -13632,16 +13632,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.32.0",
+            "version": "v1.32.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "dea4e95f0f1722b8fec9eaabc8fdd676d71e8841"
+                "reference": "006bd7825eb01daf92959d060b89cd9514fe4253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/dea4e95f0f1722b8fec9eaabc8fdd676d71e8841",
-                "reference": "dea4e95f0f1722b8fec9eaabc8fdd676d71e8841",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/006bd7825eb01daf92959d060b89cd9514fe4253",
+                "reference": "006bd7825eb01daf92959d060b89cd9514fe4253",
                 "shasum": ""
             },
             "require": {
@@ -13698,7 +13698,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2026-09-09T16:26:47+00:00"
+            "time": "2026-09-10T10:47:55+00:00"
         },
         {
             "name": "laravel/roster",

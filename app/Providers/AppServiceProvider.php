@@ -60,6 +60,7 @@ use Wsmallnews\Cms\CmsPlugin;
 use Wsmallnews\Cms\Facades\ContentRegistry as ContentRegistryFacade;
 use Wsmallnews\Cms\Support\Utils;
 use Wsmallnews\Cms\Support\Utils as CmsUtils;
+use Wsmallnews\Support\Facades\Search;
 use Wsmallnews\User\Facades\SidebarMenuRegistry as SidebarMenuRegistryFacade;
 
 class AppServiceProvider extends ServiceProvider
@@ -303,6 +304,27 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ],
         ]);
+
+        // 注册全局搜索：种质资源来源（注册到 cms 模块，与 post 共用前端搜索框；
+        // cms 配置 search.enabled 关闭时不注册来源，前端也不渲染搜索框）
+        if (CmsUtils::getConfig('search.enabled', true)) {
+            Search::registers(app(CmsPlugin::class)->getId(), [
+                [
+                    'key' => 'appraise',
+                    'model' => Appraise::class,
+                    'group' => '种质资源',
+                    // 搜索字段同 Appraise::scopeSearch：名称 / 编号 / 科属名 / 学名
+                    'fields' => ['name', 'en_name', 'resource_no', 'germplasm_no', 'original_no', 'subject_name', 'genus_name', 'species_name'],
+                    // with('saveCompany')：条目视图展示保存单位，预加载避免 N+1
+                    'query' => fn ($query) => $query->scopeTenant()->normal()->with('saveCompany'),
+                    // 副标题：保存单位（同 appraises 列表条目）
+                    'description' => fn ($record) => $record->saveCompany?->name,
+                    'url' => fn ($record) => CmsUtils::route('appraises.show', $record->id),
+                    // 自定义条目视图（结构参考 appraises 页面 list 样式条目；数据：$result 含 ->record、$query）
+                    'view' => 'components.search.appraise-item',
+                ],
+            ]);
+        }
 
         // 注册用户侧边栏菜单
         $pluginId = app(CmsPlugin::class)->getId();
